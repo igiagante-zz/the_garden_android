@@ -41,18 +41,19 @@ public class MainActivity extends BaseActivity {
 
         mBody = (TextView) findViewById(R.id.text_id);
 
-        PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);/*
-        getSubscription =  NetworkRequest.performAsyncRequest(api.getPlant("57164f1e654be6e328000003"), (plant) -> {
+        PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
+        getSubscription =  NetworkRequest.performAsyncRequest(api.getPlant("5716c487e5390aee35000005"), (plant) -> {
             // Update UI on the main thread
             displayPost(plant);
-        });*/
+        });
 
+        /*
         Plant plant = new Plant();
         plant.setName("test");
 
         HashMap<String, RequestBody> files = attachFile();
 
-        /*
+
         getSubscription =  NetworkRequest.performAsyncRequest(api.createPlant(plant, files), (data) -> {
             // Update UI on the main thread
             displayPost(data);
@@ -63,7 +64,7 @@ public class MainActivity extends BaseActivity {
     private HashMap<String, RequestBody> attachFile() {
 
         ArrayList<String> listOfNames = new ArrayList<>();
-        listOfNames.add("images");
+        listOfNames.add("descarga");
         listOfNames.add("mango-lg2");
 
         HashMap<String, RequestBody> map = new HashMap<>(listOfNames.size());
@@ -74,7 +75,7 @@ public class MainActivity extends BaseActivity {
 
             try {
 
-                File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
                 if(folder.isDirectory()) {
                     for (File file1: folder.listFiles()) {
@@ -82,7 +83,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }
 
-                f = new File(folder, "images.jpg");
+                f = new File(folder, listOfNames.get(i) + ".jpg");
 
                 Bitmap bitmap = convertFileToBitmap(f);
 
@@ -109,14 +110,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private Bitmap convertFileToBitmap(File file) {
-        if(file.exists()){
-            Log.i(TAG, "the file exits");
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-        }
-        Log.i(TAG, "the file does not exit. " + file.getAbsolutePath());
-        return null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
 
     private void displayPost(Plant plant) {

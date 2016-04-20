@@ -10,7 +10,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceFactory {
 
-    public static final String API_ENDPOINT = "http://10.0.3.2:3000/api/";
+    //Genymotion
+    //public static final String API_ENDPOINT = "http://10.0.3.2:3000/api/";
+    //Real Device
+    public static final String API_ENDPOINT = "http://192.168.0.100:3000/api/";
 
     public static <T> T createRetrofitService(final Class<T> clazz) {
         final Retrofit restAdapter = new Retrofit.Builder()

@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -28,7 +29,7 @@ public interface PlantRestAPI {
 
     @Multipart
     @POST("plant/")
-    Observable<Plant> createPlant(@Body Plant plant, @PartMap() Map<String, RequestBody> mapFileAndName);
+    Observable<Plant> createPlant(@Part("plant") Plant plant, @PartMap() Map<String, RequestBody> mapFileAndName);
 
     @PUT("plant/{id}")
     Observable<Plant> updatePlant(@Path("id") String id, @Body Plant plant, @PartMap() Map<String, RequestBody> mapFileAndName);

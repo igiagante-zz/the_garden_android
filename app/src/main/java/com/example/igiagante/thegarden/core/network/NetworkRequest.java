@@ -24,7 +24,7 @@ public class NetworkRequest {
         }
     };
 
-    public static <T> Subscription performAsyncRequest(Observable<T> observable, Action1<? super T> onAction) {
+    public static <T> Subscription  performAsyncRequest(Observable<T> observable, Action1<? super T> onAction) {
         // Use default error handling
         return performAsyncRequest(observable, onAction, mOnError);
     }
