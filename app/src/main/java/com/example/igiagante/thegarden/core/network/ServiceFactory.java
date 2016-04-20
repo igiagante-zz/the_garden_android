@@ -1,6 +1,9 @@
 package com.example.igiagante.thegarden.core.network;
 
+import com.example.igiagante.thegarden.core.network.converter.StringConverterFactory;
+
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,15 +16,21 @@ public class ServiceFactory {
     //Genymotion
     //public static final String API_ENDPOINT = "http://10.0.3.2:3000/api/";
     //Real Device
-    public static final String API_ENDPOINT = "http://192.168.0.100:3000/api/";
+    public static final String API_ENDPOINT = "http://10.18.8.31:3000/api/";
 
     public static <T> T createRetrofitService(final Class<T> clazz) {
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
         final Retrofit restAdapter = new Retrofit.Builder()
                 .baseUrl(API_ENDPOINT)
+                .addConverterFactory(StringConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(new OkHttpClient.Builder().build())
-                .build();
+                .client(client).build();
+
         T service = restAdapter.create(clazz);
 
         return service;

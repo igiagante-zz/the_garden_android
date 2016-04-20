@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.core.network;
 import android.util.Log;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -37,5 +38,15 @@ public class NetworkRequest {
                 .observeOn(AndroidSchedulers.mainThread())
                 // Set callbacks actions
                 .subscribe(onAction, onError);
+    }
+
+    public static <T> Subscription performAsyncRequest(Observable<T> observable, Subscriber<? super T> subscriber) {
+        // Specify a scheduler (Scheduler.newThread(), Scheduler.immediate(), ...)
+        // We choose Scheduler.io() to perform network request in a thread pool
+        return observable.subscribeOn(Schedulers.io())
+                // Observe result in the main thread to be able to update UI
+                .observeOn(AndroidSchedulers.mainThread())
+                // Set callbacks actions
+                .subscribe(subscriber);
     }
 }

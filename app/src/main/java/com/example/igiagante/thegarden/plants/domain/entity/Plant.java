@@ -33,6 +33,9 @@ public class Plant {
     @SerializedName("flavors")
     private List<Flavor> flavors;
 
+    @SerializedName("resourcesIds")
+    private List<String> resourcesIds;
+
     public String getId() {
         return id;
     }
@@ -95,6 +98,14 @@ public class Plant {
 
     public void setFlavors(List<Flavor> flavors) {
         this.flavors = flavors;
+    }
+
+    public List<String> getResourcesIds() {
+        return resourcesIds;
+    }
+
+    public void setResourcesIds(List<String> resourcesIds) {
+        this.resourcesIds = resourcesIds;
     }
 
     @Override public String toString() {

@@ -1,26 +1,26 @@
 package com.example.igiagante.thegarden;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.core.activity.BaseActivity;
-import com.example.igiagante.thegarden.core.network.NetworkRequest;
 import com.example.igiagante.thegarden.core.network.ServiceFactory;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import com.example.igiagante.thegarden.plants.repository.service.PlantRestAPI;
+import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by igiagante on 18/4/16.
@@ -42,81 +42,127 @@ public class MainActivity extends BaseActivity {
         mBody = (TextView) findViewById(R.id.text_id);
 
         PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
-        getSubscription =  NetworkRequest.performAsyncRequest(api.getPlant("5716c487e5390aee35000005"), (plant) -> {
-            // Update UI on the main thread
-            displayPost(plant);
-        });
+
+        updatePlant(api);
 
         /*
-        Plant plant = new Plant();
-        plant.setName("test");
-
-        HashMap<String, RequestBody> files = attachFile();
-
-
-        getSubscription =  NetworkRequest.performAsyncRequest(api.createPlant(plant, files), (data) -> {
+        getSubscription =  NetworkRequest.performAsyncRequest(api.getPlant("57164f1e654be6e328000003"), (plant) -> {
             // Update UI on the main thread
-            displayPost(data);
+            displayPost(plant);
         });*/
+
+
     }
 
+    private void updatePlant(PlantRestAPI api){
 
-    private HashMap<String, RequestBody> attachFile() {
+        ArrayList<String> resourcesIds = new ArrayList<>();
+        resourcesIds.add("5717d2349d68332548000003");
+        resourcesIds.add("5717d2349d68332548000004");
 
-        ArrayList<String> listOfNames = new ArrayList<>();
-        listOfNames.add("descarga");
-        listOfNames.add("mango-lg2");
+        String json = new Gson().toJson(resourcesIds);
 
-        HashMap<String, RequestBody> map = new HashMap<>(listOfNames.size());
-        RequestBody file = null;
-        File f = null;
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("name", "mango_loco")
+                .addFormDataPart("resourcesIds", json);
 
-        for(int i = 0, size = listOfNames.size(); i<size;i++){
+       // builder = addResourcesIdsToMultipartBody(builder, resourcesIds);
 
-            try {
+        ArrayList<File> files = new ArrayList<>();
 
-                File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-                if(folder.isDirectory()) {
-                    for (File file1: folder.listFiles()) {
-                        Log.i(TAG, file1.getAbsolutePath());
+        files.add(new File(folder, "mango3.jpg"));
+        files.add(new File(folder, "mango4.jpg"));
+
+        builder = addImagesToRequestBody(builder, files);
+
+        api.updatePlant("5717d2349d68332548000005", builder.build())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Plant>() {
+                    @Override
+                    public final void onCompleted() {
+                        Log.e(TAG, "on completed");
                     }
-                }
 
-                f = new File(folder, listOfNames.get(i) + ".jpg");
+                    @Override
+                    public final void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
 
-                Bitmap bitmap = convertFileToBitmap(f);
+                    @Override
+                    public final void onNext(Plant response) {
+                        mBody.setText(response.toString());
+                    }
+                });
+    }
 
-                if(bitmap != null){
-                    FileOutputStream fos = new FileOutputStream(f);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, fos);
-                    fos.flush();
-                    fos.close();
-                }else{
-                    Log.i("INFO", "imageNotFound");
-                    return null;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
+    private MultipartBody.Builder addResourcesIdsToMultipartBody(MultipartBody.Builder builder, ArrayList<String> resoursesIds){
 
-            file = RequestBody.create(MediaType.parse("multipart/form-data"), f);
-            map.put("file\"; filename=\"" + listOfNames.get(i) + ".jpg",file);
-            file = null;
-            f = null;
+        for(int i = 0, size = resoursesIds.size(); i<size;i++){
+            RequestBody resourceId = RequestBody.create(MediaType.parse("text/plain"), resoursesIds.get(i));
+            builder.addFormDataPart(String.valueOf(i), String.valueOf(i), resourceId);
         }
-        return map;
+
+        return builder;
     }
 
-    private Bitmap convertFileToBitmap(File file) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+
+    private void createPlant(PlantRestAPI api) {
+
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("name", "mango2")
+                .addFormDataPart("size", String.valueOf(30))
+                .addFormDataPart("phSoil", String.valueOf(6.0))
+                .addFormDataPart("ecSoil", String.valueOf(1.0))
+                .addFormDataPart("gardenId", "57164dd6962d5cca28000002");
+
+        ArrayList<File> files = new ArrayList<>();
+
+        File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+        files.add(new File(folder, "images.jpg"));
+        files.add(new File(folder, "mango-lg2.jpg"));
+
+        builder = addImagesToRequestBody(builder, files);
+
+        api.createPlant(builder.build())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Plant>() {
+                    @Override
+                    public final void onCompleted() {
+                        Log.e(TAG, "on completed");
+                    }
+
+                    @Override
+                    public final void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public final void onNext(Plant response) {
+                        mBody.setText(response.toString());
+                    }
+                });
     }
 
-    private void displayPost(Plant plant) {
-        mBody.setText("Body: " + plant.toString());
+    private MultipartBody.Builder addImagesToRequestBody(MultipartBody.Builder builder, ArrayList<File> files){
+
+        for(int i = 0, size = files.size(); i<size;i++){
+            String mediaType = "image/" + getMediaType(files.get(i));
+            RequestBody image = RequestBody.create(MediaType.parse(mediaType), files.get(i));
+            builder.addFormDataPart(files.get(i).getName(), files.get(i).getName(), image);
+        }
+
+        return builder;
+    }
+
+    private String getMediaType(File file) {
+        return file.getAbsolutePath().split("\\.")[1];
     }
 
     @Override
