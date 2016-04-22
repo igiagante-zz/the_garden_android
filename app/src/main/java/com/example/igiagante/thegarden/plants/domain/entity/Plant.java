@@ -118,8 +118,10 @@ public class Plant {
         stringBuilder.append("phSoil = " + this.getPhSoil() + "\n");
         stringBuilder.append("ecSoil = " + this.getEcSoil() + "\n");
         stringBuilder.append("gardenId = " + this.getGardenId() + "\n");
+
         stringBuilder.append("\n");
-        stringBuilder.append("************** Images  *****************");
+        stringBuilder.append("************** Number of images: " + this.getImages().size() + "  *****************");
+        stringBuilder.append("\n");
 
         for( Image image: this.getImages() ) {
             stringBuilder.append("\n");

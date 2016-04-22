@@ -20,6 +20,8 @@ import okhttp3.RequestBody;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.plugins.RxJavaErrorHandler;
+import rx.plugins.RxJavaPlugins;
 import rx.schedulers.Schedulers;
 
 /**
@@ -43,42 +45,22 @@ public class MainActivity extends BaseActivity {
 
         PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
 
+        //getPlant(api);
+
         updatePlant(api);
+
+       // createPlant(api);
 
         /*
         getSubscription =  NetworkRequest.performAsyncRequest(api.getPlant("57164f1e654be6e328000003"), (plant) -> {
             // Update UI on the main thread
             displayPost(plant);
         });*/
-
-
     }
 
-    private void updatePlant(PlantRestAPI api){
+    private void getPlant(PlantRestAPI api) {
 
-        ArrayList<String> resourcesIds = new ArrayList<>();
-        resourcesIds.add("5717d2349d68332548000003");
-        resourcesIds.add("5717d2349d68332548000004");
-
-        String json = new Gson().toJson(resourcesIds);
-
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("name", "mango_loco")
-                .addFormDataPart("resourcesIds", json);
-
-       // builder = addResourcesIdsToMultipartBody(builder, resourcesIds);
-
-        ArrayList<File> files = new ArrayList<>();
-
-        File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-
-        files.add(new File(folder, "mango3.jpg"));
-        files.add(new File(folder, "mango4.jpg"));
-
-        builder = addImagesToRequestBody(builder, files);
-
-        api.updatePlant("5717d2349d68332548000005", builder.build())
+        api.getPlant("571a79d8d9b7c5bb6a000003")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Plant>() {
@@ -90,6 +72,66 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public final void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
+
+                    }
+
+                    @Override
+                    public final void onNext(Plant response) {
+                        mBody.setText(response.toString());
+                    }
+                });
+    }
+
+    private void updatePlant(PlantRestAPI api){
+
+        ArrayList<String> resourcesIds = new ArrayList<>();
+        resourcesIds.add("571a79d8d9b7c5bb6a000001");
+
+        String json = new Gson().toJson(resourcesIds);
+
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("name", "mango_loco")
+                .addFormDataPart("gardenId", "57164dd6962d5cca28000002")
+                .addFormDataPart("mainImage", "mango.jpeg")
+                .addFormDataPart("resourcesIds", json);
+
+       // builder = addResourcesIdsToMultipartBody(builder, resourcesIds);
+
+        ArrayList<File> files = new ArrayList<>();
+
+        RxJavaPlugins.getInstance().registerErrorHandler(new RxJavaErrorHandler() {
+            @Override
+            public void handleError(Throwable e) {
+                e.printStackTrace();
+            }
+        });
+
+
+        File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+        files.add(new File(folder, "mango3.jpg"));
+        files.add(new File(folder, "mango4.jpg"));
+
+        builder = addImagesToRequestBody(builder, files);
+
+        api.updatePlant("571a79d8d9b7c5bb6a000003", builder.build())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Plant>() {
+                    @Override
+                    public final void onCompleted() {
+                        Log.e(TAG, "on completed");
+                    }
+
+                    @Override
+                    public final void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                        try {
+
+                        } catch(Throwable ex) {
+                            Log.e(TAG, ex.getMessage());
+                        }
                     }
 
                     @Override

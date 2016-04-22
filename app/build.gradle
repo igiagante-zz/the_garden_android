@@ -43,11 +43,11 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
 
     // Retrofit request library
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:retrofit:2.0.0'
     // A converter which uses Gson for serialization to and from JSON.
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     // RxJava adapter for retrofit
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
     // Logging Interceptor
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
 
