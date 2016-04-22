@@ -22,7 +22,8 @@ public class ServiceFactory {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor).build();
 
         final Retrofit restAdapter = new Retrofit.Builder()
                 .baseUrl(API_ENDPOINT)

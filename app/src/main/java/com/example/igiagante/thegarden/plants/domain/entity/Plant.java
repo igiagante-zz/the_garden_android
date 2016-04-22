@@ -123,14 +123,12 @@ public class Plant {
         stringBuilder.append("************** Number of images: " + this.getImages().size() + "  *****************");
         stringBuilder.append("\n");
 
-        for( Image image: this.getImages() ) {
+        for( Image image : this.getImages() ) {
             stringBuilder.append("\n");
             stringBuilder.append("******** Image  Details **********");
+            stringBuilder.append("\n");
             stringBuilder.append(image.toString());
         }
-
-        stringBuilder.append("\n");
-        stringBuilder.append("*******************************");
 
         return stringBuilder.toString();
     }

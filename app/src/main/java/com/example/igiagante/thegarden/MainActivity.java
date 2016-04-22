@@ -45,11 +45,11 @@ public class MainActivity extends BaseActivity {
 
         PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
 
-        //getPlant(api);
+         getPlant(api);
 
-        updatePlant(api);
+        //updatePlant(api);
 
-       // createPlant(api);
+       //createPlant(api);
 
         /*
         getSubscription =  NetworkRequest.performAsyncRequest(api.getPlant("57164f1e654be6e328000003"), (plant) -> {
@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity {
 
     private void getPlant(PlantRestAPI api) {
 
-        api.getPlant("571a79d8d9b7c5bb6a000003")
+        api.getPlant("571a8e688417b12e6d000009")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Plant>() {
@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity {
     private void updatePlant(PlantRestAPI api){
 
         ArrayList<String> resourcesIds = new ArrayList<>();
-        resourcesIds.add("571a79d8d9b7c5bb6a000001");
+        resourcesIds.add("571a8e688417b12e6d000007");
 
         String json = new Gson().toJson(resourcesIds);
 
@@ -115,7 +115,7 @@ public class MainActivity extends BaseActivity {
 
         builder = addImagesToRequestBody(builder, files);
 
-        api.updatePlant("571a79d8d9b7c5bb6a000003", builder.build())
+        api.updatePlant("571a8e688417b12e6d000009", builder.build())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Plant>() {
