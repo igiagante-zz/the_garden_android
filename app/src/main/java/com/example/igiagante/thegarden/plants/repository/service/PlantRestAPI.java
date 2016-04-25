@@ -5,7 +5,9 @@ import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import java.util.List;
 
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -28,4 +30,7 @@ public interface PlantRestAPI {
 
     @PUT("plant/{id}")
     Observable<Plant> updatePlant(@Path("id") String id, @Body RequestBody body);
+
+    @DELETE("plant/{id}")
+    Observable<Response<Plant>> deletePlant(@Path("id") String id);
 }

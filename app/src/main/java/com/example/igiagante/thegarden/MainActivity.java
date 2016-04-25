@@ -12,11 +12,14 @@ import com.example.igiagante.thegarden.plants.repository.service.PlantRestAPI;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -45,17 +48,75 @@ public class MainActivity extends BaseActivity {
 
         PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
 
-         getPlant(api);
+        // getPlant(api);
 
-        //updatePlant(api);
+        // getPlants(api);
 
-       //createPlant(api);
+        // updatePlant(api);
+
+        // createPlant(api);
+
+        deletePlant(api);
 
         /*
         getSubscription =  NetworkRequest.performAsyncRequest(api.getPlant("57164f1e654be6e328000003"), (plant) -> {
             // Update UI on the main thread
             displayPost(plant);
         });*/
+    }
+
+    private void deletePlant(PlantRestAPI api) {
+        api.deletePlant("571e7293a67112e6160003")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<Plant>>() {
+                    @Override
+                    public final void onCompleted() {
+                        Log.e(TAG, "on completed");
+                    }
+
+                    @Override
+                    public final void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public final void onNext(Response<Plant> response) {
+                        if(response.isSuccessful()){
+                            mBody.setText("The plant was deleted successfully!");
+                        } else {
+                            try {
+                                mBody.setText(response.errorBody().string());
+                            } catch (IOException e) {
+
+                            }
+
+                        }
+                    }
+                });
+    }
+
+    private void getPlants(PlantRestAPI api) {
+
+        api.getPlants()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Plant>>() {
+                    @Override
+                    public final void onCompleted() {
+                        Log.e(TAG, "on completed");
+                    }
+
+                    @Override
+                    public final void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public final void onNext(List<Plant> response) {
+                        mBody.setText(response.toString());
+                    }
+                });
     }
 
     private void getPlant(PlantRestAPI api) {
@@ -72,7 +133,6 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public final void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
-
                     }
 
                     @Override
@@ -85,13 +145,17 @@ public class MainActivity extends BaseActivity {
     private void updatePlant(PlantRestAPI api){
 
         ArrayList<String> resourcesIds = new ArrayList<>();
-        resourcesIds.add("571a8e688417b12e6d000007");
+        resourcesIds.add("571e7293a67112e616000001");
+        //resourcesIds.add("571e2d1b5b65ae670c000006");
 
         String json = new Gson().toJson(resourcesIds);
 
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("name", "mango_loco")
+                .addFormDataPart("size", String.valueOf(35))
+                .addFormDataPart("phSoil", String.valueOf(6.2))
+                .addFormDataPart("ecSoil", String.valueOf(1.2))
                 .addFormDataPart("gardenId", "57164dd6962d5cca28000002")
                 .addFormDataPart("mainImage", "mango.jpeg")
                 .addFormDataPart("resourcesIds", json);
@@ -110,12 +174,12 @@ public class MainActivity extends BaseActivity {
 
         File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-        files.add(new File(folder, "mango3.jpg"));
+        //files.add(new File(folder, "mango3.jpg"));
         files.add(new File(folder, "mango4.jpg"));
 
         builder = addImagesToRequestBody(builder, files);
 
-        api.updatePlant("571a8e688417b12e6d000009", builder.build())
+        api.updatePlant("571e7293a67112e616000003", builder.build())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Plant>() {
@@ -156,7 +220,7 @@ public class MainActivity extends BaseActivity {
 
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("name", "mango2")
+                .addFormDataPart("name", "mango")
                 .addFormDataPart("size", String.valueOf(30))
                 .addFormDataPart("phSoil", String.valueOf(6.0))
                 .addFormDataPart("ecSoil", String.valueOf(1.0))
