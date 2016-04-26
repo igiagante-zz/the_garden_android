@@ -10,5 +10,5 @@ import rx.Observable;
  * Created by igiagante on 26/4/16.
  */
 public interface RealmSpecification extends Specification {
-    RealmResults<PlantRealm> toRealmResults(Realm realm);
+    Observable<RealmResults<PlantRealm>> toRealmResults(Realm realm);
 }

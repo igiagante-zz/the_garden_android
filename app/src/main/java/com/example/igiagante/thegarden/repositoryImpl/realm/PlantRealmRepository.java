@@ -75,10 +75,9 @@ public class PlantRealmRepository implements Repository<Plant> {
     @Override
     public Observable<List<Plant>> query(Specification specification) {
 
+        final RealmSpecification realmSpecification = (RealmSpecification) specification;
         final Realm realm = Realm.getInstance(realmConfiguration);
-        final Observable<RealmResults<PlantRealm>> realmResults = realm.where(PlantRealm.class)
-                .equalTo(PlantTable.ID, "1")
-                .findAllAsync().asObservable();
+        final Observable<RealmResults<PlantRealm>> realmResults = realmSpecification.toRealmResults(realm);
 
         // convert Observable<RealmResults<PlantRealm>> into Observable<List<PlantRealm>>
         return realmResults.flatMap(list ->
