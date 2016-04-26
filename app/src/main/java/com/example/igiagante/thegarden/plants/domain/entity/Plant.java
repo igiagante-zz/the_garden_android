@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by igiagante on 15/4/16.
  */
@@ -26,6 +28,9 @@ public class Plant {
 
     @SerializedName("gardenId")
     private String gardenId;
+
+    @SerializedName("harverst")
+    private int harvest;
 
     @SerializedName("images")
     private List<Image> images;
@@ -84,6 +89,14 @@ public class Plant {
         this.gardenId = gardenId;
     }
 
+    public int getHarvest() {
+        return harvest;
+    }
+
+    public void setHarvest(int harvest) {
+        this.harvest = harvest;
+    }
+
     public List<Image> getImages() {
         return images;
     }
@@ -118,6 +131,7 @@ public class Plant {
         stringBuilder.append("phSoil = " + this.getPhSoil() + "\n");
         stringBuilder.append("ecSoil = " + this.getEcSoil() + "\n");
         stringBuilder.append("gardenId = " + this.getGardenId() + "\n");
+        stringBuilder.append("harvest = " + this.getHarvest() + "\n");
 
         stringBuilder.append("\n");
         stringBuilder.append("************** Number of images: " + this.getImages().size() + "  *****************");

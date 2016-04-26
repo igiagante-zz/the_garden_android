@@ -11,6 +11,7 @@ import com.example.igiagante.thegarden.core.UIThread;
 import com.example.igiagante.thegarden.core.executor.JobExecutor;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
+import com.example.igiagante.thegarden.core.network.HttpStatus;
 
 import javax.inject.Singleton;
 
@@ -42,5 +43,10 @@ public class ApplicationModule {
     @Provides @Singleton
     PostExecutionThread providePostExecutionThread(UIThread uiThread) {
         return uiThread;
+    }
+
+    @Provides @Singleton
+    HttpStatus provideHttpStatus() {
+        return new HttpStatus();
     }
 }

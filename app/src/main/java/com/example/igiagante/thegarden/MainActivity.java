@@ -5,7 +5,9 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.activity.BaseActivity;
+import com.example.igiagante.thegarden.core.network.HttpStatus;
 import com.example.igiagante.thegarden.core.network.ServiceFactory;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import com.example.igiagante.thegarden.plants.repository.service.PlantRestAPI;
@@ -15,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -39,10 +43,15 @@ public class MainActivity extends BaseActivity {
 
     private Subscription getSubscription;
 
+    @Inject
+    public HttpStatus httpStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ((AndroidApplication) getApplication()).getApplicationComponent().inject(this);
 
         mBody = (TextView) findViewById(R.id.text_id);
 
@@ -86,7 +95,8 @@ public class MainActivity extends BaseActivity {
                             mBody.setText("The plant was deleted successfully!");
                         } else {
                             try {
-                                mBody.setText(response.errorBody().string());
+
+                                mBody.setText(httpStatus.getHttpStatusValue(response.code()) + ' ' +response.errorBody().string());
                             } catch (IOException e) {
 
                             }

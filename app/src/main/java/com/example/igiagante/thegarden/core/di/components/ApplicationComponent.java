@@ -6,6 +6,7 @@ package com.example.igiagante.thegarden.core.di.components;
 
 import android.content.Context;
 
+import com.example.igiagante.thegarden.MainActivity;
 import com.example.igiagante.thegarden.core.activity.BaseActivity;
 import com.example.igiagante.thegarden.core.di.modules.ApplicationModule;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
@@ -21,7 +22,9 @@ import dagger.Component;
 @Singleton // Constraints this component to one-per-application or unscoped bindings.
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
+
     void inject(BaseActivity baseActivity);
+    void inject(MainActivity mainActivity);
 
     //Exposed to sub-graphs.
     Context context();
