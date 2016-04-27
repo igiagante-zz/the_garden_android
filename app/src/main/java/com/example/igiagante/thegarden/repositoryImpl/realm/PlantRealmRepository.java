@@ -35,18 +35,19 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public void add(Plant plant) {
+    public void add(final Plant plant) {
 
         final Realm realm = Realm.getInstance(realmConfiguration);
 
-        realm.executeTransaction( realm1 -> {
-
-                final PlantRealm plantRealm = realm1.createObject(PlantRealm.class);
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                final PlantRealm plantRealm = realm.createObject(PlantRealm.class);
                 plantRealm.setName(plant.getName());
                 plantRealm.setGardenId(plant.getGardenId());
                 plantRealm.setEcSoil(plant.getEcSoil());
                 plantRealm.setPhSoil(plant.getPhSoil());
-
+            }
         });
 
         realm.close();
@@ -55,6 +56,11 @@ public class PlantRealmRepository implements Repository<Plant> {
     @Override
     public void add(Iterable<Plant> items) {
 
+
+
+        for(Plant plant : items) {
+
+        }
     }
 
     @Override

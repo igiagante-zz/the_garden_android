@@ -11,6 +11,8 @@ import com.example.igiagante.thegarden.core.network.HttpStatus;
 import com.example.igiagante.thegarden.core.network.ServiceFactory;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import com.example.igiagante.thegarden.plants.repository.service.PlantRestAPI;
+import com.example.igiagante.thegarden.repositoryImpl.realm.PlantRealmRepository;
+import com.example.igiagante.thegarden.repositoryImpl.realm.specification.PlantSpecification;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -20,13 +22,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.plugins.RxJavaErrorHandler;
 import rx.plugins.RxJavaPlugins;
 import rx.schedulers.Schedulers;
@@ -55,7 +61,7 @@ public class MainActivity extends BaseActivity {
 
         mBody = (TextView) findViewById(R.id.text_id);
 
-        PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
+        //PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
 
         // getPlant(api);
 
@@ -65,13 +71,72 @@ public class MainActivity extends BaseActivity {
 
         // createPlant(api);
 
-        deletePlant(api);
+       // deletePlant(api);
 
         /*
         getSubscription =  NetworkRequest.performAsyncRequest(api.getPlant("57164f1e654be6e328000003"), (plant) -> {
             // Update UI on the main thread
             displayPost(plant);
         });*/
+
+/*
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(1);
+        numbers.add(2);
+        numbers.add(3);
+        numbers.add(4);
+        numbers.add(5);
+
+        Observable.from(numbers).subscribe(System.out::println);*/
+
+        createPlantRealm();
+
+       // mBody.setText("The plant was deleted successfully!");
+    }
+
+    private void createPlantRealm() {
+
+        RealmConfiguration config = new RealmConfiguration.Builder(this).
+                schemaVersion(1).
+                name("test.realm").
+                inMemory().
+                build();
+        Realm.setDefaultConfiguration(config);
+
+        PlantRealmRepository repository = new PlantRealmRepository(config);
+
+        final Realm realm = Realm.getInstance(config);
+
+        realm.beginTransaction();
+        Plant plant = new Plant();
+        plant.setName("test");
+        plant.setSize(30);
+        plant.setGardenId("1452345");
+
+        repository.add(plant);
+
+        Plant plantOne = new Plant();
+        plant.setName("plantOne");
+        plant.setSize(56);
+        plant.setGardenId("1452345");
+
+        repository.add(plantOne);
+
+        Plant plantTwo = new Plant();
+        plant.setName("plantTwo");
+        plant.setSize(23);
+        plant.setGardenId("1452345");
+
+        repository.add(plantTwo);
+
+        realm.commitTransaction();
+
+        realm.close();
+
+        repository.query(new PlantSpecification()).subscribe(
+                item -> Log.i("test", item.toString())
+        );
+
     }
 
     private void deletePlant(PlantRestAPI api) {
