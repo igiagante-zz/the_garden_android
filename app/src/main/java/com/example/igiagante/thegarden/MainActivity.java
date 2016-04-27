@@ -16,8 +16,11 @@ import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
 import com.example.igiagante.thegarden.plants.repository.service.PlantRestAPI;
 import com.example.igiagante.thegarden.repositoryImpl.realm.PlantRealmRepository;
 import com.example.igiagante.thegarden.repositoryImpl.realm.PlantRealmToPlant;
+import com.example.igiagante.thegarden.repositoryImpl.realm.specification.PlantByNameSpecification;
 import com.example.igiagante.thegarden.repositoryImpl.realm.specification.PlantSpecification;
 import com.google.gson.Gson;
+
+import junit.framework.Assert;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,8 +55,6 @@ public class MainActivity extends BaseActivity {
 
     private TextView mBody;
 
-    private Subscription getSubscription;
-
     @Inject
     public HttpStatus httpStatus;
 
@@ -71,44 +72,16 @@ public class MainActivity extends BaseActivity {
         mBody = (TextView) findViewById(R.id.text_id);
         toPlant = new PlantRealmToPlant();
 
-        //PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
-
-        // getPlant(api);
-
-        // getPlants(api);
-
-        // updatePlant(api);
-
-        // createPlant(api);
-
-       // deletePlant(api);
-
-        /*
-        getSubscription =  NetworkRequest.performAsyncRequest(api.getPlant("57164f1e654be6e328000003"), (plant) -> {
-            // Update UI on the main thread
-            displayPost(plant);
-        });*/
-
-/*
-        ArrayList<Integer> numbers = new ArrayList<>();
-        numbers.add(1);
-        numbers.add(2);
-        numbers.add(3);
-        numbers.add(4);
-        numbers.add(5);
-
-        Observable.from(numbers).subscribe(System.out::println);*/
-
         // Create the Realm configuration
         realmConfig = new RealmConfiguration.Builder(this).build();
         // Open the Realm for the UI thread.
         realm = Realm.getInstance(realmConfig);
 
-        basicCRUD(realm);
+        //basicCRUD(realm);
 
         //createPlantRealm();
 
-       // mBody.setText("The plant was deleted successfully!");
+        updatePlantRealm();
     }
 
     @Override
@@ -151,19 +124,27 @@ public class MainActivity extends BaseActivity {
         plantTwo.setGardenId("1452345");
         realm.commitTransaction();
 
+        // Add a plant
+        realm.beginTransaction();
+        PlantRealm plantThree = realm.createObject(PlantRealm.class);
+        plantThree.setName("plantThree");
+        plantThree.setSize(20);
+        plantThree.setGardenId("234544");
+        realm.commitTransaction();
+
         String msg = String.valueOf(realm.allObjects(PlantRealm.class).size());
 
         Log.i("NUMBER OF PLANTS", msg);
 
-        final Observable<RealmResults<PlantRealm>> realmResults = realm.where(PlantRealm.class)
-                .findAll().asObservable();
 
-        realmResults.flatMap(list ->
-                Observable.from(list)
-                        .map(plantRealm -> toPlant.map(plantRealm))
-                        .toList())
+        realm.where(PlantRealm.class)
+                .findAll().asObservable()
+                .flatMap(list ->
+                        Observable.from(list)
+                                .map(plantRealm -> toPlant.map(plantRealm))
+                                .toList())
                 .subscribe(
-                        item -> Log.i("test", item.toString())
+                        item -> Log.i("item", item.toString())
                 );
 
         // Delete all persons
@@ -173,41 +154,93 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void createPlantRealm() {
+    private void updatePlantRealm() {
 
-        RealmConfiguration config = new RealmConfiguration.Builder(this).
-                schemaVersion(1).
-                name("test.realm").
-                inMemory().
-                build();
+        RealmConfiguration config = new RealmConfiguration.Builder(this)
+                .name("garden.realm")
+                .build();
 
         PlantRealmRepository repository = new PlantRealmRepository(config);
 
         Plant plant = new Plant();
+        plant.setId("234");
         plant.setName("test");
         plant.setSize(30);
         plant.setGardenId("1452345");
 
         repository.add(plant);
 
-        Plant plantOne = new Plant();
-        plant.setName("plantOne");
-        plant.setSize(56);
+        PlantByNameSpecification spec = new PlantByNameSpecification("test");
+
+        repository.query(spec).subscribe(plants -> {
+                    Plant p = plants.get(0);
+                    p.setName("name");
+                    repository.update(p);
+                }
+        );
+
+        spec = new PlantByNameSpecification("name");
+
+        repository.query(spec).subscribe(plants -> {
+                    Plant p = plants.get(0);
+                    Assert.assertEquals(p.getName(), "name");
+                }
+        );
+
+        // Delete all persons
+        realm.beginTransaction();
+        realm.allObjects(PlantRealm.class).deleteAllFromRealm();
+        realm.commitTransaction();
+    }
+
+    private void createPlantRealm() {
+
+        RealmConfiguration config = new RealmConfiguration.Builder(this)
+                .name("garden.realm")
+                .build();
+
+        PlantRealmRepository repository = new PlantRealmRepository(config);
+
+        ArrayList<Plant> plants = new ArrayList<>();
+
+        Plant plant = new Plant();
+        plant.setId("1");
+        plant.setName("test");
+        plant.setSize(30);
         plant.setGardenId("1452345");
 
-        repository.add(plantOne);
+        plants.add(plant);
+
+        Plant plantOne = new Plant();
+        plantOne.setId("2");
+        plantOne.setName("plantOne");
+        plantOne.setSize(56);
+        plantOne.setGardenId("1452345");
+
+        plants.add(plantOne);
 
         Plant plantTwo = new Plant();
-        plant.setName("plantTwo");
-        plant.setSize(23);
-        plant.setGardenId("1452345");
+        plantTwo.setId("3");
+        plantTwo.setName("plantTwo");
+        plantTwo.setSize(23);
+        plantTwo.setGardenId("1452345");
 
-        repository.add(plantTwo);
+        plants.add(plantTwo);
 
+        repository.add(plants);
+
+        String msg = String.valueOf(realm.allObjects(PlantRealm.class).size());
+
+        Log.i("NUMBER OF PLANTS", msg);
 
         repository.query(new PlantSpecification()).subscribe(
-                item -> Log.i("test", item.toString())
+                item -> Log.i("item", item.toString())
         );
+
+        // Delete all persons
+        realm.beginTransaction();
+        realm.allObjects(PlantRealm.class).deleteAllFromRealm();
+        realm.commitTransaction();
 
     }
 
@@ -228,12 +261,12 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public final void onNext(Response<Plant> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             mBody.setText("The plant was deleted successfully!");
                         } else {
                             try {
 
-                                mBody.setText(httpStatus.getHttpStatusValue(response.code()) + ' ' +response.errorBody().string());
+                                mBody.setText(httpStatus.getHttpStatusValue(response.code()) + ' ' + response.errorBody().string());
                             } catch (IOException e) {
 
                             }
@@ -289,7 +322,7 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private void updatePlant(PlantRestAPI api){
+    private void updatePlant(PlantRestAPI api) {
 
         ArrayList<String> resourcesIds = new ArrayList<>();
         resourcesIds.add("571e7293a67112e616000001");
@@ -307,7 +340,7 @@ public class MainActivity extends BaseActivity {
                 .addFormDataPart("mainImage", "mango.jpeg")
                 .addFormDataPart("resourcesIds", json);
 
-       // builder = addResourcesIdsToMultipartBody(builder, resourcesIds);
+        // builder = addResourcesIdsToMultipartBody(builder, resourcesIds);
 
         ArrayList<File> files = new ArrayList<>();
 
@@ -340,7 +373,7 @@ public class MainActivity extends BaseActivity {
                         Log.e(TAG, e.getMessage());
                         try {
 
-                        } catch(Throwable ex) {
+                        } catch (Throwable ex) {
                             Log.e(TAG, ex.getMessage());
                         }
                     }
@@ -352,9 +385,9 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private MultipartBody.Builder addResourcesIdsToMultipartBody(MultipartBody.Builder builder, ArrayList<String> resoursesIds){
+    private MultipartBody.Builder addResourcesIdsToMultipartBody(MultipartBody.Builder builder, ArrayList<String> resoursesIds) {
 
-        for(int i = 0, size = resoursesIds.size(); i<size;i++){
+        for (int i = 0, size = resoursesIds.size(); i < size; i++) {
             RequestBody resourceId = RequestBody.create(MediaType.parse("text/plain"), resoursesIds.get(i));
             builder.addFormDataPart(String.valueOf(i), String.valueOf(i), resourceId);
         }
@@ -403,9 +436,9 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private MultipartBody.Builder addImagesToRequestBody(MultipartBody.Builder builder, ArrayList<File> files){
+    private MultipartBody.Builder addImagesToRequestBody(MultipartBody.Builder builder, ArrayList<File> files) {
 
-        for(int i = 0, size = files.size(); i<size;i++){
+        for (int i = 0, size = files.size(); i < size; i++) {
             String mediaType = "image/" + getMediaType(files.get(i));
             RequestBody image = RequestBody.create(MediaType.parse(mediaType), files.get(i));
             builder.addFormDataPart(files.get(i).getName(), files.get(i).getName(), image);
@@ -418,11 +451,4 @@ public class MainActivity extends BaseActivity {
         return file.getAbsolutePath().split("\\.")[1];
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (getSubscription != null) {
-            getSubscription.unsubscribe();
-        }
-    }
 }

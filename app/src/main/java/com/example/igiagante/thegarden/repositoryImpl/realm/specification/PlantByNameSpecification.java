@@ -9,21 +9,20 @@ import io.realm.RealmResults;
 import rx.Observable;
 
 /**
- * Created by igiagante on 26/4/16.
+ * Created by igiagante on 27/4/16.
  */
-public class PlantByIdSpecification implements RealmSpecification {
+public class PlantByNameSpecification implements RealmSpecification {
 
-    private final int id;
+    private final String name;
 
-    public PlantByIdSpecification(final int id) {
-        this.id = id;
+    public PlantByNameSpecification(final String name) {
+        this.name = name;
     }
 
     @Override
     public Observable<RealmResults<PlantRealm>> toRealmResults(Realm realm) {
-
         return realm.where(PlantRealm.class)
-                .equalTo(PlantTable.ID, id)
+                .equalTo(PlantTable.NAME, name)
                 .findAll().asObservable();
     }
 }

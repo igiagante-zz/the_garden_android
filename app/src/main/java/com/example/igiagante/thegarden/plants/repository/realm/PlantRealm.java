@@ -10,10 +10,6 @@ import io.realm.annotations.Required;
  */
 public class PlantRealm extends RealmObject {
 
-    enum Fields {
-        ID
-    }
-
     @PrimaryKey
     private String id;
 

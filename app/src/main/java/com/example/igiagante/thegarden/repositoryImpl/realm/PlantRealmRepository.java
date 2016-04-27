@@ -8,8 +8,6 @@ import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
 import com.example.igiagante.thegarden.plants.repository.realm.PlantTable;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import io.realm.Realm;
@@ -22,16 +20,21 @@ import rx.Observable;
  */
 public class PlantRealmRepository implements Repository<Plant> {
 
-    private final RealmConfiguration realmConfiguration;
 
     private final Mapper<PlantRealm, Plant> toPlant;
+    private final Mapper<Plant, PlantRealm> toPlantRealm;
 
+    private final RealmConfiguration realmConfiguration;
 
     public PlantRealmRepository(final RealmConfiguration realmConfiguration) {
 
         this.realmConfiguration = realmConfiguration;
 
         this.toPlant = new PlantRealmToPlant();
+
+        final Realm realm = Realm.getInstance(realmConfiguration);
+
+        this.toPlantRealm = new PlantToPlantRealm(realm);
     }
 
     @Override
@@ -39,34 +42,49 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         final Realm realm = Realm.getInstance(realmConfiguration);
 
+        // Delete all persons
         realm.beginTransaction();
-
-        final PlantRealm plantRealm = realm.createObject(PlantRealm.class);
-        plantRealm.setName(plant.getName());
-        plantRealm.setGardenId(plant.getGardenId());
-        plantRealm.setEcSoil(plant.getEcSoil());
-        plantRealm.setPhSoil(plant.getPhSoil());
-
+        realm.allObjects(PlantRealm.class).deleteAllFromRealm();
         realm.commitTransaction();
 
+        realm.executeTransaction(realmParam -> realmParam.copyToRealm(toPlantRealm.map(plant)));
+
+        realm.close();
     }
 
     @Override
-    public void add(Iterable<Plant> items) {
+    public void add(final Iterable<Plant> plants) {
 
-        for(Plant plant : items) {
+        final Realm realm = Realm.getInstance(realmConfiguration);
 
-        }
+        realm.executeTransaction( realmParam -> {
+            for (Plant plant : plants) {
+                realmParam.copyToRealm(toPlantRealm.map(plant));
+            }
+        });
+
+        realm.close();
     }
 
     @Override
-    public void update(Plant item) {
+    public void update(Plant plant) {
 
+        final Realm realm = Realm.getInstance(realmConfiguration);
+        realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
+        realm.close();
     }
 
     @Override
-    public void remove(Plant item) {
+    public void remove(Plant plant) {
 
+        final Realm realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            PlantRealm plantRealm = realm.where(PlantRealm.class).equalTo(PlantTable.ID, plant.getId()).findFirst();
+            plantRealm.deleteFromRealm();
+        });
+
+        realm.close();
     }
 
     @Override
@@ -80,14 +98,9 @@ public class PlantRealmRepository implements Repository<Plant> {
         final RealmSpecification realmSpecification = (RealmSpecification) specification;
 
         final Realm realm = Realm.getInstance(realmConfiguration);
+        final Observable<RealmResults<PlantRealm>> realmResults = realmSpecification.toRealmResults(realm);
 
-        final RealmResults<PlantRealm> results = realm.where(PlantRealm.class)
-                .findAll();
-
-        final Observable<RealmResults<PlantRealm>> realmResults = realm.where(PlantRealm.class)
-                .findAll().asObservable();
-
-        // convert Observable<RealmResults<PlantRealm>> into Observable<List<PlantRealm>>
+        // convert Observable<RealmResults<PlantRealm>> into Observable<List<Plant>>
         return realmResults.flatMap(list ->
                 Observable.from(list)
                         .map(plantRealm -> toPlant.map(plantRealm))

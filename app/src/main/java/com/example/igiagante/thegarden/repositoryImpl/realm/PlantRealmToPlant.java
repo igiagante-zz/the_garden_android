@@ -24,4 +24,5 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
 
         return plant;
     }
+
 }
