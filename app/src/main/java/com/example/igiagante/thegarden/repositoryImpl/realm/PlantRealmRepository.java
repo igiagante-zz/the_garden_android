@@ -39,24 +39,20 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         final Realm realm = Realm.getInstance(realmConfiguration);
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                final PlantRealm plantRealm = realm.createObject(PlantRealm.class);
-                plantRealm.setName(plant.getName());
-                plantRealm.setGardenId(plant.getGardenId());
-                plantRealm.setEcSoil(plant.getEcSoil());
-                plantRealm.setPhSoil(plant.getPhSoil());
-            }
-        });
+        realm.beginTransaction();
 
-        realm.close();
+        final PlantRealm plantRealm = realm.createObject(PlantRealm.class);
+        plantRealm.setName(plant.getName());
+        plantRealm.setGardenId(plant.getGardenId());
+        plantRealm.setEcSoil(plant.getEcSoil());
+        plantRealm.setPhSoil(plant.getPhSoil());
+
+        realm.commitTransaction();
+
     }
 
     @Override
     public void add(Iterable<Plant> items) {
-
-
 
         for(Plant plant : items) {
 
@@ -82,8 +78,14 @@ public class PlantRealmRepository implements Repository<Plant> {
     public Observable<List<Plant>> query(Specification specification) {
 
         final RealmSpecification realmSpecification = (RealmSpecification) specification;
+
         final Realm realm = Realm.getInstance(realmConfiguration);
-        final Observable<RealmResults<PlantRealm>> realmResults = realmSpecification.toRealmResults(realm);
+
+        final RealmResults<PlantRealm> results = realm.where(PlantRealm.class)
+                .findAll();
+
+        final Observable<RealmResults<PlantRealm>> realmResults = realm.where(PlantRealm.class)
+                .findAll().asObservable();
 
         // convert Observable<RealmResults<PlantRealm>> into Observable<List<PlantRealm>>
         return realmResults.flatMap(list ->

@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -9,9 +10,12 @@ import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.activity.BaseActivity;
 import com.example.igiagante.thegarden.core.network.HttpStatus;
 import com.example.igiagante.thegarden.core.network.ServiceFactory;
+import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
+import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
 import com.example.igiagante.thegarden.plants.repository.service.PlantRestAPI;
 import com.example.igiagante.thegarden.repositoryImpl.realm.PlantRealmRepository;
+import com.example.igiagante.thegarden.repositoryImpl.realm.PlantRealmToPlant;
 import com.example.igiagante.thegarden.repositoryImpl.realm.specification.PlantSpecification;
 import com.google.gson.Gson;
 
@@ -24,6 +28,7 @@ import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -52,6 +57,10 @@ public class MainActivity extends BaseActivity {
     @Inject
     public HttpStatus httpStatus;
 
+    private Realm realm;
+    private RealmConfiguration realmConfig;
+    private Mapper<PlantRealm, Plant> toPlant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +69,7 @@ public class MainActivity extends BaseActivity {
         ((AndroidApplication) getApplication()).getApplicationComponent().inject(this);
 
         mBody = (TextView) findViewById(R.id.text_id);
+        toPlant = new PlantRealmToPlant();
 
         //PlantRestAPI api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
 
@@ -89,9 +99,78 @@ public class MainActivity extends BaseActivity {
 
         Observable.from(numbers).subscribe(System.out::println);*/
 
-        createPlantRealm();
+        // Create the Realm configuration
+        realmConfig = new RealmConfiguration.Builder(this).build();
+        // Open the Realm for the UI thread.
+        realm = Realm.getInstance(realmConfig);
+
+        basicCRUD(realm);
+
+        //createPlantRealm();
 
        // mBody.setText("The plant was deleted successfully!");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
+
+    private void basicCRUD(Realm realm) {
+
+        Log.i("TEST", "Perform basic Create/Read/Update/Delete (CRUD) operations...");
+
+        // All writes must be wrapped in a transaction to facilitate safe multi threading
+        realm.beginTransaction();
+
+        // Add a plant
+        PlantRealm plantOne = realm.createObject(PlantRealm.class);
+        plantOne.setName("test");
+        plantOne.setSize(30);
+        plantOne.setGardenId("1452345");
+
+        // When the transaction is committed, all changes a synced to disk.
+        realm.commitTransaction();
+
+        // Find the first person (no query conditions) and read a field
+        plantOne = realm.where(PlantRealm.class).findFirst();
+        Log.i("TEST PERSIST", plantOne.getName() + ":" + plantOne.getSize());
+
+        // Update person in a transaction
+        realm.beginTransaction();
+        plantOne.setName("Senior Plant");
+        Log.i("TEST UPDATE", plantOne.getName());
+        realm.commitTransaction();
+
+        // Add a plant
+        realm.beginTransaction();
+        PlantRealm plantTwo = realm.createObject(PlantRealm.class);
+        plantTwo.setName("plantTwo");
+        plantTwo.setSize(23);
+        plantTwo.setGardenId("1452345");
+        realm.commitTransaction();
+
+        String msg = String.valueOf(realm.allObjects(PlantRealm.class).size());
+
+        Log.i("NUMBER OF PLANTS", msg);
+
+        final Observable<RealmResults<PlantRealm>> realmResults = realm.where(PlantRealm.class)
+                .findAll().asObservable();
+
+        realmResults.flatMap(list ->
+                Observable.from(list)
+                        .map(plantRealm -> toPlant.map(plantRealm))
+                        .toList())
+                .subscribe(
+                        item -> Log.i("test", item.toString())
+                );
+
+        // Delete all persons
+        realm.beginTransaction();
+        realm.allObjects(PlantRealm.class).deleteAllFromRealm();
+        realm.commitTransaction();
+
     }
 
     private void createPlantRealm() {
@@ -101,13 +180,9 @@ public class MainActivity extends BaseActivity {
                 name("test.realm").
                 inMemory().
                 build();
-        Realm.setDefaultConfiguration(config);
 
         PlantRealmRepository repository = new PlantRealmRepository(config);
 
-        final Realm realm = Realm.getInstance(config);
-
-        realm.beginTransaction();
         Plant plant = new Plant();
         plant.setName("test");
         plant.setSize(30);
@@ -129,9 +204,6 @@ public class MainActivity extends BaseActivity {
 
         repository.add(plantTwo);
 
-        realm.commitTransaction();
-
-        realm.close();
 
         repository.query(new PlantSpecification()).subscribe(
                 item -> Log.i("test", item.toString())

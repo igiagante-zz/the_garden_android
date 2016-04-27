@@ -133,15 +133,17 @@ public class Plant {
         stringBuilder.append("gardenId = " + this.getGardenId() + "\n");
         stringBuilder.append("harvest = " + this.getHarvest() + "\n");
 
-        stringBuilder.append("\n");
-        stringBuilder.append("************** Number of images: " + this.getImages().size() + "  *****************");
-        stringBuilder.append("\n");
+        if(this.getImages() != null) {
+            stringBuilder.append("\n");
+            stringBuilder.append("************** Number of images: " + this.getImages().size() + "  *****************");
+            stringBuilder.append("\n");
 
-        for( Image image : this.getImages() ) {
-            stringBuilder.append("\n");
-            stringBuilder.append("******** Image  Details **********");
-            stringBuilder.append("\n");
-            stringBuilder.append(image.toString());
+            for( Image image : this.getImages() ) {
+                stringBuilder.append("\n");
+                stringBuilder.append("******** Image  Details **********");
+                stringBuilder.append("\n");
+                stringBuilder.append(image.toString());
+            }
         }
 
         return stringBuilder.toString();
