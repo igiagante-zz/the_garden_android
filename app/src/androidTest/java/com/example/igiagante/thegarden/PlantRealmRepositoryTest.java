@@ -6,9 +6,9 @@ import android.util.Log;
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.plants.domain.entity.Image;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
-import com.example.igiagante.thegarden.repositoryImpl.realm.PlantRealmRepository;
-import com.example.igiagante.thegarden.repositoryImpl.realm.specification.PlantByNameSpecification;
-import com.example.igiagante.thegarden.repositoryImpl.realm.specification.PlantSpecification;
+import com.example.igiagante.thegarden.plants.repository.PlantRealmRepository;
+import com.example.igiagante.thegarden.plants.repository.specification.PlantByNameSpecification;
+import com.example.igiagante.thegarden.plants.repository.specification.PlantSpecification;
 
 import junit.framework.Assert;
 

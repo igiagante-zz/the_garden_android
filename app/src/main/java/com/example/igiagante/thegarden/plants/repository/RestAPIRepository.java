@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.repositoryImpl;
+package com.example.igiagante.thegarden.plants.repository;
 
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
@@ -11,7 +11,7 @@ import rx.Observable;
 /**
  * Created by igiagante on 19/4/16.
  */
-public class RepositoryRestAPI implements Repository<Plant> {
+public class RestAPIRepository implements Repository<Plant> {
 
     @Override
     public void add(Plant item) {

@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.repositoryImpl.realm;
+package com.example.igiagante.thegarden.plants.repository;
 
 import android.content.Context;
 
@@ -9,8 +9,8 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
 import com.example.igiagante.thegarden.plants.repository.realm.PlantTable;
-import com.example.igiagante.thegarden.repositoryImpl.realm.mapper.PlantRealmToPlant;
-import com.example.igiagante.thegarden.repositoryImpl.realm.mapper.PlantToPlantRealm;
+import com.example.igiagante.thegarden.plants.repository.mapper.PlantRealmToPlant;
+import com.example.igiagante.thegarden.plants.repository.mapper.PlantToPlantRealm;
 
 import java.util.List;
 

@@ -1,8 +1,7 @@
-package com.example.igiagante.thegarden.repositoryImpl.realm.specification;
+package com.example.igiagante.thegarden.plants.repository.specification;
 
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.plants.repository.realm.ImageRealm;
-import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
 
 import io.realm.Realm;
 import io.realm.RealmResults;

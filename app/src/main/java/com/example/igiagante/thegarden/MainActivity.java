@@ -12,7 +12,7 @@ import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
 import com.example.igiagante.thegarden.plants.repository.service.PlantRestAPI;
-import com.example.igiagante.thegarden.repositoryImpl.realm.mapper.PlantRealmToPlant;
+import com.example.igiagante.thegarden.plants.repository.mapper.PlantRealmToPlant;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -80,69 +80,6 @@ public class MainActivity extends BaseActivity {
         realm.close();
     }
 
-    private void basicCRUD(Realm realm) {
-
-        Log.i("TEST", "Perform basic Create/Read/Update/Delete (CRUD) operations...");
-
-        // All writes must be wrapped in a transaction to facilitate safe multi threading
-        realm.beginTransaction();
-
-        // Add a plant
-        PlantRealm plantOne = realm.createObject(PlantRealm.class);
-        plantOne.setName("test");
-        plantOne.setSize(30);
-        plantOne.setGardenId("1452345");
-
-        // When the transaction is committed, all changes a synced to disk.
-        realm.commitTransaction();
-
-        // Find the first person (no query conditions) and read a field
-        plantOne = realm.where(PlantRealm.class).findFirst();
-        Log.i("TEST PERSIST", plantOne.getName() + ":" + plantOne.getSize());
-
-        // Update person in a transaction
-        realm.beginTransaction();
-        plantOne.setName("Senior Plant");
-        Log.i("TEST UPDATE", plantOne.getName());
-        realm.commitTransaction();
-
-        // Add a plant
-        realm.beginTransaction();
-        PlantRealm plantTwo = realm.createObject(PlantRealm.class);
-        plantTwo.setName("plantTwo");
-        plantTwo.setSize(23);
-        plantTwo.setGardenId("1452345");
-        realm.commitTransaction();
-
-        // Add a plant
-        realm.beginTransaction();
-        PlantRealm plantThree = realm.createObject(PlantRealm.class);
-        plantThree.setName("plantThree");
-        plantThree.setSize(20);
-        plantThree.setGardenId("234544");
-        realm.commitTransaction();
-
-        String msg = String.valueOf(realm.allObjects(PlantRealm.class).size());
-
-        Log.i("NUMBER OF PLANTS", msg);
-
-
-        realm.where(PlantRealm.class)
-                .findAll().asObservable()
-                .flatMap(list ->
-                        Observable.from(list)
-                                .map(plantRealm -> toPlant.map(plantRealm))
-                                .toList())
-                .subscribe(
-                        item -> Log.i("item", item.toString())
-                );
-
-        // Delete all persons
-        realm.beginTransaction();
-        realm.allObjects(PlantRealm.class).deleteAllFromRealm();
-        realm.commitTransaction();
-
-    }
 
     /*
     private void updatePlantRealm() {
@@ -259,132 +196,7 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private void updatePlant(PlantRestAPI api) {
-
-        ArrayList<String> resourcesIds = new ArrayList<>();
-        resourcesIds.add("571e7293a67112e616000001");
-        //resourcesIds.add("571e2d1b5b65ae670c000006");
-
-        String json = new Gson().toJson(resourcesIds);
-
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("name", "mango_loco")
-                .addFormDataPart("size", String.valueOf(35))
-                .addFormDataPart("phSoil", String.valueOf(6.2))
-                .addFormDataPart("ecSoil", String.valueOf(1.2))
-                .addFormDataPart("gardenId", "57164dd6962d5cca28000002")
-                .addFormDataPart("mainImage", "mango.jpeg")
-                .addFormDataPart("resourcesIds", json);
-
-        // builder = addResourcesIdsToMultipartBody(builder, resourcesIds);
-
-        ArrayList<File> files = new ArrayList<>();
-
-        RxJavaPlugins.getInstance().registerErrorHandler(new RxJavaErrorHandler() {
-            @Override
-            public void handleError(Throwable e) {
-                e.printStackTrace();
-            }
-        });
 
 
-        File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-
-        //files.add(new File(folder, "mango3.jpg"));
-        files.add(new File(folder, "mango4.jpg"));
-
-        builder = addImagesToRequestBody(builder, files);
-
-        api.updatePlant("571e7293a67112e616000003", builder.build())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Plant>() {
-                    @Override
-                    public final void onCompleted() {
-                        Log.e(TAG, "on completed");
-                    }
-
-                    @Override
-                    public final void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        try {
-
-                        } catch (Throwable ex) {
-                            Log.e(TAG, ex.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public final void onNext(Plant response) {
-                        mBody.setText(response.toString());
-                    }
-                });
-    }
-
-    private MultipartBody.Builder addResourcesIdsToMultipartBody(MultipartBody.Builder builder, ArrayList<String> resoursesIds) {
-
-        for (int i = 0, size = resoursesIds.size(); i < size; i++) {
-            RequestBody resourceId = RequestBody.create(MediaType.parse("text/plain"), resoursesIds.get(i));
-            builder.addFormDataPart(String.valueOf(i), String.valueOf(i), resourceId);
-        }
-
-        return builder;
-    }
-
-    private void createPlant(PlantRestAPI api) {
-
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("name", "mango")
-                .addFormDataPart("size", String.valueOf(30))
-                .addFormDataPart("phSoil", String.valueOf(6.0))
-                .addFormDataPart("ecSoil", String.valueOf(1.0))
-                .addFormDataPart("gardenId", "57164dd6962d5cca28000002");
-
-        ArrayList<File> files = new ArrayList<>();
-
-        File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-
-        files.add(new File(folder, "images.jpg"));
-        files.add(new File(folder, "mango-lg2.jpg"));
-
-        builder = addImagesToRequestBody(builder, files);
-
-        api.createPlant(builder.build())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Plant>() {
-                    @Override
-                    public final void onCompleted() {
-                        Log.e(TAG, "on completed");
-                    }
-
-                    @Override
-                    public final void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-
-                    @Override
-                    public final void onNext(Plant response) {
-                        mBody.setText(response.toString());
-                    }
-                });
-    }
-
-    private MultipartBody.Builder addImagesToRequestBody(MultipartBody.Builder builder, ArrayList<File> files) {
-
-        for (int i = 0, size = files.size(); i < size; i++) {
-            String mediaType = "image/" + getMediaType(files.get(i));
-            RequestBody image = RequestBody.create(MediaType.parse(mediaType), files.get(i));
-            builder.addFormDataPart(files.get(i).getName(), files.get(i).getName(), image);
-        }
-
-        return builder;
-    }
-
-    private String getMediaType(File file) {
-        return file.getAbsolutePath().split("\\.")[1];
-    }
 
 }

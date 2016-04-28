@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.repositoryImpl.realm.mapper;
+package com.example.igiagante.thegarden.plants.repository.mapper;
 
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.plants.domain.entity.Image;
