@@ -13,8 +13,17 @@ import rx.Observable;
 public class PlantSpecification implements RealmSpecification {
 
     @Override
-    public Observable<RealmResults<PlantRealm>> toRealmResults(Realm realm) {
-        return realm.where(PlantRealm.class)
-                .findAllAsync().asObservable();
+    public Observable<RealmResults<PlantRealm>> toObservableRealmResults(Realm realm) {
+        return realm.where(PlantRealm.class).findAll().asObservable();
+    }
+
+    @Override
+    public RealmResults<PlantRealm> toRealmResults(Realm realm) {
+        return realm.where(PlantRealm.class).findAll();
+    }
+
+    @Override
+    public PlantRealm toPlantRealm(Realm realm) {
+        return null;
     }
 }

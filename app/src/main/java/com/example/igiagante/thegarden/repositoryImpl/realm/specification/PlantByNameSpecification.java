@@ -20,9 +20,19 @@ public class PlantByNameSpecification implements RealmSpecification {
     }
 
     @Override
-    public Observable<RealmResults<PlantRealm>> toRealmResults(Realm realm) {
+    public Observable<RealmResults<PlantRealm>> toObservableRealmResults(Realm realm) {
         return realm.where(PlantRealm.class)
                 .equalTo(PlantTable.NAME, name)
                 .findAll().asObservable();
+    }
+
+    @Override
+    public RealmResults<PlantRealm> toRealmResults(Realm realm) {
+        return null;
+    }
+
+    @Override
+    public PlantRealm toPlantRealm(Realm realm) {
+        return realm.where(PlantRealm.class).equalTo(PlantTable.NAME, name).findFirst();
     }
 }

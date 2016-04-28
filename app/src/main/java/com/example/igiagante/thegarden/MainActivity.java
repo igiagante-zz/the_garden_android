@@ -2,25 +2,18 @@ package com.example.igiagante.thegarden;
 
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.activity.BaseActivity;
 import com.example.igiagante.thegarden.core.network.HttpStatus;
-import com.example.igiagante.thegarden.core.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
 import com.example.igiagante.thegarden.plants.repository.service.PlantRestAPI;
-import com.example.igiagante.thegarden.repositoryImpl.realm.PlantRealmRepository;
-import com.example.igiagante.thegarden.repositoryImpl.realm.PlantRealmToPlant;
-import com.example.igiagante.thegarden.repositoryImpl.realm.specification.PlantByNameSpecification;
-import com.example.igiagante.thegarden.repositoryImpl.realm.specification.PlantSpecification;
+import com.example.igiagante.thegarden.repositoryImpl.realm.mapper.PlantRealmToPlant;
 import com.google.gson.Gson;
-
-import junit.framework.Assert;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,16 +24,13 @@ import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmResults;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.plugins.RxJavaErrorHandler;
 import rx.plugins.RxJavaPlugins;
 import rx.schedulers.Schedulers;
@@ -81,7 +71,7 @@ public class MainActivity extends BaseActivity {
 
         //createPlantRealm();
 
-        updatePlantRealm();
+        //updatePlantRealm();
     }
 
     @Override
@@ -154,6 +144,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    /*
     private void updatePlantRealm() {
 
         RealmConfiguration config = new RealmConfiguration.Builder(this)
@@ -170,7 +161,7 @@ public class MainActivity extends BaseActivity {
 
         repository.add(plant);
 
-        PlantByNameSpecification spec = new PlantByNameSpecification("test");
+        PlantByIdSpecification spec = new PlantByIdSpecification(plant.getId());
 
         repository.query(spec).subscribe(plants -> {
                     Plant p = plants.get(0);
@@ -179,70 +170,16 @@ public class MainActivity extends BaseActivity {
                 }
         );
 
-        spec = new PlantByNameSpecification("name");
+        spec = new PlantByIdSpecification(plant.getId());
 
         repository.query(spec).subscribe(plants -> {
                     Plant p = plants.get(0);
                     Assert.assertEquals(p.getName(), "name");
                 }
         );
+    }*/
 
-        // Delete all persons
-        realm.beginTransaction();
-        realm.allObjects(PlantRealm.class).deleteAllFromRealm();
-        realm.commitTransaction();
-    }
 
-    private void createPlantRealm() {
-
-        RealmConfiguration config = new RealmConfiguration.Builder(this)
-                .name("garden.realm")
-                .build();
-
-        PlantRealmRepository repository = new PlantRealmRepository(config);
-
-        ArrayList<Plant> plants = new ArrayList<>();
-
-        Plant plant = new Plant();
-        plant.setId("1");
-        plant.setName("test");
-        plant.setSize(30);
-        plant.setGardenId("1452345");
-
-        plants.add(plant);
-
-        Plant plantOne = new Plant();
-        plantOne.setId("2");
-        plantOne.setName("plantOne");
-        plantOne.setSize(56);
-        plantOne.setGardenId("1452345");
-
-        plants.add(plantOne);
-
-        Plant plantTwo = new Plant();
-        plantTwo.setId("3");
-        plantTwo.setName("plantTwo");
-        plantTwo.setSize(23);
-        plantTwo.setGardenId("1452345");
-
-        plants.add(plantTwo);
-
-        repository.add(plants);
-
-        String msg = String.valueOf(realm.allObjects(PlantRealm.class).size());
-
-        Log.i("NUMBER OF PLANTS", msg);
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> Log.i("item", item.toString())
-        );
-
-        // Delete all persons
-        realm.beginTransaction();
-        realm.allObjects(PlantRealm.class).deleteAllFromRealm();
-        realm.commitTransaction();
-
-    }
 
     private void deletePlant(PlantRestAPI api) {
         api.deletePlant("571e7293a67112e6160003")
@@ -394,7 +331,6 @@ public class MainActivity extends BaseActivity {
 
         return builder;
     }
-
 
     private void createPlant(PlantRestAPI api) {
 

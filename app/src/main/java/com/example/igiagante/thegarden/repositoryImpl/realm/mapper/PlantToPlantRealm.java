@@ -1,10 +1,13 @@
-package com.example.igiagante.thegarden.repositoryImpl.realm;
+package com.example.igiagante.thegarden.repositoryImpl.realm.mapper;
 
 import com.example.igiagante.thegarden.core.repository.Mapper;
+import com.example.igiagante.thegarden.plants.domain.entity.Image;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
+import com.example.igiagante.thegarden.plants.repository.realm.ImageRealm;
 import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 /**
  * Created by igiagante on 27/4/16.
@@ -12,9 +15,11 @@ import io.realm.Realm;
 public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
 
     private final Realm realm;
+    private final ImageToImageRealm toImageRealm;
 
     public PlantToPlantRealm(Realm realm){
         this.realm = realm;
+        this.toImageRealm = new ImageToImageRealm(realm);
     }
 
     @Override
@@ -29,6 +34,16 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         plantRealm.setPhSoil(plant.getPhSoil());
         plantRealm.setEcSoil(plant.getEcSoil());
         plantRealm.setHarvest(plant.getHarvest());
+
+        RealmList<ImageRealm> imagesRealm = new RealmList<>();
+
+        if(plant.getImages() != null) {
+            for ( Image image : plant.getImages() ){
+                imagesRealm.add(toImageRealm.map(image));
+            }
+        }
+
+        plantRealm.setImages(imagesRealm);
 
         return plantRealm;
     }

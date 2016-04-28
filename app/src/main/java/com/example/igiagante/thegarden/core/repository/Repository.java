@@ -19,5 +19,7 @@ public interface Repository<T> {
 
     void remove(Specification specification);
 
+    void removeAll();
+
     Observable<List<T>> query(Specification specification);
 }

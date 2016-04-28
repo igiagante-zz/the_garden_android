@@ -39,6 +39,11 @@ public class RepositoryRestAPI implements Repository<Plant> {
     }
 
     @Override
+    public void removeAll() {
+
+    }
+
+    @Override
     public Observable<List<Plant>> query(Specification specification) {
         return null;
     }

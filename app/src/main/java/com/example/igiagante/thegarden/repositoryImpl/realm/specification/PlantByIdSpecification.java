@@ -13,17 +13,27 @@ import rx.Observable;
  */
 public class PlantByIdSpecification implements RealmSpecification {
 
-    private final int id;
+    private final String id;
 
-    public PlantByIdSpecification(final int id) {
+    public PlantByIdSpecification(final String id) {
         this.id = id;
     }
 
     @Override
-    public Observable<RealmResults<PlantRealm>> toRealmResults(Realm realm) {
+    public Observable<RealmResults<PlantRealm>> toObservableRealmResults(Realm realm) {
 
         return realm.where(PlantRealm.class)
                 .equalTo(PlantTable.ID, id)
                 .findAll().asObservable();
+    }
+
+    @Override
+    public RealmResults<PlantRealm> toRealmResults(Realm realm) {
+        return null;
+    }
+
+    @Override
+    public PlantRealm toPlantRealm(Realm realm) {
+        return null;
     }
 }
