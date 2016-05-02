@@ -1,39 +1,13 @@
 package com.example.igiagante.thegarden;
 
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.activity.BaseActivity;
 import com.example.igiagante.thegarden.core.network.HttpStatus;
-import com.example.igiagante.thegarden.core.repository.Mapper;
-import com.example.igiagante.thegarden.plants.domain.entity.Plant;
-import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
-import com.example.igiagante.thegarden.plants.repository.service.PlantRestAPI;
-import com.example.igiagante.thegarden.plants.repository.mapper.PlantRealmToPlant;
-import com.google.gson.Gson;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.plugins.RxJavaErrorHandler;
-import rx.plugins.RxJavaPlugins;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by igiagante on 18/4/16.
@@ -48,10 +22,6 @@ public class MainActivity extends BaseActivity {
     @Inject
     public HttpStatus httpStatus;
 
-    private Realm realm;
-    private RealmConfiguration realmConfig;
-    private Mapper<PlantRealm, Plant> toPlant;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,143 +30,10 @@ public class MainActivity extends BaseActivity {
         ((AndroidApplication) getApplication()).getApplicationComponent().inject(this);
 
         mBody = (TextView) findViewById(R.id.text_id);
-        toPlant = new PlantRealmToPlant();
-
-        // Create the Realm configuration
-        realmConfig = new RealmConfiguration.Builder(this).build();
-        // Open the Realm for the UI thread.
-        realm = Realm.getInstance(realmConfig);
-
-        //basicCRUD(realm);
-
-        //createPlantRealm();
-
-        //updatePlantRealm();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
     }
-
-
-    /*
-    private void updatePlantRealm() {
-
-        RealmConfiguration config = new RealmConfiguration.Builder(this)
-                .name("garden.realm")
-                .build();
-
-        PlantRealmRepository repository = new PlantRealmRepository(config);
-
-        Plant plant = new Plant();
-        plant.setId("234");
-        plant.setName("test");
-        plant.setSize(30);
-        plant.setGardenId("1452345");
-
-        repository.add(plant);
-
-        PlantByIdSpecification spec = new PlantByIdSpecification(plant.getId());
-
-        repository.query(spec).subscribe(plants -> {
-                    Plant p = plants.get(0);
-                    p.setName("name");
-                    repository.update(p);
-                }
-        );
-
-        spec = new PlantByIdSpecification(plant.getId());
-
-        repository.query(spec).subscribe(plants -> {
-                    Plant p = plants.get(0);
-                    Assert.assertEquals(p.getName(), "name");
-                }
-        );
-    }*/
-
-
-
-    private void deletePlant(PlantRestAPI api) {
-        api.deletePlant("571e7293a67112e6160003")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Plant>>() {
-                    @Override
-                    public final void onCompleted() {
-                        Log.e(TAG, "on completed");
-                    }
-
-                    @Override
-                    public final void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-
-                    @Override
-                    public final void onNext(Response<Plant> response) {
-                        if (response.isSuccessful()) {
-                            mBody.setText("The plant was deleted successfully!");
-                        } else {
-                            try {
-
-                                mBody.setText(httpStatus.getHttpStatusValue(response.code()) + ' ' + response.errorBody().string());
-                            } catch (IOException e) {
-
-                            }
-
-                        }
-                    }
-                });
-    }
-
-    private void getPlants(PlantRestAPI api) {
-
-        api.getPlants()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Plant>>() {
-                    @Override
-                    public final void onCompleted() {
-                        Log.e(TAG, "on completed");
-                    }
-
-                    @Override
-                    public final void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-
-                    @Override
-                    public final void onNext(List<Plant> response) {
-                        mBody.setText(response.toString());
-                    }
-                });
-    }
-
-    private void getPlant(PlantRestAPI api) {
-
-        api.getPlant("571a8e688417b12e6d000009")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Plant>() {
-                    @Override
-                    public final void onCompleted() {
-                        Log.e(TAG, "on completed");
-                    }
-
-                    @Override
-                    public final void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-
-                    @Override
-                    public final void onNext(Plant response) {
-                        mBody.setText(response.toString());
-                    }
-                });
-    }
-
-
-
-
 }

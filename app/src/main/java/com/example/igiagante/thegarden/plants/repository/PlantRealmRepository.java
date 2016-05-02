@@ -48,7 +48,7 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         final Realm realm = Realm.getInstance(realmConfiguration);
 
-        realm.executeTransaction(realmParam -> realmParam.copyToRealm(toPlantRealm.map(plant)));
+        realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
 
         realm.close();
     }
@@ -60,7 +60,7 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         realm.executeTransaction( realmParam -> {
             for (Plant plant : plants) {
-                realmParam.copyToRealm(toPlantRealm.map(plant));
+                realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant));
             }
         });
 

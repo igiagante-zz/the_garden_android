@@ -7,6 +7,7 @@ import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.plants.domain.entity.Image;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import com.example.igiagante.thegarden.plants.repository.PlantRealmRepository;
+import com.example.igiagante.thegarden.plants.repository.specification.PlantByIdSpecification;
 import com.example.igiagante.thegarden.plants.repository.specification.PlantByNameSpecification;
 import com.example.igiagante.thegarden.plants.repository.specification.PlantSpecification;
 
@@ -71,6 +72,30 @@ public class PlantRealmRepositoryTest extends AndroidTestCase{
 
         repository.query(new PlantSpecification()).subscribe(
                 item -> Log.i("PLANTS", item.toString())
+        );
+    }
+
+    public void testUpdateOnePlantRealm() {
+
+        Plant plant = createPlant("1", "mango");
+
+        repository.add(plant);
+
+        PlantByIdSpecification spec = new PlantByIdSpecification(plant.getId());
+
+        repository.query(spec).subscribe(plants -> {
+                    Plant p = plants.get(0);
+                    p.setName("name");
+                    repository.update(p);
+                }
+        );
+
+        spec = new PlantByIdSpecification(plant.getId());
+
+        repository.query(spec).subscribe(plants -> {
+                    Plant p = plants.get(0);
+                    Assert.assertEquals(p.getName(), "name");
+                }
         );
     }
 
