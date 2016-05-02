@@ -24,6 +24,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     packagingOptions {
         exclude 'META-INF/maven/com.squareup.retrofit/retrofit/pom.properties'
         exclude 'META-INF/maven/com.squareup.retrofit/retrofit/pom.xml'
@@ -37,6 +38,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:recyclerview-v7:+'
 
     apt 'com.google.dagger:dagger-compiler:2.2'
     androidTestApt 'com.google.dagger:dagger-compiler:2.2'

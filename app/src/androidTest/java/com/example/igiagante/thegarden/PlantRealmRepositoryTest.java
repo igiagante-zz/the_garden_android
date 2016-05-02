@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by igiagante on 28/4/16.
  */
-public class PlantRealmRepositoryTest extends AndroidTestCase{
+public class PlantRealmRepositoryTest extends AndroidTestCase {
 
     private static final String TAG = PlantRealmRepositoryTest.class.getSimpleName();
 
@@ -47,7 +47,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase{
 
         repository.query(new PlantSpecification()).subscribe(
                 item -> {
-                    //Assert.assertEquals(item.size(), 3);
+                    Assert.assertEquals(item.size(), 3);
                     Log.i(TAG, "NUMBER OF PLANTS " + item.size());
                 }
         );
@@ -189,6 +189,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase{
 
     /**
      * Create a list of plants without images
+     *
      * @return plants
      */
     private ArrayList<Plant> createPlants() {
@@ -208,6 +209,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase{
 
     /**
      * Create a list of plants with images
+     *
      * @return plants
      */
     private ArrayList<Plant> createPlantsWithImages() {
@@ -244,7 +246,8 @@ public class PlantRealmRepositoryTest extends AndroidTestCase{
 
     /**
      * Create one plant
-     * @param id Id
+     *
+     * @param id   Id
      * @param name Plant's name
      * @return plant
      */
@@ -264,7 +267,8 @@ public class PlantRealmRepositoryTest extends AndroidTestCase{
 
     /**
      * Create one plant with images
-     * @param id Id
+     *
+     * @param id   Id
      * @param name Plant's name
      * @return plant
      */
@@ -294,7 +298,8 @@ public class PlantRealmRepositoryTest extends AndroidTestCase{
 
     /**
      * Create one image (domain)
-     * @param id Id
+     *
+     * @param id   Id
      * @param name Image's name
      * @return image
      */

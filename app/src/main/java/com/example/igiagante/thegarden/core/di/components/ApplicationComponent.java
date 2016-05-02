@@ -11,6 +11,7 @@ import com.example.igiagante.thegarden.core.activity.BaseActivity;
 import com.example.igiagante.thegarden.core.di.modules.ApplicationModule;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
+import com.example.igiagante.thegarden.core.repository.Repository;
 
 import javax.inject.Singleton;
 
@@ -24,10 +25,10 @@ import dagger.Component;
 public interface ApplicationComponent {
 
     void inject(BaseActivity baseActivity);
-    void inject(MainActivity mainActivity);
 
     //Exposed to sub-graphs.
     Context context();
     ThreadExecutor threadExecutor();
     PostExecutionThread postExecutionThread();
+    Repository repository();
 }

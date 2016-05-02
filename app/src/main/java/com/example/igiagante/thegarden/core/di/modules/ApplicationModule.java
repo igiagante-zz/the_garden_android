@@ -12,6 +12,8 @@ import com.example.igiagante.thegarden.core.executor.JobExecutor;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.network.HttpStatus;
+import com.example.igiagante.thegarden.core.repository.Repository;
+import com.example.igiagante.thegarden.plants.repository.RestAPIRepository;
 
 import javax.inject.Singleton;
 
@@ -48,5 +50,10 @@ public class ApplicationModule {
     @Provides @Singleton
     HttpStatus provideHttpStatus() {
         return new HttpStatus();
+    }
+
+    @Provides @Singleton
+    Repository provideRepository(RestAPIRepository repository) {
+        return repository;
     }
 }

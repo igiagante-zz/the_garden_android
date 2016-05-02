@@ -23,6 +23,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".plants.getPlants.PlantListActivity"
+            android:label="@string/activity_plant_name">
+        </activity>
+
     </application>
 
 </manifest>
