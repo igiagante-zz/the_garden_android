@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.plants.repository.service;
+package com.example.igiagante.thegarden.plants.repository.restAPI.service;
 
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 

@@ -1,10 +1,10 @@
-package com.example.igiagante.thegarden.plants.repository.mapper;
+package com.example.igiagante.thegarden.plants.repository.realm.mapper;
 
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.plants.domain.entity.Image;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
-import com.example.igiagante.thegarden.plants.repository.realm.ImageRealm;
-import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
+import com.example.igiagante.thegarden.plants.repository.realm.modelRealm.ImageRealm;
+import com.example.igiagante.thegarden.plants.repository.realm.modelRealm.PlantRealm;
 
 import io.realm.Realm;
 import io.realm.RealmList;

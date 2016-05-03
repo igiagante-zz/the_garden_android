@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.plants.repository;
+package com.example.igiagante.thegarden.plants.repository.realm;
 
 import android.content.Context;
 
@@ -7,12 +7,15 @@ import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
-import com.example.igiagante.thegarden.plants.repository.realm.PlantRealm;
-import com.example.igiagante.thegarden.plants.repository.realm.PlantTable;
-import com.example.igiagante.thegarden.plants.repository.mapper.PlantRealmToPlant;
-import com.example.igiagante.thegarden.plants.repository.mapper.PlantToPlantRealm;
+import com.example.igiagante.thegarden.plants.repository.realm.modelRealm.PlantRealm;
+import com.example.igiagante.thegarden.plants.repository.realm.modelRealm.PlantTable;
+import com.example.igiagante.thegarden.plants.repository.realm.mapper.PlantRealmToPlant;
+import com.example.igiagante.thegarden.plants.repository.realm.mapper.PlantToPlantRealm;
+import com.example.igiagante.thegarden.plants.repository.realm.specification.PlantByIdSpecification;
 
 import java.util.List;
+
+import javax.inject.Singleton;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -22,8 +25,8 @@ import rx.Observable;
 /**
  * Created by igiagante on 26/4/16.
  */
+@Singleton
 public class PlantRealmRepository implements Repository<Plant> {
-
 
     private final Mapper<PlantRealm, Plant> toPlant;
     private final Mapper<Plant, PlantRealm> toPlantRealm;
@@ -41,6 +44,11 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         this.toPlant = new PlantRealmToPlant();
         this.toPlantRealm = new PlantToPlantRealm(realm);
+    }
+
+    @Override
+    public Observable<Plant> getById(String id) {
+        return query(new PlantByIdSpecification(id)).flatMap(Observable::from);
     }
 
     @Override

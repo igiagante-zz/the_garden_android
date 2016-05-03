@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.plants.repository.realm;
+package com.example.igiagante.thegarden.plants.repository.realm.modelRealm;
 
 /**
  * Created by igiagante on 26/4/16.

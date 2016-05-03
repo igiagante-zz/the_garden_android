@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden;
+package com.example.igiagante.thegarden.repository;
 
 import android.test.AndroidTestCase;
 import android.util.Log;
@@ -6,10 +6,10 @@ import android.util.Log;
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.plants.domain.entity.Image;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
-import com.example.igiagante.thegarden.plants.repository.PlantRealmRepository;
-import com.example.igiagante.thegarden.plants.repository.specification.PlantByIdSpecification;
-import com.example.igiagante.thegarden.plants.repository.specification.PlantByNameSpecification;
-import com.example.igiagante.thegarden.plants.repository.specification.PlantSpecification;
+import com.example.igiagante.thegarden.plants.repository.realm.PlantRealmRepository;
+import com.example.igiagante.thegarden.plants.repository.realm.specification.PlantByIdSpecification;
+import com.example.igiagante.thegarden.plants.repository.realm.specification.PlantByNameSpecification;
+import com.example.igiagante.thegarden.plants.repository.realm.specification.PlantSpecification;
 
 import junit.framework.Assert;
 
@@ -23,6 +23,8 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
     private static final String TAG = PlantRealmRepositoryTest.class.getSimpleName();
 
     private PlantRealmRepository repository;
+    private final String ID = "1";
+    private final String NAME = "mango";
 
     @Override
     protected void setUp() throws Exception {
@@ -35,6 +37,36 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
         repository.removeAll();
+    }
+
+    public void testGetById() {
+
+        // setup
+        Plant plant = createPlant(ID, NAME);
+        repository.add(plant);
+
+        // verify
+        repository.getById(ID).subscribe(
+                item -> Assert.assertEquals(item.getName(), NAME)
+        );
+    }
+
+    public void testPersistOnePlant() {
+
+        Plant plant = createPlant(ID, NAME);
+
+        repository.add(plant);
+
+        repository.query(new PlantSpecification()).subscribe(
+                item -> {
+                    Assert.assertEquals(item.size(), 1);
+                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
+                }
+        );
+
+        repository.query(new PlantSpecification()).subscribe(
+                item -> Log.i("PLANTS", item.toString())
+        );
     }
 
     /**
@@ -57,35 +89,19 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         );
     }
 
-    public void testPersistOnePlant() {
-
-        Plant plant = createPlant("1", "mango");
-
-        repository.add(plant);
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> {
-                    Assert.assertEquals(item.size(), 1);
-                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
-                }
-        );
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> Log.i("PLANTS", item.toString())
-        );
-    }
-
     public void testUpdateOnePlantRealm() {
 
-        Plant plant = createPlant("1", "mango");
+        Plant plant = createPlant(ID, NAME);
 
         repository.add(plant);
 
         PlantByIdSpecification spec = new PlantByIdSpecification(plant.getId());
 
+        final String NEW_NAME = "mango2";
+
         repository.query(spec).subscribe(plants -> {
                     Plant p = plants.get(0);
-                    p.setName("name");
+                    p.setName(NEW_NAME);
                     repository.update(p);
                 }
         );
@@ -94,14 +110,14 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         repository.query(spec).subscribe(plants -> {
                     Plant p = plants.get(0);
-                    Assert.assertEquals(p.getName(), "name");
+                    Assert.assertEquals(p.getName(), NEW_NAME);
                 }
         );
     }
 
     public void testPersistOnePlantWithImages() {
 
-        Plant plant = createPlantWithImages("1", "mango");
+        Plant plant = createPlantWithImages(ID, NAME);
 
         repository.add(plant);
 
@@ -140,7 +156,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         repository.removeAll();
 
-        Plant plant = createPlantWithImages("1", "mango");
+        Plant plant = createPlantWithImages(ID, NAME);
 
         repository.add(plant);
 
@@ -163,7 +179,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
     public void testRemoveOnePlantBySpecification() {
 
-        Plant plant = createPlantWithImages("1", "mango");
+        Plant plant = createPlantWithImages(ID, NAME);
 
         repository.add(plant);
 
@@ -174,7 +190,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
                 }
         );
 
-        RealmSpecification realmSpecification = new PlantByNameSpecification("mango");
+        RealmSpecification realmSpecification = new PlantByNameSpecification(NAME);
 
         repository.remove(realmSpecification);
 

@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.plants.repository.realm;
+package com.example.igiagante.thegarden.plants.repository.realm.modelRealm;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

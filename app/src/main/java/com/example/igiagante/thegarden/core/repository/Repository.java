@@ -9,6 +9,8 @@ import rx.Observable;
  */
 public interface Repository<T> {
 
+    Observable<T> getById(String id);
+
     void add(T item);
 
     void add(Iterable<T> items);

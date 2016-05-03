@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.plants.getPlants;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.Repository;
+import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;
@@ -24,6 +25,6 @@ public class GetPlantList extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return plantRepository.query();
+        return plantRepository.query(new Specification() {});
     }
 }

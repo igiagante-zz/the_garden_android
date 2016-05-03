@@ -5,5 +5,5 @@ package com.example.igiagante.thegarden.core.repository;
  */
 public interface RestAPISpecification extends Specification {
 
-
+    boolean getAll();
 }

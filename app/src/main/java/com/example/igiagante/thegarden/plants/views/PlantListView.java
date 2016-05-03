@@ -1,6 +1,6 @@
 package com.example.igiagante.thegarden.plants.views;
 
-import com.example.igiagante.thegarden.core.View;
+import com.example.igiagante.thegarden.core.view.View;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 
 import java.util.Collection;

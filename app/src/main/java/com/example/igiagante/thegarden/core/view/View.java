@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.core;
+package com.example.igiagante.thegarden.core.view;
 
 import android.content.Context;
 
