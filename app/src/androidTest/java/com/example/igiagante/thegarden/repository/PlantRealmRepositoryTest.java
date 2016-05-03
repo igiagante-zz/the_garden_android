@@ -16,6 +16,8 @@ import junit.framework.Assert;
 
 import java.util.ArrayList;
 
+import rx.Observable;
+
 /**
  * Created by igiagante on 28/4/16.
  */
@@ -71,10 +73,10 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         ArrayList<Plant> plants = createPlants();
 
         // when
-        int count = repository.add(plants);
+        Observable<Integer> result = repository.add(plants);
 
         // assertions
-        Assert.assertEquals(3, count);
+        result.subscribe(count -> Assert.assertEquals(3, count.intValue()));
     }
 
     public void testUpdateOnePlantRealm() {
@@ -114,10 +116,10 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         ArrayList<Plant> plants = createPlantsWithImages();
 
         // when
-        int count = repository.add(plants);
+        Observable<Integer> result = repository.add(plants);
 
         // assertions
-        Assert.assertEquals(2, count);
+        result.subscribe(count -> Assert.assertEquals(2, count.intValue()));
 
         repository.query(new PlantSpecification()).subscribe(
                 plantFromDB -> Assert.assertEquals(2, plantFromDB.get(0).getImages().size())
@@ -134,10 +136,10 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
 
         // when
-        int result = repository.remove(plant);
+        Observable<Integer> result = repository.remove(plant);
 
         // assertions
-        Assert.assertEquals(1, result);
+        result.subscribe(count -> Assert.assertEquals(1, count.intValue()));
     }
 
     public void testRemoveOnePlantBySpecification() {
@@ -152,10 +154,10 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         RealmSpecification realmSpecification = new PlantByNameSpecification(NAME);
 
         // when
-        int result = repository.remove(realmSpecification);
+        Observable<Integer> result = repository.remove(realmSpecification);
 
         // assertions
-        Assert.assertEquals(1, result);
+        result.subscribe(count -> Assert.assertEquals(1, count.intValue()));
     }
 
 

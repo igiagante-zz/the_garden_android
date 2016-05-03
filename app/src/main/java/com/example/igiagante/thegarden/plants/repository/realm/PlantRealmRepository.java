@@ -61,17 +61,17 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public String add(final Plant plant) {
+    public Observable<String> add(final Plant plant) {
 
         final Realm realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
         realm.close();
 
-        return plant.getId();
+        return Observable.just(plant.getId());
     }
 
     @Override
-    public int add(final Iterable<Plant> plants) {
+    public Observable<Integer> add(final Iterable<Plant> plants) {
 
         int size = 0;
         realm = Realm.getInstance(realmConfiguration);
@@ -89,7 +89,7 @@ public class PlantRealmRepository implements Repository<Plant> {
             size = ((Collection<?>) plants).size();
         }
 
-        return size;
+        return Observable.just(size);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public int remove(Plant plant) {
+    public Observable<Integer> remove(Plant plant) {
 
         realm = Realm.getInstance(realmConfiguration);
 
@@ -118,11 +118,11 @@ public class PlantRealmRepository implements Repository<Plant> {
         realm.close();
 
         // if plantRealm.isValid() is false, it is because the realm object was deleted
-        return plantRealm.isValid() ? 0 : 1;
+        return Observable.just(plantRealm.isValid() ? 0 : 1);
     }
 
     @Override
-    public int remove(Specification specification) {
+    public Observable<Integer> remove(Specification specification) {
 
         realm = Realm.getInstance(realmConfiguration);
 
@@ -134,7 +134,7 @@ public class PlantRealmRepository implements Repository<Plant> {
         realm.close();
 
         // if plantRealm.isValid() is false, it is because the realm object was deleted
-        return plantRealm.isValid() ? 0 : 1;
+        return Observable.just(plantRealm.isValid() ? 0 : 1);
     }
 
     @Override
