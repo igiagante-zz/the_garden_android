@@ -11,6 +11,11 @@ public interface PlantTable {
     String GARDENID = "gardenId";
     String ECSOIL = "ecSoil";
     String PHSOIL = "phSoil";
+    String SIZE = "size";
+    String HARVEST = "harvest";
+
+    // this attribute is only to check if some image should be deleted
+    String RESOURCES_IDS =  "resourcesIds";
 
     interface Image {
         String ID = "id";

@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.plants.getPlants;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.presenter.Presenter;
@@ -22,6 +23,7 @@ import javax.inject.Named;
 @PerActivity
 public class PlantListPresenter implements Presenter {
 
+    private final static String TAG = PlantListPresenter.class.getSimpleName();
 
     private PlantListView plantListView;
 
@@ -71,10 +73,11 @@ public class PlantListPresenter implements Presenter {
             //PlantListPresenter.this.hideViewLoading();
             //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
             //PlantListPresenter.this.showViewRetry();
+            Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(List<Plant> users) {
-            PlantListPresenter.this.showPlantsCollectionInView(users);
+        @Override public void onNext(List<Plant> plants) {
+            PlantListPresenter.this.showPlantsCollectionInView(plants);
         }
     }
 }

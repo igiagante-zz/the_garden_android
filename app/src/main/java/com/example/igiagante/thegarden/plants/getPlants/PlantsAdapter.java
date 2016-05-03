@@ -45,7 +45,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     public void onBindViewHolder(PlantViewHolder holder, int position) {
         final Plant plant = this.plantsCollection.get(position);
         holder.textViewName.setText(plant.getName());
-        holder.textViewSize.setText(plant.getSize());
+        holder.textViewSize.setText(String.valueOf(plant.getSize()));
     }
 
     @Override

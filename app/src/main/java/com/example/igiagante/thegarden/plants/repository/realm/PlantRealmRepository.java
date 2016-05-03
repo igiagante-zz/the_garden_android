@@ -13,6 +13,8 @@ import com.example.igiagante.thegarden.plants.repository.realm.mapper.PlantRealm
 import com.example.igiagante.thegarden.plants.repository.realm.mapper.PlantToPlantRealm;
 import com.example.igiagante.thegarden.plants.repository.realm.specification.PlantByIdSpecification;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -52,37 +54,52 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public void add(final Plant plant) {
+    public Observable<Plant> add(final Plant plant) {
 
         final Realm realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
         realm.close();
+
+        return Observable.just(plant);
     }
 
     @Override
-    public void add(final Iterable<Plant> plants) {
+    public Observable<List<Plant>> add(final Iterable<Plant> plants) {
 
         realm = Realm.getInstance(realmConfiguration);
 
         realm.executeTransaction( realmParam -> {
             for (Plant plant : plants) {
                 realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant));
+
             }
         });
 
         realm.close();
+
+        return Observable.just(makeCollection(plants));
+    }
+
+    private List<Plant>  makeCollection(Iterable<Plant> iter) {
+        List<Plant> list = new ArrayList<>();
+        for (Plant item : iter) {
+            list.add(item);
+        }
+        return list;
     }
 
     @Override
-    public void update(Plant plant) {
+    public Observable<Plant> update(Plant plant) {
 
         realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
         realm.close();
+
+        return Observable.just(plant);
     }
 
     @Override
-    public void remove(Plant plant) {
+    public Observable<Plant> remove(Plant plant) {
 
         realm = Realm.getInstance(realmConfiguration);
 
@@ -92,20 +109,25 @@ public class PlantRealmRepository implements Repository<Plant> {
         });
 
         realm.close();
+
+        return Observable.just(plant);
     }
 
     @Override
-    public void remove(Specification specification) {
+    public Observable<Plant> remove(Specification specification) {
 
         realm = Realm.getInstance(realmConfiguration);
-        final RealmSpecification realmSpecification = (RealmSpecification) specification;
 
-        realm.executeTransaction(realmParam -> {
-            PlantRealm plantRealm = (PlantRealm) realmSpecification.toPlantRealm(realm);
-            plantRealm.deleteFromRealm();
-        });
+        final RealmSpecification realmSpecification = (RealmSpecification) specification;
+        final PlantRealm plantRealm = (PlantRealm) realmSpecification.toPlantRealm(realm);
+
+        // copy before the is deleted
+        Plant plant = toPlant.map(plantRealm);
+        realm.executeTransaction(realmParam -> plantRealm.deleteFromRealm());
 
         realm.close();
+
+        return Observable.just(plant);
     }
 
     @Override

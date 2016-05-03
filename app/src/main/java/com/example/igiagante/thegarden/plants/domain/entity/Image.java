@@ -2,6 +2,9 @@ package com.example.igiagante.thegarden.plants.domain.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.File;
+import java.util.ArrayList;
+
 /**
  * Created by igiagante on 19/4/16.
  */
@@ -27,6 +30,8 @@ public class Image {
 
     @SerializedName("main")
     private boolean main;
+
+    private File file;
 
     public String getId() {
         return id;
@@ -82,6 +87,14 @@ public class Image {
 
     public void setMain(boolean main) {
         this.main = main;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 
     @Override public String toString() {

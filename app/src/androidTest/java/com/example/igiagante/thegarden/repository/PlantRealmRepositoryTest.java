@@ -4,6 +4,7 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
+import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.plants.domain.entity.Image;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
 import com.example.igiagante.thegarden.plants.repository.realm.PlantRealmRepository;
@@ -55,17 +56,10 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         Plant plant = createPlant(ID, NAME);
 
-        repository.add(plant);
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> {
-                    Assert.assertEquals(item.size(), 1);
-                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
+        repository.add(plant).subscribe(
+                plantFromDB -> {
+                    Assert.assertEquals(plantFromDB.getName(), NAME);
                 }
-        );
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> Log.i("PLANTS", item.toString())
         );
     }
 
@@ -75,38 +69,27 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
     public void testPersistPlants() {
 
         ArrayList<Plant> plants = createPlants();
-        repository.add(plants);
-
-        repository.query(new PlantSpecification()).subscribe(
+        repository.add(plants).subscribe(
                 item -> {
                     Assert.assertEquals(item.size(), 3);
                     Log.i(TAG, "NUMBER OF PLANTS " + item.size());
                 }
         );
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> Log.i("PLANTS", item.toString())
-        );
     }
 
     public void testUpdateOnePlantRealm() {
 
-        Plant plant = createPlant(ID, NAME);
-
-        repository.add(plant);
-
-        PlantByIdSpecification spec = new PlantByIdSpecification(plant.getId());
-
         final String NEW_NAME = "mango2";
 
-        repository.query(spec).subscribe(plants -> {
-                    Plant p = plants.get(0);
+        Plant plant = createPlant(ID, NAME);
+
+        repository.add(plant).subscribe(p -> {
                     p.setName(NEW_NAME);
                     repository.update(p);
                 }
         );
 
-        spec = new PlantByIdSpecification(plant.getId());
+        Specification spec = new PlantByIdSpecification(plant.getId());
 
         repository.query(spec).subscribe(plants -> {
                     Plant p = plants.get(0);
@@ -118,75 +101,39 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
     public void testPersistOnePlantWithImages() {
 
         Plant plant = createPlantWithImages(ID, NAME);
-
-        repository.add(plant);
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> {
-                    Assert.assertEquals(item.size(), 1);
-                    Assert.assertEquals(item.get(0).getImages().size(), 2);
-                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
-                    Log.i(TAG, "NUMBER OF IMAGES " + item.get(0).getImages().size());
-                }
-        );
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> Log.i("item", item.toString())
-        );
+        repository.add(plant).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getImages().size(), 2));
     }
 
     public void testPersistPlantsWithImages() {
 
         ArrayList<Plant> plants = createPlantsWithImages();
-        repository.add(plants);
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> {
-                    //Assert.assertEquals(item.size(), 3);
-                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
-                }
-        );
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> Log.i("PLANTS", item.toString())
-        );
+        repository.add(plants).subscribe(plantsFromDB -> Assert.assertEquals(2, plantsFromDB.size()));
     }
 
     public void testRemoveOnePlant() {
 
-        repository.removeAll();
+        Plant plant = createPlant(ID, NAME);
 
-        Plant plant = createPlantWithImages(ID, NAME);
-
-        repository.add(plant);
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> {
-                    Assert.assertEquals(item.size(), 1);
-                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
+        repository.add(plant).subscribe(
+                plantFromDB -> {
+                    Assert.assertEquals(plantFromDB.getName(), NAME);
                 }
         );
 
         repository.remove(plant);
 
         repository.query(new PlantSpecification()).subscribe(
-                item -> {
-                    Assert.assertEquals(item.size(), 0);
-                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
-                }
+                plants ->  Assert.assertEquals(plants.size(), 0)
         );
     }
 
     public void testRemoveOnePlantBySpecification() {
 
-        Plant plant = createPlantWithImages(ID, NAME);
+        Plant plant = createPlant(ID, NAME);
 
-        repository.add(plant);
-
-        repository.query(new PlantSpecification()).subscribe(
-                item -> {
-                    Assert.assertEquals(item.size(), 1);
-                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
+        repository.add(plant).subscribe(
+                plantFromDB -> {
+                    Assert.assertEquals(plantFromDB.getName(), NAME);
                 }
         );
 
@@ -195,10 +142,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         repository.remove(realmSpecification);
 
         repository.query(new PlantSpecification()).subscribe(
-                item -> {
-                    Assert.assertEquals(item.size(), 0);
-                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
-                }
+                plants ->  Assert.assertEquals(plants.size(), 0)
         );
     }
 
