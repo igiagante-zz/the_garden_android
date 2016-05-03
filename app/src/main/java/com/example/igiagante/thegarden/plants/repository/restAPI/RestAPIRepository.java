@@ -43,20 +43,26 @@ public class RestAPIRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Plant> add(Plant plant) {
+    public String add(Plant plant) {
 
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
-        return api.createPlant(builder.build()).asObservable();
+        //return api.createPlant(builder.build()).asObservable();
+        return null;
     }
 
     @Override
-    public Observable<List<Plant>> add(Iterable<Plant> plants) {
+    public int add(Iterable<Plant> plants) {
 
+        int size = 0;
         for (Plant plant : plants) {
             add(plant);
         }
 
-        return Observable.just(makeCollection(plants));
+        if( plants instanceof Collection<?>) {
+            size = ((Collection<?>)plants).size();
+        }
+
+        return size;
     }
 
     @Override
@@ -66,13 +72,13 @@ public class RestAPIRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Plant> remove(Plant plant) {
-        return null;
+    public int remove(Plant plant) {
+        return 0;
     }
 
     @Override
-    public Observable<Plant> remove(Specification specification) {
-        return null;
+    public int remove(Specification specification) {
+        return 0;
     }
 
     @Override
@@ -83,14 +89,6 @@ public class RestAPIRepository implements Repository<Plant> {
     @Override
     public Observable<List<Plant>> query(Specification specification) {
         return api.getPlants();
-    }
-
-    private List<Plant>  makeCollection(Iterable<Plant> iter) {
-        List<Plant> list = new ArrayList<>();
-        for (Plant item : iter) {
-            list.add(item);
-        }
-        return list;
     }
 
     /**

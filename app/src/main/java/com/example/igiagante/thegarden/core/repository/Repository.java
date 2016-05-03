@@ -11,15 +11,15 @@ public interface Repository<T> {
 
     Observable<T> getById(String id);
 
-    Observable<T> add(T item);
+    String add(T item);
 
-    Observable<List<T>> add(Iterable<T> items);
+    int add(Iterable<T> items);
 
     Observable<T> update(T item);
 
-    Observable<T> remove(T item);
+    int remove(T item);
 
-    Observable<T> remove(Specification specification);
+    int remove(Specification specification);
 
     void removeAll();
 

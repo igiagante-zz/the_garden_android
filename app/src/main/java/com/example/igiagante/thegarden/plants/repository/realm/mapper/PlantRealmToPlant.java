@@ -25,12 +25,7 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
         Plant plant = new Plant();
 
         plant.setId(plantRealm.getId());
-        plant.setName(plantRealm.getName());
-        plant.setGardenId(plantRealm.getGardenId());
-        plant.setSize(plantRealm.getSize());
-        plant.setPhSoil(plantRealm.getPhSoil());
-        plant.setEcSoil(plantRealm.getEcSoil());
-        plant.setHarvest(plantRealm.getHarvest());
+        copy(plantRealm, plant);
 
         ArrayList<Image> images = new ArrayList<>();
 
@@ -45,4 +40,16 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
         return plant;
     }
 
+    @Override
+    public Plant copy(PlantRealm plantRealm, Plant plant) {
+
+        plant.setName(plantRealm.getName());
+        plant.setGardenId(plantRealm.getGardenId());
+        plant.setSize(plantRealm.getSize());
+        plant.setPhSoil(plantRealm.getPhSoil());
+        plant.setEcSoil(plantRealm.getEcSoil());
+        plant.setHarvest(plantRealm.getHarvest());
+
+        return plant;
+    }
 }

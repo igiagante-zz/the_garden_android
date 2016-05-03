@@ -25,25 +25,39 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
     @Override
     public PlantRealm map(Plant plant) {
 
+        // create plant realm object and set id
         PlantRealm plantRealm = realm.createObject(PlantRealm.class);
-
         plantRealm.setId(plant.getId());
+
+        // copy values which should be updated
+        copy(plant, plantRealm);
+
+        RealmList<ImageRealm> imagesRealm = new RealmList<>();
+
+        if(plant.getImages() != null) {
+            for ( Image image : plant.getImages() ){
+                // create image realm object and set id
+                ImageRealm imageRealm = realm.createObject(ImageRealm.class);
+                imageRealm.setId(image.getId());
+                // copy values which should be updated
+                imagesRealm.add(toImageRealm.copy(image, imageRealm));
+            }
+        }
+
+        plantRealm.setImages(imagesRealm);
+
+        return plantRealm;
+    }
+
+    @Override
+    public PlantRealm copy(Plant plant, PlantRealm plantRealm) {
+
         plantRealm.setName(plant.getName());
         plantRealm.setGardenId(plant.getGardenId());
         plantRealm.setSize(plant.getSize());
         plantRealm.setPhSoil(plant.getPhSoil());
         plantRealm.setEcSoil(plant.getEcSoil());
         plantRealm.setHarvest(plant.getHarvest());
-
-        RealmList<ImageRealm> imagesRealm = new RealmList<>();
-
-        if(plant.getImages() != null) {
-            for ( Image image : plant.getImages() ){
-                imagesRealm.add(toImageRealm.map(image));
-            }
-        }
-
-        plantRealm.setImages(imagesRealm);
 
         return plantRealm;
     }

@@ -22,6 +22,13 @@ public class ImageToImageRealm implements Mapper<Image, ImageRealm> {
 
         ImageRealm imageRealm = realm.createObject(ImageRealm.class);
         imageRealm.setId(image.getId());
+        copy(image, imageRealm);
+
+        return imageRealm;
+    }
+
+    @Override
+    public ImageRealm copy(Image image, ImageRealm imageRealm) {
         imageRealm.setName(image.getName());
         imageRealm.setUrl(image.getUrl());
         imageRealm.setThumbnailUrl(image.getThumbnailUrl());

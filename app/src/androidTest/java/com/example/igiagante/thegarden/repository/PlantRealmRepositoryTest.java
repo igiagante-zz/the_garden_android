@@ -56,11 +56,9 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         Plant plant = createPlant(ID, NAME);
 
-        repository.add(plant).subscribe(
-                plantFromDB -> {
-                    Assert.assertEquals(plantFromDB.getName(), NAME);
-                }
-        );
+        repository.add(plant);
+
+        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
     }
 
     /**
@@ -68,82 +66,96 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
      */
     public void testPersistPlants() {
 
+        // setup
+        // create three plants
         ArrayList<Plant> plants = createPlants();
-        repository.add(plants).subscribe(
-                item -> {
-                    Assert.assertEquals(item.size(), 3);
-                    Log.i(TAG, "NUMBER OF PLANTS " + item.size());
-                }
-        );
+
+        // when
+        int count = repository.add(plants);
+
+        // assertions
+        Assert.assertEquals(3, count);
     }
 
     public void testUpdateOnePlantRealm() {
 
+        // setup
         final String NEW_NAME = "mango2";
 
         Plant plant = createPlant(ID, NAME);
 
-        repository.add(plant).subscribe(p -> {
-                    p.setName(NEW_NAME);
-                    repository.update(p);
-                }
-        );
+        repository.add(plant);
 
-        Specification spec = new PlantByIdSpecification(plant.getId());
+        // when
+        plant.setName(NEW_NAME);
+        repository.update(plant);
 
-        repository.query(spec).subscribe(plants -> {
-                    Plant p = plants.get(0);
-                    Assert.assertEquals(p.getName(), NEW_NAME);
-                }
-        );
+        // assertions
+        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(NEW_NAME, plantFromDB.getName()));
     }
 
     public void testPersistOnePlantWithImages() {
 
+        // setup
+        // create plant with two images
         Plant plant = createPlantWithImages(ID, NAME);
-        repository.add(plant).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getImages().size(), 2));
+
+        // when
+        repository.add(plant);
+
+        // assertions
+        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getImages().size(), 2));
     }
 
     public void testPersistPlantsWithImages() {
 
+        // setup
+        // create two plants with two images each one
         ArrayList<Plant> plants = createPlantsWithImages();
-        repository.add(plants).subscribe(plantsFromDB -> Assert.assertEquals(2, plantsFromDB.size()));
+
+        // when
+        int count = repository.add(plants);
+
+        // assertions
+        Assert.assertEquals(2, count);
+
+        repository.query(new PlantSpecification()).subscribe(
+                plantFromDB -> Assert.assertEquals(2, plantFromDB.get(0).getImages().size())
+        );
     }
 
     public void testRemoveOnePlant() {
 
+        // setup
         Plant plant = createPlant(ID, NAME);
 
-        repository.add(plant).subscribe(
-                plantFromDB -> {
-                    Assert.assertEquals(plantFromDB.getName(), NAME);
-                }
-        );
+        repository.add(plant);
 
-        repository.remove(plant);
+        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
 
-        repository.query(new PlantSpecification()).subscribe(
-                plants ->  Assert.assertEquals(plants.size(), 0)
-        );
+        // when
+        int result = repository.remove(plant);
+
+        // assertions
+        Assert.assertEquals(1, result);
     }
 
     public void testRemoveOnePlantBySpecification() {
 
+        // setup
         Plant plant = createPlant(ID, NAME);
 
-        repository.add(plant).subscribe(
-                plantFromDB -> {
-                    Assert.assertEquals(plantFromDB.getName(), NAME);
-                }
-        );
+        repository.add(plant);
+
+        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
 
         RealmSpecification realmSpecification = new PlantByNameSpecification(NAME);
 
-        repository.remove(realmSpecification);
+        // when
+        int result = repository.remove(realmSpecification);
 
-        repository.query(new PlantSpecification()).subscribe(
-                plants ->  Assert.assertEquals(plants.size(), 0)
-        );
+        // assertions
+        Assert.assertEquals(1, result);
     }
 
 
@@ -168,14 +180,14 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
     }
 
     /**
-     * Create a list of plants with images
-     *
+     * Create a list of two plants with two images each one
      * @return plants
      */
     private ArrayList<Plant> createPlantsWithImages() {
 
         ArrayList<Plant> plants = new ArrayList<>();
 
+        // plant one
         Plant plantOne = createPlantWithImages("1", "mango");
 
         Image imageOne = createImage("1", "mango", true);
@@ -187,16 +199,17 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         plantOne.setImages(images);
 
+        // plant two
         Plant plantTwo = createPlantWithImages("2", "pera");
 
-        Image imageThree = createImage("1", "pera", true);
-        Image imageFour = createImage("2", "pera2", false);
+        Image imageThree = createImage("3", "pera", true);
+        Image imageFour = createImage("4", "pera2", false);
 
         ArrayList<Image> imagesPlantTwo = new ArrayList<>();
-        images.add(imageThree);
-        images.add(imageFour);
+        imagesPlantTwo.add(imageThree);
+        imagesPlantTwo.add(imageFour);
 
-        plantOne.setImages(imagesPlantTwo);
+        plantTwo.setImages(imagesPlantTwo);
 
         plants.add(plantOne);
         plants.add(plantTwo);

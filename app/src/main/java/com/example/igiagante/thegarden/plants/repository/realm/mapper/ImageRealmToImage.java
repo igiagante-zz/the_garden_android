@@ -14,6 +14,14 @@ public class ImageRealmToImage implements Mapper<ImageRealm, Image>{
 
         Image image = new Image();
         image.setId(imageRealm.getId());
+        copy(imageRealm, image);
+
+        return image;
+    }
+
+    @Override
+    public Image copy(ImageRealm imageRealm, Image image) {
+
         image.setName(imageRealm.getName());
         image.setUrl(imageRealm.getUrl());
         image.setThumbnailUrl(imageRealm.getThumbnailUrl());

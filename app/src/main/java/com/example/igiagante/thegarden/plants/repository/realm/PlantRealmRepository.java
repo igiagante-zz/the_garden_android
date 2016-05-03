@@ -1,17 +1,22 @@
 package com.example.igiagante.thegarden.plants.repository.realm;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
+import com.example.igiagante.thegarden.plants.domain.entity.Image;
 import com.example.igiagante.thegarden.plants.domain.entity.Plant;
+import com.example.igiagante.thegarden.plants.repository.realm.modelRealm.ImageRealm;
 import com.example.igiagante.thegarden.plants.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.plants.repository.realm.modelRealm.PlantTable;
 import com.example.igiagante.thegarden.plants.repository.realm.mapper.PlantRealmToPlant;
 import com.example.igiagante.thegarden.plants.repository.realm.mapper.PlantToPlantRealm;
 import com.example.igiagante.thegarden.plants.repository.realm.specification.PlantByIdSpecification;
+
+import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +26,8 @@ import javax.inject.Singleton;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import rx.Observable;
 
@@ -54,21 +61,22 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Plant> add(final Plant plant) {
+    public String add(final Plant plant) {
 
         final Realm realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
         realm.close();
 
-        return Observable.just(plant);
+        return plant.getId();
     }
 
     @Override
-    public Observable<List<Plant>> add(final Iterable<Plant> plants) {
+    public int add(final Iterable<Plant> plants) {
 
+        int size = 0;
         realm = Realm.getInstance(realmConfiguration);
 
-        realm.executeTransaction( realmParam -> {
+        realm.executeTransaction(realmParam -> {
             for (Plant plant : plants) {
                 realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant));
 
@@ -77,57 +85,56 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         realm.close();
 
-        return Observable.just(makeCollection(plants));
-    }
-
-    private List<Plant>  makeCollection(Iterable<Plant> iter) {
-        List<Plant> list = new ArrayList<>();
-        for (Plant item : iter) {
-            list.add(item);
+        if (plants instanceof Collection<?>) {
+            size = ((Collection<?>) plants).size();
         }
-        return list;
+
+        return size;
     }
 
     @Override
     public Observable<Plant> update(Plant plant) {
 
         realm = Realm.getInstance(realmConfiguration);
-        realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
+
+        PlantRealm plantRealm = realm.where(PlantRealm.class).equalTo(PlantTable.ID, plant.getId()).findFirst();
+
+        realm.executeTransaction(realmParam -> {
+            realmParam.copyToRealmOrUpdate(toPlantRealm.copy(plant, plantRealm));
+        });
         realm.close();
 
         return Observable.just(plant);
     }
 
     @Override
-    public Observable<Plant> remove(Plant plant) {
+    public int remove(Plant plant) {
 
         realm = Realm.getInstance(realmConfiguration);
 
-        realm.executeTransaction(realmParam -> {
-            PlantRealm plantRealm = realm.where(PlantRealm.class).equalTo(PlantTable.ID, plant.getId()).findFirst();
-            plantRealm.deleteFromRealm();
-        });
+        PlantRealm plantRealm = realm.where(PlantRealm.class).equalTo(PlantTable.ID, plant.getId()).findFirst();
+        realm.executeTransaction(realmParam -> plantRealm.deleteFromRealm());
 
         realm.close();
 
-        return Observable.just(plant);
+        // if plantRealm.isValid() is false, it is because the realm object was deleted
+        return plantRealm.isValid() ? 0 : 1;
     }
 
     @Override
-    public Observable<Plant> remove(Specification specification) {
+    public int remove(Specification specification) {
 
         realm = Realm.getInstance(realmConfiguration);
 
         final RealmSpecification realmSpecification = (RealmSpecification) specification;
         final PlantRealm plantRealm = (PlantRealm) realmSpecification.toPlantRealm(realm);
 
-        // copy before the is deleted
-        Plant plant = toPlant.map(plantRealm);
         realm.executeTransaction(realmParam -> plantRealm.deleteFromRealm());
 
         realm.close();
 
-        return Observable.just(plant);
+        // if plantRealm.isValid() is false, it is because the realm object was deleted
+        return plantRealm.isValid() ? 0 : 1;
     }
 
     @Override
