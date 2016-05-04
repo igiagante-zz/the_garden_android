@@ -1,16 +1,13 @@
 package com.example.igiagante.thegarden.repository;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
-import com.example.igiagante.thegarden.core.repository.Specification;
-import com.example.igiagante.thegarden.plants.domain.entity.Image;
-import com.example.igiagante.thegarden.plants.domain.entity.Plant;
-import com.example.igiagante.thegarden.plants.repository.realm.PlantRealmRepository;
-import com.example.igiagante.thegarden.plants.repository.realm.specification.PlantByIdSpecification;
-import com.example.igiagante.thegarden.plants.repository.realm.specification.PlantByNameSpecification;
-import com.example.igiagante.thegarden.plants.repository.realm.specification.PlantSpecification;
+import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.home.repository.realm.PlantRealmRepository;
+import com.example.igiagante.thegarden.home.repository.realm.specification.PlantByNameSpecification;
+import com.example.igiagante.thegarden.home.repository.realm.specification.PlantSpecification;
 
 import junit.framework.Assert;
 

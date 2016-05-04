@@ -6,8 +6,7 @@ package com.example.igiagante.thegarden.core.di.components;
 
 import android.content.Context;
 
-import com.example.igiagante.thegarden.MainActivity;
-import com.example.igiagante.thegarden.core.activity.BaseActivity;
+import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.core.di.modules.ApplicationModule;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;

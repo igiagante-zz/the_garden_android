@@ -11,9 +11,9 @@ import com.example.igiagante.thegarden.core.UIThread;
 import com.example.igiagante.thegarden.core.executor.JobExecutor;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
-import com.example.igiagante.thegarden.core.network.HttpStatus;
+import com.example.igiagante.thegarden.core.repository.network.HttpStatus;
 import com.example.igiagante.thegarden.core.repository.Repository;
-import com.example.igiagante.thegarden.plants.repository.restAPI.RestAPIRepository;
+import com.example.igiagante.thegarden.home.repository.restAPI.RestAPIRepository;
 
 import javax.inject.Singleton;
 
