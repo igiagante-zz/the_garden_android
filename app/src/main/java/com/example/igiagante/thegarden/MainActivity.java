@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
-import com.example.igiagante.thegarden.home.presentation.PlantListActivity;
+import com.example.igiagante.thegarden.home.plants.presentation.PlantListActivity;
 
 /**
  * Created by igiagante on 18/4/16.

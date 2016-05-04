@@ -5,9 +5,9 @@ import java.lang.ref.WeakReference;
 /**
  * Created by igiagante on 4/5/16.
  */
-public abstract class AbstractPresenter {
+public abstract class AbstractPresenter<T extends IView> {
 
-    private WeakReference<IView> viewWeakReference;
+    protected WeakReference<T> viewWeakReference;
 
 
 }

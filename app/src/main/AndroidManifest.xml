@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".home.presentation.PlantListActivity"
+            android:name=".home.plants.presentation.PlantListActivity"
             android:label="@string/activity_plant_name">
         </activity>
 
