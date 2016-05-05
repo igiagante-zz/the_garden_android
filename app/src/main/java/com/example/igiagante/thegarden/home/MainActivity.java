@@ -21,10 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.home.charts.presentation.ChartsFragment;
 import com.example.igiagante.thegarden.home.irrigations.presentation.IrrigationsFragment;
+import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
+import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
 import com.example.igiagante.thegarden.navigation.NavigationGardenAdapter;
 
@@ -38,9 +41,11 @@ import butterknife.ButterKnife;
  * Created by igiagante on 18/4/16.
  */
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity  implements HasComponent<PlantComponent> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    private PlantComponent plantComponent;
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -56,6 +61,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        initializeInjector();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -188,5 +195,17 @@ public class MainActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public PlantComponent getComponent() {
+        return plantComponent;
+    }
+
+    private void initializeInjector() {
+        this.plantComponent = DaggerPlantComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
     }
 }

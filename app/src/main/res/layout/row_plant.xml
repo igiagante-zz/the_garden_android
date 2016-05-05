@@ -9,6 +9,7 @@
     card_view:cardCornerRadius="3dp"
     android:layout_marginLeft="30dp"
     android:layout_marginTop="20dp"
+    card_view:cardBackgroundColor="@android:color/white"
     android:elevation="8dp">
 
     <LinearLayout
@@ -23,7 +24,7 @@
             android:layout_height="match_parent"
             android:textColor="@android:color/black"
             android:singleLine="true"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:padding="10dp"
             android:text="name: "
 
@@ -34,7 +35,7 @@
             android:layout_height="match_parent"
             android:textColor="@android:color/black"
             android:singleLine="true"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:padding="10dp"
             android:text="size: "
             />
@@ -54,8 +55,9 @@
         android:layout_height="match_parent"
         android:textColor="@android:color/black"
         android:singleLine="true"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:padding="10dp"
+        android:layout_marginLeft="10dp"
         android:text="name"
         />
 
@@ -65,7 +67,7 @@
         android:layout_height="match_parent"
         android:textColor="@android:color/black"
         android:singleLine="true"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:padding="10dp"
         android:text="30"
         />
