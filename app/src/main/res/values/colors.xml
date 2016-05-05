@@ -3,4 +3,6 @@
     <color name="colorPrimary">#85b056</color>
     <color name="colorPrimaryDark">#6b8d43</color>
     <color name="colorAccent">#019587</color>
+    <color name="navigationBarColor">#fae856</color>
+    <color name="text_tab_color">#ffff</color>
 </resources>

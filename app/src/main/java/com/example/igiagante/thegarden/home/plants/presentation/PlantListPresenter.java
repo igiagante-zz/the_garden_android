@@ -16,9 +16,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * Created by igiagante on 2/5/16.
+ * @author giagante on 5/5/16.
  */
-
 @PerActivity
 public class PlantListPresenter extends AbstractPresenter<PlantListView> {
 

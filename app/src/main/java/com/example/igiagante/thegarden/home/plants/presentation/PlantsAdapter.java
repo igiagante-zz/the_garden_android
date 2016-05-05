@@ -1,8 +1,3 @@
-
-/**
- * Created by igiagante on 2/5/16.
- */
-
 package com.example.igiagante.thegarden.home.plants.presentation;
 
 import android.content.Context;
@@ -24,6 +19,10 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * @author giagante on 5/5/16.
+ * Create an adapter for RecycleView Plants
+ */
 public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewHolder> {
 
     private List<Plant> plantsCollection;

@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.home.plants.repository.realm.mapper;
 
+import android.support.annotation.NonNull;
+
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.home.plants.repository.realm.modelRealm.ImageRealm;
@@ -18,7 +20,7 @@ public class ImageToImageRealm implements Mapper<Image, ImageRealm> {
     }
 
     @Override
-    public ImageRealm map(Image image) {
+    public ImageRealm map(@NonNull Image image) {
 
         ImageRealm imageRealm = realm.createObject(ImageRealm.class);
         imageRealm.setId(image.getId());
@@ -28,7 +30,7 @@ public class ImageToImageRealm implements Mapper<Image, ImageRealm> {
     }
 
     @Override
-    public ImageRealm copy(Image image, ImageRealm imageRealm) {
+    public ImageRealm copy(@NonNull Image image, @NonNull ImageRealm imageRealm) {
         imageRealm.setName(image.getName());
         imageRealm.setUrl(image.getUrl());
         imageRealm.setThumbnailUrl(image.getThumbnailUrl());

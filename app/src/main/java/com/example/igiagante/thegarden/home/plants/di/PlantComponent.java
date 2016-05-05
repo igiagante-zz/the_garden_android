@@ -10,7 +10,7 @@ import com.example.igiagante.thegarden.home.plants.presentation.PlantModule;
 import dagger.Component;
 
 /**
- * Created by igiagante on 2/5/16.
+ * @author igiagante on 2/5/16.
  */
 
 @PerActivity

@@ -6,7 +6,7 @@ import io.realm.RealmResults;
 import rx.Observable;
 
 /**
- * Created by igiagante on 26/4/16.
+ *  * @author giagante on 5/5/16.
  */
 public interface RealmSpecification<T extends RealmObject> extends Specification {
 

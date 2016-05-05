@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.home.plants.repository.realm.mapper;
 
+import android.support.annotation.NonNull;
+
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
@@ -20,7 +22,7 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
     }
 
     @Override
-    public Plant map(PlantRealm plantRealm) {
+    public Plant map(@NonNull PlantRealm plantRealm) {
 
         Plant plant = new Plant();
 
@@ -41,7 +43,7 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
     }
 
     @Override
-    public Plant copy(PlantRealm plantRealm, Plant plant) {
+    public Plant copy(@NonNull PlantRealm plantRealm, @NonNull Plant plant) {
 
         plant.setName(plantRealm.getName());
         plant.setGardenId(plantRealm.getGardenId());

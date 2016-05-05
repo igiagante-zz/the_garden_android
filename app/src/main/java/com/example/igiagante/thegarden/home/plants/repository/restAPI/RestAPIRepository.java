@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.home.plants.repository.restAPI;
 
+import android.support.annotation.NonNull;
+
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
@@ -43,14 +45,14 @@ public class RestAPIRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<String> add(Plant plant) {
+    public Observable<String> add(@NonNull final Plant plant) {
 
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
         return api.createPlant(builder.build()).asObservable().map(plantParam -> plantParam.getId());
     }
 
     @Override
-    public Observable<Integer> add(Iterable<Plant> plants) {
+    public Observable<Integer> add(@NonNull final Iterable<Plant> plants) {
 
         int size = 0;
         for (Plant plant : plants) {
@@ -65,13 +67,13 @@ public class RestAPIRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Plant> update(Plant plant) {
+    public Observable<Plant> update(@NonNull final Plant plant) {
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
         return api.updatePlant(plant.getId(), builder.build()).asObservable();
     }
 
     @Override
-    public Observable<Integer> remove(Plant plant) {
+    public Observable<Integer> remove(@NonNull final Plant plant) {
 
         return api.deletePlant(plant.getId()).asObservable()
                 .map(response -> response.isSuccessful() ? 1 : 0);
@@ -98,7 +100,7 @@ public class RestAPIRepository implements Repository<Plant> {
      * @param plant Plant to be added in form
      * @return builder
      */
-    private MultipartBody.Builder getMultipartBodyForPostOrPut(Plant plant) {
+    private MultipartBody.Builder getMultipartBodyForPostOrPut(@NonNull final Plant plant) {
 
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
@@ -121,7 +123,7 @@ public class RestAPIRepository implements Repository<Plant> {
      * @param plant   Plant
      * @return builder
      */
-    private MultipartBody.Builder addPlantToRequestBody(MultipartBody.Builder builder, Plant plant) {
+    private MultipartBody.Builder addPlantToRequestBody(@NonNull final MultipartBody.Builder builder, @NonNull final Plant plant) {
 
         if (!plant.getResourcesIds().isEmpty()) {
             String resourcesIds = new Gson().toJson(plant.getResourcesIds());

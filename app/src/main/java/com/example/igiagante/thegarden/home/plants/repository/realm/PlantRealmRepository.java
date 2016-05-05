@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.home.plants.repository.realm;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
@@ -24,7 +25,7 @@ import io.realm.RealmResults;
 import rx.Observable;
 
 /**
- * Created by igiagante on 26/4/16.
+ * @author giagante on 5/5/16.
  */
 @Singleton
 public class PlantRealmRepository implements Repository<Plant> {
@@ -35,7 +36,7 @@ public class PlantRealmRepository implements Repository<Plant> {
     private Realm realm;
     private final RealmConfiguration realmConfiguration;
 
-    public PlantRealmRepository(Context context) {
+    public PlantRealmRepository(@NonNull Context context) {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
                 .name("garden.realm")
@@ -48,12 +49,12 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Plant> getById(String id) {
+    public Observable<Plant> getById(@NonNull String id) {
         return query(new PlantByIdSpecification(id)).flatMap(Observable::from);
     }
 
     @Override
-    public Observable<String> add(final Plant plant) {
+    public Observable<String> add(@NonNull final Plant plant) {
 
         final Realm realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
@@ -63,7 +64,7 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Integer> add(final Iterable<Plant> plants) {
+    public Observable<Integer> add(@NonNull final Iterable<Plant> plants) {
 
         int size = 0;
         realm = Realm.getInstance(realmConfiguration);
@@ -85,7 +86,7 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Plant> update(Plant plant) {
+    public Observable<Plant> update(@NonNull final Plant plant) {
 
         realm = Realm.getInstance(realmConfiguration);
 
@@ -100,7 +101,7 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Integer> remove(Plant plant) {
+    public Observable<Integer> remove(@NonNull final Plant plant) {
 
         realm = Realm.getInstance(realmConfiguration);
 
@@ -114,7 +115,7 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
+    public Observable<Integer> remove(@NonNull final Specification specification) {
 
         realm = Realm.getInstance(realmConfiguration);
 
@@ -138,7 +139,7 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<List<Plant>> query(Specification specification) {
+    public Observable<List<Plant>> query(@NonNull final Specification specification) {
 
         final RealmSpecification realmSpecification = (RealmSpecification) specification;
 

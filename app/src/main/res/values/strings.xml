@@ -7,12 +7,13 @@
     <string name="activity_plant_name">List of plants</string>
 
 
-    <string name="garden_1">Garden Onne</string>
+    <string name="garden_1">Garden One</string>
     <string name="garden_2">Garden Two</string>
     <string name="garden_3">Garden Three</string>
     <string name="add_new_garden">Add New Garden</string>
 
     <string name="nutrients">Nutrients</string>
+    <string name="settings">Settings</string>
 
     <string name="header_nav_bar_garden_name">The jungle</string>
     <string name="header_nav_bar_temp_humd">T: 25 ºC  H: 40%</string>

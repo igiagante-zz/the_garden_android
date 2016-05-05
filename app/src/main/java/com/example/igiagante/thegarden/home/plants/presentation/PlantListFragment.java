@@ -21,7 +21,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by igiagante on 2/5/16.
+ * Fragment
+ * @author giagante on 5/5/16.
  */
 public class PlantListFragment extends BaseFragment implements PlantListView {
 

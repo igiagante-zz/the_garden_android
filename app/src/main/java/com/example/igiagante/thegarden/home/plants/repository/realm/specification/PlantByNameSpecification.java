@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.home.plants.repository.realm.specification;
 
+import android.support.annotation.NonNull;
+
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.home.plants.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.home.plants.repository.realm.modelRealm.PlantTable;
@@ -9,7 +11,7 @@ import io.realm.RealmResults;
 import rx.Observable;
 
 /**
- * Created by igiagante on 27/4/16.
+ * @author giagante on 5/5/16.
  */
 public class PlantByNameSpecification implements RealmSpecification {
 
@@ -20,19 +22,19 @@ public class PlantByNameSpecification implements RealmSpecification {
     }
 
     @Override
-    public Observable<RealmResults<PlantRealm>> toObservableRealmResults(Realm realm) {
+    public Observable<RealmResults<PlantRealm>> toObservableRealmResults(@NonNull Realm realm) {
         return realm.where(PlantRealm.class)
                 .equalTo(PlantTable.NAME, name)
                 .findAll().asObservable();
     }
 
     @Override
-    public RealmResults<PlantRealm> toRealmResults(Realm realm) {
+    public RealmResults<PlantRealm> toRealmResults(@NonNull Realm realm) {
         return null;
     }
 
     @Override
-    public PlantRealm toPlantRealm(Realm realm) {
+    public PlantRealm toPlantRealm(@NonNull Realm realm) {
         return realm.where(PlantRealm.class).equalTo(PlantTable.NAME, name).findFirst();
     }
 }

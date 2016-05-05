@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.home.plants.repository.realm.specification;
 
+import android.support.annotation.NonNull;
+
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.home.plants.repository.realm.modelRealm.ImageRealm;
 
@@ -8,22 +10,22 @@ import io.realm.RealmResults;
 import rx.Observable;
 
 /**
- * Created by igiagante on 28/4/16.
+ * @author giagante on 5/5/16.
  */
 public class ImageSpecification implements RealmSpecification {
 
     @Override
-    public Observable<RealmResults<ImageRealm>> toObservableRealmResults(Realm realm) {
+    public Observable<RealmResults<ImageRealm>> toObservableRealmResults(@NonNull Realm realm) {
         return realm.where(ImageRealm.class).findAll().asObservable();
     }
 
     @Override
-    public RealmResults<ImageRealm> toRealmResults(Realm realm) {
+    public RealmResults<ImageRealm> toRealmResults(@NonNull Realm realm) {
         return realm.where(ImageRealm.class).findAll();
     }
 
     @Override
-    public ImageRealm toPlantRealm(Realm realm) {
+    public ImageRealm toPlantRealm(@NonNull Realm realm) {
         return null;
     }
 }

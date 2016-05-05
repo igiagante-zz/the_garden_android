@@ -9,7 +9,7 @@ import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
 import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 
 /**
- * Created by igiagante on 2/5/16.
+ * @author giagante on 5/5/16.
  */
 public class PlantListActivity extends BaseActivity implements HasComponent<PlantComponent> {
 
