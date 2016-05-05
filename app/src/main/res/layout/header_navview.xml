@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="320dp"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_header_view_height"
-        android:src="@drawable/ic_gardening"
+        android:background="@android:color/black"
         android:scaleType="centerCrop"
-        android:background="@drawable/scrim_gradient"/>
+        android:src="@drawable/ic_garden_one" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,30 +20,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:padding="10dp"
             android:text="@string/header_nav_bar_garden_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
-            android:textStyle="bold"
-            android:padding="10dp"
-            android:layout_marginEnd="8dp"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:padding="8dp"
             android:text="@string/header_nav_bar_temp_humd"
             android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
-            android:textStyle="bold"
-            android:padding="8dp"
-            android:layout_marginEnd="10dp"/>
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:padding="8dp"
             android:text="@string/header_nav_bar_number_of_plants"
             android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
-            android:textStyle="bold"
-            android:padding="8dp"
-            android:layout_marginEnd="10dp"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 

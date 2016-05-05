@@ -40,8 +40,7 @@ import butterknife.ButterKnife;
 /**
  * Created by igiagante on 18/4/16.
  */
-
-public class MainActivity extends BaseActivity  implements HasComponent<PlantComponent> {
+public class MainActivity extends BaseActivity implements HasComponent<PlantComponent> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -70,7 +69,7 @@ public class MainActivity extends BaseActivity  implements HasComponent<PlantCom
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -188,7 +187,7 @@ public class MainActivity extends BaseActivity  implements HasComponent<PlantCom
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;

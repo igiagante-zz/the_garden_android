@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="320dp"
+    android:layout_width="250dp"
     android:layout_height="match_parent"
     android:layout_gravity="start"
+    android:background="@android:color/white"
     android:fitsSystemWindows="true"
-    android:background="@android:color/white">
+    android:orientation="vertical">
 
-    <include layout="@layout/header_navview"/>
+    <include layout="@layout/header_navview" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_gardens"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        />
+        android:scrollbars="vertical" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"/>
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -30,7 +29,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_nutrients"/>
+            android:src="@drawable/ic_nutrients" />
 
         <TextView
             android:id="@+id/nutrients"
@@ -45,9 +44,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"/>
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -57,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingStart="8dp"
-            android:src="@drawable/ic_settings"/>
+            android:src="@drawable/ic_settings" />
 
         <TextView
             android:id="@+id/settings"

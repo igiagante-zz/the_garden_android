@@ -10,5 +10,5 @@
 
     <dimen name="elevation_toolbar">8dp</dimen>
 
-    <dimen name="image_header_view_height">200dp</dimen>
+    <dimen name="image_header_view_height">170dp</dimen>
 </resources>
