@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="CustomTheme" parent="AppTheme">
+        <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
+    </style>
+
+    <!-- General font for the app -->
+    <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textSize">20dp</item>
+        <item name="fontPath">fonts/Roboto-Regular.ttf</item>
+    </style>
+
+</resources>

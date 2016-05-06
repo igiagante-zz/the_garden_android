@@ -16,7 +16,7 @@ public class ServiceFactory {
     //Genymotion
     //public static final String API_ENDPOINT = "http://10.0.3.2:3000/api/";
     //Real Device
-    public static final String API_ENDPOINT = "http://10.18.8.60:3000/api/";
+    public static final String API_ENDPOINT = "http://10.18.32.137:3000/api/";
 
     public static <T> T createRetrofitService(final Class<T> clazz) {
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Count view dimens -->
+    <dimen name="count_input_width">90dp</dimen>
+    <dimen name="count_input_height">70dp</dimen>
+    <dimen name="text_size">25sp</dimen>
+
+    <dimen name="padding_buttons">5dp</dimen>
+    <dimen name="button_width">30dp</dimen>
+    <dimen name="button_height">28dp</dimen>
+    <dimen name="button_down_margin_top">2dp</dimen>
+
+</resources>

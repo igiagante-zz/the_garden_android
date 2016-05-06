@@ -11,4 +11,12 @@
     <dimen name="elevation_toolbar">8dp</dimen>
 
     <dimen name="image_header_view_height">170dp</dimen>
+
+    <!-- General Keylines -->
+    <dimen name="margin_top">50dp</dimen>
+    <dimen name="margin_left">30dp</dimen>
+
+    <!-- Plant Creation -->
+
+
 </resources>

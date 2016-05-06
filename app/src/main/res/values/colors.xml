@@ -5,4 +5,5 @@
     <color name="colorAccent">#019587</color>
     <color name="navigationBarColor">#fae856</color>
     <color name="text_tab_color">#ffff</color>
+    <color name="label_text_color">#a7a3a4</color>
 </resources>

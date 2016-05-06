@@ -6,7 +6,6 @@
 
     <string name="activity_plant_name">List of plants</string>
 
-
     <string name="garden_1">Garden One</string>
     <string name="garden_2">Garden Two</string>
     <string name="garden_3">Garden Three</string>
@@ -18,5 +17,21 @@
     <string name="header_nav_bar_garden_name">The jungle</string>
     <string name="header_nav_bar_temp_humd">T: 25 ºC  H: 40%</string>
     <string name="header_nav_bar_number_of_plants">Plants: 6</string>
+
+    <!-- Plant Creation -->
+
+    <string name="activity_create_plant">Create a new plant</string>
+
+    <string name="name_of_plant">Name</string>
+    <string name="ph_soil">Ph Soil</string>
+    <string name="ec_soil">Ec Soil</string>
+
+    <string name="flowering_time">Flowering Time</string>
+    <string name="genotype">Genotype</string>
+    <string name="high">High</string>
+
+    <!-- Content Descriptions -->
+    <string name="garden_image">Active Garden</string>
+    <string name="settings_image">Settings</string>
 
 </resources>

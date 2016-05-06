@@ -1,8 +1,10 @@
 package com.example.igiagante.thegarden.home;
 
 import android.app.SearchManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +26,7 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
+import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.charts.presentation.ChartsFragment;
 import com.example.igiagante.thegarden.home.irrigations.presentation.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
@@ -52,8 +55,14 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    /**
+     * RecycleView for garden list of the navigation drawer
+     */
     @Bind(R.id.recycler_view_gardens)
     RecyclerView recyclerViewGardens;
+
+    @Bind(R.id.fab_id)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +119,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        fab.setOnClickListener(view -> startActivity(new Intent(this, CreatePlantActivity.class)));
     }
 
     private void setupViewPager(ViewPager viewPager) {
