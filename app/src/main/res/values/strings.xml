@@ -30,6 +30,24 @@
     <string name="genotype">Genotype</string>
     <string name="high">High</string>
 
+    <string-array name="flowering_time_array">
+        <item>1 week</item>
+        <item>2 weeks</item>
+        <item>3 weeks</item>
+        <item>4 weeks</item>
+        <item>5 weeks</item>
+        <item>6 weeks</item>
+        <item>7 weeks</item>
+        <item>8 weeks</item>
+        <item>9 weeks</item>
+        <item>10 weeks</item>
+        <item>11 weeks</item>
+        <item>12 weeks</item>
+        <item>13 weeks</item>
+        <item>14 weeks</item>
+        <item>15 weeks</item>
+    </string-array>
+
     <!-- Content Descriptions -->
     <string name="garden_image">Active Garden</string>
     <string name="settings_image">Settings</string>

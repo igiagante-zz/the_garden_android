@@ -1,46 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:ls="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/margin_top"
-    android:layout_marginStart="@dimen/margin_left"
-    >
+    android:layout_marginStart="@dimen/margin_left">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/linearlayout_height"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_marginBottom="@dimen/linearlayout_margin_bottom">
 
-        <EditText
-            android:hint="@string/name_of_plant"
-            android:layout_width="150dp"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_name_of_plant"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:padding="10dp"
-            style="@style/label"/>
+            android:layout_marginTop="@dimen/edit_text_name_margin_top">
 
-        <EditText
-            android:hint="@string/flowering_time"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            style="@style/label"/>
+            <EditText
+                android:hint="@string/name_of_plant"
+                android:layout_width="@dimen/edit_text_width"
+                android:layout_height="wrap_content"
+                style="@style/label"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        </android.support.design.widget.TextInputLayout>
 
         <com.example.igiagante.thegarden.core.ui.CountView
             android:id="@+id/ph_soil_id"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <com.example.igiagante.thegarden.core.ui.CountView
-            android:id="@+id/ec_soil_id"
+            android:layout_marginStart="@dimen/count_view_padding_start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
@@ -48,18 +37,48 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/linearlayout_height"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/linearlayout_margin_bottom">
+
+        <com.satsuware.usefulviews.LabelledSpinner
+            android:id="@+id/spinner_flowering_time"
+            ls:labelText="@string/flowering_time"
+            android:layout_width="@dimen/edit_text_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_spinner"/>
+
+        <com.example.igiagante.thegarden.core.ui.CountView
+            android:id="@+id/ec_soil_id"
+            android:layout_marginStart="@dimen/count_view_padding_start"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/linearlayout_height"
         android:orientation="horizontal">
 
-        <EditText
-            android:hint="@string/genotype"
-            android:layout_width="150dp"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_genotype_plant"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            style="@style/label"/>
+            android:layout_marginTop="@dimen/edit_text_name_margin_top">
+
+            <EditText
+                android:hint="@string/genotype"
+                android:layout_width="@dimen/edit_text_width"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edit_text_margin_top"
+                style="@style/label"/>
+
+        </android.support.design.widget.TextInputLayout>
 
         <com.example.igiagante.thegarden.core.ui.CountView
             android:id="@+id/high_id"
+            android:layout_marginStart="@dimen/count_view_padding_start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
