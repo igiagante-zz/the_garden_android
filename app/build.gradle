@@ -67,4 +67,8 @@ dependencies {
 
     //fonts
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+
+    // spinner
+    compile 'com.satsuware.lib:usefulviews:2.3.1'
+
 }

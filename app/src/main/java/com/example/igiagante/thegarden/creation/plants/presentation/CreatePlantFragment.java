@@ -36,12 +36,6 @@ public class CreatePlantFragment extends BaseFragment implements LabelledSpinner
 
         LabelledSpinner yourSpinner = (LabelledSpinner) fragmentView.findViewById(R.id.spinner_flowering_time);
         yourSpinner.setItemsArray(R.array.flowering_time_array);
-        //yourSpinner.setOnItemChosenListener(getContext());
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.flowering_time_array, android.R.layout.simple_spinner_item);
-
-        adapter.setDropDownViewResource(R.layout.spinner_textview);
 
         return fragmentView;
     }
