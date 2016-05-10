@@ -28,6 +28,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
 
     @Inject
     PlantListPresenter plantListPresenter;
+
     @Inject
     PlantsAdapter plantsAdapter;
 
@@ -91,15 +92,6 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
         this.plantsAdapter.setPlantsCollection(plants);
     }
 
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
 
     @Override
     public void showError(String message) {
@@ -108,6 +100,6 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
 
     @Override
     public Context context() {
-        return null;
+        return context();
     }
 }

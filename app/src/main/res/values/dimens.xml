@@ -13,7 +13,7 @@
     <dimen name="image_header_view_height">170dp</dimen>
 
     <!-- General Keylines -->
-    <dimen name="margin_top">50dp</dimen>
+    <dimen name="margin_top">60dp</dimen>
     <dimen name="margin_left">30dp</dimen>
 
     <!-- Plant Creation -->
@@ -25,5 +25,6 @@
     <dimen name="count_view_padding_start">5dp</dimen>
     <dimen name="margin_top_spinner">-3dp</dimen>
 
+    <dimen name="gallery_image_width">180dp</dimen>
 
 </resources>

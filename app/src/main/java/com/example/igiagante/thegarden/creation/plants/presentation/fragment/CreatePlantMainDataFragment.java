@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation;
+package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 /**
  * @author igiagante on 6/5/16.
  */
-public class CreatePlantFragment extends BaseFragment implements LabelledSpinner.OnItemChosenListener {
+public class CreatePlantMainDataFragment extends BaseFragment implements LabelledSpinner.OnItemChosenListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

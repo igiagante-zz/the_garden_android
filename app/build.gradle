@@ -71,4 +71,6 @@ dependencies {
     // spinner
     compile 'com.satsuware.lib:usefulviews:2.3.1'
 
+    //fresco
+    compile 'com.facebook.fresco:fresco:0.6.1'
 }
