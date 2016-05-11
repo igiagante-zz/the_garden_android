@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
@@ -27,7 +28,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by igiagante on 18/4/16.
+ * @author Ignacio Giagante, on 18/4/16.
  */
 public class MainActivity extends BaseActivity implements HasComponent<PlantComponent> {
 
@@ -43,9 +44,6 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     @Bind(R.id.recycler_view_gardens)
     RecyclerView recyclerViewGardens;
 
-    @Bind(R.id.fab_id)
-    FloatingActionButton fab;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +58,8 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        // show FAB
+        showFloatingActionButton(View.VISIBLE);
         fab.setOnClickListener(view -> startActivity(new Intent(this, CreatePlantActivity.class)));
     }
 

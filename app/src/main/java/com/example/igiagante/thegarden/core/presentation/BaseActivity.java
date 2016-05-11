@@ -51,10 +51,10 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     private RecyclerView recyclerViewGardens;
 
+    protected FloatingActionButton fab;
+
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-
-    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +138,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.recyclerViewGardens.setLayoutManager(new LinearLayoutManager(this));
 
         this.recyclerViewGardens.setAdapter(adapter);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab_id);
+        fab.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -178,6 +181,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
+    }
+
+    protected void showFloatingActionButton(int visible) {
+        fab.setVisibility(visible);
     }
 
     /**

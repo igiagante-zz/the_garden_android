@@ -5,5 +5,5 @@ import android.support.v4.app.Fragment;
 /**
  * @author igiagante on 10/5/16.
  */
-public class CreatePlantAttributesFragment extends Fragment {
+public class FlavorGalleryFragment  extends CreationBaseFragment {
 }

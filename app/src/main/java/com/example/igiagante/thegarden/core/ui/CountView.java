@@ -67,7 +67,7 @@ public class CountView extends LinearLayout {
     /**
      * Get the edit value from the view
      */
-    public String getEditValue() {
+    public String getEditValueString() {
         float count = 0;
         String value = mEditValue.getText().toString();
         if(!TextUtils.isEmpty(value)) {
@@ -77,11 +77,23 @@ public class CountView extends LinearLayout {
     }
 
     /**
+     * Get the edit value from the view
+     */
+    public float getEditValue() {
+        float count = 0;
+        String value = mEditValue.getText().toString();
+        if(!TextUtils.isEmpty(value)) {
+            count = Float.parseFloat(value);
+        }
+        return count;
+    }
+
+    /**
      * Increment value from edit text
      */
     private void incrementValue() {
         if(mEditValue != null) {
-            float value = Float.parseFloat(getEditValue());
+            float value = getEditValue();
             value += 0.1;
             setEditValue(value);
         }
@@ -92,7 +104,7 @@ public class CountView extends LinearLayout {
      */
     private void decrementValue() {
         if(mEditValue != null) {
-            float value = Float.parseFloat(getEditValue());
+            float value = getEditValue();
             value -= 0.1;
             setEditValue(value);
         }

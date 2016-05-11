@@ -3,9 +3,7 @@
     xmlns:ls="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_top"
-    android:layout_marginStart="@dimen/margin_left">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -20,6 +18,7 @@
             android:layout_marginTop="@dimen/edit_text_name_margin_top">
 
             <EditText
+                android:id="@+id/name_of_plant_id"
                 android:hint="@string/name_of_plant"
                 android:layout_width="@dimen/edit_text_width"
                 android:layout_height="wrap_content"
@@ -42,7 +41,7 @@
         android:layout_marginBottom="@dimen/linearlayout_margin_bottom">
 
         <com.satsuware.usefulviews.LabelledSpinner
-            android:id="@+id/spinner_flowering_time"
+            android:id="@+id/spinner_flowering_time_id"
             ls:labelText="@string/flowering_time"
             android:layout_width="@dimen/edit_text_width"
             android:layout_height="wrap_content"
@@ -68,6 +67,7 @@
             android:layout_marginTop="@dimen/edit_text_name_margin_top">
 
             <EditText
+                android:id="@+id/genotype_id"
                 android:hint="@string/genotype"
                 android:layout_width="@dimen/edit_text_width"
                 android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <com.example.igiagante.thegarden.core.ui.CountView
-            android:id="@+id/high_id"
+            android:id="@+id/size_id"
             android:layout_marginStart="@dimen/count_view_padding_start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

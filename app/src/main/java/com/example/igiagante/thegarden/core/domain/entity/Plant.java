@@ -1,22 +1,28 @@
 package com.example.igiagante.thegarden.core.domain.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 /**
- * Created by igiagante on 15/4/16.
+ * @author Ignacio Giagante, on 15/4/16.
  */
-public class Plant {
+public class Plant implements Parcelable {
+
+    public Plant() {
+    }
 
     @SerializedName("_id")
     private String id;
 
+    @SerializedName("gardenId")
+    private String gardenId;
+
     @SerializedName("name")
     private String name;
-
-    @SerializedName("size")
-    private int size;
 
     @SerializedName("phSoil")
     private float phSoil;
@@ -24,8 +30,14 @@ public class Plant {
     @SerializedName("ecSoil")
     private float ecSoil;
 
-    @SerializedName("gardenId")
-    private String gardenId;
+    @SerializedName("floweringTime")
+    private String floweringTime;
+
+    @SerializedName("genotype")
+    private String genotype;
+
+    @SerializedName("size")
+    private int size;
 
     @SerializedName("harverst")
     private int harvest;
@@ -35,6 +47,9 @@ public class Plant {
 
     @SerializedName("flavors")
     private List<Flavor> flavors;
+
+    @SerializedName("attributes")
+    private List<Attribute> attributes;
 
     @SerializedName("resourcesIds")
     private List<String> resourcesIds;
@@ -87,6 +102,22 @@ public class Plant {
         this.gardenId = gardenId;
     }
 
+    public String getGenotype() {
+        return genotype;
+    }
+
+    public void setGenotype(String genotype) {
+        this.genotype = genotype;
+    }
+
+    public String getFloweringTime() {
+        return floweringTime;
+    }
+
+    public void setFloweringTime(String floweringTime) {
+        this.floweringTime = floweringTime;
+    }
+
     public int getHarvest() {
         return harvest;
     }
@@ -111,6 +142,14 @@ public class Plant {
         this.flavors = flavors;
     }
 
+    public List<Attribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<Attribute> attributes) {
+        this.attributes = attributes;
+    }
+
     public List<String> getResourcesIds() {
         return resourcesIds;
     }
@@ -119,7 +158,56 @@ public class Plant {
         this.resourcesIds = resourcesIds;
     }
 
-    @Override public String toString() {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(gardenId);
+        dest.writeString(name);
+        dest.writeFloat(phSoil);
+        dest.writeFloat(ecSoil);
+        dest.writeString(floweringTime);
+        dest.writeString(genotype);
+        dest.writeInt(size);
+        dest.writeInt(harvest);
+        dest.writeList(images);
+        dest.writeList(flavors);
+        dest.writeList(attributes);
+        dest.writeList(resourcesIds);
+    }
+
+    public static final Parcelable.Creator<Plant> CREATOR = new Parcelable.Creator<Plant>() {
+        public Plant createFromParcel(Parcel in) {
+            return new Plant(in);
+        }
+
+        public Plant[] newArray(int size) {
+            return new Plant[size];
+        }
+    };
+
+    private Plant(Parcel in) {
+        id = in.readString();
+        gardenId = in.readString();
+        name = in.readString();
+        phSoil = in.readFloat();
+        ecSoil = in.readFloat();
+        floweringTime = in.readString();
+        genotype = in.readString();
+        size = in.readInt();
+        harvest = in.readInt();
+        in.readList(images, this.getClass().getClassLoader());
+        in.readList(flavors, this.getClass().getClassLoader());
+        in.readList(attributes, this.getClass().getClassLoader());
+        in.readList(resourcesIds, this.getClass().getClassLoader());
+    }
+
+    @Override
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("***** Plant Details *****\n");
@@ -131,12 +219,12 @@ public class Plant {
         stringBuilder.append("gardenId = " + this.getGardenId() + "\n");
         stringBuilder.append("harvest = " + this.getHarvest() + "\n");
 
-        if(this.getImages() != null) {
+        if (this.getImages() != null) {
             stringBuilder.append("\n");
             stringBuilder.append("************** Number of images: " + this.getImages().size() + "  *****************");
             stringBuilder.append("\n");
 
-            for( Image image : this.getImages() ) {
+            for (Image image : this.getImages()) {
                 stringBuilder.append("\n");
                 stringBuilder.append("******** Image  Details **********");
                 stringBuilder.append("\n");

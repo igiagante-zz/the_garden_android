@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * @author igiagante on 10/5/16.
  */
-public class CreatePlantPhotoGalleryFragment extends Fragment implements IView {
+public class PhotoGalleryFragment extends CreationBaseFragment implements IView {
 
     public final static int PICK_IMAGE_CODE_CODE = 2345;
 
@@ -42,7 +42,7 @@ public class CreatePlantPhotoGalleryFragment extends Fragment implements IView {
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
         mGallery.setLayoutManager(manager);
 
-        GalleryAdapter adapter = new GalleryAdapter(context(), () -> pickImages());
+        GalleryAdapter adapter = new GalleryAdapter(getContext(), () -> pickImages());
         mGallery.setAdapter(adapter);
 
         return containerView;
@@ -55,7 +55,7 @@ public class CreatePlantPhotoGalleryFragment extends Fragment implements IView {
 
     @Override
     public Context context() {
-        return context();
+        return null;
     }
 
     private void pickImages() {
@@ -63,6 +63,6 @@ public class CreatePlantPhotoGalleryFragment extends Fragment implements IView {
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        getActivity().startActivityForResult(Intent.createChooser(intent, "Select Picture"), CreatePlantPhotoGalleryFragment.PICK_IMAGE_CODE_CODE);
+        getActivity().startActivityForResult(Intent.createChooser(intent, "Select Picture"), PhotoGalleryFragment.PICK_IMAGE_CODE_CODE);
     }
 }

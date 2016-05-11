@@ -1,13 +1,18 @@
 package com.example.igiagante.thegarden.core.domain.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.File;
 
 /**
- * Created by igiagante on 19/4/16.
+ * @author Ignacio Giagante, on 15/4/16.
  */
-public class Image {
+public class Image implements Parcelable {
+
+    public Image() {}
 
     @SerializedName("_id")
     private String id;
@@ -96,7 +101,46 @@ public class Image {
         this.file = file;
     }
 
-    @Override public String toString() {
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(url);
+        dest.writeString(thumbnailUrl);
+        dest.writeString(type);
+        dest.writeInt(size);
+        dest.writeInt(main ? 1 : 0);
+    }
+
+    public static final Parcelable.Creator<Image> CREATOR = new Parcelable.Creator<Image>() {
+        public Image createFromParcel(Parcel in) {
+            return new Image(in);
+        }
+
+        public Image[] newArray(int size) {
+            return new Image[size];
+        }
+    };
+
+    private Image(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        url = in.readString();
+        type = in.readString();
+        thumbnailUrl = in.readString();
+        name = in.readString();
+        size = in.readInt();
+        main = in.readInt() == 1;
+    }
+
+    @Override
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("\n");

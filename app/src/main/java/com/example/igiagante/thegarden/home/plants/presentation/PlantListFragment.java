@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 /**
  * Fragment
- * @author giagante on 5/5/16.
+ * @author Ignacio Giagante, on 5/5/16.
  */
 public class PlantListFragment extends BaseFragment implements PlantListView {
 
@@ -42,12 +42,17 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getComponent(PlantComponent.class).inject(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        /**
+         * Get component in order to inject the presenter
+         */
+        this.getComponent(PlantComponent.class).inject(this);
+
         final View fragmentView = inflater.inflate(R.layout.fragment_plant_list, container, false);
         ButterKnife.bind(this, fragmentView);
 
@@ -100,6 +105,6 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
 
     @Override
     public Context context() {
-        return context();
+        return this.getActivity().getApplicationContext();
     }
 }

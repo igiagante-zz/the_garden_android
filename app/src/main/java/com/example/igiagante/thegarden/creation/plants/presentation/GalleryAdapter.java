@@ -19,7 +19,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * @author igiagante on 10/5/16.
+ * @author Ignacio Giagante, on 10/5/16.
  */
 public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

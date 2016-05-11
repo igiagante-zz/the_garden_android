@@ -21,6 +21,8 @@
     <!-- Plant Creation -->
 
     <string name="activity_create_plant">Create a new plant</string>
+    <string name="button_previous">Previous</string>
+    <string name="button_next">Next</string>
 
     <string name="name_of_plant">Name</string>
     <string name="ph_soil">Ph Soil</string>

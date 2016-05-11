@@ -1,11 +1,16 @@
 package com.example.igiagante.thegarden.core.domain.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by igiagante on 19/4/16.
+ * @author Ignacio Giagante, on 19/4/16.
  */
-public class Flavor {
+public class Flavor implements Parcelable {
+
+    public Flavor() {}
 
     @SerializedName("id")
     private String id;
@@ -38,5 +43,33 @@ public class Flavor {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(imageUrl);
+    }
+
+    public static final Parcelable.Creator<Flavor> CREATOR = new Parcelable.Creator<Flavor>() {
+        public Flavor createFromParcel(Parcel in) {
+            return new Flavor(in);
+        }
+
+        public Flavor[] newArray(int size) {
+            return new Flavor[size];
+        }
+    };
+
+    private Flavor(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        imageUrl = in.readString();
     }
 }
