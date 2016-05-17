@@ -32,14 +32,6 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
         this.getPlantListUserCase = getPlantListUserCase;
     }
 
-    public void resume() {
-
-    }
-
-    public void pause() {
-
-    }
-
     public void destroy() {
         this.getPlantListUserCase.unsubscribe();
         this.plantListView = null;

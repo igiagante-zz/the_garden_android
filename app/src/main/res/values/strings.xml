@@ -50,6 +50,15 @@
         <item>15 weeks</item>
     </string-array>
 
+    <string name="select_image_source_tittle">Choose the source</string>
+
+    <string-array name="image_source_array">
+        <item>Camera</item>
+        <item>Gallery</item>
+    </string-array>
+
+    <string name="user_canceled">User Cancelled</string>
+
     <!-- Content Descriptions -->
     <string name="garden_image">Active Garden</string>
     <string name="settings_image">Settings</string>

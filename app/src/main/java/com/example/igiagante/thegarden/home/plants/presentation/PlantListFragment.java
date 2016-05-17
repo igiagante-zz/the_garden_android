@@ -71,16 +71,6 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
         }
     }
 
-    @Override public void onResume() {
-        super.onResume();
-        this.plantListPresenter.resume();
-    }
-
-    @Override public void onPause() {
-        super.onPause();
-        this.plantListPresenter.pause();
-    }
-
     @Override public void onDestroyView() {
         super.onDestroyView();
         recyclerViewPlants.setAdapter(null);

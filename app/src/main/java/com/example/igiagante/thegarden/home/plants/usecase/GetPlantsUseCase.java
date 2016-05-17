@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import rx.Observable;
 
 /**
- * Created by igiagante on 2/5/16.
+ * @author Ignacio Giagante, on 2/5/16.
  */
 public class GetPlantsUseCase extends UseCase {
 
