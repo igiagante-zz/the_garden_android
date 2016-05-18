@@ -18,5 +18,7 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, PlantModule.class})
 public interface CreatePlantComponent extends ActivityComponent {
 
+    void inject(PhotoGalleryFragment photoGalleryFragment);
+
     PhotoGalleryPresenter photoGalleryPresenter();
 }

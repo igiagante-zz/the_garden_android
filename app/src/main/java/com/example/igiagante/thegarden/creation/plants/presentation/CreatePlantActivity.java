@@ -10,10 +10,15 @@ import android.support.v4.view.ViewPager;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
+import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
+import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CreationBaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragment.MainDataFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragment.PhotoGalleryFragment;
+import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
+import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 
 import java.io.IOException;
 
@@ -25,7 +30,9 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 6/5/16.
  */
-public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPageChangeListener, HasComponent<CreatePlantComponent> {
+
+    private CreatePlantComponent createPlantComponent;
 
     private PlantBuilder plantBuilder;
 
@@ -53,6 +60,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.initializeInjector();
         setContentView(R.layout.activity_create_plant);
 
         plantBuilder = new PlantBuilder();
@@ -169,5 +177,17 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    private void initializeInjector() {
+        this.createPlantComponent = DaggerCreatePlantComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
+    }
+
+    @Override
+    public CreatePlantComponent getComponent() {
+        return createPlantComponent;
     }
 }

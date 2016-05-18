@@ -76,7 +76,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return (this.imagesCollection != null && this.imagesCollection.size() > 1) ? this.imagesCollection.size() : 1;
+        return (this.imagesCollection != null && this.imagesCollection.size() > 0) ? this.imagesCollection.size() : 1;
     }
 
     public void setImagesPath(List<String> filesPaths) {

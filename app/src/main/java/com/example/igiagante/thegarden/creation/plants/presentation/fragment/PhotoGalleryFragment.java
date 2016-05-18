@@ -1,6 +1,5 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,10 +13,11 @@ import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
+import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenter.PhotoGalleryPresenter;
-import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,6 +45,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        this.getComponent(CreatePlantComponent.class).inject(this);
+
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.fragment_plant_gallery, container, false);
         ButterKnife.bind(this, containerView);
@@ -64,6 +66,12 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
     @Override
     public void showError(String message) {
 
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.mPhotoGalleryPresenter.setView(new WeakReference<>(this));
     }
 
     @Override
