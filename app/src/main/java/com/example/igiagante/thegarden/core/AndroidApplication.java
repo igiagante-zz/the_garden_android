@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.components.DaggerApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ApplicationModule;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 
 /**
@@ -19,6 +20,7 @@ public class AndroidApplication extends Application {
         super.onCreate();
         this.initializeInjector();
         RxPaparazzo.register(this);
+        Fresco.initialize(this);
     }
 
     private void initializeInjector() {

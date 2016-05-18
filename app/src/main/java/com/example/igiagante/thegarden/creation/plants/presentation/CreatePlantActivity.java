@@ -1,11 +1,8 @@
 package com.example.igiagante.thegarden.creation.plants.presentation;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.Button;
 
@@ -15,14 +12,6 @@ import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CreationBaseFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.MainDataFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.PhotoGalleryFragment;
-import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
-import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
-
-import java.io.IOException;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,6 +20,9 @@ import butterknife.ButterKnife;
  * @author Ignacio Giagante, on 6/5/16.
  */
 public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPageChangeListener, HasComponent<CreatePlantComponent> {
+
+    public static final int PICK_IMAGE_FROM_CAMERA_CODE = 23;
+    public static final int PICK_IMAGE_FROM_GALLERY_CODE = 24;
 
     private CreatePlantComponent createPlantComponent;
 
@@ -104,26 +96,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PhotoGalleryFragment.PICK_IMAGE_CODE_CODE
-                && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            Uri uri = data.getData();
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                // Log.d(TAG, String.valueOf(bitmap));
-
-                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                //imageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public void onPageSelected(int position) {
@@ -136,6 +108,8 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
             moveToNextPage();
         }
     }
+
+
 
     /**
      * Notify to the active fragment about the movement to the previous page

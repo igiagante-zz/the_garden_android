@@ -2,7 +2,7 @@
 <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/image_gallery_id"
     android:layout_height="180dp"
     android:layout_width="180dp"
-    android:src="@drawable/mango1"
+    fresco:placeholderImage="@drawable/mango1"
     android:layout_margin="10dp"
     fresco:fadeDuration="300"
     xmlns:android="http://schemas.android.com/apk/res/android"

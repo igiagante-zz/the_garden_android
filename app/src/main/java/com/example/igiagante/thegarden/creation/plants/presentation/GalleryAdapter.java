@@ -3,22 +3,25 @@ package com.example.igiagante.thegarden.creation.plants.presentation;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
 
-import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegate;
+import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateButton;
+import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateImage;
+import com.example.igiagante.thegarden.creation.plants.presentation.delegates.IViewType;
+import com.example.igiagante.thegarden.creation.plants.presentation.delegates.ViewTypeButton;
+import com.example.igiagante.thegarden.creation.plants.presentation.delegates.ViewTypeConstans;
+import com.example.igiagante.thegarden.creation.plants.presentation.delegates.ViewTypeImage;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,10 +31,14 @@ import javax.inject.Inject;
  */
 public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Image> imagesCollection;
-    private final LayoutInflater layoutInflater;
     private final OnExecutePickerImage mPicker;
     private final Context mContext;
+
+    private SparseArray<AdapterDelegate> adapterDelegates = new SparseArray<>(2);
+    private List<IViewType> items = new LinkedList<>();
+
+    private static int test = 0;
+    private int value = 0;
 
     public interface OnExecutePickerImage {
         void pickImages();
@@ -39,62 +46,63 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Inject
     public GalleryAdapter(Context context, OnExecutePickerImage picker) {
-        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.imagesCollection = Collections.emptyList();
         this.mPicker = picker;
         this.mContext = context;
+
+        // add adapter delegates
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButton(mContext, mPicker));
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage());
+
+        // add first item -> button
+        items.add(new ViewTypeButton());
+        items.add(new ViewTypeButton());
+        items.add(new ViewTypeButton());
+
+        test++;
+        value = test;
     }
 
     @Override
     public int getItemViewType(int position) {
-        // Return 1 if the position is not the first neither the last
-        return (position == 0 || position == imagesCollection.size()) ? 0 : 1;
+        return items.get(position).getViewType();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        final View view;
-
-        if (viewType == 0) {
-            view = this.layoutInflater.inflate(R.layout.add_first_time_image_button_view, parent, false);
-            return new ButtonAddImageHolder(view, mContext);
-        } else {
-            view = this.layoutInflater.inflate(R.layout.image_gallery, parent, false);
-            return new ImageViewHolder(view);
-        }
+        return adapterDelegates.get(viewType).onCreateViewHolder(parent);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        if (holder instanceof ImageViewHolder) {
-            final Image image = this.imagesCollection.get(position);
-            ((ImageViewHolder) holder).mImage.setImageURI(Uri.parse(image.getThumbnailUrl()));
-        }
+        IViewType item = items.get(position);
+        adapterDelegates.get(item.getViewType()).onBindViewHolder(holder, item);
     }
 
     @Override
     public int getItemCount() {
-        return (this.imagesCollection != null && this.imagesCollection.size() > 0) ? this.imagesCollection.size() : 1;
+        return items.size();
     }
 
     public void setImagesPath(List<String> filesPaths) {
         notifyImagesCollection(getImagesCollection(filesPaths));
     }
 
-    private void notifyImagesCollection(Collection<Image> imagesCollection) {
-        this.imagesCollection = (List<Image>) imagesCollection;
-        this.notifyDataSetChanged();
+    private void notifyImagesCollection(Collection<ViewTypeImage> imagesCollection) {
+        int size = items.size()-1;
+        this.items.addAll(imagesCollection);
+       // items.add(0,new ViewTypeButton());
+        notifyDataSetChanged();
+        Log.d("call", String.valueOf(value));
     }
 
-    private Collection<Image> getImagesCollection(List<String> filesPaths) {
+    private Collection<ViewTypeImage> getImagesCollection(List<String> filesPaths) {
 
         File file;
-        ArrayList<Image> images = new ArrayList<>();
+        ArrayList<ViewTypeImage> viewTypeImages = new ArrayList<>();
 
         for(String path : filesPaths) {
             file = new File(path);
+            ViewTypeImage viewTypeImage = new ViewTypeImage();
             Image image = new Image();
             image.setFile(file);
 
@@ -111,37 +119,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //set name of image
             image.setName(file.getName());
 
+            //set uri
+            image.setUrl(path);
+
+            //set image to viewType
+            viewTypeImage.setImage(image);
+
             // add image to collection
-            images.add(image);
+            viewTypeImages.add(viewTypeImage);
         }
 
-        return images;
+        return viewTypeImages;
     }
 
-    class ImageViewHolder extends RecyclerView.ViewHolder {
-
-        SimpleDraweeView mImage;
-
-        public ImageViewHolder(View itemView) {
-            super(itemView);
-
-            mImage = (SimpleDraweeView) itemView.findViewById(R.id.image_gallery_id);
-        }
-    }
-
-    class ButtonAddImageHolder extends RecyclerView.ViewHolder {
-
-        Button mButtonAddImage;
-        Context mContext;
-
-        public ButtonAddImageHolder(View itemView, Context context) {
-            super(itemView);
-            this.mContext = context;
-
-            mButtonAddImage = (Button) itemView.findViewById(R.id.add_image_button_id);
-            mButtonAddImage.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.button_add_image, null));
-
-            mButtonAddImage.setOnClickListener(view -> mPicker.pickImages());
-        }
-    }
 }
