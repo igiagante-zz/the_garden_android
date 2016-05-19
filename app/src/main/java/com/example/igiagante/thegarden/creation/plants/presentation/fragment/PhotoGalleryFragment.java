@@ -1,8 +1,10 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -21,11 +23,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.di.HasComponent;
+import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
+import com.example.igiagante.thegarden.creation.plants.di.CreationPlantModule;
+import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenter.PhotoGalleryPresenter;
+import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 import com.mlsdev.rximagepicker.RxImageConverters;
 import com.mlsdev.rximagepicker.RxImagePicker;
 import com.mlsdev.rximagepicker.Sources;
@@ -33,6 +40,7 @@ import com.mlsdev.rximagepicker.Sources;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,15 +60,15 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
     @Inject
     PhotoGalleryPresenter mPhotoGalleryPresenter;
 
-    private GalleryAdapter mAdapter;
+    private CreatePlantComponent createPlantComponent;
 
-    private Uri outputFileUri;
+    private GalleryAdapter mAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        this.getComponent(CreatePlantComponent.class).inject(this);
+        getComponent(CreatePlantComponent.class).inject(this);
 
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.fragment_plant_gallery, container, false);
@@ -94,6 +102,17 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
         return this.getActivity().getApplicationContext();
     }
 
+    /**
+     * Add the images selected by the user.
+     */
+    public void addImagesToBuilder(Collection<Image> images) {
+        builder.addImages(images);
+        Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Create a dialog with a Chooser Options in order to take a picture or pick some images
+     */
     private void createImagePickerDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.select_image_source_tittle)
@@ -108,60 +127,57 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
         builder.create().show();
     }
 
-    private void openImageIntent() {
-
-            // Determine Uri of camera image to save.
-        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
-        root.mkdirs();
-        final String fname = "name";
-        final File sdImageMainDirectory = new File(root, fname);
-        outputFileUri = Uri.fromFile(sdImageMainDirectory);
-
-        // Camera.
-        final List<Intent> cameraIntents = new ArrayList<Intent>();
-        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        final PackageManager packageManager = getActivity().getPackageManager();
-        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-
-        for(ResolveInfo res : listCam) {
-            final String packageName = res.activityInfo.packageName;
-            final Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(packageName);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            cameraIntents.add(intent);
-        }
-
-        // Filesystem.
-        final Intent galleryIntent = new Intent();
-        galleryIntent.setType("image/*");
-        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
-        // Chooser of filesystem options.
-        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-
-        // Add the camera options.
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-        //startActivityForResult(chooserIntent, YOUR_SELECT_PICTURE_REQUEST_CODE);
-    }
-
+    /**
+     * Take pictures using RxPaparazzo lib.
+     */
     private void takePicture() {
-        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePicture, CreatePlantActivity.PICK_IMAGE_FROM_CAMERA_CODE);
+        RxPaparazzo.takeImage(this)
+                .usingGallery()
+                .subscribe(response -> {
+                    if (response.resultCode() != Activity.RESULT_OK) {
+                        response.targetUI().showUserCanceled();
+                        return;
+                    }
+
+                    ArrayList<String> list = new ArrayList<String>();
+                    list.add(response.data());
+                    response.targetUI().loadImages(list);
+                });
     }
 
+    /**
+     * Pick some images from gallery using RxPaparazzo lib.
+     */
     private void takePhotosFromGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Picture"), CreatePlantActivity.PICK_IMAGE_FROM_GALLERY_CODE);
+        RxPaparazzo.takeImages(this)
+                .usingGallery()
+                .subscribe(response -> {
+                    if (response.resultCode() != Activity.RESULT_OK) {
+                        response.targetUI().showUserCanceled();
+                        return;
+                    }
+                    response.targetUI().loadImages(response.data());
+                });
     }
 
+    /**
+     * Notify to the gallery's adapter about the files paths
+     * @param filesPaths files path
+     */
     public void loadImages(List<String> filesPaths) {
         mGallery.setVisibility(View.VISIBLE);
         mAdapter.setImagesPath(filesPaths);
+        initializeInjector(filesPaths);
+    }
+
+    private void initializeInjector(Collection<String> imagesFilePath) {
+        this.createPlantComponent = DaggerCreatePlantComponent.builder()
+                .creationPlantModule(new CreationPlantModule(imagesFilePath))
+                .build();
+    }
+
+    public CreatePlantComponent getComponent() {
+        return createPlantComponent;
     }
 
     public void showUserCanceled() {

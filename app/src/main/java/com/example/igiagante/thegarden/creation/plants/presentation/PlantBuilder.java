@@ -4,6 +4,8 @@ package com.example.igiagante.thegarden.creation.plants.presentation;
  * @author Ignacio Giagante, on 11/5/16.
  */
 
+import android.widget.Toast;
+
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
@@ -11,6 +13,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.inject.Inject;
 
@@ -115,6 +118,11 @@ public class PlantBuilder {
      */
     public PlantBuilder addSize(int size) {
         plant.setSize(size);
+        return this;
+    }
+
+    public PlantBuilder addImages(Collection<Image> images) {
+        this.images = (ArrayList<Image>) images;
         return this;
     }
 }

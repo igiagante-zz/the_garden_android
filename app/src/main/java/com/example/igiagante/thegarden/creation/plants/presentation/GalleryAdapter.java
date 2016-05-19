@@ -37,9 +37,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private SparseArray<AdapterDelegate> adapterDelegates = new SparseArray<>(2);
     private List<IViewType> items = new LinkedList<>();
 
-    private static int test = 0;
-    private int value = 0;
-
     public interface OnExecutePickerImage {
         void pickImages();
     }
@@ -55,11 +52,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         // add first item -> button
         items.add(new ViewTypeButton());
-        items.add(new ViewTypeButton());
-        items.add(new ViewTypeButton());
 
-        test++;
-        value = test;
     }
 
     @Override
@@ -88,48 +81,21 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void notifyImagesCollection(Collection<ViewTypeImage> imagesCollection) {
-        int size = items.size()-1;
+        int size = items.size() - 1;
         this.items.addAll(imagesCollection);
-       // items.add(0,new ViewTypeButton());
-        notifyDataSetChanged();
-        Log.d("call", String.valueOf(value));
+        this.notifyItemRangeInserted(size, imagesCollection.size());
     }
 
-    private Collection<ViewTypeImage> getImagesCollection(List<String> filesPaths) {
+    private Collection<ViewTypeImage> getImagesCollection(List<String> folderPaths) {
 
-        File file;
         ArrayList<ViewTypeImage> viewTypeImages = new ArrayList<>();
 
-        for(String path : filesPaths) {
-            file = new File(path);
+        for(String path : folderPaths) {
             ViewTypeImage viewTypeImage = new ViewTypeImage();
-            Image image = new Image();
-            image.setFile(file);
-
-            //set size of file
-            int size = Integer.parseInt(String.valueOf(file.length() / 1024));
-            image.setSize(size);
-
-            //set type of file
-            ContentResolver cR = mContext.getContentResolver();
-            MimeTypeMap mime = MimeTypeMap.getSingleton();
-            String type = mime.getExtensionFromMimeType(cR.getType(Uri.parse(path)));
-            image.setType(type);
-
-            //set name of image
-            image.setName(file.getName());
-
-            //set uri
-            image.setUrl(path);
-
-            //set image to viewType
-            viewTypeImage.setImage(image);
-
-            // add image to collection
+            viewTypeImage.setImagePath(path);
             viewTypeImages.add(viewTypeImage);
         }
-
-        return viewTypeImages;
+        return  viewTypeImages;
     }
 
 }

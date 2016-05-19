@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
@@ -21,8 +20,7 @@ public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImag
 
     @Override
     public void onBindViewHolder(ImageViewHolder holder, ViewTypeImage item) {
-        final Image image = item.getImage();
-        holder.setImage(image);
+        holder.setImagePath(item.getImagePath());
     }
 
     class ImageViewHolder extends RecyclerView.ViewHolder {
@@ -34,8 +32,8 @@ public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImag
             mImage = (SimpleDraweeView) itemView.findViewById(R.id.image_gallery_id);
         }
 
-        public void setImage(Image image) {
-            mImage.setImageURI(Uri.parse(image.getUrl()));
+        public void setImagePath(String imagePath) {
+            mImage.setImageURI(Uri.parse(imagePath));
         }
     }
 }

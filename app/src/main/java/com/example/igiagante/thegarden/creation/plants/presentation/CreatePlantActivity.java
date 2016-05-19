@@ -1,8 +1,6 @@
 package com.example.igiagante.thegarden.creation.plants.presentation;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.widget.Button;
 
@@ -20,9 +18,6 @@ import butterknife.ButterKnife;
  * @author Ignacio Giagante, on 6/5/16.
  */
 public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPageChangeListener, HasComponent<CreatePlantComponent> {
-
-    public static final int PICK_IMAGE_FROM_CAMERA_CODE = 23;
-    public static final int PICK_IMAGE_FROM_GALLERY_CODE = 24;
 
     private CreatePlantComponent createPlantComponent;
 
@@ -108,8 +103,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
             moveToNextPage();
         }
     }
-
-
 
     /**
      * Notify to the active fragment about the movement to the previous page
