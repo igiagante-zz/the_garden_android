@@ -56,8 +56,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
 
     private GalleryAdapter mAdapter;
 
-    private Uri outputFileUri;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,7 +72,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
         mGallery.setLayoutManager(manager);
 
-        mAdapter = new GalleryAdapter(getContext(), this::pickImages);
         mGallery.setAdapter(mAdapter);
 
         return containerView;
@@ -83,6 +80,12 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
     @Override
     public void showError(String message) {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mAdapter = new GalleryAdapter(getContext(), this::pickImages);
     }
 
     @Override

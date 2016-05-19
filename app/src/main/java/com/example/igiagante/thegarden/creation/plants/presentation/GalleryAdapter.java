@@ -19,8 +19,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 /**
  * @author Ignacio Giagante, on 10/5/16.
  */
@@ -39,7 +37,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void pickImages();
     }
 
-    @Inject
     public GalleryAdapter(Context context, OnExecutePickerImage picker) {
         this.mPicker = picker;
         this.mContext = context;
@@ -100,43 +97,5 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         return  viewTypeImages;
     }
-
-    /*
-    private Collection<ViewTypeImage> getImagesCollection(List<String> filesPaths) {
-
-        File file;
-        ArrayList<ViewTypeImage> viewTypeImages = new ArrayList<>();
-
-        for(String path : filesPaths) {
-            file = new File(path);
-            ViewTypeImage viewTypeImage = new ViewTypeImage();
-            Image image = new Image();
-            image.setFile(file);
-
-            //set size of file
-            int size = Integer.parseInt(String.valueOf(file.length() / 1024));
-            image.setSize(size);
-
-            //set type of file
-            ContentResolver cR = mContext.getContentResolver();
-            MimeTypeMap mime = MimeTypeMap.getSingleton();
-            String type = mime.getExtensionFromMimeType(cR.getType(Uri.parse(path)));
-            image.setType(type);
-
-            //set name of image
-            image.setName(file.getName());
-
-            //set uri
-            image.setUrl(path);
-
-            //set image to viewType
-            viewTypeImage.setImage(image);
-
-            // add image to collection
-            viewTypeImages.add(viewTypeImage);
-        }
-
-        return viewTypeImages;
-    }*/
 
 }

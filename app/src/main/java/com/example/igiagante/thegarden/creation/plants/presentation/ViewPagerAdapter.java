@@ -32,7 +32,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     public ViewPagerAdapter(FragmentManager manager, PlantBuilder plantBuilder) {
         this.mFragmentManager = manager;
-        this.mFragments = new SparseArray<>(7);
+        this.mFragments = new SparseArray<>(5);
         this.builder = plantBuilder;
     }
 
@@ -84,7 +84,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
 
     /**
-     * Depend on the positin at the view pager, it will ask for an specific fragment instance
+     * Depend on the position at the view pager, it asks for an specific instance fragment
      * @param position pager's position
      * @return fragment
      */
