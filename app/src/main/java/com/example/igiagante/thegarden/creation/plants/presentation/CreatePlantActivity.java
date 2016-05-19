@@ -1,8 +1,6 @@
 package com.example.igiagante.thegarden.creation.plants.presentation;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.widget.Button;
 
@@ -108,8 +106,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
             moveToNextPage();
         }
     }
-
-
 
     /**
      * Notify to the active fragment about the movement to the previous page

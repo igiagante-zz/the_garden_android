@@ -33,6 +33,8 @@
             android:label="@string/activity_create_plant">
         </activity>
 
+        <activity android:name="me.crosswall.photo.pick.PickPhotosActiviy" />
+
     </application>
 
 </manifest>

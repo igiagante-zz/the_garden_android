@@ -1,24 +1,22 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.delegates;
 
-import com.example.igiagante.thegarden.core.domain.entity.Image;
-
 /**
  * @author Ignacio Giagante, on 18/5/16.
  */
 public class ViewTypeImage implements IViewType {
 
-    private Image image;
+    private String folderPath;
 
     @Override
     public int getViewType() {
         return ViewTypeConstans.VIEW_TYPE_IMAGE;
     }
 
-    public Image getImage() {
-        return image;
+    public String getFolderPath() {
+        return folderPath;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setFolderPath(String folderPath) {
+        this.folderPath = folderPath;
     }
 }

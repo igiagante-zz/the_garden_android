@@ -1,15 +1,11 @@
 package com.example.igiagante.thegarden.creation.plants.presentation;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegate;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateButton;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateImage;
@@ -18,7 +14,6 @@ import com.example.igiagante.thegarden.creation.plants.presentation.delegates.Vi
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.ViewTypeConstans;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.ViewTypeImage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -51,7 +46,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         // add adapter delegates
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButton(mContext, mPicker));
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage());
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage(mContext));
 
         // add first item -> button
         items.add(new ViewTypeButton());
@@ -88,13 +83,25 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void notifyImagesCollection(Collection<ViewTypeImage> imagesCollection) {
-        int size = items.size()-1;
+        //int size = items.size() - 1;
         this.items.addAll(imagesCollection);
-       // items.add(0,new ViewTypeButton());
         notifyDataSetChanged();
         Log.d("call", String.valueOf(value));
     }
 
+    private Collection<ViewTypeImage> getImagesCollection(List<String> folderPaths) {
+
+        ArrayList<ViewTypeImage> viewTypeImages = new ArrayList<>();
+
+        for(String path : folderPaths) {
+            ViewTypeImage viewTypeImage = new ViewTypeImage();
+            viewTypeImage.setFolderPath(path);
+            viewTypeImages.add(viewTypeImage);
+        }
+        return  viewTypeImages;
+    }
+
+    /*
     private Collection<ViewTypeImage> getImagesCollection(List<String> filesPaths) {
 
         File file;
@@ -130,6 +137,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         return viewTypeImages;
-    }
+    }*/
 
 }
