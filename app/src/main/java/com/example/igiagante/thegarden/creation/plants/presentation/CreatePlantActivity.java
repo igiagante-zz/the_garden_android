@@ -5,7 +5,10 @@ import android.support.v4.view.ViewPager;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.di.HasComponent;
+import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
+import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;

@@ -7,4 +7,5 @@
     android:layout_height="@dimen/gallery_image_width"
     android:layout_width="@dimen/gallery_image_width"
     android:layout_gravity="center"
+    android:padding="10dp"
      />

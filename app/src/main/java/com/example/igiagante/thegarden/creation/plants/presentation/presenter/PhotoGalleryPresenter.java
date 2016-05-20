@@ -10,6 +10,7 @@ import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragment.PhotoGalleryFragment;
+import com.example.igiagante.thegarden.creation.plants.usecase.GetImagesUseCase;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -33,8 +34,6 @@ public class PhotoGalleryPresenter extends AbstractPresenter<PhotoGalleryFragmen
      */
     private WeakReference<PhotoGalleryFragment> mView;
 
-    private ArrayList<Image> images;
-
     @Inject
     public PhotoGalleryPresenter(@Named("images") UseCase getImagesUserCase) {
         this.getImagesUserCase = getImagesUserCase;
@@ -53,13 +52,8 @@ public class PhotoGalleryPresenter extends AbstractPresenter<PhotoGalleryFragmen
         this.mView = mView;
     }
 
-    public ArrayList<Image> getImages() {
-
-        return images;
-    }
-
-    public void setImages(ArrayList<Image> images) {
-        this.images = images;
+    public void setImagesPathFiles(Collection<String> imagesPathFiles) {
+        ((GetImagesUseCase)getImagesUserCase).setFilesPaths(imagesPathFiles);
     }
 
     public void getImagesList() {

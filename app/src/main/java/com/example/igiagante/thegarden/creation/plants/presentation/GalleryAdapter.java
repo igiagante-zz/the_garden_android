@@ -1,24 +1,18 @@
 package com.example.igiagante.thegarden.creation.plants.presentation;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegate;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateButton;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateImage;
-import com.example.igiagante.thegarden.creation.plants.presentation.delegates.IViewType;
-import com.example.igiagante.thegarden.creation.plants.presentation.delegates.ViewTypeButton;
-import com.example.igiagante.thegarden.creation.plants.presentation.delegates.ViewTypeConstans;
-import com.example.igiagante.thegarden.creation.plants.presentation.delegates.ViewTypeImage;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewType.IViewType;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeButton;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeConstans;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeImage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -41,18 +35,21 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void pickImages();
     }
 
+    public interface OnDeleteImage {
+        void deleteImage(int positionSelected);
+    }
+
     @Inject
-    public GalleryAdapter(Context context, OnExecutePickerImage picker) {
+    public GalleryAdapter(Context context, OnExecutePickerImage picker, OnDeleteImage deleteImage) {
         this.mPicker = picker;
         this.mContext = context;
 
         // add adapter delegates
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButton(mContext, mPicker));
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage());
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage(deleteImage));
 
         // add first item -> button
         items.add(new ViewTypeButton());
-
     }
 
     @Override
@@ -80,21 +77,36 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyImagesCollection(getImagesCollection(filesPaths));
     }
 
+    public void deleteImage(int position) {
+        this.items.remove(position);
+        notifyItemRemoved(position);
+    }
+
     private void notifyImagesCollection(Collection<ViewTypeImage> imagesCollection) {
         int size = items.size() - 1;
         this.items.addAll(imagesCollection);
         this.notifyItemRangeInserted(size, imagesCollection.size());
     }
 
+    private void addButtonAtTheEnd() {
+        items.add(new ViewTypeButton());
+    }
+
+    private void removeButton() {
+        items.remove(items.size() - 1);
+    }
+
     private Collection<ViewTypeImage> getImagesCollection(List<String> folderPaths) {
 
         ArrayList<ViewTypeImage> viewTypeImages = new ArrayList<>();
 
-        for(String path : folderPaths) {
+        for(int i = 1; i < folderPaths.size(); i++) {
             ViewTypeImage viewTypeImage = new ViewTypeImage();
-            viewTypeImage.setImagePath(path);
+            viewTypeImage.setImagePath(folderPaths.get(i));
+            viewTypeImage.setPositionSelected(i);
             viewTypeImages.add(viewTypeImage);
         }
+
         return  viewTypeImages;
     }
 

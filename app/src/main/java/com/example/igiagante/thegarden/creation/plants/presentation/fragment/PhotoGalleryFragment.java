@@ -60,15 +60,13 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
     @Inject
     PhotoGalleryPresenter mPhotoGalleryPresenter;
 
-    private CreatePlantComponent createPlantComponent;
-
     private GalleryAdapter mAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        getComponent(CreatePlantComponent.class).inject(this);
+        this.getComponent(CreatePlantComponent.class).inject(this);
 
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.fragment_plant_gallery, container, false);
@@ -80,10 +78,21 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
         mGallery.setLayoutManager(manager);
 
-        mAdapter = new GalleryAdapter(getContext(), this::pickImages);
+        mAdapter = new GalleryAdapter(getContext(), this::pickImages, this::deleteImage);
         mGallery.setAdapter(mAdapter);
 
         return containerView;
+    }
+
+    /**
+     * This method should implemented by the button Add Image
+     */
+    private void pickImages() {
+        createImagePickerDialog();
+    }
+
+    private void deleteImage(int positionSelected) {
+        mAdapter.deleteImage(positionSelected);
     }
 
     @Override
@@ -100,6 +109,16 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
     @Override
     public Context context() {
         return this.getActivity().getApplicationContext();
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        this.mPhotoGalleryPresenter.destroy();
     }
 
     /**
@@ -132,14 +151,14 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
      */
     private void takePicture() {
         RxPaparazzo.takeImage(this)
-                .usingGallery()
+                .usingCamera()
                 .subscribe(response -> {
                     if (response.resultCode() != Activity.RESULT_OK) {
                         response.targetUI().showUserCanceled();
                         return;
                     }
 
-                    ArrayList<String> list = new ArrayList<String>();
+                    ArrayList<String> list = new ArrayList<>();
                     list.add(response.data());
                     response.targetUI().loadImages(list);
                 });
@@ -167,28 +186,25 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
     public void loadImages(List<String> filesPaths) {
         mGallery.setVisibility(View.VISIBLE);
         mAdapter.setImagesPath(filesPaths);
-        initializeInjector(filesPaths);
+        mPhotoGalleryPresenter.setImagesPathFiles(filesPaths);
+        mPhotoGalleryPresenter.getImagesList();
     }
 
+    /*
     private void initializeInjector(Collection<String> imagesFilePath) {
         this.createPlantComponent = DaggerCreatePlantComponent.builder()
+                .applicationComponent(((CreatePlantActivity)getActivity()).getApplicationComponent())
+                .activityModule(((CreatePlantActivity)getActivity()).getActivityModule())
                 .creationPlantModule(new CreationPlantModule(imagesFilePath))
                 .build();
     }
 
     public CreatePlantComponent getComponent() {
         return createPlantComponent;
-    }
+    }*/
 
     public void showUserCanceled() {
         Toast.makeText(getActivity(), getString(R.string.user_canceled), Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * This method should implemented by the button Add Image
-     */
-    private void pickImages() {
-        createImagePickerDialog();
     }
 
     @Override

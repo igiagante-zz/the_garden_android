@@ -30,10 +30,13 @@ public class GetImagesUseCase extends UseCase {
 
     @Inject
     public GetImagesUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread,
-                            Context context, Collection<String> filesPaths) {
+                            Context context) {
         super(threadExecutor, postExecutionThread);
         this.mContext = context;
-        this.mFilesPaths = filesPaths;
+    }
+
+    public void setFilesPaths(Collection<String> mFilesPaths) {
+        this.mFilesPaths = mFilesPaths;
     }
 
     @Override

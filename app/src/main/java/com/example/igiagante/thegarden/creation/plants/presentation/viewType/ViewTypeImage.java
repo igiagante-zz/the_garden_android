@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.delegates;
+package com.example.igiagante.thegarden.creation.plants.presentation.viewType;
 
 /**
  * @author Ignacio Giagante, on 18/5/16.
@@ -6,6 +6,7 @@ package com.example.igiagante.thegarden.creation.plants.presentation.delegates;
 public class ViewTypeImage implements IViewType {
 
     private String imagePath;
+    private int positionSelected;
 
     @Override
     public int getViewType() {
@@ -18,5 +19,13 @@ public class ViewTypeImage implements IViewType {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public int getPositionSelected() {
+        return positionSelected;
+    }
+
+    public void setPositionSelected(int positionSelected) {
+        this.positionSelected = positionSelected;
     }
 }

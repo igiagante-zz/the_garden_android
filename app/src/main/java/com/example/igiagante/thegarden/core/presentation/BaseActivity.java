@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
- * Created by igiagante on 18/4/16.
+ * @author Ignacio Giagante, on 18/4/16.
  */
 public abstract class BaseActivity extends AppCompatActivity {
 

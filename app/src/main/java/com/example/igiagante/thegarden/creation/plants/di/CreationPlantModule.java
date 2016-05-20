@@ -1,14 +1,8 @@
 package com.example.igiagante.thegarden.creation.plants.di;
 
-import android.content.Context;
-
 import com.example.igiagante.thegarden.core.di.PerActivity;
-import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
-import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetImagesUseCase;
-
-import java.util.Collection;
 
 import javax.inject.Named;
 
@@ -21,13 +15,7 @@ import dagger.Provides;
 @Module
 public class CreationPlantModule {
 
-    private Collection<String> imagesFilePath;
-
     public CreationPlantModule() {}
-
-    public CreationPlantModule(Collection<String> imagesFilePath) {
-        this.imagesFilePath = imagesFilePath;
-    }
 
     @Provides
     @PerActivity
@@ -35,10 +23,4 @@ public class CreationPlantModule {
     UseCase provideGetImagesUseCase(GetImagesUseCase images) {
         return images;
     }
-
-    @Provides @PerActivity @Named("userDetails") UseCase provideGetUserDetailsUseCase(ThreadExecutor threadExecutor,
-            PostExecutionThread postExecutionThread, Context context) {
-        return new GetImagesUseCase(threadExecutor, postExecutionThread, context, imagesFilePath);
-    }
-
 }
