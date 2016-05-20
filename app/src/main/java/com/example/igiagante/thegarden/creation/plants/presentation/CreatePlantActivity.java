@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
  * @author Ignacio Giagante, on 6/5/16.
  */
 public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPageChangeListener,
-        CreationBaseFragment.OnMove,
         HasComponent<CreatePlantComponent> {
 
     private CreatePlantComponent createPlantComponent;
@@ -51,16 +50,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      * and next wizard steps.
      */
     private ViewPager mPager;
-
-    @StringDef({CREATE_MAIN_DATA, PHOTO_GALLERY, FLAVOR_GALLERY, ATTRIBUTES, DESCRIPTION})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface FragmentIdentity {}
-
-    public static final String CREATE_MAIN_DATA = "CREATE_MAIN_DATA";
-    public static final String PHOTO_GALLERY = "PHOTO_GALLERY";
-    public static final String FLAVOR_GALLERY = "FLAVOR_GALLERY";
-    public static final String ATTRIBUTES = "ATTRIBUTES";
-    public static final String DESCRIPTION = "DESCRIPTION";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,11 +95,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
-    }
-
-    @Override
-    public void move(@FragmentIdentity String fragmentIdentity) {
-
     }
 
     @Override
@@ -164,5 +148,9 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public CreatePlantComponent getComponent() {
         return createPlantComponent;
+    }
+
+    public PlantBuilder getPlantBuilder() {
+        return plantBuilder;
     }
 }

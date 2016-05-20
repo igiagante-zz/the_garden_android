@@ -32,6 +32,7 @@ import com.example.igiagante.thegarden.creation.plants.di.CreationPlantModule;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.GalleryAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenter.PhotoGalleryPresenter;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 import com.mlsdev.rximagepicker.RxImageConverters;
@@ -127,6 +128,7 @@ public class PhotoGalleryFragment extends BaseFragment implements IView {
      * Add the images selected by the user.
      */
     public void addImagesToBuilder(Collection<Image> images) {
+        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
         builder.addImages(images);
         Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
     }
