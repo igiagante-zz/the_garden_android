@@ -8,7 +8,9 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.ui.CountView;
+import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.satsuware.usefulviews.LabelledSpinner;
 
 import butterknife.Bind;
@@ -20,6 +22,9 @@ import butterknife.ButterKnife;
  * @author Ignacio Giagante, on 6/5/16.
  */
 public class MainDataFragment extends CreationBaseFragment implements LabelledSpinner.OnItemChosenListener {
+
+    public static final String STATE = CreatePlantActivity.CREATE_MAIN_DATA;
+    public static final String TITLE = "Title";
 
     @Bind(R.id.name_of_plant_id)
     TextView mNameOfPlant;
@@ -37,6 +42,16 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     CountView mSize;
 
     private String mFloweringTime;
+
+    // newInstance constructor for creating fragment with arguments
+    public static MainDataFragment newInstance(String state, String title) {
+        MainDataFragment fragmentFirst = new MainDataFragment();
+        Bundle args = new Bundle();
+        args.putString(STATE, state);
+        args.putString(TITLE, title);
+        fragmentFirst.setArguments(args);
+        return fragmentFirst;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,21 +85,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     }
 
     @Override
-    public void moveToPreviousStep() {
-        super.moveToPreviousStep();
-    }
-
-    @Override
-    public void moveToNextStep() {
-        addValuesToBuilder();
-    }
-
-    private void addValuesToBuilder() {
-        builder.addPlantName(mNameOfPlant.getText().toString());
-        builder.addPhSoil(mPhSoil.getEditValue());
-        builder.addEcSoil(mEcSoil.getEditValue());
-        builder.addFloweringTime(mFloweringTime);
-        builder.addGenotype(mGenotype.getText().toString());
-        builder.addSize((int)mSize.getEditValue());
+    protected void setLastState() {
+        ((CreatePlantActivity)getActivity()).move(STATE);
     }
 }

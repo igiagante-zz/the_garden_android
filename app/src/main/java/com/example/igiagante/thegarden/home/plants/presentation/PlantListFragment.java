@@ -1,15 +1,18 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 
@@ -35,6 +38,9 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
     @Bind(R.id.recycle_view_id)
     RecyclerView recyclerViewPlants;
 
+    @Bind(R.id.add_new_plant_id)
+    Button buttonAddPlant;
+
     public PlantListFragment() {
         setRetainInstance(true);
     }
@@ -58,6 +64,8 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
 
         this.recyclerViewPlants.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewPlants.setAdapter(plantsAdapter);
+
+        buttonAddPlant.setOnClickListener(view -> startActivity(new Intent(getActivity(), CreatePlantActivity.class)));
 
         return fragmentView;
     }

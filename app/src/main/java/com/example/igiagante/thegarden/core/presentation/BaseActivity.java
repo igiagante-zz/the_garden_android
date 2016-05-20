@@ -46,129 +46,15 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    /**
-     * RecycleView for garden list of the navigation drawer
-     */
-    private RecyclerView recyclerViewGardens;
-
-    protected FloatingActionButton fab;
-
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getApplicationComponent().inject(this);
-
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    @Override
-    public void setContentView(int layoutResId) {
-        setContentView(getLayoutInflater().inflate(layoutResId, null));
-    }
-
-    @Override
-    public void setContentView(View view) {
-        setContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-    }
-
-    @Override
-    public void setContentView(View view, ViewGroup.LayoutParams params) {
-
-        super.setContentView(R.layout.activity_base);
-
-        ViewGroup contentContainer = (ViewGroup) findViewById(R.id.main_container);
-
-        if (params == null) {
-            contentContainer.addView(view);
-        } else {
-            contentContainer.addView(view, params);
-        }
-
-        setupToolbar();
-    }
-
-    private void setupToolbar() {
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_nav_menu);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                drawerLayout,         /* DrawerLayout object */
-                toolbar,  /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
-        ) {
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-        drawerLayout.addDrawerListener(mDrawerToggle);
-
-        ArrayList<Garden> gardens = new ArrayList<>();
-        gardens.add(new Garden("1", "Garden One"));
-        gardens.add(new Garden("2", "Garden Two"));
-        gardens.add(new Garden("3", "Garden Three"));
-        gardens.add(new Garden("3", "Add new garden"));
-
-        NavigationGardenAdapter adapter = new NavigationGardenAdapter(gardens);
-
-        recyclerViewGardens = (RecyclerView) findViewById(R.id.recycler_view_gardens);
-
-        this.recyclerViewGardens.setLayoutManager(new LinearLayoutManager(this));
-
-        this.recyclerViewGardens.setAdapter(adapter);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab_id);
-        fab.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -181,10 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
-    }
-
-    protected void showFloatingActionButton(int visible) {
-        fab.setVisibility(visible);
     }
 
     /**

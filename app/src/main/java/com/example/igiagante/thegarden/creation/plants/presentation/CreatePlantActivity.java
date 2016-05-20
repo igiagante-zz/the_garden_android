@@ -1,18 +1,20 @@
 package com.example.igiagante.thegarden.creation.plants.presentation;
 
 import android.os.Bundle;
+import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 import android.support.v4.view.ViewPager;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.di.HasComponent;
-import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
-import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CreationBaseFragment;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,7 +22,9 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 6/5/16.
  */
-public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPageChangeListener, HasComponent<CreatePlantComponent> {
+public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPageChangeListener,
+        CreationBaseFragment.OnMove,
+        HasComponent<CreatePlantComponent> {
 
     private CreatePlantComponent createPlantComponent;
 
@@ -47,6 +51,16 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      * and next wizard steps.
      */
     private ViewPager mPager;
+
+    @StringDef({CREATE_MAIN_DATA, PHOTO_GALLERY, FLAVOR_GALLERY, ATTRIBUTES, DESCRIPTION})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface FragmentIdentity {}
+
+    public static final String CREATE_MAIN_DATA = "CREATE_MAIN_DATA";
+    public static final String PHOTO_GALLERY = "PHOTO_GALLERY";
+    public static final String FLAVOR_GALLERY = "FLAVOR_GALLERY";
+    public static final String ATTRIBUTES = "ATTRIBUTES";
+    public static final String DESCRIPTION = "DESCRIPTION";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,10 +108,13 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         }
     }
 
+    @Override
+    public void move(@FragmentIdentity String fragmentIdentity) {
+
+    }
 
     @Override
     public void onPageSelected(int position) {
-
         if(currentPage > position) {
             moveToPreviousPage();
         }
@@ -112,7 +129,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      */
     private void moveToPreviousPage() {
         if(currentPage > 0) {
-            getActiveFragment().moveToPreviousStep();
             currentPage -= 1;
             mPager.setCurrentItem(currentPage);
         }
@@ -123,20 +139,9 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      */
     private void moveToNextPage() {
         if(currentPage < NUM_PAGES) {
-            getActiveFragment().moveToNextStep();
             currentPage += 1;
             mPager.setCurrentItem(currentPage);
         }
-    }
-
-    /**
-     * Get active fragment
-     * @return fragment
-     */
-    private CreationBaseFragment getActiveFragment() {
-        ViewPagerAdapter adapter = (ViewPagerAdapter) mPager.getAdapter();
-        CreationBaseFragment fragment = (CreationBaseFragment) adapter.getItem(currentPage);
-        return fragment;
     }
 
     @Override

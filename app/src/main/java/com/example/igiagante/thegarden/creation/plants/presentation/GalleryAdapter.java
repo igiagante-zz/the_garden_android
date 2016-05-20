@@ -83,17 +83,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void notifyImagesCollection(Collection<ViewTypeImage> imagesCollection) {
-        int size = items.size() - 1;
-        this.items.addAll(imagesCollection);
-        this.notifyItemRangeInserted(size, imagesCollection.size());
-    }
 
-    private void addButtonAtTheEnd() {
-        items.add(new ViewTypeButton());
-    }
-
-    private void removeButton() {
-        items.remove(items.size() - 1);
+        if(!imagesCollection.isEmpty()) {
+            this.items.addAll(0,imagesCollection);
+            this.notifyItemRangeInserted(0, imagesCollection.size());
+        }
     }
 
     private Collection<ViewTypeImage> getImagesCollection(List<String> folderPaths) {

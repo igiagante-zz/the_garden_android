@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.CreationPlantModule;
@@ -52,7 +53,7 @@ import rx.Observable;
 /**
  * @author igiagante on 10/5/16.
  */
-public class PhotoGalleryFragment extends CreationBaseFragment implements IView {
+public class PhotoGalleryFragment extends BaseFragment implements IView {
 
     @Bind(R.id.recycler_view_plant_photo_gallery)
     RecyclerView mGallery;
@@ -73,6 +74,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
         ButterKnife.bind(this, containerView);
 
         mGallery.setHasFixedSize(true);
+
 
         //Two columns for portrait
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);

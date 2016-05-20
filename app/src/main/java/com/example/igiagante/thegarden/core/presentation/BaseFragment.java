@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.core.presentation;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
@@ -8,7 +9,8 @@ import com.example.igiagante.thegarden.core.di.HasComponent;
 /**
  * Base {@link android.app.Fragment} class for every fragment in this application.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<T> extends Fragment {
+
     /**
      * Shows a {@link android.widget.Toast} message.
      *
