@@ -1,7 +1,7 @@
 package com.example.igiagante.thegarden.core.di.modules;
 
 /**
- * Created by igiagante on 18/4/16.
+ * @author Ignacio Giagante, on 18/4/16.
  */
 
 import android.content.Context;

@@ -9,9 +9,6 @@ import com.example.igiagante.thegarden.core.presentation.BaseFragment;
  */
 public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
-    protected int myPosition;
-
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -19,9 +16,7 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
 
     @Override
     public void onPageSelected(int position) {
-        if(position == myPosition) {
-            move();
-        }
+        move();
     }
 
     @Override
@@ -32,5 +27,6 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
     /**
      * Notify to the builder that the fragment have some data for saving.
      */
-    protected void move(){}
+    protected void move() {
+    }
 }

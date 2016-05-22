@@ -54,7 +54,7 @@ import rx.Observable;
 /**
  * @author igiagante on 10/5/16.
  */
-public class PhotoGalleryFragment extends BaseFragment implements IView {
+public class PhotoGalleryFragment extends CreationBaseFragment implements IView {
 
     @Bind(R.id.recycler_view_plant_photo_gallery)
     RecyclerView mGallery;

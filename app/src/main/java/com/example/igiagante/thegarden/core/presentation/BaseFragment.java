@@ -1,6 +1,5 @@
 package com.example.igiagante.thegarden.core.presentation;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 

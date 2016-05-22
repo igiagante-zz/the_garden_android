@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.home.plants.presentation;
+package com.example.igiagante.thegarden.home.plants.di;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.usecase.UseCase;

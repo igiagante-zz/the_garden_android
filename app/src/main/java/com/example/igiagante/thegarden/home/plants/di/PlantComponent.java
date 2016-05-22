@@ -5,7 +5,6 @@ import com.example.igiagante.thegarden.core.di.components.ActivityComponent;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
-import com.example.igiagante.thegarden.home.plants.presentation.PlantModule;
 
 import dagger.Component;
 
