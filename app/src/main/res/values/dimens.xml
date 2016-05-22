@@ -27,4 +27,7 @@
 
     <dimen name="gallery_image_width">130dp</dimen>
 
+    <dimen name="image_gallery_with">160dp</dimen>
+    <dimen name="image_gallery_margin">6dp</dimen>
+
 </resources>

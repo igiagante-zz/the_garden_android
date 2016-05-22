@@ -1,9 +1,5 @@
 package com.example.igiagante.thegarden.core.di.modules;
 
-/**
- * Created by igiagante on 18/4/16.
- */
-
 import android.app.Activity;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;

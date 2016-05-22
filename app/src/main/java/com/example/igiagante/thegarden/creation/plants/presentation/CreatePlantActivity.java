@@ -1,8 +1,6 @@
 package com.example.igiagante.thegarden.creation.plants.presentation;
 
 import android.os.Bundle;
-import android.support.annotation.IntDef;
-import android.support.annotation.StringDef;
 import android.support.v4.view.ViewPager;
 import android.widget.Button;
 
@@ -11,10 +9,6 @@ import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CreationBaseFragment;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +48,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.initializeInjector();
-        setContentView(R.layout.activity_create_plant);
+        setContentView(R.layout.create_plant_activity);
 
         plantBuilder = new PlantBuilder();
 

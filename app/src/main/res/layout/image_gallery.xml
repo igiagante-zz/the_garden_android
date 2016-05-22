@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="180dp"
-    android:layout_height="180dp"
+    android:layout_width="@dimen/image_gallery_with"
+    android:layout_height="@dimen/image_gallery_with"
     android:padding="2dp">
 
     <com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:fresco="http://schemas.android.com/apk/res-auto"
         android:id="@+id/image_gallery_id"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_margin="10dp"
+        android:layout_width="@dimen/image_gallery_with"
+        android:layout_height="@dimen/image_gallery_with"
+        android:layout_margin="@dimen/image_gallery_margin"
         fresco:fadeDuration="300"
         fresco:placeholderImage="@drawable/mango1"
         fresco:roundBottomLeft="true"

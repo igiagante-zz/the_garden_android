@@ -1,18 +1,8 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,23 +13,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
-import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
-import com.example.igiagante.thegarden.creation.plants.di.CreationPlantModule;
-import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenter.PhotoGalleryPresenter;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
-import com.mlsdev.rximagepicker.RxImageConverters;
-import com.mlsdev.rximagepicker.RxImagePicker;
-import com.mlsdev.rximagepicker.Sources;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +31,6 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
 
 /**
  * @author igiagante on 10/5/16.
@@ -71,7 +52,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
         this.getComponent(CreatePlantComponent.class).inject(this);
 
         // Inflate the layout for this fragment
-        final View containerView = inflater.inflate(R.layout.fragment_plant_gallery, container, false);
+        final View containerView = inflater.inflate(R.layout.plant_gallery_fragment, container, false);
         ButterKnife.bind(this, containerView);
 
         mGallery.setHasFixedSize(true);
