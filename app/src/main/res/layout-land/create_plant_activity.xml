@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/create_plant_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_margin_top_land"
+        android:background="?attr/colorPrimary"
+        android:elevation="@dimen/elevation_toolbar"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/create_plant_toolbar_title"
+            style="@style/title"
+            android:textStyle="bold"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/viewpager_create_plant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/view_pager_margin_top_land"
+        android:layout_marginStart="@dimen/margin_left_land"
+        />
+
+    <Button
+        android:id="@+id/button_previous_id"
+        android:layout_width="@dimen/button_width_land"
+        android:layout_height="@dimen/button_height_land"
+        android:layout_marginStart="@dimen/margin_button_land"
+        android:text="@string/button_previous"
+        android:background="@drawable/ic_arrow_previuos"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
+
+    <Button
+        android:id="@+id/button_next_id"
+        android:layout_width="@dimen/button_width_land"
+        android:layout_height="@dimen/button_height_land"
+        android:layout_marginEnd="@dimen/margin_button_land"
+        android:text="@string/button_next"
+        android:background="@drawable/ic_arrow_next"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>
+

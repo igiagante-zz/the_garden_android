@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ls="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/linearlayout_height"
+            android:layout_marginBottom="@dimen/linearlayout_margin_bottom"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_name_of_plant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edit_text_name_margin_top"
+                android:layout_marginEnd="@dimen/margin_text_view_land">
+
+                <EditText
+                    android:id="@+id/name_of_plant_id"
+                    style="@style/label"
+                    android:layout_width="@dimen/edit_text_width"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name_of_plant" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/spinner_flowering_time_id"
+                android:layout_width="@dimen/edit_text_width"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_spinner"
+                ls:labelText="@string/flowering_time"
+                android:layout_marginEnd="@dimen/margin_text_view_land"/>
+
+            <com.example.igiagante.thegarden.core.ui.CountView
+                android:id="@+id/ec_soil_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/count_view_padding_start" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/linearlayout_height"
+            android:layout_marginBottom="@dimen/linearlayout_margin_bottom"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_genotype_plant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edit_text_name_margin_top"
+                android:layout_marginEnd="@dimen/margin_end_genotype_land">
+
+                <EditText
+                    android:id="@+id/genotype_id"
+                    style="@style/label"
+                    android:layout_width="@dimen/edit_text_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/edit_text_margin_top"
+                    android:hint="@string/genotype" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <com.example.igiagante.thegarden.core.ui.CountView
+                android:id="@+id/ph_soil_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/count_view_padding_start"
+                android:layout_marginEnd="@dimen/margin_end_ph_soil_land"/>
+
+            <com.example.igiagante.thegarden.core.ui.CountView
+                android:id="@+id/size_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/count_view_padding_start" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

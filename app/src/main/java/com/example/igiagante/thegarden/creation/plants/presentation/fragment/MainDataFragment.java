@@ -122,7 +122,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         mEcSoilText.setText("1.0");
 
         EditText sizeText = (EditText) mSize.findViewById(R.id.count_input);
-        mEcSoilText.setHint(R.string.size);
+        sizeText.setHint(R.string.size);
         sizeText.setText("20");
     }
 

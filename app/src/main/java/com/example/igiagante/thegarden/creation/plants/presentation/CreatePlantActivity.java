@@ -75,6 +75,11 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         currentPage = mPager.getCurrentItem();
 
+        if(isLandScape()) {
+            mPreviousButton.setText("");
+            mNextButton.setText("");
+        }
+
         mPreviousButton.setOnClickListener(view -> moveToPreviousPage());
         mNextButton.setOnClickListener(view -> moveToNextPage());
 
