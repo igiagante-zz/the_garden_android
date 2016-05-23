@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation;
+package com.example.igiagante.thegarden.creation.plants.presentation.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

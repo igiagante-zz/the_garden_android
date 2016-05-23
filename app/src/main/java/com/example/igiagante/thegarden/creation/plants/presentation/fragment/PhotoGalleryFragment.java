@@ -17,7 +17,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.GalleryAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenter.PhotoGalleryPresenter;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;

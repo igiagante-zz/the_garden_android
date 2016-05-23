@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation;
+package com.example.igiagante.thegarden.creation.plants.presentation.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -46,7 +46,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         // add adapter delegates
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButton(mContext, mPicker));
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage(deleteImage));
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage(mContext, deleteImage));
 
         // add first item -> button
         items.add(new ViewTypeButton());
@@ -85,7 +85,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void notifyImagesCollection(Collection<ViewTypeImage> imagesCollection) {
 
         if(!imagesCollection.isEmpty()) {
-            this.items.addAll(0,imagesCollection);
+            this.items.addAll(0, imagesCollection);
             this.notifyItemRangeInserted(0, imagesCollection.size());
         }
     }
@@ -94,7 +94,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ArrayList<ViewTypeImage> viewTypeImages = new ArrayList<>();
 
-        for(int i = 1; i < folderPaths.size(); i++) {
+        for(int i = 0; i < folderPaths.size(); i++) {
             ViewTypeImage viewTypeImage = new ViewTypeImage();
             viewTypeImage.setImagePath(folderPaths.get(i));
             viewTypeImage.setPositionSelected(i);

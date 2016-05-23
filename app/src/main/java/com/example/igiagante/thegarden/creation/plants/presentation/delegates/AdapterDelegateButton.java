@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.creation.plants.presentation.GalleryAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeButton;
 
 /**

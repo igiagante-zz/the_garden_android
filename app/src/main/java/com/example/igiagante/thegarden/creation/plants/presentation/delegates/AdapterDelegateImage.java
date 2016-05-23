@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.delegates;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.creation.plants.presentation.GalleryAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity;
+import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeImage;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -19,9 +22,11 @@ import java.io.File;
 public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImage.ImageViewHolder, ViewTypeImage> {
 
     private GalleryAdapter.OnDeleteImage onDeleteImage;
+    private Context mContext;
 
-    public AdapterDelegateImage(GalleryAdapter.OnDeleteImage onDeleteImage) {
+    public AdapterDelegateImage(Context context, GalleryAdapter.OnDeleteImage onDeleteImage) {
         this.onDeleteImage = onDeleteImage;
+        this.mContext = context;
     }
 
     @Override
@@ -44,6 +49,12 @@ public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImag
         public ImageViewHolder(ViewGroup parent) {
             super(LayoutInflater.from(parent.getContext()).inflate(R.layout.image_gallery, parent, false));
             mImage = (SimpleDraweeView) itemView.findViewById(R.id.image_gallery_id);
+
+            Intent intent = new Intent(mContext, CarouselActivity.class);
+            intent.putExtra(CarouselActivity.PICTURE_SELECTED_KEY, positionImage);
+
+            mImage.setOnClickListener(view -> mContext.startActivity(intent));
+
             mDeleteButton = (Button) itemView.findViewById(R.id.delete_button_id);
 
             mDeleteButton.setOnClickListener(view -> onDeleteImage.deleteImage(positionImage));

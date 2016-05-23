@@ -34,6 +34,11 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
 
+        <activity
+            android:name=".creation.plants.presentation.CarouselActivity"
+            android:label="@string/activity_carousel">
+        </activity>
+
     </application>
 
 </manifest>
