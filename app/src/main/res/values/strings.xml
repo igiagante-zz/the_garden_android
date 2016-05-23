@@ -66,6 +66,10 @@
         <item>Gallery</item>
     </string-array>
 
+    <string name="ph_soil_default_value">6.5</string>
+    <string name="ec_soil_default_value">0.4</string>
+    <string name="size_default_value">10</string>
+
     <string name="user_canceled">User Cancelled</string>
 
     <!-- Content Descriptions -->
