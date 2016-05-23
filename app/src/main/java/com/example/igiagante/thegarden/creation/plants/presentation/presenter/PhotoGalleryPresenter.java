@@ -52,12 +52,8 @@ public class PhotoGalleryPresenter extends AbstractPresenter<PhotoGalleryFragmen
         this.mView = mView;
     }
 
-    public void setImagesPathFiles(Collection<String> imagesPathFiles) {
-        ((GetImagesUseCase)getImagesUserCase).setFilesPaths(imagesPathFiles);
-    }
-
-    public void getImagesList() {
-        this.getImagesUserCase.execute(new PhotoGallerySubscriber());
+    public void getImagesList(Collection<String> imagesPathFiles) {
+        this.getImagesUserCase.execute(imagesPathFiles, new PhotoGallerySubscriber());
     }
 
     private void addImagesToBuilderInView(Collection<Image> images) {

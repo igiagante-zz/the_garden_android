@@ -2,7 +2,9 @@ package com.example.igiagante.thegarden.creation.plants.presentation;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
@@ -28,6 +30,8 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Bind(R.id.button_next_id)
     Button mNextButton;
+
+    private Toolbar mToolbar;
 
     /**
      * The number of pages (wizard steps).
@@ -56,6 +60,11 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         mPager = (ViewPager) findViewById(R.id.viewpager_create_plant);
         setupViewPager(mPager);
+
+        mToolbar = (Toolbar) findViewById(R.id.create_plant_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setToolbarTitle(mPager.getAdapter().getPageTitle(0).toString());
     }
 
     /**
@@ -69,14 +78,9 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         mPreviousButton.setOnClickListener(view -> moveToPreviousPage());
         mNextButton.setOnClickListener(view -> moveToNextPage());
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), plantBuilder);
-
-        //init fragments
-        for (int i = 0; i < NUM_PAGES; i++) {
-            adapter.getItem(i);
-        }
-
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), this, viewPager);
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(this);
     }
 
     @Override
@@ -92,14 +96,25 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
     public void onPageSelected(int position) {
-        if(currentPage > position) {
+        setToolbarTitle(mPager.getAdapter().getPageTitle(position).toString());
+        if(position < currentPage) {
             moveToPreviousPage();
         }
 
-        if(currentPage < position) {
+        if(position > currentPage) {
             moveToNextPage();
         }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     /**
@@ -122,16 +137,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         }
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
     private void initializeInjector() {
         this.createPlantComponent = DaggerCreatePlantComponent.builder()
                 .applicationComponent(getApplicationComponent())
@@ -146,5 +151,9 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     public PlantBuilder getPlantBuilder() {
         return plantBuilder;
+    }
+
+    public void setToolbarTitle(String title) {
+        ((TextView) findViewById(R.id.create_plant_toolbar_title)).setText(title);
     }
 }

@@ -27,6 +27,5 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
     /**
      * Notify to the builder that the fragment have some data for saving.
      */
-    protected void move() {
-    }
+    protected void move() {}
 }

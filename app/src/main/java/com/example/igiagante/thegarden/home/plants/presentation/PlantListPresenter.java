@@ -42,7 +42,7 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
     }
 
     public void getPlantList() {
-        this.getPlantListUserCase.execute(new PlantListSubscriber());
+        this.getPlantListUserCase.execute(null, new PlantListSubscriber());
     }
 
     private void showPlantsCollectionInView(Collection<Plant> plantsCollection) {

@@ -12,6 +12,8 @@
 
     <dimen name="image_header_view_height">170dp</dimen>
 
+    <dimen name="toolbar_size">112dp</dimen>
+
     <!-- General Keylines -->
     <dimen name="margin_top">60dp</dimen>
     <dimen name="margin_left">30dp</dimen>

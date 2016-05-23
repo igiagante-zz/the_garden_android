@@ -1,87 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ls="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/linearlayout_height"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/linearlayout_margin_bottom">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ls="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layout_name_of_plant"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/edit_text_name_margin_top">
+            android:layout_height="@dimen/linearlayout_height"
+            android:layout_marginBottom="@dimen/linearlayout_margin_bottom"
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/name_of_plant_id"
-                android:hint="@string/name_of_plant"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_name_of_plant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edit_text_name_margin_top">
+
+                <EditText
+                    android:id="@+id/name_of_plant_id"
+                    style="@style/label"
+                    android:layout_width="@dimen/edit_text_width"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name_of_plant" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <com.example.igiagante.thegarden.core.ui.CountView
+                android:id="@+id/ph_soil_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/count_view_padding_start" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/linearlayout_height"
+            android:layout_marginBottom="@dimen/linearlayout_margin_bottom"
+            android:orientation="horizontal">
+
+            <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/spinner_flowering_time_id"
                 android:layout_width="@dimen/edit_text_width"
                 android:layout_height="wrap_content"
-                style="@style/label"/>
+                android:layout_marginTop="@dimen/margin_top_spinner"
+                ls:labelText="@string/flowering_time" />
 
-        </android.support.design.widget.TextInputLayout>
+            <com.example.igiagante.thegarden.core.ui.CountView
+                android:id="@+id/ec_soil_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/count_view_padding_start" />
 
-        <com.example.igiagante.thegarden.core.ui.CountView
-            android:id="@+id/ph_soil_id"
-            android:layout_marginStart="@dimen/count_view_padding_start"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/linearlayout_height"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/linearlayout_margin_bottom">
-
-        <com.satsuware.usefulviews.LabelledSpinner
-            android:id="@+id/spinner_flowering_time_id"
-            ls:labelText="@string/flowering_time"
-            android:layout_width="@dimen/edit_text_width"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top_spinner"/>
-
-        <com.example.igiagante.thegarden.core.ui.CountView
-            android:id="@+id/ec_soil_id"
-            android:layout_marginStart="@dimen/count_view_padding_start"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/linearlayout_height"
-        android:orientation="horizontal">
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/layout_genotype_plant"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/edit_text_name_margin_top">
+            android:layout_height="@dimen/linearlayout_height"
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/genotype_id"
-                android:hint="@string/genotype"
-                android:layout_width="@dimen/edit_text_width"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_genotype_plant"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/edit_text_margin_top"
-                style="@style/label"/>
+                android:layout_marginTop="@dimen/edit_text_name_margin_top">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/genotype_id"
+                    style="@style/label"
+                    android:layout_width="@dimen/edit_text_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/edit_text_margin_top"
+                    android:hint="@string/genotype" />
 
-        <com.example.igiagante.thegarden.core.ui.CountView
-            android:id="@+id/size_id"
-            android:layout_marginStart="@dimen/count_view_padding_start"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <com.example.igiagante.thegarden.core.ui.CountView
+                android:id="@+id/size_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/count_view_padding_start" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

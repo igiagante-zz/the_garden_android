@@ -23,10 +23,9 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 19/5/16.
  */
-public class GetImagesUseCase extends UseCase {
+public class GetImagesUseCase extends UseCase<Collection<String>> {
 
     private Context mContext;
-    private Collection<String> mFilesPaths;
 
     @Inject
     public GetImagesUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread,
@@ -35,21 +34,17 @@ public class GetImagesUseCase extends UseCase {
         this.mContext = context;
     }
 
-    public void setFilesPaths(Collection<String> mFilesPaths) {
-        this.mFilesPaths = mFilesPaths;
-    }
-
     @Override
-    protected Observable buildUseCaseObservable() {
-        return getImagesCollection();
+    protected Observable buildUseCaseObservable(Collection<String> filesPaths) {
+        return getImagesCollection(filesPaths);
     }
 
-    private Observable<Collection<Image>> getImagesCollection() {
+    private Observable<Collection<Image>> getImagesCollection(Collection<String> filesPaths) {
 
         File file;
         ArrayList<Image> viewTypeImages = new ArrayList<>();
 
-        for(String path : mFilesPaths) {
+        for(String path : filesPaths) {
 
             file = new File(path);
             Image image = new Image();
@@ -78,4 +73,5 @@ public class GetImagesUseCase extends UseCase {
 
         return Observable.just(viewTypeImages);
     }
+
 }

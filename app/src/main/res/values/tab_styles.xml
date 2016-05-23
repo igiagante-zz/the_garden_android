@@ -4,7 +4,7 @@
     <!-- for tabs text -->
     <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/text_tab_color</item>
+        <item name="android:textColor">@color/text_title_color</item>
         <item name="textAllCaps">false</item>
     </style>
 

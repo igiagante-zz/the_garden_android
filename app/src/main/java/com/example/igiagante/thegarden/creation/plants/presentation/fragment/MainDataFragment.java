@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
@@ -13,6 +15,9 @@ import com.example.igiagante.thegarden.core.ui.CountView;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.satsuware.usefulviews.LabelledSpinner;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,17 +34,19 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Bind(R.id.name_of_plant_id)
     TextView mNameOfPlant;
 
+    @Bind(R.id.genotype_id)
+    TextView mGenotype;
+
     @Bind(R.id.ph_soil_id)
     CountView mPhSoil;
 
     @Bind(R.id.ec_soil_id)
     CountView mEcSoil;
 
-    @Bind(R.id.genotype_id)
-    TextView mGenotype;
-
     @Bind(R.id.size_id)
     CountView mSize;
+
+    private LabelledSpinner spinner;
 
     private String mFloweringTime;
 
@@ -57,14 +64,17 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
         ButterKnife.bind(this, fragmentView);
 
-        if(savedInstanceState != null) {
-            mPlant = savedInstanceState.getParcelable(PLANT_KEY);
-
-        }
-
-        LabelledSpinner spinner = (LabelledSpinner) fragmentView.findViewById(R.id.spinner_flowering_time_id);
+        spinner = (LabelledSpinner) fragmentView.findViewById(R.id.spinner_flowering_time_id);
         spinner.setItemsArray(R.array.flowering_time_array);
         spinner.setOnItemChosenListener(this);
+
+        if(savedInstanceState != null) {
+            mPlant = savedInstanceState.getParcelable(PLANT_KEY);
+            setPlantValuesInView(fragmentView);
+        }
+
+        initDefaultValues();
+
 
         return fragmentView;
     }
@@ -101,6 +111,21 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         builder.addSize((int) mSize.getEditValue());
     }
 
+    private void initDefaultValues() {
+
+        EditText mPhSoilText = (EditText) mPhSoil.findViewById(R.id.count_input);
+        mPhSoilText.setHint(R.string.ph_soil);
+        mPhSoilText.setText("6.5");
+
+        EditText mEcSoilText = (EditText) mEcSoil.findViewById(R.id.count_input);
+        mEcSoilText.setHint(R.string.ec_soil);
+        mEcSoilText.setText("1.0");
+
+        EditText sizeText = (EditText) mSize.findViewById(R.id.count_input);
+        mEcSoilText.setHint(R.string.size);
+        sizeText.setText("20");
+    }
+
     private Plant createParcelable() {
         Plant plant = new Plant();
         plant.setName(mNameOfPlant.getText().toString());
@@ -112,15 +137,20 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         return plant;
     }
 
-    private Plant setPlantValuesInView() {
-        Plant plant = new Plant();
-        plant.setName(mNameOfPlant.getText().toString());
-        mNameOfPlant.setText(plant.getName());
-        mPhSoil.setEditValue(plant.getPhSoil());
-        mEcSoil.setEditValue(plant.getEcSoil());
-        //plant.setFloweringTime(mFloweringTime);
-        mGenotype.setText(plant.getGenotype());
-        mSize.setEditValue(plant.getSize());
-        return plant;
+    private void setPlantValuesInView(View view) {
+
+        mNameOfPlant.setText(mPlant.getName());
+        mPhSoil.setEditValue(mPlant.getPhSoil());
+        mEcSoil.setEditValue(mPlant.getEcSoil());
+
+        String [] list = getActivity().getResources().getStringArray(R.array.flowering_time_array);
+        ArrayList<String> newList = new ArrayList<>(Arrays.asList(list));
+
+        if(spinner != null) {
+            spinner.setSelection(newList.indexOf(mPlant.getFloweringTime()));
+        }
+
+        mGenotype.setText(mPlant.getGenotype());
+        mSize.setEditValue(mPlant.getSize());
     }
 }

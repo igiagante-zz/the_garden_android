@@ -30,7 +30,8 @@
 
         <activity
             android:name=".creation.plants.presentation.CreatePlantActivity"
-            android:label="@string/activity_create_plant">
+            android:label="@string/activity_create_plant"
+            android:windowSoftInputMode="adjustPan">
         </activity>
 
     </application>

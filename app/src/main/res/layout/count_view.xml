@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/com.example.igiagante.thegarden.core.ui"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -18,8 +17,7 @@
             android:hint="@string/ph_soil"
             android:inputType="numberDecimal"
             android:textSize="@dimen/text_size"
-            android:gravity="center"
-            app:setValue="6.5"/>
+            android:gravity="center"/>
 
     </android.support.design.widget.TextInputLayout>
 

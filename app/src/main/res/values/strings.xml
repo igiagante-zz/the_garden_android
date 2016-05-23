@@ -24,9 +24,18 @@
     <string name="button_previous">Previous</string>
     <string name="button_next">Next</string>
 
+    <string-array name="view_pager_fragment_title">
+        <item>Main Data</item>
+        <item>Photo Gallery</item>
+        <item>Flavor Gallery</item>
+        <item>Attributes</item>
+        <item>Description</item>
+    </string-array>
+
     <string name="name_of_plant">Name</string>
     <string name="ph_soil">Ph Soil</string>
     <string name="ec_soil">Ec Soil</string>
+    <string name="size">Size</string>
 
     <string name="flowering_time">Flowering Time</string>
     <string name="genotype">Genotype</string>

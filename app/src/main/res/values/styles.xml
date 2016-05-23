@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -15,6 +15,12 @@
     <style name="label" parent="AppTheme.Widget.TextView">
         <item name="android:textColor">@color/label_text_color</item>
         <item name="android:textSize">22sp</item>
+    </style>
+
+    <!-- General text -->
+    <style name="title" parent="AppTheme.Widget.TextView">
+        <item name="android:textColor">@color/text_title_color</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
 </resources>

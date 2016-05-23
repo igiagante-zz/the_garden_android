@@ -15,7 +15,7 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 2/5/16.
  */
-public class GetPlantsUseCase extends UseCase {
+public class GetPlantsUseCase extends UseCase<Void> {
 
     private final Repository plantRepository;
 
@@ -26,7 +26,7 @@ public class GetPlantsUseCase extends UseCase {
     }
 
     @Override
-    protected Observable buildUseCaseObservable() {
+    protected Observable buildUseCaseObservable(Void aVoid) {
         return plantRepository.query(new Specification() {});
     }
 }

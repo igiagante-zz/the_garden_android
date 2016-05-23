@@ -57,7 +57,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
 
         mGallery.setHasFixedSize(true);
 
-
         //Two columns for portrait
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
         mGallery.setLayoutManager(manager);
@@ -171,22 +170,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView 
     public void loadImages(List<String> filesPaths) {
         mGallery.setVisibility(View.VISIBLE);
         mAdapter.setImagesPath(filesPaths);
-        mPhotoGalleryPresenter.setImagesPathFiles(filesPaths);
-        mPhotoGalleryPresenter.getImagesList();
+        mPhotoGalleryPresenter.getImagesList(filesPaths);
     }
-
-    /*
-    private void initializeInjector(Collection<String> imagesFilePath) {
-        this.createPlantComponent = DaggerCreatePlantComponent.builder()
-                .applicationComponent(((CreatePlantActivity)getActivity()).getApplicationComponent())
-                .activityModule(((CreatePlantActivity)getActivity()).getActivityModule())
-                .creationPlantModule(new CreationPlantModule(imagesFilePath))
-                .build();
-    }
-
-    public CreatePlantComponent getComponent() {
-        return createPlantComponent;
-    }*/
 
     public void showUserCanceled() {
         Toast.makeText(getActivity(), getString(R.string.user_canceled), Toast.LENGTH_SHORT).show();
