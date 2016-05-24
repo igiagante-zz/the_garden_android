@@ -101,7 +101,6 @@ public class Image implements Parcelable {
         this.file = file;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -119,6 +118,7 @@ public class Image implements Parcelable {
     }
 
     public static final Parcelable.Creator<Image> CREATOR = new Parcelable.Creator<Image>() {
+
         public Image createFromParcel(Parcel in) {
             return new Image(in);
         }
@@ -132,9 +132,8 @@ public class Image implements Parcelable {
         id = in.readString();
         name = in.readString();
         url = in.readString();
-        type = in.readString();
         thumbnailUrl = in.readString();
-        name = in.readString();
+        type = in.readString();
         size = in.readInt();
         main = in.readInt() == 1;
     }

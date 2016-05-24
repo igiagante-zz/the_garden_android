@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_pager_margin_top"
+        android:background="@android:color/holo_orange_dark"
         />
 
     <com.example.igiagante.thegarden.core.ui.CirclePageIndicator

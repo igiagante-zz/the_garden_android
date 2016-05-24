@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeImage;
@@ -22,11 +23,14 @@ import java.io.File;
 public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImage.ImageViewHolder, ViewTypeImage> {
 
     private GalleryAdapter.OnDeleteImage onDeleteImage;
+    private GalleryAdapter.OnShowImages onShowImages;
     private Context mContext;
 
-    public AdapterDelegateImage(Context context, GalleryAdapter.OnDeleteImage onDeleteImage) {
+    public AdapterDelegateImage(Context context, GalleryAdapter.OnDeleteImage onDeleteImage,
+                                GalleryAdapter.OnShowImages onShowImages) {
         this.onDeleteImage = onDeleteImage;
         this.mContext = context;
+        this.onShowImages = onShowImages;
     }
 
     @Override
@@ -45,22 +49,21 @@ public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImag
         SimpleDraweeView mImage;
         Button mDeleteButton;
         int positionImage;
+        String imagePath;
 
         public ImageViewHolder(ViewGroup parent) {
             super(LayoutInflater.from(parent.getContext()).inflate(R.layout.image_gallery, parent, false));
             mImage = (SimpleDraweeView) itemView.findViewById(R.id.image_gallery_id);
 
-            Intent intent = new Intent(mContext, CarouselActivity.class);
-            intent.putExtra(CarouselActivity.PICTURE_SELECTED_KEY, positionImage);
-
-            mImage.setOnClickListener(view -> mContext.startActivity(intent));
+            mImage.setOnClickListener(view -> onShowImages.onShowImages(positionImage));
 
             mDeleteButton = (Button) itemView.findViewById(R.id.delete_button_id);
 
-            mDeleteButton.setOnClickListener(view -> onDeleteImage.deleteImage(positionImage));
+            mDeleteButton.setOnClickListener(view -> onDeleteImage.deleteImage(positionImage, imagePath));
         }
 
         public void setImagePath(String imagePath) {
+            this.imagePath = imagePath;
             mImage.setImageURI(Uri.fromFile(new File(imagePath)));
         }
 

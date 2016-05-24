@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,13 +44,13 @@ public class Plant implements Parcelable {
     private int harvest;
 
     @SerializedName("images")
-    private List<Image> images;
+    private List<Image> images = new ArrayList<>();
 
     @SerializedName("flavors")
-    private List<Flavor> flavors;
+    private List<Flavor> flavors = new ArrayList<>();
 
     @SerializedName("attributes")
-    private List<Attribute> attributes;
+    private List<Attribute> attributes = new ArrayList<>();
 
     @SerializedName("resourcesIds")
     private List<String> resourcesIds;

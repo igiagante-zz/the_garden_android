@@ -12,6 +12,7 @@ import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.ViewPagerAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CarouselFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

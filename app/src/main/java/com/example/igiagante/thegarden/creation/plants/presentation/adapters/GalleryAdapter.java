@@ -1,10 +1,12 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegate;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateButton;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateImage;
@@ -36,17 +38,23 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public interface OnDeleteImage {
-        void deleteImage(int positionSelected);
+        void deleteImage(int positionSelected, String imagePath);
+    }
+
+    public interface OnShowImages {
+        void onShowImages(int pictureSelected);
     }
 
     @Inject
-    public GalleryAdapter(Context context, OnExecutePickerImage picker, OnDeleteImage deleteImage) {
+    public GalleryAdapter(Context context, OnExecutePickerImage picker, OnDeleteImage deleteImage,
+                          OnShowImages onShowImages) {
         this.mPicker = picker;
         this.mContext = context;
 
         // add adapter delegates
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButton(mContext, mPicker));
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage(mContext, deleteImage));
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE,
+                new AdapterDelegateImage(mContext, deleteImage, onShowImages));
 
         // add first item -> button
         items.add(new ViewTypeButton());
@@ -74,6 +82,13 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void setImagesPath(List<String> filesPaths) {
+        this.items.clear();
+        this.items.add(new ViewTypeButton());
+        this.items.addAll(getImagesCollection(filesPaths));
+        notifyDataSetChanged();
+    }
+
+    public void addImagesPaths(List<String> filesPaths) {
         notifyImagesCollection(getImagesCollection(filesPaths));
     }
 

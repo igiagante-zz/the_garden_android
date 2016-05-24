@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/image_gallery_with"
+    android:layout_height="@dimen/image_gallery_with"
+    android:padding="2dp">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/coursel_image_id"
+    <com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/carousel_image_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/text_image_slider"/>
+        android:contentDescription="@string/text_image_slider"
+        app:placeholderImage="@drawable/mango1" />
+
+    <Button
+        android:id="@+id/carousel_delete_button_id"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/delete_image" />
 
 </RelativeLayout>
