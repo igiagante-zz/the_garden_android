@@ -66,7 +66,7 @@ public class CarouselFragment extends BaseFragment {
         mImage = (ImageView) containerView.findViewById(R.id.carousel_image_id);
         //mImage.setImageURI(Uri.fromFile(new File(mImageUrl)));
 
-        Picasso.with(getContext()).load(mImageUrl).into(mImage);
+        Picasso.with(getContext()).load(new File(mImageUrl)).into(mImage);
 
         Button button = (Button) containerView.findViewById(R.id.carousel_delete_button_id);
         button.setOnClickListener(view -> mOnDeleteImageInCarousel.deleteImageInCarousel(mPosition));
