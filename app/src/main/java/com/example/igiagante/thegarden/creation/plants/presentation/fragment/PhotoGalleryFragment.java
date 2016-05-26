@@ -94,11 +94,13 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
     }
 
     /**
-     * Call the {@link GalleryAdapter.OnDeleteImage#deleteImage(int)} method
+     * Call the {@link GalleryAdapter.OnDeleteImage#deleteImage(int)} method. The list of images
+     * is updated too.
      * @param positionSelected represent the image's position inside the image's list
      */
     private void deleteImage(int positionSelected) {
         mAdapter.deleteImage(positionSelected);
+        this.mImages.remove(positionSelected);
     }
 
     @Override

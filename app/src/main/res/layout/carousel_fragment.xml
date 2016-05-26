@@ -4,14 +4,13 @@
     android:layout_height="match_parent"
     android:padding="2dp">
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/carousel_image_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/text_image_slider"
-        app:placeholderImage="@drawable/mango1" />
+        android:background="@drawable/mango1" />
 
     <Button
         android:id="@+id/carousel_delete_button_id"

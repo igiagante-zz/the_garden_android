@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -26,7 +28,7 @@ public class CarouselFragment extends BaseFragment {
 
     private String mImageUrl;
     private int mPosition;
-    private SimpleDraweeView mImage;
+    private ImageView mImage;
     private OnDeleteImageInCarousel mOnDeleteImageInCarousel;
 
     public interface OnDeleteImageInCarousel {
@@ -61,8 +63,11 @@ public class CarouselFragment extends BaseFragment {
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.carousel_fragment, container, false);
 
-        mImage = (SimpleDraweeView) containerView.findViewById(R.id.carousel_image_id);
-        mImage.setImageURI(Uri.fromFile(new File(mImageUrl)));
+        mImage = (ImageView) containerView.findViewById(R.id.carousel_image_id);
+        //mImage.setImageURI(Uri.fromFile(new File(mImageUrl)));
+
+        Picasso.with(getContext()).load(mImageUrl).into(mImage);
+
         Button button = (Button) containerView.findViewById(R.id.carousel_delete_button_id);
         button.setOnClickListener(view -> mOnDeleteImageInCarousel.deleteImageInCarousel(mPosition));
 

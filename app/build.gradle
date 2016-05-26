@@ -75,6 +75,9 @@ dependencies {
     //fresco
     compile 'com.facebook.fresco:fresco:0.6.1'
 
+    //picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
     //image picker
     compile 'com.mlsdev.rximagepicker:library:1.1.6'
 }
