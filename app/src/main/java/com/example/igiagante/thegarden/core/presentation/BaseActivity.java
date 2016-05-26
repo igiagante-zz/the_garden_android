@@ -59,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return new ActivityModule(this);
     }
 
-    protected boolean isLandScape(){
+    protected boolean isLandScape() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 }

@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPageChangeListener,
         HasComponent<CreatePlantComponent> {
 
+    public static final String PLANT_KEY = "PLANT";
+
     private CreatePlantComponent createPlantComponent;
 
     private PlantBuilder plantBuilder;
@@ -90,6 +92,12 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), this, viewPager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
     }
 
     @Override

@@ -1,10 +1,7 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
 
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
 
-import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 
 /**

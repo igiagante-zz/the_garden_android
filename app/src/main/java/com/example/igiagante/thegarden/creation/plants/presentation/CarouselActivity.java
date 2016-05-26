@@ -12,7 +12,6 @@ import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.core.ui.CirclePageIndicator;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.CarouselAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CarouselFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.PhotoGalleryFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
         Intent intent = getIntent();
         int position = intent.getIntExtra(PICTURE_SELECTED_KEY, 0);
-        Plant plant = intent.getParcelableExtra(PhotoGalleryFragment.PLANT_KEY);
+        Plant plant = intent.getParcelableExtra(CreatePlantActivity.PLANT_KEY);
 
         if(plant != null) {
             ArrayList<Image> images = (ArrayList<Image>) plant.getImages();
@@ -51,6 +50,13 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
         //add circle indicator
         mIndicator.setViewPager(mPager, position);
+        setupCircleIndicator();
+    }
+
+    /**
+     * Add style to circle indicator
+     */
+    private void setupCircleIndicator() {
         final float density = getResources().getDisplayMetrics().density;
         mIndicator.setFillColor(0xFFFFFFFF);
         mIndicator.setStrokeColor(0xFFFFFFFF);
@@ -72,7 +78,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
         Plant plant = new Plant();
         plant.setImages(createImageList());
 
-        data.putExtra(PhotoGalleryFragment.PLANT_KEY, plant);
+        data.putExtra(CreatePlantActivity.PLANT_KEY, plant);
         setResult(Activity.RESULT_OK, data);
 
         finish();

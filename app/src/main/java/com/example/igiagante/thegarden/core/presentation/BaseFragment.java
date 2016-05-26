@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.core.presentation;
 
+import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
@@ -35,5 +36,9 @@ public abstract class BaseFragment extends Fragment {
 
     public void setTitle(String mTittle) {
         this.mTitle = mTittle;
+    }
+
+    protected boolean isLandScape() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 }

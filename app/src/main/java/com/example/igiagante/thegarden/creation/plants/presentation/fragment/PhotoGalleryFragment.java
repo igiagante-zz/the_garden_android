@@ -39,8 +39,6 @@ import butterknife.ButterKnife;
  */
 public class PhotoGalleryFragment extends CreationBaseFragment implements IView, GalleryAdapter.OnShowImages {
 
-    public static final String PLANT_KEY = "PLANT";
-
     /**
      * It's the request code used to start the carousel intent.
      */
@@ -64,6 +62,18 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
      */
     private List<String> imagesFilesPaths = new ArrayList<>();
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            Plant plant = savedInstanceState.getParcelable(CreatePlantActivity.PLANT_KEY);
+            if(plant != null) {
+                mImages =  plant.getImages();
+            }
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,13 +87,28 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
         mGallery.setHasFixedSize(true);
 
         //Two columns for portrait
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager manager;
+        if(isLandScape()) {
+            manager = new GridLayoutManager(getActivity(), 3);
+        } else {
+            manager = new GridLayoutManager(getActivity(), 2);
+        }
+
         mGallery.setLayoutManager(manager);
 
         mAdapter = new GalleryAdapter(getContext(), this::pickImages, this::deleteImage, this::onShowImages);
+        mAdapter.setImagesPath(getImagesFilesPaths(mImages));
         mGallery.setAdapter(mAdapter);
 
         return containerView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Plant plant = new Plant();
+        plant.setImages(mImages);
+        outState.putParcelable(CreatePlantActivity.PLANT_KEY, plant);
     }
 
     /**
@@ -141,7 +166,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
 
         Intent intent = new Intent(getActivity(), CarouselActivity.class);
         intent.putExtra(CarouselActivity.PICTURE_SELECTED_KEY, pictureSelected);
-        intent.putExtra(PLANT_KEY, plant);
+        intent.putExtra(CreatePlantActivity.PLANT_KEY, plant);
 
         this.startActivityForResult(intent, CAROUSEL_REQUEST_CODE);
     }
@@ -152,7 +177,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
         if(requestCode == CAROUSEL_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
             if(data != null) {
 
-                Plant plant = data.getParcelableExtra(PLANT_KEY);
+                Plant plant = data.getParcelableExtra(CreatePlantActivity.PLANT_KEY);
                 imagesFilesPaths = getImagesFilesPaths(plant.getImages());
 
                 //update adapter gallery
