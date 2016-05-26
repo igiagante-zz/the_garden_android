@@ -34,6 +34,9 @@
 
     <dimen name="view_pager_margin_top">130dp</dimen>
 
+
+    <dimen name="carousel_circle_indicator_margin_bottom">30dp</dimen>
+
     <!-- Land dimens -->
 
     <dimen name="margin_left_land">50dp</dimen>

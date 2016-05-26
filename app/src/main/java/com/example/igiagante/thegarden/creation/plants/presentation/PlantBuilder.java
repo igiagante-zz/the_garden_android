@@ -122,7 +122,12 @@ public class PlantBuilder {
     }
 
     public PlantBuilder addImages(Collection<Image> images) {
-        this.images = (ArrayList<Image>) images;
+        if(images.isEmpty()) {
+            this.images = (ArrayList<Image>) images;
+        } else {
+            this.images.addAll(images);
+        }
+
         return this;
     }
 }

@@ -139,12 +139,17 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
 
         if(requestCode == CAROUSEL_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
             if(data != null) {
+
                 Plant plant = data.getParcelableExtra(PLANT_KEY);
                 imagesFilesPaths = getImagesFilesPaths(plant.getImages());
+
                 //update adapter gallery
                 mAdapter.setImagesPath(imagesFilesPaths);
+
                 //update images from builder
-                updateImagesFromBuilder(getImagesFromFilesPaths(imagesFilesPaths));
+                ArrayList<Image> imagesFromFilesPaths = getImagesFromFilesPaths(imagesFilesPaths);
+                this.mImages = imagesFromFilesPaths;
+                updateImagesFromBuilder(imagesFromFilesPaths);
             }
         }
     }
@@ -152,7 +157,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
     private void updateImagesFromBuilder(Collection<Image> images) {
         PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
         builder.addImages(images);
-        this.mImages = (List<Image>)images;
     }
 
     private ArrayList<Image> getImagesFromFilesPaths(List<String> paths) {
@@ -241,16 +245,22 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
 
     /**
      * Notify to the gallery's adapter about the files paths
-     * @param filesPaths files path
+     * @param filesPaths files paths
      */
     public void loadImages(List<String> filesPaths) {
+
+        //update list of images files paths
         this.imagesFilesPaths.addAll(filesPaths);
+
+        //update gallery with new images
         mGallery.setVisibility(View.VISIBLE);
         mAdapter.addImagesPaths(filesPaths);
-        mPhotoGalleryPresenter.getImagesList(filesPaths);
 
         //update images for carousel
-        this.mImages = getImagesFromFilesPaths(filesPaths);
+        //this.mImages = getImagesFromFilesPaths(filesPaths);
+
+        //add images to the builder plant
+        mPhotoGalleryPresenter.getImagesList(filesPaths);
     }
 
     public void showUserCanceled() {

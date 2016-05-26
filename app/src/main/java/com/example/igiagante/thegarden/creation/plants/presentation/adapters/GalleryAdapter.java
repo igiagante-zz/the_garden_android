@@ -81,6 +81,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return items.size();
     }
 
+    /**
+     * Set the items collection using files paths and adding a button again.
+     * @param filesPaths files paths
+     */
     public void setImagesPath(List<String> filesPaths) {
         this.items.clear();
         this.items.addAll(getImagesCollection(filesPaths));
@@ -88,23 +92,19 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
+    /**
+     * Add images' paths from new images that should be added to the gallery
+     * @param filesPaths images' paths
+     */
     public void addImagesPaths(List<String> filesPaths) {
-        notifyImagesCollection(getImagesCollection(filesPaths));
+        notifyImagesAddedToCollection(getImagesCollection(filesPaths));
     }
 
-    public void deleteImage(int position) {
-        this.items.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    private void notifyImagesCollection(Collection<ViewTypeImage> imagesCollection) {
-
-        if(!imagesCollection.isEmpty()) {
-            this.items.addAll(0, imagesCollection);
-            this.notifyItemRangeInserted(0, imagesCollection.size());
-        }
-    }
-
+    /**
+     * Adapt folder paths list to {@link ViewTypeImage} Collection
+     * @param folderPaths Folder's paths
+     * @return viewTypeImages
+     */
     private Collection<ViewTypeImage> getImagesCollection(List<String> folderPaths) {
 
         ArrayList<ViewTypeImage> viewTypeImages = new ArrayList<>();
@@ -117,6 +117,25 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         return  viewTypeImages;
+    }
+
+    /**
+     * Notify about new images were added into the gallery
+     * @param imagesCollection images collections
+     */
+    private void notifyImagesAddedToCollection(Collection<ViewTypeImage> imagesCollection) {
+
+        if(!imagesCollection.isEmpty()) {
+            this.items.addAll(0, imagesCollection);
+            this.notifyItemRangeInserted(0, imagesCollection.size());
+
+            //update carousel images
+        }
+    }
+
+    public void deleteImage(int position) {
+        this.items.remove(position);
+        notifyItemRemoved(position);
     }
 
 }

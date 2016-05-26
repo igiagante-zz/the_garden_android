@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent" android:layout_gravity="center_horizontal"
     tools:context=".creation.plants.presentation.CarouselActivity" >
 
     <android.support.v4.view.ViewPager
@@ -16,7 +16,8 @@
         android:id="@+id/indicator"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/viewpager_carousel"
-        android:padding="10dip"/>
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/carousel_circle_indicator_margin_bottom"/>
 
 </RelativeLayout>

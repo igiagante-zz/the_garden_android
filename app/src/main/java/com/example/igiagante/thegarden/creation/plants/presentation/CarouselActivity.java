@@ -51,6 +51,11 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
         //add circle indicator
         mIndicator.setViewPager(mPager, position);
+        final float density = getResources().getDisplayMetrics().density;
+        mIndicator.setFillColor(0xFFFFFFFF);
+        mIndicator.setStrokeColor(0xFFFFFFFF);
+        mIndicator.setStrokeWidth(2);
+        mIndicator.setRadius(6 * density);
     }
 
     @Override
