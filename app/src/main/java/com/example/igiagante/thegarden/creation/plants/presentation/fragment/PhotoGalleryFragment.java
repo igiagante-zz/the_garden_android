@@ -54,8 +54,14 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
 
     private GalleryAdapter mAdapter;
 
+    /**
+     * The list of images which should share between the gallery and teh carousel
+     */
     private List<Image> mImages = new ArrayList<>();
 
+    /**
+     * The list of files' paths from files which were added using the android's gallery
+     */
     private List<String> imagesFilesPaths = new ArrayList<>();
 
     @Nullable
@@ -87,6 +93,10 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
         createImagePickerDialog();
     }
 
+    /**
+     * Call the {@link GalleryAdapter.OnDeleteImage#deleteImage(int)} method
+     * @param positionSelected represent the image's position inside the image's list
+     */
     private void deleteImage(int positionSelected) {
         mAdapter.deleteImage(positionSelected);
     }
@@ -154,6 +164,15 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
         }
     }
 
+    /**
+     * Add images to builder selected by the user.
+     */
+    public void addImagesToBuilder(Collection<Image> images) {
+        this.mImages.addAll(images);
+        updateImagesFromBuilder(images);
+        Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
+    }
+
     private void updateImagesFromBuilder(Collection<Image> images) {
         PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
         builder.addImages(images);
@@ -182,15 +201,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
             paths.add(image.getUrl());
         }
         return paths;
-    }
-
-    /**
-     * Add images to builder selected by the user.
-     */
-    public void addImagesToBuilder(Collection<Image> images) {
-        this.mImages.addAll(images);
-        updateImagesFromBuilder(images);
-        Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
     }
 
     /**

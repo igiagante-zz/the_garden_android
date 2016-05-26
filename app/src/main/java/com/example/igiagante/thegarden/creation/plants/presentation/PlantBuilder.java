@@ -127,7 +127,6 @@ public class PlantBuilder {
         } else {
             this.images.addAll(images);
         }
-
         return this;
     }
 }
