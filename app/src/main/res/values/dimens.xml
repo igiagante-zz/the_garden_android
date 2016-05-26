@@ -27,12 +27,17 @@
     <dimen name="count_view_padding_start">5dp</dimen>
     <dimen name="margin_top_spinner">-3dp</dimen>
 
+    <!-- gallery -->
+
     <dimen name="image_gallery_width">160dp</dimen>
     <dimen name="image_gallery_margin">5dp</dimen>
 
     <dimen name="view_pager_margin_top">130dp</dimen>
 
     <dimen name="carousel_circle_indicator_margin_bottom">30dp</dimen>
+
+    <!-- flavors -->
+    <dimen name="flavor_image_width">110dp</dimen>
 
     <!-- Land dimens -->
 
