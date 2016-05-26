@@ -75,6 +75,8 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      */
     private void setupViewPager(ViewPager viewPager) {
 
+        mPager.setOffscreenPageLimit(5);
+
         currentPage = mPager.getCurrentItem();
 
         if(isLandScape()) {
