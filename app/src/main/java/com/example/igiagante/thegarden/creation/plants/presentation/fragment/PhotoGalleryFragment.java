@@ -55,6 +55,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
     private GalleryAdapter mAdapter;
 
     private List<Image> mImages = new ArrayList<>();
+
     private List<String> imagesFilesPaths = new ArrayList<>();
 
     @Nullable
@@ -86,22 +87,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
         createImagePickerDialog();
     }
 
-    private void deleteImage(int positionSelected, String imagePath) {
-        deleteImageFromCarouselImages(imagePath);
+    private void deleteImage(int positionSelected) {
         mAdapter.deleteImage(positionSelected);
-    }
-
-    /**
-     * Delete one image from the images list used by the carousel
-     * @param imagePath The image path
-     */
-    private void deleteImageFromCarouselImages(String imagePath){
-
-        for(int i = 0; i < mImages.size(); i++) {
-            if(mImages.get(i).getUrl().equals(imagePath)) {
-                mImages.remove(i);
-            }
-        }
     }
 
     @Override
@@ -156,8 +143,27 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
                 imagesFilesPaths = getImagesFilesPaths(plant.getImages());
                 //update adapter gallery
                 mAdapter.setImagesPath(imagesFilesPaths);
+                //update images from builder
+                updateImagesFromBuilder(getImagesFromFilesPaths(imagesFilesPaths));
             }
         }
+    }
+
+    private void updateImagesFromBuilder(Collection<Image> images) {
+        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        builder.addImages(images);
+        this.mImages = (List<Image>)images;
+    }
+
+    private ArrayList<Image> getImagesFromFilesPaths(List<String> paths) {
+        ArrayList<Image> images = new ArrayList<>();
+
+        for(String path : paths) {
+            Image image = new Image();
+            image.setUrl(path);
+            images.add(image);
+        }
+        return images;
     }
 
     /**
@@ -179,8 +185,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
      */
     public void addImagesToBuilder(Collection<Image> images) {
         this.mImages.addAll(images);
-        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
-        builder.addImages(images);
+        updateImagesFromBuilder(images);
         Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
     }
 
@@ -243,6 +248,9 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
         mGallery.setVisibility(View.VISIBLE);
         mAdapter.addImagesPaths(filesPaths);
         mPhotoGalleryPresenter.getImagesList(filesPaths);
+
+        //update images for carousel
+        this.mImages = getImagesFromFilesPaths(filesPaths);
     }
 
     public void showUserCanceled() {

@@ -38,7 +38,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public interface OnDeleteImage {
-        void deleteImage(int positionSelected, String imagePath);
+        void deleteImage(int positionSelected);
     }
 
     public interface OnShowImages {
@@ -83,8 +83,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setImagesPath(List<String> filesPaths) {
         this.items.clear();
-        this.items.add(new ViewTypeButton());
         this.items.addAll(getImagesCollection(filesPaths));
+        this.items.add(new ViewTypeButton());
         notifyDataSetChanged();
     }
 

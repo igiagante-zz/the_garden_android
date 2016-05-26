@@ -26,7 +26,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
     private CirclePageIndicator mIndicator;
     private ViewPager mPager;
-    private String [] urls;
+    private ArrayList<String> urls;
     private CarouselAdapter mAdapter;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
     @Override
     public void deleteImageInCarousel(int position) {
-        urls[position] = null;
+        urls.remove(position);
         mAdapter.setUrlsImages(urls);
     }
 
@@ -74,11 +74,13 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
     }
 
     private ArrayList<Image> createImageList() {
+
         ArrayList<Image> images = new ArrayList<>();
 
-        for(int i = 0; i < urls.length; i++) {
+        for(int i = 0; i < urls.size(); i++) {
             Image image = new Image();
-            image.setUrl(urls[i]);
+            image.setUrl(urls.get(i));
+            images.add(image);
         }
 
         return images;
@@ -89,11 +91,12 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
      * @param images Images
      * @return paths images folder path
      */
-    private String [] getImagesFilesPaths(List<Image> images) {
-        String [] paths = new String[images.size()];
+    private ArrayList<String> getImagesFilesPaths(List<Image> images) {
+
+        ArrayList<String> paths = new ArrayList<>();
 
         for(int i = 0; i < images.size(); i++) {
-            paths[i] = images.get(i).getUrl();
+            paths.add(images.get(i).getUrl());
         }
 
         return paths;

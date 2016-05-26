@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CarouselFragment;
 
+import java.util.ArrayList;
+
 /**
  * @author Ignacio Giagante, on 23/5/16.
  */
 public class CarouselAdapter extends FragmentPagerAdapter {
 
-    private String [] mUrlsImages;
+    private ArrayList<String> mUrlsImages;
 
     public CarouselAdapter(FragmentManager fm) {
         super(fm);
@@ -22,12 +24,12 @@ public class CarouselAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return CarouselFragment.newInstance(mUrlsImages[position], position);
+        return CarouselFragment.newInstance(mUrlsImages.get(position), position);
     }
 
     @Override
     public int getCount() {
-        return mUrlsImages != null ? mUrlsImages.length : 0;
+        return mUrlsImages != null ? mUrlsImages.size() : 0;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class CarouselAdapter extends FragmentPagerAdapter {
         }
     }
 
-    public void setUrlsImages(String [] urlsImages) {
+    public void setUrlsImages(ArrayList<String> urlsImages) {
         this.mUrlsImages = urlsImages;
         notifyDataSetChanged();
     }
