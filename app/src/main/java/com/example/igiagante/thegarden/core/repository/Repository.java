@@ -5,23 +5,58 @@ import java.util.List;
 import rx.Observable;
 
 /**
- * Created by igiagante on 15/4/16.
+ * @author Ignacio Giagante, on 15/4/16.
  */
 public interface Repository<T> {
 
+    /**
+     * Return a resource using the id
+     * @param id Object id
+     * @return Observable<T>
+     */
     Observable<T> getById(String id);
 
+    /**
+     * Return an Object's id which was added
+     * @param item Object to be inserted into the repository
+     * @return Observable<String> The Observable contains an id
+     */
     Observable<String> add(T item);
 
+    /**
+     * Return the number of objects which were added.
+     * @param items Objects to be inserted into the repository
+     * @return Observable<Integer> The Observable contains the number of objects added
+     */
     Observable<Integer> add(Iterable<T> items);
 
+    /**
+     * Return an observable with the object updated.
+     * @param item Object to be updated into the repository
+     * @return Observable<Integer> The Observable contains the number of objects added.
+     */
     Observable<T> update(T item);
 
+    /**
+     * Return an observable with the integer, which indicates if the resource was deleted or not.
+     * @param item Object to be deleted into the repository
+     * @return Observable<Integer>
+     */
     Observable<Integer> remove(T item);
 
+    /**
+     * Return an observable with the integer, which indicates the number of deleted resources.
+     * @param specification {@link Specification}
+     * @return Observable<Integer>
+     */
     Observable<Integer> remove(Specification specification);
 
     void removeAll();
 
+    /**
+     * Return an observable a list of resources.
+     * @param specification {@link Specification}
+     * @return Observable<List<T>>
+     */
     Observable<List<T>> query(Specification specification);
 }

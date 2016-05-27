@@ -1,25 +1,23 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.adapters;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.IntegerRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.example.igiagante.thegarden.R;
-import com.facebook.common.util.UriUtil;
+import com.example.igiagante.thegarden.creation.plants.respository.sqlite.FlavorContract;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 /**
  * @author Ignacio Giagante, on 26/5/16.
  */
-public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorViewHolder> {
+public class FlavorAdapter extends RecyclerViewCursorAdapter<FlavorAdapter.FlavorViewHolder> {
 
     private Context mContext;
     private final LayoutInflater layoutInflater;
@@ -39,8 +37,8 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
     }
 
     @Override
-    public void onBindViewHolder(FlavorViewHolder holder, int position) {
-        holder.setImageView(resourcesIds[position]);
+    public void onBindViewHolder(FlavorViewHolder holder, Cursor cursor) {
+        holder.bindData(cursor);
     }
 
     @Override
@@ -48,26 +46,26 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
         return resourcesIds != null ? resourcesIds.length : 0;
     }
 
-    // inner class to hold a reference to each flavor image of RecyclerView
+    /**
+     * Inner class to hold a reference to each flavor of RecyclerView
+     */
     public class FlavorViewHolder extends RecyclerView.ViewHolder {
 
         public SimpleDraweeView imageView;
 
-        public FlavorViewHolder(View v) {
-            super(v);
-            imageView = (SimpleDraweeView) v.findViewById(R.id.image_flavor_id);
+        public FlavorViewHolder(View flavorView) {
+            super(flavorView);
+            imageView = (SimpleDraweeView) flavorView.findViewById(R.id.image_flavor_id);
         }
 
-        public void setImageView(int resourceId) {
-            //imageView.setImageURI(url);
+        public void bindData(final Cursor cursor)
+        {
+            final String imageUrl = cursor.getString(cursor.getColumnIndex(FlavorContract.FlavorEntry.COLUMN_IMAGE_URL));
+            setImageView(imageUrl);
+        }
 
-            Uri uri = new Uri.Builder()
-                    .scheme(UriUtil.LOCAL_RESOURCE_SCHEME) // "res"
-                    .path(String.valueOf(resourceId))
-                    .build();
-        // uri looks like res:/123456789
-            imageView.setImageURI(uri);
-
+        private void setImageView(String imageUrl) {
+            imageView.setImageURI(Uri.parse(imageUrl));
             //Picasso.with(mContext).load(resourceId).into(imageView);
         }
     }
@@ -81,6 +79,5 @@ public class FlavorAdapter extends RecyclerView.Adapter<FlavorAdapter.FlavorView
         this.urls = urls;
         notifyDataSetChanged();
     }
-
 
 }

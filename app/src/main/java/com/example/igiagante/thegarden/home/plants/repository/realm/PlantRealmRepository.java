@@ -126,7 +126,7 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         realm.close();
 
-        // if plantRealm.isValid() is false, it is because the realm object was deleted
+        // if plantRealm.isValid() is false, the realm object was deleted
         return Observable.just(plantRealm.isValid() ? 0 : 1);
     }
 

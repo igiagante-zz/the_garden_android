@@ -15,7 +15,7 @@ import retrofit2.http.Path;
 import rx.Observable;
 
 /**
- * Created by igiagante on 19/4/16.
+ * @author Ignacio Giagante, on 19/4/16.
  */
 public interface PlantRestAPI {
 
