@@ -11,8 +11,9 @@ import dagger.Component;
  * @author Ignacio Giagante, on 30/5/16.
  */
 @PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
+@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, FlavorModule.class})
 public interface FlavorComponent {
 
     FlavorRepositoryManager flavorRepositoryManager();
+
 }
