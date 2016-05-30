@@ -9,20 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.creation.plants.respository.sqlite.FlavorContract;
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.repository.sqlite.FlavorContract;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Ignacio Giagante, on 26/5/16.
  */
-public class FlavorAdapter extends RecyclerViewCursorAdapter<FlavorAdapter.FlavorViewHolder> {
+public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private final LayoutInflater layoutInflater;
 
-    private ArrayList<Uri> urls;
+    private ArrayList<Flavor> flavors;
     private int [] resourcesIds;
 
     public FlavorAdapter(Context context) {
@@ -37,13 +39,13 @@ public class FlavorAdapter extends RecyclerViewCursorAdapter<FlavorAdapter.Flavo
     }
 
     @Override
-    public void onBindViewHolder(FlavorViewHolder holder, Cursor cursor) {
-        holder.bindData(cursor);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((FlavorViewHolder)holder).setImageView(flavors.get(position).getImageUrl());
     }
 
     @Override
     public int getItemCount() {
-        return resourcesIds != null ? resourcesIds.length : 0;
+        return 0;
     }
 
     /**
@@ -58,12 +60,6 @@ public class FlavorAdapter extends RecyclerViewCursorAdapter<FlavorAdapter.Flavo
             imageView = (SimpleDraweeView) flavorView.findViewById(R.id.image_flavor_id);
         }
 
-        public void bindData(final Cursor cursor)
-        {
-            final String imageUrl = cursor.getString(cursor.getColumnIndex(FlavorContract.FlavorEntry.COLUMN_IMAGE_URL));
-            setImageView(imageUrl);
-        }
-
         private void setImageView(String imageUrl) {
             imageView.setImageURI(Uri.parse(imageUrl));
             //Picasso.with(mContext).load(resourceId).into(imageView);
@@ -75,8 +71,8 @@ public class FlavorAdapter extends RecyclerViewCursorAdapter<FlavorAdapter.Flavo
         notifyDataSetChanged();
     }
 
-    public void setUrls(ArrayList<Uri> urls) {
-        this.urls = urls;
+    public void setFlavors(List<Flavor> flavors) {
+        this.flavors = (ArrayList<Flavor>)flavors;
         notifyDataSetChanged();
     }
 

@@ -134,12 +134,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        this.mPhotoGalleryPresenter.setView(new WeakReference<>(this));
-    }
-
-    @Override
     public Context context() {
         return this.getActivity().getApplicationContext();
     }
@@ -152,11 +146,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
     @Override public void onDestroy() {
         super.onDestroy();
         this.mPhotoGalleryPresenter.destroy();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -292,9 +281,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
         //update gallery with new images
         mGallery.setVisibility(View.VISIBLE);
         mAdapter.addImagesPaths(filesPaths);
-
-        //update images for carousel
-        //this.mImages = getImagesFromFilesPaths(filesPaths);
 
         //add images to the builder plant
         mPhotoGalleryPresenter.getImagesList(filesPaths);

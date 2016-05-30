@@ -13,7 +13,9 @@ import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.network.HttpStatus;
 import com.example.igiagante.thegarden.core.repository.Repository;
-import com.example.igiagante.thegarden.home.plants.repository.restAPI.RestAPIRepository;
+import com.example.igiagante.thegarden.core.repository.restAPI.RestApiPlantRepository;
+import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDao;
+import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDbHelper;
 
 import javax.inject.Singleton;
 
@@ -53,7 +55,8 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton
-    Repository provideRepository(RestAPIRepository repository) {
+    Repository provideRepository(RestApiPlantRepository repository) {
         return repository;
     }
+
 }

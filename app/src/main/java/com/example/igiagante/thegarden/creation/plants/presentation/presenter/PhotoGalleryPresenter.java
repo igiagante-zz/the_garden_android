@@ -44,14 +44,6 @@ public class PhotoGalleryPresenter extends AbstractPresenter<PhotoGalleryFragmen
         this.mView = null;
     }
 
-    public WeakReference<PhotoGalleryFragment> getView() {
-        return mView;
-    }
-
-    public void setView(@NonNull WeakReference<PhotoGalleryFragment> mView) {
-        this.mView = mView;
-    }
-
     public void getImagesList(Collection<String> imagesPathFiles) {
         this.getImagesUserCase.execute(imagesPathFiles, new PhotoGallerySubscriber());
     }

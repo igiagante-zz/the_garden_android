@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.webkit.MimeTypeMap;
 
+import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
@@ -23,6 +24,7 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 19/5/16.
  */
+@PerActivity
 public class GetImagesUseCase extends UseCase<Collection<String>> {
 
     private Context mContext;

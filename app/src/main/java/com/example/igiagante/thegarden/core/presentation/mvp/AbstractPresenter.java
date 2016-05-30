@@ -7,7 +7,13 @@ import java.lang.ref.WeakReference;
  */
 public abstract class AbstractPresenter<T extends IView> {
 
-    protected WeakReference<T> viewWeakReference;
+    protected WeakReference<T> view;
 
+    public WeakReference<T> getView() {
+        return view;
+    }
 
+    public void setView(WeakReference<T> view) {
+        this.view = view;
+    }
 }
