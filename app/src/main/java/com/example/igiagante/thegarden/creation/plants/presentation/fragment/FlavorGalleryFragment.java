@@ -33,6 +33,9 @@ import butterknife.ButterKnife;
  */
 public class FlavorGalleryFragment extends CreationBaseFragment implements IView, FlavorAdapter.OnAddFlavor {
 
+    public static final String PLANT_WITH_FLAVORS_KEY = "PLANT_WITH_FLAVORS";
+    public static final String PLANT_WITH_FLAVORS_SELECTED_KEY = "PLANT_WITH_FLAVORS_SELECTED";
+
     @Inject
     FlavorGalleryPresenter mFlavorGalleryPresenter;
 
@@ -41,6 +44,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
 
     private FlavorAdapter mAdapter;
 
+    private ArrayList<Flavor> flavors = new ArrayList<>();
     private ArrayList<Flavor> flavorsAdded = new ArrayList<>();
 
     @Override
@@ -65,7 +69,13 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
 
         mFlavors.setHasFixedSize(true);
 
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
+        GridLayoutManager manager;
+        if(isLandScape()) {
+            manager = new GridLayoutManager(getActivity(), 4);
+        } else {
+            manager = new GridLayoutManager(getActivity(), 3);
+        }
+
         mFlavors.setLayoutManager(manager);
 
         mAdapter = new FlavorAdapter(getContext(), this);
@@ -107,13 +117,20 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        // save one model with all the flavors
+        Plant plantWithFlavors = new Plant();
+        plantWithFlavors.setFlavors(flavors);
+        outState.putParcelable(PLANT_WITH_FLAVORS_KEY, plantWithFlavors);
+
+        // save one model with flavors selected
         Plant plant = new Plant();
         plant.setFlavors(flavorsAdded);
-        outState.putParcelable(CreatePlantActivity.PLANT_KEY, plant);
+        outState.putParcelable(PLANT_WITH_FLAVORS_SELECTED_KEY, plant);
     }
 
     @Override
-    public void addFlavorId(int flavorPosition) {
+    public void addFlavor(int flavorPosition) {
 
         if(flavorsAdded == null) {
             flavorsAdded = new ArrayList<>();
@@ -129,6 +146,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
     }
 
     public void loadFlavors(List<Flavor> flavors) {
+        this.flavors = (ArrayList<Flavor>) flavors;
         mAdapter.setFlavors(flavors);
     }
 

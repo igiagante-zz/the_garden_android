@@ -24,6 +24,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         HasComponent<CreatePlantComponent> {
 
     public static final String PLANT_KEY = "PLANT";
+    public static final String CURRENT_PAGE_KEY = "CURRENT_PAGE";
 
     private CreatePlantComponent createPlantComponent;
 
@@ -58,6 +59,10 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         this.initializeInjector();
         setContentView(R.layout.create_plant_activity);
 
+        if(savedInstanceState != null){
+            currentPage = savedInstanceState.getInt(CURRENT_PAGE_KEY);
+        }
+
         plantBuilder = new PlantBuilder();
 
         ButterKnife.bind(this);
@@ -78,8 +83,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     private void setupViewPager(ViewPager viewPager) {
 
         mPager.setOffscreenPageLimit(5);
-
-        currentPage = mPager.getCurrentItem();
+        mPager.setCurrentItem(currentPage);
 
         if(isLandScape()) {
             mPreviousButton.setText("");
@@ -97,7 +101,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        outState.putInt(CURRENT_PAGE_KEY, currentPage);
     }
 
     @Override

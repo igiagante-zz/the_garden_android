@@ -42,10 +42,13 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final LayoutInflater layoutInflater;
 
     private ArrayList<Flavor> flavors;
+
+    private ArrayList<Flavor> flavorsSelected;
+
     private OnAddFlavor onAddFlavor;
 
     public interface OnAddFlavor {
-        void addFlavorId(int flavorId);
+        void addFlavor(int flavorId);
     }
 
     public FlavorAdapter(Context context, OnAddFlavor onAddFlavor) {
@@ -88,7 +91,7 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             imageView.setImageURI(Uri.parse(imageUrl));
             imageView.setClickable(true);
             imageView.setOnClickListener(view -> {
-                onAddFlavor.addFlavorId(flavorPosition);
+                onAddFlavor.addFlavor(flavorPosition);
                 changeBorder(imageUrl);
             });
         }
@@ -115,6 +118,10 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void setFlavors(List<Flavor> flavors) {
         this.flavors = (ArrayList<Flavor>)flavors;
         notifyDataSetChanged();
+    }
+
+    public void setFlavorsSelected(ArrayList<Flavor> flavorsSelected) {
+        this.flavorsSelected = flavorsSelected;
     }
 
     public ArrayList<Flavor> getFlavors() {
