@@ -11,12 +11,16 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
+import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
+import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.FlavorAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenter.FlavorGalleryPresenter;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * @author igiagante on 10/5/16.
  */
-public class FlavorGalleryFragment extends CreationBaseFragment implements IView {
+public class FlavorGalleryFragment extends CreationBaseFragment implements IView, FlavorAdapter.OnAddFlavor {
 
     @Inject
     FlavorGalleryPresenter mFlavorGalleryPresenter;
@@ -37,10 +41,18 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
 
     private FlavorAdapter mAdapter;
 
+    private ArrayList<Flavor> flavorsAdded = new ArrayList<>();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getComponent(CreatePlantComponent.class).inject(this);
+
+        if(savedInstanceState != null) {
+            Plant plant = savedInstanceState.getParcelable(CreatePlantActivity.PLANT_KEY);
+            if(plant != null) {
+                flavorsAdded = (ArrayList<Flavor>) plant.getFlavors();
+            }
+        }
     }
 
     @Nullable
@@ -48,6 +60,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.flavors_fragment, container, false);
+        this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
         mFlavors.setHasFixedSize(true);
@@ -55,7 +68,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
         mFlavors.setLayoutManager(manager);
 
-        mAdapter = new FlavorAdapter(getContext());
+        mAdapter = new FlavorAdapter(getContext(), this);
         mFlavors.setAdapter(mAdapter);
 
         // Get Flavor List
@@ -91,7 +104,37 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
         return this.getActivity().getApplicationContext();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Plant plant = new Plant();
+        plant.setFlavors(flavorsAdded);
+        outState.putParcelable(CreatePlantActivity.PLANT_KEY, plant);
+    }
+
+    @Override
+    public void addFlavorId(int flavorPosition) {
+
+        if(flavorsAdded == null) {
+            flavorsAdded = new ArrayList<>();
+        }
+
+        Flavor flavor = mAdapter.getFlavors().get(flavorPosition);
+
+        if(flavorsAdded.contains(flavor)) {
+            flavorsAdded.remove(flavorPosition);
+        } else {
+            flavorsAdded.add(flavor);
+        }
+    }
+
     public void loadFlavors(List<Flavor> flavors) {
         mAdapter.setFlavors(flavors);
+    }
+
+    @Override
+    protected void move() {
+        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        builder.addFlavors(flavorsAdded);
     }
 }

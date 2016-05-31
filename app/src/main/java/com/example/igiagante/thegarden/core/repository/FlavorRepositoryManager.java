@@ -7,6 +7,7 @@ import com.example.igiagante.thegarden.core.repository.restAPI.RestApiFlavorRepo
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDaoRepository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -55,7 +56,7 @@ public class FlavorRepositoryManager {
      */
     public Observable query(Specification specification) {
 
-        final Observable observable = flavorDaoRepository.query(specification);
+        final Observable<List<Flavor>> observable = flavorDaoRepository.query(specification);
 
         return restApiFlavorRepository.query(specification);
         /*
@@ -70,6 +71,10 @@ public class FlavorRepositoryManager {
         });
 
         return observable.switchIfEmpty(restApiFlavorRepository.query(specification));
-        */
+
+
+        observable
+                .filter(v -> !v.isEmpty())
+                .switchIfEmpty(restApiFlavorRepository.query(specification));*/
     }
 }
