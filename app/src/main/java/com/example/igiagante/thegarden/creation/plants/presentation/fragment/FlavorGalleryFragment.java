@@ -56,6 +56,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
         mFlavors.setLayoutManager(manager);
 
         mAdapter = new FlavorAdapter(getContext());
+        mFlavors.setAdapter(mAdapter);
 
         // Get Flavor List
         mFlavorGalleryPresenter.getFlavors();
@@ -72,6 +73,12 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
     @Override public void onDestroy() {
         super.onDestroy();
         this.mFlavorGalleryPresenter.destroy();
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        mFlavors.setAdapter(null);
+        ButterKnife.unbind(this);
     }
 
     @Override

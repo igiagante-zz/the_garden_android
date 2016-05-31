@@ -22,11 +22,6 @@ public class FlavorGalleryPresenter extends AbstractPresenter<IView> {
 
     private final UseCase getFlavorsUserCase;
 
-    /**
-     * Reference to the view (mvp)
-     */
-    private WeakReference<FlavorGalleryFragment> mView;
-
     @Inject
     public FlavorGalleryPresenter(@Named("flavors") UseCase getFlavorsUserCase) {
         this.getFlavorsUserCase = getFlavorsUserCase;
@@ -34,11 +29,11 @@ public class FlavorGalleryPresenter extends AbstractPresenter<IView> {
 
     public void destroy() {
         this.getFlavorsUserCase.unsubscribe();
-        this.mView = null;
+        this.view = null;
     }
 
     public void addFlavorsInView(List<Flavor> flavors) {
-        this.mView.get().loadFlavors(flavors);
+        ((FlavorGalleryFragment)this.view.get()).loadFlavors(flavors);
     }
 
     /**

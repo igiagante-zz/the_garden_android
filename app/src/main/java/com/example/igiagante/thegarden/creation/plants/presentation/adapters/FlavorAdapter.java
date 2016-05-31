@@ -13,6 +13,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorContract;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final LayoutInflater layoutInflater;
 
     private ArrayList<Flavor> flavors;
-    private int [] resourcesIds;
 
     public FlavorAdapter(Context context) {
         this.mContext = context;
@@ -61,14 +61,9 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         private void setImageView(String imageUrl) {
-            imageView.setImageURI(Uri.parse(imageUrl));
+            imageView.setImageURI(Uri.fromFile(new File(imageUrl)));
             //Picasso.with(mContext).load(resourceId).into(imageView);
         }
-    }
-
-    public void setResourcesIds(int[] resourcesIds) {
-        this.resourcesIds = resourcesIds;
-        notifyDataSetChanged();
     }
 
     public void setFlavors(List<Flavor> flavors) {

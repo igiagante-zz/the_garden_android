@@ -2,14 +2,17 @@ package com.example.igiagante.thegarden.core.repository;
 
 import android.support.annotation.NonNull;
 
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiFlavorRepository;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDaoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * @author Ignacio Giagante, on 30/5/16.
@@ -54,14 +57,19 @@ public class FlavorRepositoryManager {
 
         final Observable observable = flavorDaoRepository.query(specification);
 
-        observable.map(listOfFlavors -> {
-
-            if(((List)listOfFlavors).isEmpty()) {
-                return restApiFlavorRepository.query(specification);
+        return restApiFlavorRepository.query(specification);
+        /*
+        return observable.map(new Func1() {
+            @Override
+            public Observable<List<Flavor>> call(Object o) {
+                if(((ArrayList<Flavor>)o).isEmpty()) {
+                    return restApiFlavorRepository.query(specification);
+                }
+                return null;
             }
-            return Observable.just(listOfFlavors);
         });
 
-        return observable;
+        return observable.switchIfEmpty(restApiFlavorRepository.query(specification));
+        */
     }
 }
