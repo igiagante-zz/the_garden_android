@@ -109,14 +109,27 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             setBorderOnImage(roundingParams.getBorderWidth() == 0, imageUrl);
         }
 
+        /**
+         * Set the border with its corresponding color. If the flavor was selected, the color should be
+         * green, but white.
+         * @param selected indicate if the flavor was selected
+         * @param imageUrl image url
+         */
         private void setBorderOnImage(boolean selected, String imageUrl) {
             if(selected) {
-                setBorder(imageView, imageUrl, R.color.colorPrimaryDark, 8);
+                setBorder(imageView, imageUrl, R.color.colorPrimary, 8);
             } else {
                 setBorder(imageView, imageUrl, R.color.white, 0);
             }
         }
 
+        /**
+         * Create a border for the view
+         * @param imageView view
+         * @param imageUrl image url
+         * @param color color of the border
+         * @param width size of the border
+         */
         private void setBorder(SimpleDraweeView imageView, String imageUrl, int color, float width) {
             GenericDraweeHierarchy hierarchy = imageView.getHierarchy();
             RoundingParams roundingParams = hierarchy.getRoundingParams();

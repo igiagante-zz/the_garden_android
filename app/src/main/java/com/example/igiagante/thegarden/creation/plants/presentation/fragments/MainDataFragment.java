@@ -69,7 +69,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
         if(savedInstanceState != null) {
             mPlant = savedInstanceState.getParcelable(PLANT_KEY);
-            setPlantValuesInView(fragmentView);
+            setPlantValuesInView();
         }
 
         initDefaultValues();
@@ -136,7 +136,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         return plant;
     }
 
-    private void setPlantValuesInView(View view) {
+    private void setPlantValuesInView() {
 
         mNameOfPlant.setText(mPlant.getName());
         mPhSoil.setEditValue(mPlant.getPhSoil());

@@ -12,6 +12,9 @@ import com.example.igiagante.thegarden.creation.plants.presentation.fragments.Ca
 import java.util.ArrayList;
 
 /**
+ * Adapter that provides the fragments for the view pager
+ * {@link com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment#viewP}
+ *
  * @author Ignacio Giagante, on 23/5/16.
  */
 public class CarouselAdapter extends FragmentPagerAdapter {

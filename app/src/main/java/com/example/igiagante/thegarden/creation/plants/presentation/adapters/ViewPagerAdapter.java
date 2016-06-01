@@ -16,6 +16,10 @@ import com.example.igiagante.thegarden.creation.plants.presentation.fragments.Ma
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
 
 /**
+ * Adapter that provides the fragments for the view pager
+ *
+ * {@link com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity#mPager}
+ *
  * @author Ignacio Giagante, on 11/5/16.
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {

@@ -21,6 +21,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
+ * Adapter that maps the image models to the views
+ *
  * @author Ignacio Giagante, on 10/5/16.
  */
 public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -131,6 +133,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    /**
+     * Remove an image from the list of items. Remember that it has only one button and the rest of
+     * the list are images.
+     * @param position position of the image
+     */
     public void deleteImage(int position) {
         this.items.remove(position);
         notifyItemRemoved(position);

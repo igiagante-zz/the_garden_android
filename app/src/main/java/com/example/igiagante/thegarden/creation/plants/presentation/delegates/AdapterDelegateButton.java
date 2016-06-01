@@ -34,6 +34,9 @@ public class AdapterDelegateButton implements AdapterDelegate<AdapterDelegateBut
 
     }
 
+    /**
+     * Inner class to hold a reference to each ButtonAddImageHolder of RecyclerView
+     */
     class ButtonAddImageHolder extends RecyclerView.ViewHolder {
 
         Button mButtonAddImage;

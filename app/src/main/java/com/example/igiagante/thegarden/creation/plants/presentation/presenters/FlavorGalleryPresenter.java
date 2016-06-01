@@ -15,6 +15,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * This presenter has the logic related to the flavors gallery
+ *
  * @author Ignacio Giagante, on 30/5/16.
  */
 @PerActivity
@@ -32,10 +34,19 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
         this.view = null;
     }
 
+    /**
+     * Load the flavor in the view
+     * @param flavors list of flavors
+     */
     public void addFlavorsInView(List<Flavor> flavors) {
         getView().loadFlavors(createFlavorHolderList(flavors));
     }
 
+    /**
+     * Transform a list of flavors to flavor holders
+     * @param flavors list of flavors
+     * @return list of flavor holders
+     */
     private ArrayList<FlavorHolder> createFlavorHolderList(List<Flavor> flavors) {
 
         ArrayList<FlavorHolder> flavorHolders = new ArrayList<>();

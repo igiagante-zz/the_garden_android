@@ -14,6 +14,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * This presenter has the logic related to the photos gallery
+ *
  * @author Ignacio Giagante, on 11/5/16.
  */
 @PerActivity
@@ -31,6 +33,10 @@ public class PhotoGalleryPresenter extends AbstractPresenter<PhotoGalleryView> {
         view = null;
     }
 
+    /**
+     * Get the list of images for the photos gallery
+     * @param imagesPathFiles files paths from images
+     */
     public void getImagesList(Collection<String> imagesPathFiles) {
         this.getImagesUserCase.execute(imagesPathFiles, new PhotoGallerySubscriber());
     }

@@ -17,6 +17,8 @@ import java.io.File;
 
 
 /**
+ * Fragment used to show the images through a carousel
+ *
  * @author Ignacio Giagante, on 23/5/16.
  */
 public class CarouselFragment extends BaseFragment {

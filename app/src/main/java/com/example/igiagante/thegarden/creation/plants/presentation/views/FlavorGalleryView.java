@@ -10,5 +10,9 @@ import java.util.List;
  */
 public interface FlavorGalleryView extends IView {
 
+    /**
+     * Load flavor holders to be shown in the view
+     * @param flavors flavor holder collection
+     */
     void loadFlavors(List<FlavorHolder> flavors);
 }

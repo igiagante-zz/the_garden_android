@@ -29,6 +29,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * Fragment used to show the flavors gallery
+ *
  * @author igiagante on 10/5/16.
  */
 public class FlavorGalleryFragment extends CreationBaseFragment implements FlavorGalleryView, FlavorAdapter.OnAddFlavor {
@@ -80,8 +82,8 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         mAdapter.setFlavors(mFlavors);
         mFlavorsRecycleView.setAdapter(mAdapter);
 
-        // Get Flavor List
         if(mFlavors.isEmpty()) {
+            // Get Flavor List
             mFlavorGalleryPresenter.getFlavors();
         }
 
@@ -118,8 +120,6 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        // save one model with all the mFlavors
         outState.putParcelableArrayList(FLAVORS_KEY, mFlavors);
     }
 

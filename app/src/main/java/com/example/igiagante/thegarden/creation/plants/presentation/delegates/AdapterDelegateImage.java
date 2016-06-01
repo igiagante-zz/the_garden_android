@@ -41,6 +41,9 @@ public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImag
         holder.setPositionImage(item.getPositionSelected());
     }
 
+    /**
+     * Inner class to hold a reference to each ImageViewHolder of RecyclerView
+     */
     class ImageViewHolder extends RecyclerView.ViewHolder {
 
         SimpleDraweeView mImage;

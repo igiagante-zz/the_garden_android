@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.IViewType;
 
 /**
- * @param <T> the type of adapters data source i.e. List<Accessory>
+ * @param <T> the type of adapter's data source i.e. List<Accessory>
  */
 public interface AdapterDelegate<VH extends RecyclerView.ViewHolder, T extends IViewType> {
 

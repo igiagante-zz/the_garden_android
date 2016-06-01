@@ -20,7 +20,7 @@ import rx.Observable;
 public class GetFlavorsUseCase extends UseCase<Void> {
 
     /**
-     * Repository Manager which delegates to the correct repository
+     * Repository Manager which delegates the actions to the correct repository
      */
     private final FlavorRepositoryManager flavorRepositoryManager;
 

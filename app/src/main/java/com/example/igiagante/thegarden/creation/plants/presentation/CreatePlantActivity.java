@@ -25,8 +25,14 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     public static final String PLANT_KEY = "PLANT";
     public static final String CURRENT_PAGE_KEY = "CURRENT_PAGE";
 
+    /**
+     * Dagger component used to inject some dependencies
+     */
     private CreatePlantComponent createPlantComponent;
 
+    /**
+     * This builder class will keep all the information related to the creation process plant
+     */
     private PlantBuilder plantBuilder;
 
     @Bind(R.id.button_previous_id)
@@ -169,6 +175,10 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         return createPlantComponent;
     }
 
+    /**
+     * Get Plant Builder
+     * @return plantBuilder
+     */
     public PlantBuilder getPlantBuilder() {
         return plantBuilder;
     }

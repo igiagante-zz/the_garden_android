@@ -41,6 +41,11 @@ public class GetImagesUseCase extends UseCase<Collection<String>> {
         return getImagesCollection(filesPaths);
     }
 
+    /**
+     * Convert a file paths collection into a images collection, which will be an observable.
+     * @param filesPaths files paths
+     * @return an observable with a Collection of images
+     */
     private Observable<Collection<Image>> getImagesCollection(Collection<String> filesPaths) {
 
         File file;

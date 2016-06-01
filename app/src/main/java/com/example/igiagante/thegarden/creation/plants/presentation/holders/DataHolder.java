@@ -3,11 +3,9 @@ package com.example.igiagante.thegarden.creation.plants.presentation.holders;
 import android.os.Parcelable;
 
 /**
- * @author Ignacio Giagante, on 1/6/16.
- */
-
-/**
  * Wrapper class used to detach the view from the model.
+ *
+ * @author Ignacio Giagante, on 1/6/16.
  */
 public abstract class DataHolder<T> implements Parcelable {
 

@@ -1,6 +1,8 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.viewTypes;
 
 /**
+ * ViewType that represent an image.
+ *
  * @author Ignacio Giagante, on 18/5/16.
  */
 public class ViewTypeImage implements IViewType {

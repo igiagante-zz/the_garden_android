@@ -5,6 +5,9 @@ import android.support.v4.view.ViewPager;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 
 /**
+ * Base Fragment class used to get some events in common for the fragments which are in the viewPager
+ * {@link com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity#mPager}
+ *
  * @author Ignacio Giagante, on 20/5/16.
  */
 public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
