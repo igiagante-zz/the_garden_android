@@ -1,11 +1,10 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
+package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 

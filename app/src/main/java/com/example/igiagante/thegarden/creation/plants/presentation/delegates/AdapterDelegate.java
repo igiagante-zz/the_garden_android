@@ -3,7 +3,7 @@ package com.example.igiagante.thegarden.creation.plants.presentation.delegates;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.example.igiagante.thegarden.creation.plants.presentation.viewType.IViewType;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.IViewType;
 
 /**
  * @param <T> the type of adapters data source i.e. List<Accessory>

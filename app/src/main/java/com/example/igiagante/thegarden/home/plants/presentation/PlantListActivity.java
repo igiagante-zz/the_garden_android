@@ -5,8 +5,6 @@ import android.os.Bundle;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.core.di.HasComponent;
-import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.PhotoGalleryFragment;
 import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
 import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 

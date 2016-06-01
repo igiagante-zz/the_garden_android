@@ -11,7 +11,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.core.ui.CirclePageIndicator;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.CarouselAdapter;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CarouselFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CarouselFragment;
 
 import java.util.ArrayList;
 import java.util.List;

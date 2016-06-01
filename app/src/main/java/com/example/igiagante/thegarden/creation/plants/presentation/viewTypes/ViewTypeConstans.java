@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.viewType;
+package com.example.igiagante.thegarden.creation.plants.presentation.viewTypes;
 
 /**
  * @author Ignacio Giagante, on 18/5/16.

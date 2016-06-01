@@ -8,15 +8,12 @@ import android.support.v4.view.ViewPager;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.AttributesFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CreationBaseFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.DescriptionFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.FlavorGalleryFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.MainDataFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.PhotoGalleryFragment;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.AttributesFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.FlavorGalleryFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.MainDataFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
 
 /**
  * @author Ignacio Giagante, on 11/5/16.

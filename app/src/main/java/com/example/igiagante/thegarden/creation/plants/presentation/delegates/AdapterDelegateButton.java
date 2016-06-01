@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeButton;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeButton;
 
 /**
  * @author Ignacio Giagante, on 18/5/16.

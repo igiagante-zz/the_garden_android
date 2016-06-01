@@ -1,19 +1,17 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegate;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateButton;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateImage;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewType.IViewType;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeButton;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeConstans;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeImage;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.IViewType;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeButton;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeConstans;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeImage;
 
 import java.util.ArrayList;
 import java.util.Collection;

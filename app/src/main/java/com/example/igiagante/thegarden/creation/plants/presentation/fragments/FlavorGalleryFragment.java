@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
+package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,14 +11,13 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
-import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.FlavorAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
-import com.example.igiagante.thegarden.creation.plants.presentation.presenter.FlavorGalleryPresenter;
-import com.example.igiagante.thegarden.creation.plants.presentation.view.FlavorGalleryView;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.views.FlavorGalleryView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

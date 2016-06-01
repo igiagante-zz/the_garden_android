@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
+package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
 import android.support.v4.view.ViewPager;
 

@@ -51,7 +51,6 @@ public class PlantBuilder {
 
     /**
      * Add the name of the plant to builder
-     *
      * @param plantName name
      * @return builder
      */
@@ -62,7 +61,6 @@ public class PlantBuilder {
 
     /**
      * Add the Ph Soil to builder
-     *
      * @param phSoil ph soil
      * @return builder
      */
@@ -73,7 +71,6 @@ public class PlantBuilder {
 
     /**
      * Add the Ec Soil to builder
-     *
      * @param ecSoil ec soil
      * @return builder
      */
@@ -84,7 +81,6 @@ public class PlantBuilder {
 
     /**
      * Add the flowering time of the plant to builder
-     *
      * @param floweringTime name
      * @return builder
      */
@@ -95,7 +91,6 @@ public class PlantBuilder {
 
     /**
      * Add the harvest to builder
-     *
      * @param harvest indicate how much was the harvest
      * @return builder
      */
@@ -106,7 +101,6 @@ public class PlantBuilder {
 
     /**
      * Add the harvest to builder
-     *
      * @param genotype indicate the genotype of the plant
      * @return builder
      */
@@ -117,7 +111,6 @@ public class PlantBuilder {
 
     /**
      * Add the size to builder
-     *
      * @param size indicate how long is the plant in one moment
      * @return builder
      */
@@ -127,7 +120,7 @@ public class PlantBuilder {
     }
 
     public PlantBuilder addImages(Collection<Image> images) {
-        if (images.isEmpty()) {
+        if(images.isEmpty()) {
             this.images = (ArrayList<Image>) images;
         } else {
             this.images.addAll(images);

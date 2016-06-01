@@ -1,11 +1,11 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.presenter;
+package com.example.igiagante.thegarden.creation.plants.presentation.presenters;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
-import com.example.igiagante.thegarden.creation.plants.presentation.view.PhotoGalleryView;
+import com.example.igiagante.thegarden.creation.plants.presentation.views.PhotoGalleryView;
 
 import java.util.Collection;
 import java.util.List;

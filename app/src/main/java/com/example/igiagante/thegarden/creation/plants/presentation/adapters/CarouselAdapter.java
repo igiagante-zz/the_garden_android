@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.CarouselFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CarouselFragment;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,6 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
+package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;

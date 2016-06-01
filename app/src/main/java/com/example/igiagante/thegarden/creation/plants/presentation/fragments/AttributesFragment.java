@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
+package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
 /**
  * @author igiagante on 10/5/16.

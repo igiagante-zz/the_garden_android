@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.fragment;
+package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,10 +22,9 @@ import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActi
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
-import com.example.igiagante.thegarden.creation.plants.presentation.presenter.PhotoGalleryPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PhotoGalleryPresenter;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

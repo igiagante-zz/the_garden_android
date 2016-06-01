@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.presenter;
+package com.example.igiagante.thegarden.creation.plants.presentation.presenters;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
@@ -6,7 +6,7 @@ import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
-import com.example.igiagante.thegarden.creation.plants.presentation.view.FlavorGalleryView;
+import com.example.igiagante.thegarden.creation.plants.presentation.views.FlavorGalleryView;
 
 import java.util.ArrayList;
 import java.util.List;

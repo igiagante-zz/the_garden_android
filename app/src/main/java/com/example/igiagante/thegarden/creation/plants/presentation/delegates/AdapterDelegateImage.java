@@ -1,7 +1,6 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.delegates;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
-import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewType.ViewTypeImage;
+import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeImage;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;

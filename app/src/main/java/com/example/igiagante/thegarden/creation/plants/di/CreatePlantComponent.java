@@ -4,12 +4,11 @@ import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.di.components.ActivityComponent;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
-import com.example.igiagante.thegarden.core.repository.di.components.FlavorComponent;
 import com.example.igiagante.thegarden.core.repository.di.components.FlavorModule;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.FlavorGalleryFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.PhotoGalleryFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.presenter.FlavorGalleryPresenter;
-import com.example.igiagante.thegarden.creation.plants.presentation.presenter.PhotoGalleryPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.FlavorGalleryFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PhotoGalleryPresenter;
 
 import dagger.Component;
 
