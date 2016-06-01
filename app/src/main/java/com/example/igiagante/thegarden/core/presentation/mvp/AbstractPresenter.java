@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.core.presentation.mvp;
 
+import android.support.annotation.Nullable;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -9,8 +11,9 @@ public abstract class AbstractPresenter<T extends IView> {
 
     protected WeakReference<T> view;
 
-    public WeakReference<T> getView() {
-        return view;
+    @Nullable
+    public T getView() {
+        return view.get();
     }
 
     public void setView(WeakReference<T> view) {

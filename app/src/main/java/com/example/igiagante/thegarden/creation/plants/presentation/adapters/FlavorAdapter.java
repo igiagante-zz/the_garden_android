@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.IntegerRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorContract;
+import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.controller.ControllerListener;
@@ -41,9 +43,10 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context mContext;
     private final LayoutInflater layoutInflater;
 
-    private ArrayList<Flavor> flavors;
-
-    private ArrayList<Flavor> flavorsSelected;
+    /**
+     * A list with holders which contain the model and extra data
+     */
+    private ArrayList<FlavorHolder> flavors;
 
     private OnAddFlavor onAddFlavor;
 
@@ -94,17 +97,30 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 onAddFlavor.addFlavor(flavorPosition);
                 changeBorder(imageUrl);
             });
+
+            setBorderOnImage(flavors.get(flavorPosition).isSelected(), imageUrl);
         }
 
         private void changeBorder(String imageUrl) {
+
             GenericDraweeHierarchy hierarchy = imageView.getHierarchy();
             RoundingParams roundingParams = hierarchy.getRoundingParams();
-            if(roundingParams.getBorderWidth() == 0) {
-                roundingParams.setBorder(mContext.getResources().getColor(R.color.colorPrimaryDark), 8);
-            } else {
-                roundingParams.setBorder(mContext.getResources().getColor(R.color.white), 0);
-            }
 
+            setBorderOnImage(roundingParams.getBorderWidth() == 0, imageUrl);
+        }
+
+        private void setBorderOnImage(boolean selected, String imageUrl) {
+            if(selected) {
+                setBorder(imageView, imageUrl, R.color.colorPrimaryDark, 8);
+            } else {
+                setBorder(imageView, imageUrl, R.color.white, 0);
+            }
+        }
+
+        private void setBorder(SimpleDraweeView imageView, String imageUrl, int color, float width) {
+            GenericDraweeHierarchy hierarchy = imageView.getHierarchy();
+            RoundingParams roundingParams = hierarchy.getRoundingParams();
+            roundingParams.setBorder(color, width);
             hierarchy.setRoundingParams(roundingParams);
             imageView.setHierarchy(hierarchy);
             imageView.setImageURI(Uri.parse(imageUrl));
@@ -115,16 +131,12 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public void setFlavors(List<Flavor> flavors) {
-        this.flavors = (ArrayList<Flavor>)flavors;
+    public void setFlavors(ArrayList<FlavorHolder> flavors) {
+        this.flavors = flavors;
         notifyDataSetChanged();
     }
 
-    public void setFlavorsSelected(ArrayList<Flavor> flavorsSelected) {
-        this.flavorsSelected = flavorsSelected;
-    }
-
-    public ArrayList<Flavor> getFlavors() {
+    public ArrayList<FlavorHolder> getFlavors() {
         return flavors;
     }
 }

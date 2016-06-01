@@ -35,7 +35,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 /**
- * @author igiagante on 10/5/16.
+ * @author Ignacio Giagante, on 10/5/16.
  */
 public class PhotoGalleryFragment extends CreationBaseFragment implements IView, GalleryAdapter.OnShowImages {
 

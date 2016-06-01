@@ -3,12 +3,12 @@ package com.example.igiagante.thegarden.creation.plants.presentation.presenter;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
-import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragment.FlavorGalleryFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.view.FlavorGalleryView;
 
-import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,7 +18,7 @@ import javax.inject.Named;
  * @author Ignacio Giagante, on 30/5/16.
  */
 @PerActivity
-public class FlavorGalleryPresenter extends AbstractPresenter<IView> {
+public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView> {
 
     private final UseCase getFlavorsUserCase;
 
@@ -33,7 +33,19 @@ public class FlavorGalleryPresenter extends AbstractPresenter<IView> {
     }
 
     public void addFlavorsInView(List<Flavor> flavors) {
-        ((FlavorGalleryFragment)this.view.get()).loadFlavors(flavors);
+        getView().loadFlavors(createFlavorHolderList(flavors));
+    }
+
+    private ArrayList<FlavorHolder> createFlavorHolderList(List<Flavor> flavors) {
+
+        ArrayList<FlavorHolder> flavorHolders = new ArrayList<>();
+
+        for(Flavor flavor : flavors) {
+            FlavorHolder flavorHolder = new FlavorHolder();
+            flavorHolder.setModel(flavor);
+            flavorHolders.add(flavorHolder);
+        }
+        return flavorHolders;
     }
 
     /**

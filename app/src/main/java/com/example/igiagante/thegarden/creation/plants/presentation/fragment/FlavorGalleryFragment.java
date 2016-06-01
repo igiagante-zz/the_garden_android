@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.FlavorAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenter.FlavorGalleryPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.view.FlavorGalleryView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -31,31 +32,29 @@ import butterknife.ButterKnife;
 /**
  * @author igiagante on 10/5/16.
  */
-public class FlavorGalleryFragment extends CreationBaseFragment implements IView, FlavorAdapter.OnAddFlavor {
+public class FlavorGalleryFragment extends CreationBaseFragment implements FlavorGalleryView, FlavorAdapter.OnAddFlavor {
 
-    public static final String PLANT_WITH_FLAVORS_KEY = "PLANT_WITH_FLAVORS";
-    public static final String PLANT_WITH_FLAVORS_SELECTED_KEY = "PLANT_WITH_FLAVORS_SELECTED";
+    public static final String FLAVORS_KEY = "FLAVORS";
 
     @Inject
     FlavorGalleryPresenter mFlavorGalleryPresenter;
 
     @Bind(R.id.recycler_view_flavors)
-    RecyclerView mFlavors;
+    RecyclerView mFlavorsRecycleView;
 
     private FlavorAdapter mAdapter;
 
-    private ArrayList<Flavor> flavors = new ArrayList<>();
-    private ArrayList<Flavor> flavorsAdded = new ArrayList<>();
+    /**
+     * List of mFlavors
+     */
+    private ArrayList<FlavorHolder> mFlavors = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if(savedInstanceState != null) {
-            Plant plant = savedInstanceState.getParcelable(CreatePlantActivity.PLANT_KEY);
-            if(plant != null) {
-                flavorsAdded = (ArrayList<Flavor>) plant.getFlavors();
-            }
+            mFlavors = savedInstanceState.getParcelableArrayList(FLAVORS_KEY);
         }
     }
 
@@ -67,7 +66,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
-        mFlavors.setHasFixedSize(true);
+        mFlavorsRecycleView.setHasFixedSize(true);
 
         GridLayoutManager manager;
         if(isLandScape()) {
@@ -76,13 +75,16 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
             manager = new GridLayoutManager(getActivity(), 3);
         }
 
-        mFlavors.setLayoutManager(manager);
+        mFlavorsRecycleView.setLayoutManager(manager);
 
         mAdapter = new FlavorAdapter(getContext(), this);
-        mFlavors.setAdapter(mAdapter);
+        mAdapter.setFlavors(mFlavors);
+        mFlavorsRecycleView.setAdapter(mAdapter);
 
         // Get Flavor List
-        mFlavorGalleryPresenter.getFlavors();
+        if(mFlavors.isEmpty()) {
+            mFlavorGalleryPresenter.getFlavors();
+        }
 
         return containerView;
     }
@@ -100,7 +102,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        mFlavors.setAdapter(null);
+        mFlavorsRecycleView.setAdapter(null);
         ButterKnife.unbind(this);
     }
 
@@ -118,41 +120,44 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements IView
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        // save one model with all the flavors
-        Plant plantWithFlavors = new Plant();
-        plantWithFlavors.setFlavors(flavors);
-        outState.putParcelable(PLANT_WITH_FLAVORS_KEY, plantWithFlavors);
-
-        // save one model with flavors selected
-        Plant plant = new Plant();
-        plant.setFlavors(flavorsAdded);
-        outState.putParcelable(PLANT_WITH_FLAVORS_SELECTED_KEY, plant);
+        // save one model with all the mFlavors
+        outState.putParcelableArrayList(FLAVORS_KEY, mFlavors);
     }
 
     @Override
     public void addFlavor(int flavorPosition) {
 
-        if(flavorsAdded == null) {
-            flavorsAdded = new ArrayList<>();
-        }
-
-        Flavor flavor = mAdapter.getFlavors().get(flavorPosition);
-
-        if(flavorsAdded.contains(flavor)) {
-            flavorsAdded.remove(flavorPosition);
+        if(mFlavors.get(flavorPosition).isSelected()) {
+            mFlavors.get(flavorPosition).setSelected(false);
         } else {
-            flavorsAdded.add(flavor);
+            mFlavors.get(flavorPosition).setSelected(true);
         }
     }
 
-    public void loadFlavors(List<Flavor> flavors) {
-        this.flavors = (ArrayList<Flavor>) flavors;
-        mAdapter.setFlavors(flavors);
+    @Override
+    public void loadFlavors(List<FlavorHolder> flavors) {
+        this.mFlavors = (ArrayList<FlavorHolder>) flavors;
+        mAdapter.setFlavors(mFlavors);
     }
 
     @Override
     protected void move() {
         PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
-        builder.addFlavors(flavorsAdded);
+        builder.addFlavors(createFlavorsSelectedList());
+    }
+
+    private ArrayList<Flavor>  createFlavorsSelectedList() {
+
+        ArrayList<Flavor> flavors = new ArrayList<>();
+
+        for (FlavorHolder holder : mFlavors) {
+            if(holder.isSelected()) {
+                Flavor flavor = holder.getModel();
+                flavor.setSelected(holder.isSelected());
+                flavors.add(flavor);
+            }
+        }
+
+        return flavors;
     }
 }
