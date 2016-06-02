@@ -17,8 +17,8 @@ import com.example.igiagante.thegarden.R;
  * @author Ignacio Giagante, on 2/6/16.
  */
 public class TagView extends LinearLayout {
+
     private final int MAX_VALUE = 100;
-    private final int MIN_VALUE = 0;
     private final int SHOW_TIME = 750;
 
     private final int DELTA = 10;
@@ -33,24 +33,24 @@ public class TagView extends LinearLayout {
         @Override
         public void onClick(View v) {
             tagProgressText.setVisibility(VISIBLE);
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.tagButtonMinus:
-                    if((level)>=0) {
+                    if ((level) >= 0) {
                         level -= DELTA;
                     }
                     break;
                 case R.id.tagButtonPlus:
-                    if((level)<=MAX_VALUE) {
+                    if ((level) <= MAX_VALUE) {
                         level += DELTA;
                     }
                     break;
 
             }
             tagPgBar.setProgress(level);
-            tagProgressText.setText(level+" %");
+            tagProgressText.setText(level + " %");
             tagProgressText.setVisibility(VISIBLE);
             removeCallbacks(hideProgressTextIndicator); // para cuando apreto muchas veces seguidas
-            postDelayed(hideProgressTextIndicator,SHOW_TIME);
+            postDelayed(hideProgressTextIndicator, SHOW_TIME);
         }
     };
 
@@ -63,14 +63,14 @@ public class TagView extends LinearLayout {
 
     public TagView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(getContext(),R.layout.attributes_custom_button_tag,this);
+        inflate(getContext(), R.layout.attributes_custom_button_tag, this);
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.TagView,
                 0, 0);
 
         try {
-            level = a.getInteger(R.styleable.TagView_level,0);
+            level = a.getInteger(R.styleable.TagView_level, 0);
             tagName = a.getString(R.styleable.TagView_tagName);
         } finally {
             a.recycle();
@@ -80,26 +80,24 @@ public class TagView extends LinearLayout {
 
     public TagView(Context context) {
         super(context);
-        inflate(getContext(),R.layout.attributes_custom_button_tag,this);
+        inflate(getContext(), R.layout.attributes_custom_button_tag, this);
         init();
     }
 
     public TagView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(getContext(),R.layout.attributes_custom_button_tag,this);
+        inflate(getContext(), R.layout.attributes_custom_button_tag, this);
         init();
-
-
     }
 
-    public void init(){
+    public void init() {
         this.setOrientation(VERTICAL);
         plusButton = (Button) findViewById(R.id.tagButtonPlus);
         minusButton = (Button) findViewById(R.id.tagButtonMinus);
-        tagNameText = (TextView)  findViewById(R.id.tagNameText);
+        tagNameText = (TextView) findViewById(R.id.tagNameText);
         tagProgressText = (TextView) findViewById(R.id.tagProgressText);
         tagPgBar = (ProgressBar) findViewById(R.id.tagPgb);
-        if(tagName!=null){
+        if (tagName != null) {
             tagNameText.setText(tagName);
         }
         tagPgBar.setMax(MAX_VALUE);
@@ -124,7 +122,7 @@ public class TagView extends LinearLayout {
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        SavedState savedState = (SavedState)state;
+        SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         this.level = savedState.level;
     }
@@ -133,7 +131,7 @@ public class TagView extends LinearLayout {
     // se llama automaticamente siemrpe y cuando la visa tenga un id
     @Override
     protected Parcelable onSaveInstanceState() {
-        Parcelable superState =  super.onSaveInstanceState();
+        Parcelable superState = super.onSaveInstanceState();
         SavedState newSavedState = new SavedState(superState);
         newSavedState.level = this.level;
         return newSavedState;
@@ -141,7 +139,7 @@ public class TagView extends LinearLayout {
 
     //////////////PARCEL RELATED FEATURES///////////////////////////////
 
-    private static class SavedState extends BaseSavedState{
+    private static class SavedState extends BaseSavedState {
         int level;
 
         public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
@@ -175,7 +173,7 @@ public class TagView extends LinearLayout {
             dest.writeInt(level);
         }
 
-        private void readFromParcel(Parcel in){
+        private void readFromParcel(Parcel in) {
             this.level = in.readInt();
         }
 

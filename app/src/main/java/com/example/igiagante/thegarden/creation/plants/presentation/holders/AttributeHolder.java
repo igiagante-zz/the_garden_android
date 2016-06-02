@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.holders;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 
@@ -19,6 +20,26 @@ public class AttributeHolder extends DataHolder<Attribute> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(getModel(), 0);
+        dest.writeInt(selected ? 1 : 0);
+    }
 
+    public static final Parcelable.Creator<AttributeHolder> CREATOR = new Parcelable.Creator<AttributeHolder>() {
+        public AttributeHolder createFromParcel(Parcel in) {
+            return new AttributeHolder(in);
+        }
+
+        public AttributeHolder[] newArray(int size) {
+            return new AttributeHolder[size];
+        }
+    };
+
+    private AttributeHolder(Parcel in) {
+        model = in.readParcelable(this.getClass().getClassLoader());
+        selected = in.readInt() == 1;
+    }
+
+    public String getTagName(){
+        return getModel().getName();
     }
 }

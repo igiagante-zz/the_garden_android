@@ -52,15 +52,15 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
             button.setText(attributes.get(i).getName());
             button.setGravity(Gravity.CENTER);
             button.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.tag_background));
-            button.setPadding(30, 30, 30, 30);
+            button.setPadding(50, 30, 30, 50);
 
             gridLayout.addView(button, new GridLayout.LayoutParams(
                     GridLayout.spec(0, GridLayout.CENTER),
                     GridLayout.spec(i, GridLayout.CENTER)));
 
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) button.getLayoutParams();
-            params.setMarginStart(20);
-            params.setMarginEnd(20);
+            params.setMarginStart(30);
+            params.setMarginEnd(30);
             button.setLayoutParams(params);
         }
     }
