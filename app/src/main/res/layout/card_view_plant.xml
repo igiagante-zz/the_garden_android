@@ -2,49 +2,66 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="10dp"
+    android:elevation="@dimen/card_plant_elevation"
     card_view:cardCornerRadius="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/main_image_plant"
-            android:layout_width="300dp"
-            android:layout_height="400dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/card_plant_image_size"
             android:layout_gravity="center"
-            android:src="@drawable/mango1"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/mango1"
+            android:layout_weight="0.1"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:background="@color/plant_data_card">
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
-                android:text="NAME" />
+                android:layout_marginTop="@dimen/card_plant_name_margin"
+                android:layout_marginStart="@dimen/card_plant_name_margin"
+                android:textSize="@dimen/card_plant_name_size"
+                android:text="Valeriana" />
 
             <Button
                 android:id="@+id/edit_plant_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/edit_plant_button_size"
+                android:layout_height="@dimen/edit_plant_button_size"
                 android:layout_alignParentEnd="true"
                 android:gravity="top|end"
+                android:layout_marginTop="@dimen/edit_plant_button_margin"
+                android:layout_marginEnd="@dimen/edit_plant_button_margin"
                 android:background="@drawable/ic_edit_button" />
 
             <Button
                 android:id="@+id/share_plant_button"
-                android:layout_width="15dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/share_plant_button_width"
+                android:layout_height="@dimen/share_plant_button_height"
                 android:layout_alignParentEnd="true"
-                android:gravity="bottom|end"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/share_plant_button_margin_top"
+                android:layout_marginEnd="@dimen/share_plant_button_margin_end"
+                android:layout_marginBottom="@dimen/share_plant_button_margin_bottom"
                 android:background="@drawable/ic_share_button" />
 
+            <include layout="@layout/grid_card_info_plant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_card_info_plant_margin_top"/>
 
         </RelativeLayout>
 

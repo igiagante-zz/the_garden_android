@@ -7,5 +7,6 @@
     <color name="text_title_color">#ffff</color>
     <color name="white">#ffff</color>
     <color name="label_text_color">#a7a3a4</color>
+    <color name="plant_data_card">#dbdbdb</color>
     <color name="background">#000000</color>
 </resources>

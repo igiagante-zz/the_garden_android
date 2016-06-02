@@ -10,19 +10,31 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
+        <TextView
+            android:id="@+id/seed_date_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/plant_data_margin"
+            android:paddingTop="@dimen/plant_data_margin"
+            android:paddingEnd="@dimen/plant_data_margin"
             android:text="Seed Date: 14/2" />
 
-        <EditText
+        <TextView
+            android:id="@+id/genotype"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/plant_data_margin"
+            android:paddingTop="@dimen/plant_data_margin"
+            android:paddingEnd="@dimen/plant_data_margin"
             android:text="Genotype: genotype" />
 
-        <EditText
+        <TextView
+            android:id="@+id/harvest_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/plant_data_margin"
+            android:paddingTop="@dimen/plant_data_margin"
+            android:paddingEnd="@dimen/plant_data_margin"
             android:text="Harvest: 450g" />
 
     </LinearLayout>
@@ -32,14 +44,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
+        <TextView
+            android:id="@+id/size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/plant_data_margin"
+            android:paddingEnd="@dimen/plant_data_margin"
             android:text="High: 20 cm" />
 
-        <EditText
+        <TextView
+            android:id="@+id/flower_time_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/plant_data_margin"
+            android:paddingEnd="@dimen/plant_data_margin"
             android:text="Flower: 9 weeks" />
 
     </LinearLayout>
