@@ -18,6 +18,11 @@
     <string name="header_nav_bar_temp_humd">T: 25 ºC  H: 40%</string>
     <string name="header_nav_bar_number_of_plants">Plants: 6</string>
 
+    <!-- Plants - Main -->
+    <string name="seedDate">Seed Date</string>
+    <string name="flower">Flower</string>
+    <string name="harvest">Harvest</string>
+
     <!-- Plant Creation -->
 
     <string name="activity_carousel">Carousel</string>

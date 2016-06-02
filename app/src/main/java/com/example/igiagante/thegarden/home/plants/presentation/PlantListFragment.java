@@ -11,12 +11,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
+import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
 import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -92,9 +97,25 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
 
     @Override
     public void renderPlantList(Collection<Plant> plants) {
-        this.plantsAdapter.setPlantsCollection(plants);
+        this.plantsAdapter.setPlants(createFlavorHolderList(plants));
     }
 
+    /**
+     * Transform a list of plants to plant holders
+     * @param plants list of plants
+     * @return list of plant holders
+     */
+    private ArrayList<PlantHolder> createFlavorHolderList(Collection<Plant> plants) {
+
+        ArrayList<PlantHolder> flavorHolders = new ArrayList<>();
+
+        for(Plant plant : plants) {
+            PlantHolder plantHolder = new PlantHolder();
+            plantHolder.setModel(plant);
+            flavorHolders.add(plantHolder);
+        }
+        return flavorHolders;
+    }
 
     @Override
     public void showError(String message) {

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +22,9 @@ public class Plant implements Parcelable {
 
     @SerializedName("gardenId")
     private String gardenId;
+
+    @SerializedName("seedDate")
+    private Date seedDate;
 
     @SerializedName("name")
     private String name;
@@ -40,7 +44,7 @@ public class Plant implements Parcelable {
     @SerializedName("size")
     private int size;
 
-    @SerializedName("harverst")
+    @SerializedName("harvest")
     private int harvest;
 
     @SerializedName("images")
@@ -61,6 +65,14 @@ public class Plant implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Date getSeedDate() {
+        return seedDate;
+    }
+
+    public void setSeedDate(Date seedDate) {
+        this.seedDate = seedDate;
     }
 
     public String getName() {

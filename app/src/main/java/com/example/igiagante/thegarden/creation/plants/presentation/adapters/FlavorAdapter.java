@@ -117,7 +117,7 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
          */
         private void setBorderOnImage(boolean selected, String imageUrl) {
             if(selected) {
-                setBorder(imageView, imageUrl, R.color.colorPrimary, 8);
+                setBorder(imageView, imageUrl, R.color.colorPrimary, 10);
             } else {
                 setBorder(imageView, imageUrl, R.color.white, 0);
             }

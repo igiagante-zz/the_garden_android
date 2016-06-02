@@ -6,7 +6,7 @@ import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import java.util.Collection;
 
 /**
- * Created by igiagante on 2/5/16.
+ * @author Ignacio Giagante, on 2/5/16.
  */
 public interface PlantListView extends IView {
 

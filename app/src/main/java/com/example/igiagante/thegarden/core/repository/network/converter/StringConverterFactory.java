@@ -10,9 +10,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
-/**
- * Created by igiagante on 20/4/16.
- */
 public class StringConverterFactory extends Converter.Factory {
 
     private static final MediaType MEDIA_TYPE = MediaType.parse("text/plain");
