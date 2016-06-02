@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.home.plants.presentation;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,10 @@ import android.widget.TextView;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.ImageRequest;
 
 import java.io.File;
 import java.util.Collection;
@@ -51,7 +55,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         final PlantHolder plantHolder = this.mPlants.get(position);
 
         String thumbnailUrl = plantHolder.getMainImage().getThumbnailUrl();
-        holder.mPlantImage.setImageURI(Uri.fromFile(new File(thumbnailUrl)));
+        holder.mPlantImage.setImageURI(Uri.parse(thumbnailUrl));
 
         holder.mPlantName.setText(plantHolder.getName());
         String seedDateLabel = mContext.getString(R.string.seedDate);

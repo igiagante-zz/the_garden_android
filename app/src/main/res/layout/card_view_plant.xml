@@ -23,9 +23,8 @@
             android:layout_height="@dimen/card_plant_image_size"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            fresco:failureImage="@drawable/ic_error_image"
-            fresco:placeholderImage="@drawable/mango1"
             android:background="@android:color/holo_orange_light"
+            fresco:placeholderImage="@drawable/mango1"
             android:layout_weight="0.5"/>
 
         <RelativeLayout
