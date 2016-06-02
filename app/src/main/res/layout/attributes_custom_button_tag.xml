@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tagProgressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="invisible"
+        tools:text="60%" />
+
+    <ProgressBar
+        android:id="@+id/tagPgb"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="@dimen/tag_pgb_width"
+        android:layout_height="@dimen/tag_pgb_height"
+        android:layout_marginBottom="@dimen/tag_pgb_margin"
+        android:progressDrawable="@drawable/tag_view_pgb_drawable" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:minWidth="@dimen/tag_pgb_width"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tag_background"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/tagButtonMinus"
+            style="@style/tag_button_style"
+            android:text="&lt;" />
+
+        <TextView
+            android:id="@+id/tagNameText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="Relaxing" />
+
+        <Button
+            android:id="@+id/tagButtonPlus"
+            style="@style/tag_button_style"
+            android:text="&gt;" />
+    </LinearLayout>
+</merge>

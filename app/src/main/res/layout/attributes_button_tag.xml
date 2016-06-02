@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button
+    android:id="@+id/button_available_attribute"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="Relaxed"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

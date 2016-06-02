@@ -62,6 +62,14 @@
     <!-- flavors -->
     <dimen name="flavor_image_width">110dp</dimen>
 
+    <!-- attributes -->
+
+    <dimen name="tag_button_min_width">32dp</dimen>
+    <dimen name="tag_button_min_height">32dp</dimen>
+    <dimen name="tag_pgb_width">148dp</dimen>
+    <dimen name="tag_pgb_height">7dp</dimen>
+    <dimen name="tag_pgb_margin">2dp</dimen>
+
     <!-- Land dimens -->
 
     <dimen name="margin_left_land">50dp</dimen>

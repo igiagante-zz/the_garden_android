@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="tag_button_style"
+        parent="@android:style/Widget.DeviceDefault.Light.Button.Borderless.Small">
+        <item name="android:minWidth">@dimen/tag_button_min_width</item>
+        <item name="android:minHeight">@dimen/tag_button_min_height</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">0.25</item>
+    </style>
+</resources>

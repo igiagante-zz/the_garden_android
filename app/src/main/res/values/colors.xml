@@ -9,4 +9,13 @@
     <color name="label_text_color">#a7a3a4</color>
     <color name="plant_data_card">#dbdbdb</color>
     <color name="background">#000000</color>
+
+    <color name="e3">#19557C</color>
+    <color name="e4">#FFBF00</color>
+    <color name="e5">#33A6B2</color>
+    <color name="e6">#9AC836</color>
+    <color name="e7">#EC2CFF</color>
+
+    <color name="fill">#D8D8D8</color>
+    <color name="border">#979797</color>
 </resources>

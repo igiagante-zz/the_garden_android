@@ -23,8 +23,10 @@ import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantA
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PhotoGalleryPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.views.PhotoGalleryView;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -36,7 +38,7 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 10/5/16.
  */
-public class PhotoGalleryFragment extends CreationBaseFragment implements IView, GalleryAdapter.OnShowImages {
+public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoGalleryView, GalleryAdapter.OnShowImages {
 
     /**
      * It's the request code used to start the carousel intent.
@@ -145,6 +147,12 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements IView,
     @Override public void onDestroy() {
         super.onDestroy();
         this.mPhotoGalleryPresenter.destroy();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.mPhotoGalleryPresenter.setView(new WeakReference<>(this));
     }
 
     @Override
