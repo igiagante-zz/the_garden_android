@@ -87,4 +87,12 @@
     <!-- Carousel -->
     <string name="text_image_slider">Slider Image</string>
 
+    <!-- Attributes -->
+    <string name="attributes_effects">Effects</string>
+    <string name="attributes_medicinal">Medicinal</string>
+    <string name="attributes_symptoms">Symptoms</string>
+
+    <string name="attributes_selected_tags">Selected Tags</string>
+    <string name="attributes_available_tags">Available Tags</string>
+
 </resources>

@@ -70,6 +70,15 @@
     <dimen name="tag_pgb_height">7dp</dimen>
     <dimen name="tag_pgb_margin">2dp</dimen>
 
+    <!-- attributes rectangles -->
+    <dimen name="rectangle_size">20dp</dimen>
+    <dimen name="attributes_type_text_size">18sp</dimen>
+    <dimen name="attributes_tags_tittle_text_size">18sp</dimen>
+    <dimen name="attributes_margin">5dp</dimen>
+    <dimen name="attributes_margin_top">2dp</dimen>
+    <dimen name="rectangle_medicinal_margin_start">12dp</dimen>
+    <dimen name="rectangle_symptoms_margin_start">10dp</dimen>
+
     <!-- Land dimens -->
 
     <dimen name="margin_left_land">50dp</dimen>

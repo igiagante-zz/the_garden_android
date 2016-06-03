@@ -27,29 +27,38 @@ public class TagView extends LinearLayout {
     private String tagName;
     private Button plusButton, minusButton;
     private TextView tagNameText, tagProgressText;
-    private ProgressBar tagPgBar;
+    private ProgressBar tagProgressBar;
 
+    /**
+     * Used to increment or decrement the progress basr
+     */
     final OnClickListener tagButtonListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+
             tagProgressText.setVisibility(VISIBLE);
+
             switch (v.getId()) {
+
                 case R.id.tagButtonMinus:
-                    if ((level) >= 0) {
+                    if ((level) > 0) {
                         level -= DELTA;
                     }
                     break;
+
                 case R.id.tagButtonPlus:
-                    if ((level) <= MAX_VALUE) {
+                    if ((level) < MAX_VALUE) {
                         level += DELTA;
                     }
                     break;
-
             }
-            tagPgBar.setProgress(level);
+
+            tagProgressBar.setProgress(level);
             tagProgressText.setText(level + " %");
             tagProgressText.setVisibility(VISIBLE);
-            removeCallbacks(hideProgressTextIndicator); // para cuando apreto muchas veces seguidas
+
+            //avoid user clicking a lot
+            removeCallbacks(hideProgressTextIndicator);
             postDelayed(hideProgressTextIndicator, SHOW_TIME);
         }
     };
@@ -96,12 +105,12 @@ public class TagView extends LinearLayout {
         minusButton = (Button) findViewById(R.id.tagButtonMinus);
         tagNameText = (TextView) findViewById(R.id.tagNameText);
         tagProgressText = (TextView) findViewById(R.id.tagProgressText);
-        tagPgBar = (ProgressBar) findViewById(R.id.tagPgb);
+        tagProgressBar = (ProgressBar) findViewById(R.id.tagPgb);
         if (tagName != null) {
             tagNameText.setText(tagName);
         }
-        tagPgBar.setMax(MAX_VALUE);
-        tagPgBar.setProgress(level);
+        tagProgressBar.setMax(MAX_VALUE);
+        tagProgressBar.setProgress(level);
         plusButton.setOnClickListener(tagButtonListener);
         minusButton.setOnClickListener(tagButtonListener);
     }
@@ -111,15 +120,6 @@ public class TagView extends LinearLayout {
         tagNameText.setText(tagName);
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         SavedState savedState = (SavedState) state;
@@ -127,8 +127,10 @@ public class TagView extends LinearLayout {
         this.level = savedState.level;
     }
 
-
-    // se llama automaticamente siemrpe y cuando la visa tenga un id
+    /**
+     * The view should provide an id in order to get called automatically
+     * @return Parcelable
+     */
     @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
@@ -176,6 +178,5 @@ public class TagView extends LinearLayout {
         private void readFromParcel(Parcel in) {
             this.level = in.readInt();
         }
-
     }
 }

@@ -13,6 +13,9 @@ public class AttributeHolder extends DataHolder<Attribute> {
     private static final int delta = 10;
     private boolean selected;
 
+    public AttributeHolder() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -39,7 +42,23 @@ public class AttributeHolder extends DataHolder<Attribute> {
         selected = in.readInt() == 1;
     }
 
+    public void setTagName(String tagName) {
+        getModel().setName(tagName);
+    }
+
     public String getTagName(){
         return getModel().getName();
+    }
+
+    public void setPercentage(int percentage) {
+        getModel().setPercentage(percentage);
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

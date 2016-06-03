@@ -22,7 +22,7 @@ public class Attribute implements Parcelable {
     private String name;
 
     @SerializedName("percentage")
-    private float percentage;
+    private int percentage;
 
     public String getId() {
         return id;
@@ -48,11 +48,11 @@ public class Attribute implements Parcelable {
         this.name = name;
     }
 
-    public float getPercentage() {
+    public int getPercentage() {
         return percentage;
     }
 
-    public void setPercentage(float percentage) {
+    public void setPercentage(int percentage) {
         this.percentage = percentage;
     }
 
@@ -66,7 +66,7 @@ public class Attribute implements Parcelable {
         dest.writeString(id);
         dest.writeString(type);
         dest.writeString(name);
-        dest.writeFloat(percentage);
+        dest.writeInt(percentage);
     }
 
     public static final Parcelable.Creator<Attribute> CREATOR = new Parcelable.Creator<Attribute>() {
@@ -83,6 +83,6 @@ public class Attribute implements Parcelable {
         id = in.readString();
         name = in.readString();
         type = in.readString();
-        percentage = in.readFloat();
+        percentage = in.readInt();
     }
 }

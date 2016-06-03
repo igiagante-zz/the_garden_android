@@ -3,29 +3,41 @@ package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.GridLayout;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.holders.AttributeHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.AttributesView;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * @author igiagante on 10/5/16.
  */
-public class AttributesFragment extends CreationBaseFragment implements AttributesView {
+public class AttributesFragment extends CreationBaseFragment implements AttributesView,
+        AttributeAdapter.TagActionListener{
 
-    private ArrayList<Attribute> attributes = new ArrayList<>();
+    @Bind(R.id.attributes_selected_id)
+    RecyclerView attributesSelected;
+
+    @Bind(R.id.attributes_available_id)
+    RecyclerView availableAttributes;
+
+    private AttributeAdapter attributeAdapter;
+
+    private AttributeAdapter attributeSelectedAdapter;
+
+    private ArrayList<AttributeHolder> attributes = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,48 +51,56 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.attributes_fragment, container, false);
 
-        GridLayout gridLayout = (GridLayout) containerView.findViewById(R.id.attributes_available_id);
-        setButtons(gridLayout);
+        ButterKnife.bind(this, containerView);
+
+        GridLayoutManager availableLayout = new GridLayoutManager(getContext(), 3);
+        availableAttributes.setLayoutManager(availableLayout);
+        attributeAdapter = new AttributeAdapter(getContext(), this);
+        availableAttributes.setAdapter(attributeAdapter);
+
+        attributeAdapter.setAttributeHolders(attributes);
+
+        GridLayoutManager selectedLayout = new GridLayoutManager(getContext(), 2);
+        attributesSelected.setLayoutManager(selectedLayout);
+        attributeSelectedAdapter = new AttributeAdapter(getContext(), this);
+        attributesSelected.setAdapter(attributeSelectedAdapter);
 
         return containerView;
     }
 
-    private void setButtons(GridLayout gridLayout) {
-
-        for(int i = 0; i < attributes.size(); i++) {
-            Button button = new Button(getContext());
-            button.setText(attributes.get(i).getName());
-            button.setGravity(Gravity.CENTER);
-            button.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.tag_background));
-            button.setPadding(50, 30, 30, 50);
-
-            gridLayout.addView(button, new GridLayout.LayoutParams(
-                    GridLayout.spec(0, GridLayout.CENTER),
-                    GridLayout.spec(i, GridLayout.CENTER)));
-
-            GridLayout.LayoutParams params = (GridLayout.LayoutParams) button.getLayoutParams();
-            params.setMarginStart(30);
-            params.setMarginEnd(30);
-            button.setLayoutParams(params);
+    @Override
+    public void onTagClicked(AttributeHolder attributeHolder) {
+        if(attributeHolder.isSelected()) {
+            attributeSelectedAdapter.addTag(attributeHolder);
+        }
+        else {
+            attributeAdapter.addTag(attributeHolder);
         }
     }
 
     private void loadAtt() {
+
+        AttributeHolder attributeHolderOne = new AttributeHolder();
         Attribute attributeOne = new Attribute();
         attributeOne.setName("Relaxed");
         attributeOne.setType("Medicinal");
+        attributeHolderOne.setModel(attributeOne);
 
+        AttributeHolder attributeHolderTwo = new AttributeHolder();
         Attribute attributeTwo = new Attribute();
         attributeTwo.setName("Headache");
         attributeTwo.setType("Medicinal");
+        attributeHolderTwo.setModel(attributeTwo);
 
+        AttributeHolder attributeHolderThree = new AttributeHolder();
         Attribute attributeThree = new Attribute();
         attributeThree.setName("Pain");
         attributeThree.setType("Medicinal");
+        attributeHolderThree.setModel(attributeThree);
 
-        attributes.add(attributeOne);
-        attributes.add(attributeTwo);
-        attributes.add(attributeThree);
+        attributes.add(attributeHolderOne);
+        attributes.add(attributeHolderTwo);
+        attributes.add(attributeHolderThree);
     }
 
     @Override
