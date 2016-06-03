@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,10 @@ import java.util.ArrayList;
  * @author Ignacio Giagante, on 6/2/16.
  */
 public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> {
+
+    private static final String EFFECTS = "effects";
+    private static final String MEDICINAL = "medicinal";
+    private static final String SYMPTOMS = "symptoms";
 
     private Context mContext;
     private final LayoutInflater layoutInflater;
@@ -60,10 +65,34 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
 
     @Override
     public void onBindViewHolder(AttributeViewHolder holder, int position) {
+
+        AttributeHolder attributeHolder = attributeHolders.get(position);
+
         if(holder instanceof AttributeAvailableViewHolder) {
-            ((AttributeAvailableViewHolder)holder).tag.setText(attributeHolders.get(position).getTagName());
+            Button tag = ((AttributeAvailableViewHolder) holder).tag;
+            tag.setText(attributeHolder.getTagName());
+            setTypeOfAttributeBackground(attributeHolder, tag);
         } else {
-            ((AttributeSelectedViewHolder)holder).tagView.setTagName(attributeHolders.get(position).getTagName());
+            TagView tagView = ((AttributeSelectedViewHolder) holder).tagView;
+
+            tagView.setTagName(attributeHolder.getTagName());
+            setTypeOfAttributeBackground(attributeHolder, tagView.getContainerButton());
+        }
+    }
+
+    /**
+     * Depend on the type of the attribute, the button will have an specific color border
+     * @param holder attribute holder that has a reference to the attribute model
+     * @param tag button tag
+     */
+    private void setTypeOfAttributeBackground(AttributeHolder holder, View tag) {
+
+        if (holder.getType().equals(EFFECTS)) {
+            tag.setBackground(ContextCompat.getDrawable(mContext, R.drawable.attributes_rectangle_effects));
+        } else if (holder.getType().equals(MEDICINAL)) {
+            tag.setBackground(ContextCompat.getDrawable(mContext, R.drawable.attributes_rectangle_medicinal));
+        } else if (holder.getType().equals(SYMPTOMS)) {
+            tag.setBackground(ContextCompat.getDrawable(mContext, R.drawable.attributes_rectangle_symptoms));
         }
     }
 
@@ -137,5 +166,9 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
     public void setAttributeHolders(ArrayList<AttributeHolder> attributeHolders) {
         this.attributeHolders = attributeHolders;
         notifyDataSetChanged();
+    }
+
+    public ArrayList<AttributeHolder> getAttributeHolders() {
+        return attributeHolders;
     }
 }

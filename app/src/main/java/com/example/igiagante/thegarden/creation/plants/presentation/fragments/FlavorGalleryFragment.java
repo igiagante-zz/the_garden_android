@@ -146,7 +146,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         builder.addFlavors(createFlavorsSelectedList());
     }
 
-    private ArrayList<Flavor>  createFlavorsSelectedList() {
+    private ArrayList<Flavor> createFlavorsSelectedList() {
 
         ArrayList<Flavor> flavors = new ArrayList<>();
 

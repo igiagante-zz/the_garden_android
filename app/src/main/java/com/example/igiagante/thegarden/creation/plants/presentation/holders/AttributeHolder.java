@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.ui.TagView;
 
 /**
  * @author Ignacio Giagante, on 2/6/16.
@@ -11,7 +12,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 public class AttributeHolder extends DataHolder<Attribute> {
 
     private static final int delta = 10;
-    private boolean selected;
+    private boolean selected = false;
 
     public AttributeHolder() {
     }
@@ -61,4 +62,9 @@ public class AttributeHolder extends DataHolder<Attribute> {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    public String getType() {
+        return getModel().getType();
+    }
+
 }

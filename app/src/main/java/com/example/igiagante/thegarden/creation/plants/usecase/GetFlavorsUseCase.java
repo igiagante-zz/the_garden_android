@@ -28,6 +28,7 @@ public class GetFlavorsUseCase extends UseCase<Void> {
     public GetFlavorsUseCase(@NonNull FlavorRepositoryManager flavorRepositoryManager, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.flavorRepositoryManager = flavorRepositoryManager;
+        this.flavorRepositoryManager.setRepositoriesOrder(getRepositoryOrder());
     }
 
     @Override
@@ -37,6 +38,6 @@ public class GetFlavorsUseCase extends UseCase<Void> {
 
     @Override
     protected void setRepositoryOrder() {
-
+        repositoryOrder.add(LOCAL_REPOSITORY, REMOTE_REPOSITORY);
     }
 }

@@ -23,6 +23,7 @@
         android:progressDrawable="@drawable/tag_view_pgb_drawable" />
 
     <LinearLayout
+        android:id="@+id/tag_view_container_button"
         android:layout_width="wrap_content"
         android:minWidth="@dimen/tag_pgb_width"
         android:layout_height="wrap_content"

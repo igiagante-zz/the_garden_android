@@ -1,34 +1,27 @@
 package com.example.igiagante.thegarden.core.repository.managers;
 
-import android.support.annotation.NonNull;
+import android.content.Context;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiFlavorRepository;
+import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDao;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDaoRepository;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.functions.Func1;
 
 /**
  * @author Ignacio Giagante, on 30/5/16.
  */
-public class FlavorRepositoryManager {
-
-    private FlavorDaoRepository flavorDaoRepository;
-    private RestApiFlavorRepository restApiFlavorRepository;
+public class FlavorRepositoryManager extends RepositoryManager<Repository<Flavor>> {
 
     @Inject
-    public FlavorRepositoryManager(@NonNull FlavorDaoRepository flavorDaoRepository,
-                                   @NonNull RestApiFlavorRepository restApiFlavorRepository){
-        this.flavorDaoRepository = flavorDaoRepository;
-        this.restApiFlavorRepository = restApiFlavorRepository;
+    public FlavorRepositoryManager(Context context){
+        mRepositories.add(new FlavorDaoRepository(new FlavorDao(context)));
+        mRepositories.add(new RestApiFlavorRepository());
     }
 
     /**
@@ -38,16 +31,7 @@ public class FlavorRepositoryManager {
      */
     public Observable getById(String id) {
 
-        final Observable observable = flavorDaoRepository.getById(id);
-
-        observable.map(flavor -> {
-            if(flavor == null) {
-                return restApiFlavorRepository.getById(id);
-            }
-           return Observable.just(flavor);
-        });
-
-        return observable;
+        return Observable.just(1);
     }
 
     /**
@@ -57,25 +41,13 @@ public class FlavorRepositoryManager {
      */
     public Observable query(Specification specification) {
 
-        final Observable<List<Flavor>> observable = flavorDaoRepository.query(specification);
-
-        return restApiFlavorRepository.query(specification);
         /*
-        return observable.map(new Func1() {
-            @Override
-            public Observable<List<Flavor>> call(Object o) {
-                if(((ArrayList<Flavor>)o).isEmpty()) {
-                    return restApiFlavorRepository.query(specification);
-                }
-                return null;
-            }
-        });
+        Observable observable;
 
-        return observable.switchIfEmpty(restApiFlavorRepository.query(specification));
+        for(Repository<Attribute> repository : mRepositories) {
+            observable = repository.query(specification);
+        }*/
 
-
-        observable
-                .filter(v -> !v.isEmpty())
-                .switchIfEmpty(restApiFlavorRepository.query(specification));*/
+        return mRepositories.get(1).query(specification);
     }
 }

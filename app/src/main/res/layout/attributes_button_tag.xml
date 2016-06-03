@@ -2,8 +2,8 @@
 <Button
     android:id="@+id/button_available_attribute"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="40dp"
     android:gravity="center"
-    android:text="Relaxed"
     android:background="@drawable/tag_background"
+    android:layout_marginTop="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android" />

@@ -1,92 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <View
-            android:id="@+id/rectangle_effects"
-            android:layout_width="@dimen/rectangle_size"
-            android:layout_height="@dimen/rectangle_size"
-            android:layout_marginStart="@dimen/attributes_margin"
-            android:layout_marginTop="@dimen/attributes_margin_top"
-            android:background="@drawable/attributes_rectangle_effects"/>
-
-        <TextView
-            android:layout_marginStart="@dimen/attributes_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/attributes_effects"
-            android:textSize="@dimen/attributes_type_text_size"/>
-
-        <View
-            android:id="@+id/rectangle_medicinal"
-            android:layout_width="@dimen/rectangle_size"
-            android:layout_height="@dimen/rectangle_size"
-            android:layout_marginStart="@dimen/rectangle_medicinal_margin_start"
-            android:layout_marginTop="@dimen/attributes_margin_top"
-            android:background="@drawable/attributes_rectangle_medicinal"/>
-
-        <TextView
-            android:layout_marginStart="@dimen/attributes_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/attributes_medicinal"
-            android:textSize="@dimen/attributes_type_text_size"/>
-
-        <View
-            android:id="@+id/rectangle_symptoms"
-            android:layout_width="@dimen/rectangle_size"
-            android:layout_height="@dimen/rectangle_size"
-            android:layout_marginStart="@dimen/rectangle_symptoms_margin_start"
-            android:layout_marginTop="@dimen/attributes_margin_top"
-            android:background="@drawable/attributes_rectangle_symptoms"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/attributes_margin"
-            android:text="@string/attributes_symptoms"
-            android:textSize="@dimen/attributes_type_text_size"/>
-
-    </LinearLayout>
+        <include layout="@layout/attributes_indicators" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/attributes_margin"
-            android:layout_marginTop="@dimen/attributes_margin"
+            android:layout_marginTop="@dimen/attributes_selected_tags_margin_top"
+            android:text="@string/attributes_selected_tags"
             android:textSize="@dimen/attributes_tags_tittle_text_size"
-            android:text="@string/attributes_selected_tags"/>
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/attributes_selected_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"/>
+            android:overScrollMode="never" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/attributes_margin"
             android:layout_marginTop="@dimen/attributes_margin"
+            android:text="@string/attributes_available_tags"
             android:textSize="@dimen/attributes_tags_tittle_text_size"
-            android:text="@string/attributes_available_tags"/>
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/attributes_available_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"/>
+            android:overScrollMode="never" />
 
     </LinearLayout>
 

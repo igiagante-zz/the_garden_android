@@ -28,6 +28,13 @@ public class TagView extends LinearLayout {
     private Button plusButton, minusButton;
     private TextView tagNameText, tagProgressText;
     private ProgressBar tagProgressBar;
+    private LinearLayout mContainerButton;
+
+    private OnPercentageChanged onPercentageChanged;
+
+    public interface OnPercentageChanged {
+        void percentageChanged(int percentage);
+    }
 
     /**
      * Used to increment or decrement the progress basr
@@ -101,6 +108,7 @@ public class TagView extends LinearLayout {
 
     public void init() {
         this.setOrientation(VERTICAL);
+        mContainerButton = (LinearLayout) findViewById(R.id.tag_view_container_button);
         plusButton = (Button) findViewById(R.id.tagButtonPlus);
         minusButton = (Button) findViewById(R.id.tagButtonMinus);
         tagNameText = (TextView) findViewById(R.id.tagNameText);
@@ -113,6 +121,10 @@ public class TagView extends LinearLayout {
         tagProgressBar.setProgress(level);
         plusButton.setOnClickListener(tagButtonListener);
         minusButton.setOnClickListener(tagButtonListener);
+    }
+
+    public View getContainerButton() {
+        return mContainerButton;
     }
 
     public void setTagName(String tagName) {
@@ -137,6 +149,18 @@ public class TagView extends LinearLayout {
         SavedState newSavedState = new SavedState(superState);
         newSavedState.level = this.level;
         return newSavedState;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public OnPercentageChanged getOnPercentageChanged() {
+        return onPercentageChanged;
+    }
+
+    public void setOnPercentageChanged(OnPercentageChanged onPercentageChanged) {
+        this.onPercentageChanged = onPercentageChanged;
     }
 
     //////////////PARCEL RELATED FEATURES///////////////////////////////

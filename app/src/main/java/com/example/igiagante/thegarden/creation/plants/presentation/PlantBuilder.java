@@ -132,4 +132,9 @@ public class PlantBuilder {
         this.flavors = (ArrayList<Flavor>) flavors;
         return this;
     }
+
+    public PlantBuilder addAttributes(Collection<Attribute> attributes) {
+        this.attributes = (ArrayList<Attribute>) attributes;
+        return this;
+    }
 }

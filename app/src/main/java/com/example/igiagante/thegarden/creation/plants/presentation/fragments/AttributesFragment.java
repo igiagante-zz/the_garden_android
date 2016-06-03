@@ -6,16 +6,21 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
+import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
+import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeDecorator;
 import com.example.igiagante.thegarden.creation.plants.presentation.holders.AttributeHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.AttributesPresenter;
-import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.AttributesView;
 
 import java.lang.ref.WeakReference;
@@ -46,7 +51,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
     private AttributeAdapter attributeSelectedAdapter;
 
-    private ArrayList<AttributeHolder> attributes = new ArrayList<>();
+    private ArrayList<AttributeHolder> mAttributes = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,11 +71,29 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         availableAttributes.setLayoutManager(availableLayout);
         attributeAdapter = new AttributeAdapter(getContext(), this);
         availableAttributes.setAdapter(attributeAdapter);
+        availableAttributes.addItemDecoration(new AttributeDecorator(10));
 
         GridLayoutManager selectedLayout = new GridLayoutManager(getContext(), 2);
         attributesSelected.setLayoutManager(selectedLayout);
         attributeSelectedAdapter = new AttributeAdapter(getContext(), this);
         attributesSelected.setAdapter(attributeSelectedAdapter);
+
+        attributesSelected.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
 
         //Get available attributes
         mAttributesPresenter.getAttributes();
@@ -90,8 +113,8 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
     @Override
     public void loadAttributes(Collection<AttributeHolder> attributes) {
-        this.attributes = (ArrayList<AttributeHolder>) attributes;
-        attributeAdapter.setAttributeHolders(this.attributes);
+        this.mAttributes = (ArrayList<AttributeHolder>) attributes;
+        attributeAdapter.setAttributeHolders(this.mAttributes);
     }
 
     @Override
@@ -108,5 +131,24 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     @Override
     public Context context() {
         return this.getActivity().getApplicationContext();
+    }
+
+    @Override
+    protected void move() {
+        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        builder.addAttributes(createAttributesSelectedList());
+    }
+
+    private ArrayList<Attribute> createAttributesSelectedList() {
+
+        ArrayList<Attribute> attributes = new ArrayList<>();
+
+        for (AttributeHolder holder : attributeSelectedAdapter.getAttributeHolders()) {
+            if(holder.isSelected()) {
+                Attribute attribute = holder.getModel();
+                attributes.add(attribute);
+            }
+        }
+        return attributes;
     }
 }

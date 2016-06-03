@@ -75,6 +75,8 @@
     <dimen name="attributes_type_text_size">18sp</dimen>
     <dimen name="attributes_tags_tittle_text_size">18sp</dimen>
     <dimen name="attributes_margin">5dp</dimen>
+    <dimen name="attributes_selected_tags_margin_top">10dp</dimen>
+    <dimen name="attributes_available_tags_margin_top">20dp</dimen>
     <dimen name="attributes_margin_top">2dp</dimen>
     <dimen name="rectangle_medicinal_margin_start">12dp</dimen>
     <dimen name="rectangle_symptoms_margin_start">10dp</dimen>
