@@ -64,6 +64,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.flavors_fragment, container, false);
+
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 

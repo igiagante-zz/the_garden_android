@@ -1,7 +1,7 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.views;
 
-import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
+import com.example.igiagante.thegarden.creation.plants.presentation.holders.AttributeHolder;
 
 import java.util.Collection;
 
@@ -12,7 +12,7 @@ public interface AttributesView extends IView {
 
     /**
      * Load available attributes
-     * @param attributes {@link Attribute}
+     * @param attributes {@link AttributeHolder}
      */
-    void loadAttributes(Collection<Attribute> attributes);
+    void loadAttributes(Collection<AttributeHolder> attributes);
 }

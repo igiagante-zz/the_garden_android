@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.creation.plants.di;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.creation.plants.usecase.GetAttributesUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetFlavorsUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetImagesUseCase;
 
@@ -30,5 +31,12 @@ public class CreationPlantModule {
     @Named("flavors")
     UseCase provideGetFlavorsUseCase(GetFlavorsUseCase flavors) {
         return flavors;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("attributes")
+    UseCase provideGetAttributesUseCase(GetAttributesUseCase attributes) {
+        return attributes;
     }
 }

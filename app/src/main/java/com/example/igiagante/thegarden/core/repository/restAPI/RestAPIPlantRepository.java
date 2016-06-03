@@ -9,6 +9,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.PlantRestAPI;
+import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.google.gson.Gson;
 
 import java.io.File;

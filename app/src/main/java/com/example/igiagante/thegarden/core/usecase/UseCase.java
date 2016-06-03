@@ -1,9 +1,13 @@
 package com.example.igiagante.thegarden.core.usecase;
 
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -17,6 +21,16 @@ import rx.subscriptions.Subscriptions;
  */
 public abstract class UseCase<Param> {
 
+    /**
+     * Determine the order of repository
+     */
+    @IntDef({LOCAL_REPOSITORY, REMOTE_REPOSITORY})
+    public @interface RepositoryOrder {}
+    public static final int LOCAL_REPOSITORY = 0;
+    public static final int REMOTE_REPOSITORY = 1;
+
+    protected List<Integer> repositoryOrder = new ArrayList<>();
+
     private final ThreadExecutor threadExecutor;
     private final PostExecutionThread postExecutionThread;
 
@@ -27,6 +41,12 @@ public abstract class UseCase<Param> {
         this.threadExecutor = threadExecutor;
         this.postExecutionThread = postExecutionThread;
     }
+
+    protected List<Integer> getRepositoryOrder() {
+        return repositoryOrder;
+    }
+
+    protected void setRepositoryOrder() {}
 
     /**
      * Builds an {@link rx.Observable} which will be used when executing the current {@link UseCase}.

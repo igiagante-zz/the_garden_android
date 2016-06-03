@@ -136,5 +136,6 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
 
     public void setAttributeHolders(ArrayList<AttributeHolder> attributeHolders) {
         this.attributeHolders = attributeHolders;
+        notifyDataSetChanged();
     }
 }

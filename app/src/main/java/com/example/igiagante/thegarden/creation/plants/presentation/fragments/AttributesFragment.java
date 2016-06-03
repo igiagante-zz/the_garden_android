@@ -11,12 +11,18 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.holders.AttributeHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.AttributesPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.AttributesView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,13 +31,16 @@ import butterknife.ButterKnife;
  * @author igiagante on 10/5/16.
  */
 public class AttributesFragment extends CreationBaseFragment implements AttributesView,
-        AttributeAdapter.TagActionListener{
+        AttributeAdapter.TagActionListener {
 
     @Bind(R.id.attributes_selected_id)
     RecyclerView attributesSelected;
 
     @Bind(R.id.attributes_available_id)
     RecyclerView availableAttributes;
+
+    @Inject
+    AttributesPresenter mAttributesPresenter;
 
     private AttributeAdapter attributeAdapter;
 
@@ -42,7 +51,6 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadAtt();
     }
 
     @Nullable
@@ -51,6 +59,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.attributes_fragment, container, false);
 
+        this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
         GridLayoutManager availableLayout = new GridLayoutManager(getContext(), 3);
@@ -58,12 +67,13 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         attributeAdapter = new AttributeAdapter(getContext(), this);
         availableAttributes.setAdapter(attributeAdapter);
 
-        attributeAdapter.setAttributeHolders(attributes);
-
         GridLayoutManager selectedLayout = new GridLayoutManager(getContext(), 2);
         attributesSelected.setLayoutManager(selectedLayout);
         attributeSelectedAdapter = new AttributeAdapter(getContext(), this);
         attributesSelected.setAdapter(attributeSelectedAdapter);
+
+        //Get available attributes
+        mAttributesPresenter.getAttributes();
 
         return containerView;
     }
@@ -78,34 +88,16 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         }
     }
 
-    private void loadAtt() {
-
-        AttributeHolder attributeHolderOne = new AttributeHolder();
-        Attribute attributeOne = new Attribute();
-        attributeOne.setName("Relaxed");
-        attributeOne.setType("Medicinal");
-        attributeHolderOne.setModel(attributeOne);
-
-        AttributeHolder attributeHolderTwo = new AttributeHolder();
-        Attribute attributeTwo = new Attribute();
-        attributeTwo.setName("Headache");
-        attributeTwo.setType("Medicinal");
-        attributeHolderTwo.setModel(attributeTwo);
-
-        AttributeHolder attributeHolderThree = new AttributeHolder();
-        Attribute attributeThree = new Attribute();
-        attributeThree.setName("Pain");
-        attributeThree.setType("Medicinal");
-        attributeHolderThree.setModel(attributeThree);
-
-        attributes.add(attributeHolderOne);
-        attributes.add(attributeHolderTwo);
-        attributes.add(attributeHolderThree);
+    @Override
+    public void loadAttributes(Collection<AttributeHolder> attributes) {
+        this.attributes = (ArrayList<AttributeHolder>) attributes;
+        attributeAdapter.setAttributeHolders(this.attributes);
     }
 
     @Override
-    public void loadAttributes(Collection<Attribute> attributes) {
-
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.mAttributesPresenter.setView(new WeakReference<>(this));
     }
 
     @Override

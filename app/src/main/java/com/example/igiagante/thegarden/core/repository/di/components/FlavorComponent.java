@@ -3,7 +3,8 @@ package com.example.igiagante.thegarden.core.repository.di.components;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
-import com.example.igiagante.thegarden.core.repository.FlavorRepositoryManager;
+import com.example.igiagante.thegarden.core.repository.di.modules.FlavorModule;
+import com.example.igiagante.thegarden.core.repository.managers.FlavorRepositoryManager;
 
 import dagger.Component;
 

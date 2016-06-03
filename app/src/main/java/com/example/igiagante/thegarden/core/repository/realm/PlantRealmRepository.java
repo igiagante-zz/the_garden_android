@@ -13,6 +13,7 @@ import com.example.igiagante.thegarden.core.repository.realm.specification.Plant
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantRealmToPlant;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantToPlantRealm;
+import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import java.util.Collection;
 import java.util.List;

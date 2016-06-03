@@ -1,9 +1,9 @@
-package com.example.igiagante.thegarden.core.repository.di.components;
+package com.example.igiagante.thegarden.core.repository.di.modules;
 
 import android.content.Context;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
-import com.example.igiagante.thegarden.core.repository.FlavorRepositoryManager;
+import com.example.igiagante.thegarden.core.repository.managers.FlavorRepositoryManager;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiFlavorRepository;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDao;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDaoRepository;
@@ -37,7 +37,6 @@ public class FlavorModule {
     RestApiFlavorRepository provideRestApiFlavorRepository() {
         return new RestApiFlavorRepository();
     }
-
 
     @Provides
     @PerActivity

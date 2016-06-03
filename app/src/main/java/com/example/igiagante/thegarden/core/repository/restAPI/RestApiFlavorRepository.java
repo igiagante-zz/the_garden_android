@@ -5,6 +5,7 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.FlavorRestApi;
+import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 27/5/16.
  */
-public class RestApiFlavorRepository implements Repository <Flavor>{
+public class RestApiFlavorRepository implements Repository<Flavor> {
 
     private final FlavorRestApi api;
 

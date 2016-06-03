@@ -1,8 +1,9 @@
-package com.example.igiagante.thegarden.core.repository;
+package com.example.igiagante.thegarden.core.repository.managers;
 
 import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiFlavorRepository;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDaoRepository;
 

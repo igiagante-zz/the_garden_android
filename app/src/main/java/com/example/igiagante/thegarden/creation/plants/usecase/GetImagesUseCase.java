@@ -80,5 +80,4 @@ public class GetImagesUseCase extends UseCase<Collection<String>> {
 
         return Observable.just(viewTypeImages);
     }
-
 }
