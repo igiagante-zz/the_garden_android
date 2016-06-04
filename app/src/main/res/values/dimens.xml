@@ -59,10 +59,12 @@
 
     <dimen name="carousel_circle_indicator_margin_bottom">30dp</dimen>
 
-    <!-- flavors -->
+    <!-- plagues -->
     <dimen name="flavor_image_width">110dp</dimen>
 
     <!-- attributes -->
+
+    <dimen name="recycle_view_selected_tags_min_height">100dp</dimen>
 
     <dimen name="tag_button_min_width">32dp</dimen>
     <dimen name="tag_button_min_height">32dp</dimen>
@@ -73,13 +75,32 @@
     <!-- attributes rectangles -->
     <dimen name="rectangle_size">20dp</dimen>
     <dimen name="attributes_type_text_size">18sp</dimen>
-    <dimen name="attributes_tags_tittle_text_size">18sp</dimen>
+    <dimen name="attributes_tags_tittle_text_size">20sp</dimen>
     <dimen name="attributes_margin">5dp</dimen>
     <dimen name="attributes_selected_tags_margin_top">10dp</dimen>
     <dimen name="attributes_available_tags_margin_top">20dp</dimen>
     <dimen name="attributes_margin_top">2dp</dimen>
     <dimen name="rectangle_medicinal_margin_start">12dp</dimen>
     <dimen name="rectangle_symptoms_margin_start">10dp</dimen>
+
+    <!-- description -->
+    <dimen name="description_text_size">20sp</dimen>
+    <dimen name="description_plague_title_margin">5dp</dimen>
+
+    <dimen name="description_plagues_recycle_view_margin_bottom">15dp</dimen>
+    <dimen name="description_plagues_recycle_view_margin_top">10dp</dimen>
+
+    <dimen name="description_title_margin">10dp</dimen>
+
+    <dimen name="description_text_area_width">280sp</dimen>
+    <dimen name="description_text_area_height">200dp</dimen>
+    <dimen name="description_text_area_padding">10dp</dimen>
+
+    <dimen name="description_how_many_plants_margin">15dp</dimen>
+    <dimen name="description_how_many_plants_counter_margin_bottom">20dp</dimen>
+
+    <dimen name="description_layout_buttons_margin_top">20dp</dimen>
+    <dimen name="description_button_save_margin_end">10dp</dimen>
 
     <!-- Land dimens -->
 

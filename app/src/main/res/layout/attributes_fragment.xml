@@ -25,6 +25,7 @@
             android:id="@+id/attributes_selected_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/recycle_view_selected_tags_min_height"
             android:overScrollMode="never" />
 
         <TextView

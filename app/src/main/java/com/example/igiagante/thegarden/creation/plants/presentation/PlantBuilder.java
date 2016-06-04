@@ -8,6 +8,7 @@ import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 
 import java.util.ArrayList;
@@ -41,12 +42,18 @@ public class PlantBuilder {
      */
     private ArrayList<Attribute> attributes;
 
+    /**
+     * Represent the plagues with which the plant could be identify
+     */
+    private ArrayList<Plague> plagues;
+
     @Inject
     public PlantBuilder() {
         plant = new Plant();
         images = new ArrayList<>();
         flavors = new ArrayList<>();
         attributes = new ArrayList<>();
+        plagues = new ArrayList<>();
     }
 
     /**
@@ -100,7 +107,7 @@ public class PlantBuilder {
     }
 
     /**
-     * Add the harvest to builder
+     * Add the genoytpe to builder
      * @param genotype indicate the genotype of the plant
      * @return builder
      */
@@ -116,6 +123,16 @@ public class PlantBuilder {
      */
     public PlantBuilder addSize(int size) {
         plant.setSize(size);
+        return this;
+    }
+
+    /**
+     * Add the plants description to builder
+     * @param description
+     * @return builder
+     */
+    public PlantBuilder addDescription(String description) {
+        plant.setDescription(description);
         return this;
     }
 
@@ -135,6 +152,11 @@ public class PlantBuilder {
 
     public PlantBuilder addAttributes(Collection<Attribute> attributes) {
         this.attributes = (ArrayList<Attribute>) attributes;
+        return this;
+    }
+
+    public PlantBuilder addPlagues(Collection<Plague> plagues) {
+        this.plagues = (ArrayList<Plague>) plagues;
         return this;
     }
 }

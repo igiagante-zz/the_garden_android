@@ -28,6 +28,18 @@ public class CountView extends LinearLayout {
     private float mDefaultValue;
     private EditText mEditValue;
 
+    public CountView(Context context) {
+        super(context);
+        inflate(getContext(), R.layout.count_view, this);
+        init(context);
+    }
+
+    public CountView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        inflate(getContext(), R.layout.count_view, this);
+        init(context);
+    }
+
     public CountView(Context context, AttributeSet attrs) {
         super(context, attrs);
 

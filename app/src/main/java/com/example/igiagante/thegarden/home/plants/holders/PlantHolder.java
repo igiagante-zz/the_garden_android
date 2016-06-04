@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
-import com.example.igiagante.thegarden.creation.plants.presentation.holders.DataHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.DataHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;

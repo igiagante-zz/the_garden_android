@@ -47,6 +47,9 @@ public class Plant implements Parcelable {
     @SerializedName("harvest")
     private int harvest;
 
+    @SerializedName("description")
+    private String description;
+
     @SerializedName("images")
     private List<Image> images = new ArrayList<>();
 
@@ -139,6 +142,14 @@ public class Plant implements Parcelable {
         this.harvest = harvest;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<Image> getImages() {
         return images;
     }
@@ -187,6 +198,7 @@ public class Plant implements Parcelable {
         dest.writeString(genotype);
         dest.writeInt(size);
         dest.writeInt(harvest);
+        dest.writeString(description);
         dest.writeList(images);
         dest.writeList(flavors);
         dest.writeList(attributes);
@@ -213,6 +225,7 @@ public class Plant implements Parcelable {
         genotype = in.readString();
         size = in.readInt();
         harvest = in.readInt();
+        description = in.readString();
         in.readList(images, this.getClass().getClassLoader());
         in.readList(flavors, this.getClass().getClassLoader());
         in.readList(attributes, this.getClass().getClassLoader());

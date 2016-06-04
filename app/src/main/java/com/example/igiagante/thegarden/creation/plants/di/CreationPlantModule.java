@@ -5,6 +5,7 @@ import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetAttributesUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetFlavorsUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetImagesUseCase;
+import com.example.igiagante.thegarden.creation.plants.usecase.GetPlaguesUseCase;
 
 import javax.inject.Named;
 
@@ -38,5 +39,12 @@ public class CreationPlantModule {
     @Named("attributes")
     UseCase provideGetAttributesUseCase(GetAttributesUseCase attributes) {
         return attributes;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("plagues")
+    UseCase provideGetPlaguesUseCase(GetPlaguesUseCase plagues) {
+        return plagues;
     }
 }

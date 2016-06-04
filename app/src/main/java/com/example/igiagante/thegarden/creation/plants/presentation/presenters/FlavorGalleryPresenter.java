@@ -5,7 +5,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
-import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.FlavorGalleryView;
 
 import java.util.ArrayList;

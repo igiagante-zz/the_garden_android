@@ -35,12 +35,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      */
     private PlantBuilder plantBuilder;
 
-    @Bind(R.id.button_previous_id)
-    Button mPreviousButton;
-
-    @Bind(R.id.button_next_id)
-    Button mNextButton;
-
     private Toolbar mToolbar;
 
     /**
@@ -70,7 +64,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         plantBuilder = new PlantBuilder();
 
-        ButterKnife.bind(this);
 
         mPager = (ViewPager) findViewById(R.id.viewpager_create_plant);
         setupViewPager(mPager);
@@ -89,15 +82,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         mPager.setOffscreenPageLimit(5);
         mPager.setCurrentItem(currentPage);
-
-        if(isLandScape()) {
-            mPreviousButton.setText("");
-            mNextButton.setText("");
-        }
-
-        mPreviousButton.setOnClickListener(view -> moveToPreviousPage());
-        mNextButton.setOnClickListener(view -> moveToNextPage());
-
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), this, viewPager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);

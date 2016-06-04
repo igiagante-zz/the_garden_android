@@ -95,4 +95,12 @@
     <string name="attributes_selected_tags">Selected Tags</string>
     <string name="attributes_available_tags">Available Tags</string>
 
+    <!-- Description -->
+    <string name="plant_plagues">Plagues</string>
+    <string name="plant_description">Description</string>
+    <string name="plant_how_many">How many plants do you want to create?</string>
+
+    <string name="plant_save">Save</string>
+    <string name="plant_cancel">Cancel</string>
+
 </resources>

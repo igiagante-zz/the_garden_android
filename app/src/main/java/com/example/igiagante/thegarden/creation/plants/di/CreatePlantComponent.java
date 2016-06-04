@@ -6,6 +6,7 @@ import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
 import com.example.igiagante.thegarden.core.repository.di.modules.FlavorModule;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.AttributesFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.FlavorGalleryFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
@@ -24,6 +25,7 @@ public interface CreatePlantComponent extends ActivityComponent {
     void inject(PhotoGalleryFragment photoGalleryFragment);
     void inject(FlavorGalleryFragment flavorGalleryFragment);
     void inject(AttributesFragment attributesFragment);
+    void inject(DescriptionFragment descriptionFragment);
 
     PhotoGalleryPresenter photoGalleryPresenter();
 

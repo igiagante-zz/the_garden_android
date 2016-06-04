@@ -2,11 +2,10 @@ package com.example.igiagante.thegarden.creation.plants.usecase;
 
 import android.support.annotation.NonNull;
 
-import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.Specification;
-import com.example.igiagante.thegarden.core.repository.managers.AttributeRepositoryManager;
+import com.example.igiagante.thegarden.core.repository.managers.PlagueRepositoryManager;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;
@@ -14,27 +13,26 @@ import javax.inject.Inject;
 import rx.Observable;
 
 /**
- * @author Ignacio Giagante, on 3/6/16.
+ * @author Ignacio Giagante, on 6/4/16.
  */
-@PerActivity
-public class GetAttributesUseCase extends UseCase<Void> {
+public class GetPlaguesUseCase extends UseCase<Void> {
 
     /**
      * Repository Manager which delegates the actions to the correct repository
      */
-    private final AttributeRepositoryManager attributeRepositoryManager;
+    private final PlagueRepositoryManager plagueRepositoryManager;
 
     @Inject
-    public GetAttributesUseCase(@NonNull AttributeRepositoryManager attributeRepositoryManager, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public GetPlaguesUseCase(@NonNull PlagueRepositoryManager plagueRepositoryManager, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.attributeRepositoryManager = attributeRepositoryManager;
+        this.plagueRepositoryManager = plagueRepositoryManager;
         // set repositories order
-        this.attributeRepositoryManager.setRepositoriesOrder(getRepositoryOrder());
+        this.plagueRepositoryManager.setRepositoriesOrder(getRepositoryOrder());
     }
 
     @Override
     protected Observable buildUseCaseObservable(Void aVoid) {
-        return attributeRepositoryManager.query(new Specification() {});
+        return plagueRepositoryManager.query(new Specification() {});
     }
 
     @Override

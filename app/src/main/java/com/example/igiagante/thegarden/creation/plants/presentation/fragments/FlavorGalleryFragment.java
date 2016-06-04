@@ -15,7 +15,7 @@ import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.FlavorAdapter;
-import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.FlavorGalleryView;
 

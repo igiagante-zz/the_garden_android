@@ -31,27 +31,5 @@
             android:layout_marginStart="@dimen/margin_left"
             />
 
-        <LinearLayout
-            android:id="@+id/layout_buttons_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true">
-
-            <Button
-                android:id="@+id/button_previous_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_previous"
-                android:layout_marginBottom="40dp"/>
-
-            <Button
-                android:id="@+id/button_next_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_next"/>
-
-        </LinearLayout>
 </RelativeLayout>
 

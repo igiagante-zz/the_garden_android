@@ -1,17 +1,15 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.holders;
+package com.example.igiagante.thegarden.creation.plants.presentation.dataHolders;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
-import com.example.igiagante.thegarden.core.ui.TagView;
 
 /**
  * @author Ignacio Giagante, on 2/6/16.
  */
 public class AttributeHolder extends DataHolder<Attribute> {
 
-    private static final int delta = 10;
     private boolean selected = false;
 
     public AttributeHolder() {

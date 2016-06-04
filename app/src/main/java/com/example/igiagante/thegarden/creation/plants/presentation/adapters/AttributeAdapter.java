@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.ui.RecyclerViewItemClickListener;
 import com.example.igiagante.thegarden.core.ui.TagView;
-import com.example.igiagante.thegarden.creation.plants.presentation.holders.AttributeHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.AttributeHolder;
 
 import java.util.ArrayList;
 

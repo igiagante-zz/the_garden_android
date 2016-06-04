@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:view="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/description_plague_title_margin"
+            android:text="@string/plant_plagues"
+            android:textSize="@dimen/description_text_size" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/palgues_recycleview_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/description_plagues_recycle_view_margin_bottom"
+            android:layout_marginTop="@dimen/description_plagues_recycle_view_margin_top"
+            android:overScrollMode="never" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/description_title_margin"
+            android:layout_marginBottom="@dimen/description_title_margin"
+            android:text="@string/plant_description"
+            android:textSize="@dimen/description_text_size" />
+
+        <EditText
+            android:id="@+id/plant_description_id"
+            android:layout_width="@dimen/description_text_area_width"
+            android:layout_height="@dimen/description_text_area_height"
+            android:layout_gravity="center"
+            android:gravity="start"
+            android:background="@drawable/plant_description_background"
+            android:padding="@dimen/description_text_area_padding" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/description_how_many_plants_margin"
+                android:text="@string/plant_how_many"
+                android:textSize="@dimen/description_text_size" />
+
+            <com.example.igiagante.thegarden.core.ui.CountView
+                android:id="@+id/plant_how_many_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/description_how_many_plants_counter_margin_bottom"
+                android:layout_gravity="center"
+                view:setValue="10"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_description_buttons_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/description_layout_buttons_margin_top"
+            android:layout_marginBottom="@dimen/description_layout_buttons_margin_top"
+            android:weightSum="1"
+            android:gravity="center"
+            >
+
+            <Button
+                android:id="@+id/plant_save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plant_save"
+                android:layout_weight="0.2"
+                android:layout_marginEnd="@dimen/description_button_save_margin_end"
+                android:textSize="@dimen/description_text_size"/>
+
+            <Button
+                android:id="@+id/plant_cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plant_cancel"
+                android:layout_weight="0.2"
+                android:textSize="@dimen/description_text_size"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

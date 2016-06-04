@@ -2,26 +2,22 @@ package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
-import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.ui.RecyclerViewItemClickListener;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeDecorator;
-import com.example.igiagante.thegarden.creation.plants.presentation.holders.AttributeHolder;
-import com.example.igiagante.thegarden.creation.plants.presentation.holders.FlavorHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.AttributeHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.AttributesPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.AttributesView;
 
@@ -55,10 +51,6 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
     private ArrayList<AttributeHolder> mAttributes = new ArrayList<>();
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
