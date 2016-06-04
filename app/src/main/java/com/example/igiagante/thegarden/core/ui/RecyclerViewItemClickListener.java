@@ -33,7 +33,7 @@ public class RecyclerViewItemClickListener implements RecyclerView.OnItemTouchLi
 
         if (view.isEnabled() && childView != null && gestureDetector.onTouchEvent(e) && !disallowIntercept) {
             final int position = view.getChildAdapterPosition(childView);
-
+            listener.onRecyclerViewItemClick(view, childView, position, 0);
         }
         return false;
     }

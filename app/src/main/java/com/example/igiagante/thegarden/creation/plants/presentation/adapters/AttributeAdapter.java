@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.ui.RecyclerViewItemClickListener;
 import com.example.igiagante.thegarden.core.ui.TagView;
 import com.example.igiagante.thegarden.creation.plants.presentation.holders.AttributeHolder;
 
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 /**
  * @author Ignacio Giagante, on 6/2/16.
  */
-public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> {
+public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> implements RecyclerViewItemClickListener.OnRecyclerViewItemClickListener {
 
     private static final String EFFECTS = "effects";
     private static final String MEDICINAL = "medicinal";
@@ -107,32 +110,11 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
         notifyItemInserted(position);
     }
 
-    /**
-     * Inner class to hold a reference to each attribute of RecyclerView
-     */
-    public class AttributeAvailableViewHolder extends AttributeViewHolder {
-
-        Button tag;
-
-        final View.OnLongClickListener tagLongClickedLister = new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                final int position = getAdapterPosition();
-                AttributeHolder pressedTag = attributeHolders.get(position);
-                pressedTag.setSelected(!pressedTag.isSelected());
-                attributeHolders.remove(position);
-                notifyItemRemoved(position);
-                tagActionListener.onTagClicked(pressedTag);
-                return true;
-            }
-        };
-
-        public AttributeAvailableViewHolder(View flavorView) {
-            super(flavorView);
-            tag = (Button) flavorView.findViewById(R.id.button_available_attribute);
-            tag.setOnLongClickListener(tagLongClickedLister);
-        }
+    @Override
+    public void onRecyclerViewItemClick(@NonNull RecyclerView parent, @NonNull View view, int adapterPosition, long id) {
+        int level = ((TagView)view).getLevel();
+        AttributeHolder attributeHolder = attributeHolders.get(adapterPosition);
+        attributeHolder.setPercentage(level);
     }
 
     /**
@@ -160,6 +142,34 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
             super(flavorView);
             tagView = (TagView) flavorView.findViewById(R.id.tag_item_id);
             tagView.setOnLongClickListener(tagLongClickedLister);
+        }
+    }
+
+    /**
+     * Inner class to hold a reference to each attribute of RecyclerView
+     */
+    public class AttributeAvailableViewHolder extends AttributeViewHolder {
+
+        Button tag;
+
+        final View.OnLongClickListener tagLongClickedLister = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                final int position = getAdapterPosition();
+                AttributeHolder pressedTag = attributeHolders.get(position);
+                pressedTag.setSelected(!pressedTag.isSelected());
+                attributeHolders.remove(position);
+                notifyItemRemoved(position);
+                tagActionListener.onTagClicked(pressedTag);
+                return true;
+            }
+        };
+
+        public AttributeAvailableViewHolder(View flavorView) {
+            super(flavorView);
+            tag = (Button) flavorView.findViewById(R.id.button_available_attribute);
+            tag.setOnLongClickListener(tagLongClickedLister);
         }
     }
 

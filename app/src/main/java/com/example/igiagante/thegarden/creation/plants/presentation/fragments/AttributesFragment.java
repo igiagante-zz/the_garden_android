@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.ui.RecyclerViewItemClickListener;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
@@ -78,22 +80,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         attributeSelectedAdapter = new AttributeAdapter(getContext(), this);
         attributesSelected.setAdapter(attributeSelectedAdapter);
 
-        attributesSelected.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
+        attributesSelected.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(), attributeSelectedAdapter));
 
         //Get available attributes
         mAttributesPresenter.getAttributes();
