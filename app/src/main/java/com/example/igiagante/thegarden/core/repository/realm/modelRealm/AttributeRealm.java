@@ -5,9 +5,9 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
- * @author Ignacio Giagante, on 26/4/16.
+ * @author Ignacio Giagante, on 6/5/16.
  */
-public class FlavorRealm extends RealmObject {
+public class AttributeRealm extends RealmObject {
 
     @PrimaryKey
     private String id;
@@ -16,7 +16,10 @@ public class FlavorRealm extends RealmObject {
     private String name;
 
     @Required
-    private String imageUrl;
+    private String type;
+
+    @Required
+    private int percentage;
 
     public String getId() {
         return id;
@@ -34,11 +37,19 @@ public class FlavorRealm extends RealmObject {
         this.name = name;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getType() {
+        return type;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(int percentage) {
+        this.percentage = percentage;
     }
 }

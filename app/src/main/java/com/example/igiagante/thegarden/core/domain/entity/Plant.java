@@ -59,6 +59,9 @@ public class Plant implements Parcelable {
     @SerializedName("attributes")
     private List<Attribute> attributes = new ArrayList<>();
 
+    @SerializedName("plagues")
+    private List<Plague> plagues = new ArrayList<>();
+
     @SerializedName("resourcesIds")
     private List<String> resourcesIds;
 
@@ -174,6 +177,14 @@ public class Plant implements Parcelable {
         this.attributes = attributes;
     }
 
+    public List<Plague> getPlagues() {
+        return plagues;
+    }
+
+    public void setPlagues(List<Plague> plagues) {
+        this.plagues = plagues;
+    }
+
     public List<String> getResourcesIds() {
         return resourcesIds;
     }
@@ -202,6 +213,7 @@ public class Plant implements Parcelable {
         dest.writeList(images);
         dest.writeList(flavors);
         dest.writeList(attributes);
+        dest.writeList(plagues);
         dest.writeList(resourcesIds);
     }
 
@@ -229,6 +241,7 @@ public class Plant implements Parcelable {
         in.readList(images, this.getClass().getClassLoader());
         in.readList(flavors, this.getClass().getClassLoader());
         in.readList(attributes, this.getClass().getClassLoader());
+        in.readList(plagues, this.getClass().getClassLoader());
         in.readList(resourcesIds, this.getClass().getClassLoader());
     }
 

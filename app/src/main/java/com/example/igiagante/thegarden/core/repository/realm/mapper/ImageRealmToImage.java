@@ -7,9 +7,9 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 
 /**
- * Created by igiagante on 28/4/16.
+ * @author Ignacio Giagante, on 28/4/16.
  */
-public class ImageRealmToImage implements Mapper<ImageRealm, Image>{
+public class ImageRealmToImage implements Mapper<ImageRealm, Image> {
 
     @Override
     public Image map(@NonNull ImageRealm imageRealm) {

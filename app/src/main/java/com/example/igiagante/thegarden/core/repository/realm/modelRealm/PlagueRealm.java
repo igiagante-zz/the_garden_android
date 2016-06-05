@@ -5,9 +5,9 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
- * @author Ignacio Giagante, on 26/4/16.
+ * @author Ignacio Giagante, on 6/5/16.
  */
-public class FlavorRealm extends RealmObject {
+public class PlagueRealm extends RealmObject {
 
     @PrimaryKey
     private String id;

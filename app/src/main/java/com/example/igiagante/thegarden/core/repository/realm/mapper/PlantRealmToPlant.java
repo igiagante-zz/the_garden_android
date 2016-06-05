@@ -11,7 +11,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRea
 import java.util.ArrayList;
 
 /**
- * Created by igiagante on 26/4/16.
+ * @author Ignacio Giagante, on 26/4/16.
  */
 public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
 

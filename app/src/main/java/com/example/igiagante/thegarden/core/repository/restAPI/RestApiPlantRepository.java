@@ -9,7 +9,6 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.PlantRestAPI;
-import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -133,10 +132,10 @@ public class RestApiPlantRepository implements Repository<Plant> {
 
         return builder.addFormDataPart(PlantTable.NAME, plant.getName())
                 .addFormDataPart(PlantTable.SIZE, String.valueOf(plant.getSize()))
-                .addFormDataPart(PlantTable.PHSOIL, String.valueOf(6.0))
-                .addFormDataPart(PlantTable.ECSOIL, String.valueOf(1.0))
+                .addFormDataPart(PlantTable.PH_SOIL, String.valueOf(6.0))
+                .addFormDataPart(PlantTable.EC_SOIL, String.valueOf(1.0))
                 .addFormDataPart(PlantTable.HARVEST, String.valueOf(plant.getHarvest()))
-                .addFormDataPart(PlantTable.GARDENID, plant.getGardenId());
+                .addFormDataPart(PlantTable.GARDEN_ID, plant.getGardenId());
     }
 
     /**
