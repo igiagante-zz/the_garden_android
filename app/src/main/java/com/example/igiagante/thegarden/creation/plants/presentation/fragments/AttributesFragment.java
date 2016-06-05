@@ -36,6 +36,8 @@ import butterknife.ButterKnife;
 public class AttributesFragment extends CreationBaseFragment implements AttributesView,
         AttributeAdapter.TagActionListener {
 
+    public static final String ATTRIBUTES = "ATTRIBUTES";
+
     @Bind(R.id.attributes_selected_id)
     RecyclerView attributesSelected;
 
@@ -51,6 +53,14 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
     private ArrayList<AttributeHolder> mAttributes = new ArrayList<>();
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            mAttributes = savedInstanceState.getParcelableArrayList(ATTRIBUTES);
+        }
+    }
 
     @Nullable
     @Override
@@ -61,22 +71,37 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
-        GridLayoutManager availableLayout = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager availableLayout;
+
+        if(isLandScape()) {
+            availableLayout = new GridLayoutManager(getContext(), 5);
+        } else {
+            availableLayout = new GridLayoutManager(getContext(), 3);
+        }
+
         availableAttributes.setLayoutManager(availableLayout);
         attributeAdapter = new AttributeAdapter(getContext(), this);
         availableAttributes.setAdapter(attributeAdapter);
         availableAttributes.addItemDecoration(new AttributeDecorator(10));
 
-        GridLayoutManager selectedLayout = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager selectedLayout;
+
+        if(isLandScape()) {
+            selectedLayout = new GridLayoutManager(getContext(), 4);
+        } else {
+            selectedLayout = new GridLayoutManager(getContext(), 2);
+        }
+
         attributesSelected.setLayoutManager(selectedLayout);
         attributeSelectedAdapter = new AttributeAdapter(getContext(), this);
         attributesSelected.setAdapter(attributeSelectedAdapter);
 
         attributesSelected.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(), attributeSelectedAdapter));
 
-        //Get available attributes
-        mAttributesPresenter.getAttributes();
-
+        if(mAttributes.isEmpty()) {
+            //Get available attributes
+            mAttributesPresenter.getAttributes();
+        }
         return containerView;
     }
 
@@ -100,6 +125,19 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mAttributesPresenter.setView(new WeakReference<>(this));
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        attributesSelected.setAdapter(null);
+        availableAttributes.setAdapter(null);
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(ATTRIBUTES, mAttributes);
     }
 
     @Override

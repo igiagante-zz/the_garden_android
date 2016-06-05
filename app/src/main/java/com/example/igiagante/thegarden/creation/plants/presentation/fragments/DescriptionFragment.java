@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,9 @@ import butterknife.ButterKnife;
  */
 public class DescriptionFragment extends CreationBaseFragment implements PlagueView {
 
+    public static final String PLAGUES_KEY = "PLAGUES";
+    public static final String PLANT_DESCRIPTION_KEY = "PLANT_DESCRIPTION";
+
     @Bind(R.id.palgues_recycleview_id)
     RecyclerView mPlaguesRecycleView;
 
@@ -47,6 +51,18 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
 
     private ArrayList<PlagueHolder> mPlagues = new ArrayList<>();
 
+    private String mPlantDescription;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            mPlagues = savedInstanceState.getParcelableArrayList(PLAGUES_KEY);
+            mPlantDescription = savedInstanceState.getString(PLANT_DESCRIPTION_KEY);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,6 +71,12 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
 
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
+
+        if(!TextUtils.isEmpty(mPlantDescription)) {
+            descriptionTextArea.setText(mPlantDescription);
+        }
+
+        setDescriptionTextAreaWidth();
 
         GridLayoutManager selectedLayout = new GridLayoutManager(getContext(), 3);
         mPlaguesRecycleView.setLayoutManager(selectedLayout);
@@ -67,16 +89,40 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         return containerView;
     }
 
+    private void setDescriptionTextAreaWidth() {
+        if(isLandScape()) {
+            descriptionTextArea.setWidth(descriptionTextArea.getWidth() * 2);
+        }
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mPlaguePresenter.setView(new WeakReference<>(this));
     }
 
+    @Override public void onDestroy() {
+        super.onDestroy();
+        this.mPlaguePresenter.destroy();
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        mPlaguesRecycleView.setAdapter(null);
+        ButterKnife.unbind(this);
+    }
+
     @Override
     public void loadPlagues(Collection<PlagueHolder> plagues) {
         this.mPlagues = (ArrayList<PlagueHolder>) plagues;
         mAdapter.setPlagues(mPlagues);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(PLAGUES_KEY, mPlagues);
+        outState.putString(PLANT_DESCRIPTION_KEY, descriptionTextArea.getText().toString());
     }
 
     @Override

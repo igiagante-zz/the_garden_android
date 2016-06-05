@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:scaleType="centerCrop"
             android:background="@android:color/holo_orange_light"
-            fresco:placeholderImage="@drawable/mango1"
+            fresco:placeholderImage="@drawable/no_image"
             android:layout_weight="0.5"/>
 
         <RelativeLayout

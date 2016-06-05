@@ -28,7 +28,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginRight="16dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/hum" />
+        android:src="@drawable/humidifier" />
 
     <SeekBar
         android:id="@+id/fangButtonSeekBar"

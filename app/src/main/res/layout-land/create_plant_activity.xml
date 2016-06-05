@@ -31,25 +31,5 @@
         android:layout_marginStart="@dimen/margin_left_land"
         />
 
-    <Button
-        android:id="@+id/button_previous_id"
-        android:layout_width="@dimen/button_width_land"
-        android:layout_height="@dimen/button_height_land"
-        android:layout_marginStart="@dimen/margin_button_land"
-        android:text="@string/button_previous"
-        android:background="@drawable/ic_arrow_previuos"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"/>
-
-    <Button
-        android:id="@+id/button_next_id"
-        android:layout_width="@dimen/button_width_land"
-        android:layout_height="@dimen/button_height_land"
-        android:layout_marginEnd="@dimen/margin_button_land"
-        android:text="@string/button_next"
-        android:background="@drawable/ic_arrow_next"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
-
 </RelativeLayout>
 

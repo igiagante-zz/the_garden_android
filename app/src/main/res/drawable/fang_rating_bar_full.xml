@@ -2,16 +2,16 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
         android:state_window_focused="true"
-        android:drawable="@drawable/fan2" />
+        android:drawable="@drawable/fan_turn_off" />
 
     <item android:state_focused="true"
         android:state_window_focused="true"
-        android:drawable="@drawable/fan2" />
+        android:drawable="@drawable/fan_turn_off" />
 
     <item android:state_selected="true"
         android:state_window_focused="true"
-        android:drawable="@drawable/fan2" />
+        android:drawable="@drawable/fan_turn_off" />
 
-    <item android:drawable="@drawable/fan2" />
+    <item android:drawable="@drawable/fan_turn_off" />
 
 </selector>
