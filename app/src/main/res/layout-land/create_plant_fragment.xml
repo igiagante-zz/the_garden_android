@@ -38,6 +38,7 @@
                 android:layout_width="@dimen/edit_text_width"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_top_spinner"
+                android:layout_marginStart="@dimen/flowering_time_land_margin_start"
                 ls:labelText="@string/flowering_time"
                 android:layout_marginEnd="@dimen/margin_text_view_land"/>
 
@@ -45,7 +46,7 @@
                 android:id="@+id/ec_soil_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_padding_start" />
+                android:layout_marginStart="@dimen/count_view_land_margin_start" />
 
         </LinearLayout>
 
@@ -76,14 +77,14 @@
                 android:id="@+id/ph_soil_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_padding_start"
+                android:layout_marginStart="@dimen/count_view_margin_start"
                 android:layout_marginEnd="@dimen/margin_end_ph_soil_land"/>
 
             <com.example.igiagante.thegarden.core.ui.CountView
                 android:id="@+id/size_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_padding_start" />
+                android:layout_marginStart="@dimen/count_view_margin_start" />
 
         </LinearLayout>
 

@@ -72,18 +72,16 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
-        if(!TextUtils.isEmpty(mPlantDescription)) {
+        if (!TextUtils.isEmpty(mPlantDescription)) {
             descriptionTextArea.setText(mPlantDescription);
         }
-
-        setDescriptionTextAreaWidth();
 
         GridLayoutManager selectedLayout = new GridLayoutManager(getContext(), 3);
         mPlaguesRecycleView.setLayoutManager(selectedLayout);
         mAdapter = new PlagueAdapter(getContext());
         mPlaguesRecycleView.setAdapter(mAdapter);
 
-        if(mPlagues.isEmpty()) {
+        if (mPlagues.isEmpty()) {
             //Get plagues
             mPlaguePresenter.getPlagues();
         } else {
@@ -91,12 +89,6 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         }
 
         return containerView;
-    }
-
-    private void setDescriptionTextAreaWidth() {
-        if(isLandScape()) {
-            descriptionTextArea.setWidth(descriptionTextArea.getWidth() * 2);
-        }
     }
 
     @Override
@@ -140,10 +132,12 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
 
         ArrayList<Plague> plagues = new ArrayList<>();
 
-        for (PlagueHolder holder : mAdapter.getPlagues()) {
-            if(holder.isSelected()) {
-                Plague plague = holder.getModel();
-                plagues.add(plague);
+        if(mAdapter.getPlagues() != null) {
+            for (PlagueHolder holder : mAdapter.getPlagues()) {
+                if(holder.isSelected()) {
+                    Plague plague = holder.getModel();
+                    plagues.add(plague);
+                }
             }
         }
         return plagues;

@@ -6,7 +6,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/create_plant_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_margin_top_land"
+        android:layout_height="@dimen/toolbar_height_land"
         android:background="?attr/colorPrimary"
         android:elevation="@dimen/elevation_toolbar"
         >

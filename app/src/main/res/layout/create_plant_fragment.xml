@@ -38,7 +38,7 @@
                 android:id="@+id/ph_soil_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_padding_start" />
+                android:layout_marginStart="@dimen/count_view_margin_start" />
 
         </LinearLayout>
 
@@ -59,7 +59,7 @@
                 android:id="@+id/ec_soil_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_padding_start" />
+                android:layout_marginStart="@dimen/count_view_margin_start" />
 
         </LinearLayout>
 
@@ -88,7 +88,7 @@
                 android:id="@+id/size_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_padding_start" />
+                android:layout_marginStart="@dimen/count_view_margin_start" />
 
         </LinearLayout>
 
