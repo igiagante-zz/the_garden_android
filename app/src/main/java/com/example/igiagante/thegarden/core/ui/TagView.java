@@ -72,15 +72,20 @@ public class TagView extends LinearLayout {
                     break;
             }
 
-            tagProgressBar.setProgress(level);
-            tagProgressText.setText(level + " %");
-            tagProgressText.setVisibility(VISIBLE);
-
-            //avoid user clicking a lot
-            removeCallbacks(hideProgressTextIndicator);
-            postDelayed(hideProgressTextIndicator, SHOW_TIME);
+            updateProgressBar();
         }
     };
+
+    public void updateProgressBar() {
+
+        tagProgressBar.setProgress(level);
+        tagProgressText.setText(level + " %");
+        tagProgressText.setVisibility(VISIBLE);
+
+        //avoid user clicking a lot
+        removeCallbacks(hideProgressTextIndicator);
+        postDelayed(hideProgressTextIndicator, SHOW_TIME);
+    }
 
     final Runnable hideProgressTextIndicator = new Runnable() {
         @Override
@@ -165,6 +170,10 @@ public class TagView extends LinearLayout {
 
     public int getLevel() {
         return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public int getPositionAdapter() {

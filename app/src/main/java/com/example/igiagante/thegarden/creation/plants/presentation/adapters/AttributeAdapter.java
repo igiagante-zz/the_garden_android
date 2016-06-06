@@ -81,6 +81,11 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
             tagView.setPositionAdapter(position);
 
             tagView.setTagName(attributeHolder.getTagName());
+
+            // progress bar level
+            tagView.setLevel(attributeHolder.getPercentage());
+            tagView.updateProgressBar();
+
             setTypeOfAttributeBackground(attributeHolder, tagView.getContainerButton());
         }
     }

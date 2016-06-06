@@ -65,4 +65,6 @@ public class AttributeHolder extends DataHolder<Attribute> {
         return getModel().getType();
     }
 
+    public int getPercentage() { return getModel().getPercentage(); }
+
 }
