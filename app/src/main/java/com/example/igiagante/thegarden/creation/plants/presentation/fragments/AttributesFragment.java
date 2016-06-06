@@ -99,8 +99,6 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         attributeSelectedAdapter = new AttributeAdapter(getContext(), this);
         attributesSelected.setAdapter(attributeSelectedAdapter);
 
-        attributesSelected.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(), attributeSelectedAdapter));
-
         if(mAttributes.isEmpty()) {
             //Get available attributes
             mAttributesPresenter.getAttributes();
