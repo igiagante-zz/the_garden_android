@@ -33,7 +33,7 @@ public class PlagueByIdSpecification implements RealmSpecification {
     }
 
     @Override
-    public RealmObject toPlantRealm(Realm realm) {
+    public RealmObject toObjectRealm(Realm realm) {
         return null;
     }
 }

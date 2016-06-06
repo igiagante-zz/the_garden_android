@@ -18,7 +18,6 @@ public class AttributeRealm extends RealmObject {
     @Required
     private String type;
 
-    @Required
     private int percentage;
 
     public String getId() {

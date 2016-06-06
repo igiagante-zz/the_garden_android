@@ -25,7 +25,7 @@ public class ImageSpecification implements RealmSpecification {
     }
 
     @Override
-    public ImageRealm toPlantRealm(@NonNull Realm realm) {
+    public ImageRealm toObjectRealm(@NonNull Realm realm) {
         return null;
     }
 }

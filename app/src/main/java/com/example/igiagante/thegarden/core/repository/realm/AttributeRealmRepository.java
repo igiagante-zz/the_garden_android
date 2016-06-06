@@ -45,7 +45,6 @@ public class AttributeRealmRepository implements Repository<Attribute> {
         this.toAttributeRealm = new AttributeToAttributeRealm(realm);
     }
 
-
     @Override
     public Observable<Attribute> getById(String id) {
         return query(new AttributeByIdSpecification(id)).flatMap(Observable::from);
@@ -69,7 +68,6 @@ public class AttributeRealmRepository implements Repository<Attribute> {
         realm.executeTransaction(realmParam -> {
             for (Attribute attribute : attributes) {
                 realmParam.copyToRealmOrUpdate(toAttributeRealm.map(attribute));
-
             }
         });
 
@@ -115,7 +113,7 @@ public class AttributeRealmRepository implements Repository<Attribute> {
         realm = Realm.getInstance(realmConfiguration);
 
         final RealmSpecification realmSpecification = (RealmSpecification) specification;
-        final AttributeRealm attributeRealm = (AttributeRealm) realmSpecification.toPlantRealm(realm);
+        final AttributeRealm attributeRealm = (AttributeRealm) realmSpecification.toObjectRealm(realm);
 
         realm.executeTransaction(realmParam -> attributeRealm.deleteFromRealm());
 
@@ -123,6 +121,27 @@ public class AttributeRealmRepository implements Repository<Attribute> {
 
         // if attributeRealm.isValid() is false, the realm object was deleted
         return Observable.just(attributeRealm.isValid() ? 0 : 1);
+    }
+
+    public Observable<Integer> remove(Iterable<Attribute> attributes) {
+
+        int size = 0;
+        realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            for (Attribute attribute : attributes) {
+                AttributeRealm attributeRealm = realm.where(AttributeRealm.class).equalTo(PlantTable.ID, attribute.getId()).findFirst();
+                realm.executeTransaction(other -> attributeRealm.deleteFromRealm());
+            }
+        });
+
+        realm.close();
+
+        if (attributes instanceof Collection<?>) {
+            size = ((Collection<?>) attributes).size();
+        }
+
+        return Observable.just(size);
     }
 
     @Override

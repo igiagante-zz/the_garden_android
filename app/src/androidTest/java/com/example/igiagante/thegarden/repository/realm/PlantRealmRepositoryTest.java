@@ -2,6 +2,9 @@ package com.example.igiagante.thegarden.repository.realm;
 
 import android.test.AndroidTestCase;
 
+import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
@@ -12,6 +15,7 @@ import com.example.igiagante.thegarden.core.repository.realm.specification.Plant
 import junit.framework.Assert;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import rx.Observable;
 
@@ -19,8 +23,6 @@ import rx.Observable;
  * @author Ignacio Giagante, on 28/4/16.
  */
 public class PlantRealmRepositoryTest extends AndroidTestCase {
-
-    private static final String TAG = PlantRealmRepositoryTest.class.getSimpleName();
 
     private PlantRealmRepository repository;
     private final String ID = "1";
@@ -57,7 +59,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         repository.add(plant);
 
-        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
+        repository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getName(), NAME));
     }
 
     /**
@@ -90,7 +92,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         repository.update(plant);
 
         // assertions
-        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(NEW_NAME, plantFromDB.getName()));
+        repository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(NEW_NAME, attributeFromDB.getName()));
     }
 
     public void testPersistOnePlantWithImages() {
@@ -103,7 +105,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         repository.add(plant);
 
         // assertions
-        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getImages().size(), 2));
+        repository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getImages().size(), 2));
     }
 
     public void testPersistPlantsWithImages() {
@@ -119,8 +121,20 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         result.subscribe(count -> Assert.assertEquals(2, count.intValue()));
 
         repository.query(new PlantSpecification()).subscribe(
-                plantFromDB -> Assert.assertEquals(2, plantFromDB.get(0).getImages().size())
+                attributeFromDB -> Assert.assertEquals(2, attributeFromDB.get(0).getImages().size())
         );
+    }
+
+    public void testPersistPlantWithAll() {
+        // setup
+        // create plant with two images
+        Plant plant = createPlantWithAll(ID, NAME);
+
+        // when
+        repository.add(plant);
+
+        // assertions
+        repository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getImages().size(), 2));
     }
 
     public void testRemoveOnePlant() {
@@ -130,7 +144,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         repository.add(plant);
 
-        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
+        repository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getName(), NAME));
 
         // when
         Observable<Integer> result = repository.remove(plant);
@@ -146,7 +160,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         repository.add(plant);
 
-        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
+        repository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getName(), NAME));
 
         RealmSpecification realmSpecification = new PlantByNameSpecification(NAME);
 
@@ -230,9 +244,12 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         plant.setName(name);
         plant.setSize(30);
         plant.setGardenId("1");
+        plant.setFloweringTime("7 weeks");
+        plant.setSeedDate(new Date());
         plant.setPhSoil(6);
         plant.setEcSoil(1);
         plant.setHarvest(60);
+        plant.setDescription("Description");
 
         return plant;
     }
@@ -246,14 +263,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
      */
     private Plant createPlantWithImages(String id, String name) {
 
-        Plant plant = new Plant();
-        plant.setId(id);
-        plant.setName(name);
-        plant.setSize(30);
-        plant.setGardenId("1");
-        plant.setPhSoil(6);
-        plant.setEcSoil(1);
-        plant.setHarvest(60);
+        Plant plant = createPlant(id, name);
 
         ArrayList<Image> images = new ArrayList<>();
 
@@ -264,6 +274,52 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         images.add(imageTwo);
 
         plant.setImages(images);
+
+        return plant;
+    }
+
+    private Plant createPlantWithAll(String id, String name) {
+
+        Plant plant = createPlantWithImages(id, name);
+
+        // ADD FLAVORS
+        ArrayList<Flavor> flavors = new ArrayList<>();
+
+        Flavor flavorOne = createFlavor("1", "lemon", "/images/flavors/lemon");
+        Flavor flavorTwo = createFlavor("2", "wood", "/images/flavors/lemon");
+        Flavor flavorThree = createFlavor("3", "soil", "/images/flavors/lemon");
+
+        flavors.add(flavorOne);
+        flavors.add(flavorTwo);
+        flavors.add(flavorThree);
+
+        plant.setFlavors(flavors);
+
+        // ADD ATTRIBUTES
+        ArrayList<Attribute> attributes = new ArrayList<>();
+
+        Attribute attributeOne = createAttribute("1", "Euphoric", "effects");
+        Attribute attributeTwo = createAttribute("2", "Insomnia", "medicinal");
+        Attribute attributeThree = createAttribute("3", "Headache", "symptoms");
+
+        attributes.add(attributeOne);
+        attributes.add(attributeTwo);
+        attributes.add(attributeThree);
+
+        plant.setAttributes(attributes);
+
+        // ADD PLAGUES
+        ArrayList<Plague> plagues = new ArrayList<>();
+
+        Plague plagueOne = createPlague("1", "caterpillar", "/images/flavors/caterpillar");
+        Plague PlagueTwo = createPlague("2", "trip", "/images/flavors/trip");
+        Plague PlagueThree = createPlague("3", "spider", "/images/flavors/spider");
+
+        plagues.add(plagueOne);
+        plagues.add(PlagueTwo);
+        plagues.add(PlagueThree);
+
+        plant.setPlagues(plagues);
 
         return plant;
     }
@@ -288,4 +344,29 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         return image;
     }
+
+    private Flavor createFlavor(String id, String name, String imageUrl) {
+        Flavor flavor = new Flavor();
+        flavor.setId(id);
+        flavor.setName(name);
+        flavor.setImageUrl(imageUrl);
+        return flavor;
+    }
+
+    private Attribute createAttribute(String id, String name, String type) {
+        Attribute attribute = new Attribute();
+        attribute.setId(id);
+        attribute.setName(name);
+        attribute.setType(type);
+        return attribute;
+    }
+
+    private Plague createPlague(String id, String name, String imageUrl) {
+        Plague plague = new Plague();
+        plague.setId(id);
+        plague.setName(name);
+        plague.setImageUrl(imageUrl);
+        return plague;
+    }
+
 }

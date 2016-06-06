@@ -105,7 +105,10 @@ public class PlagueRealmRepository implements Repository<Plague> {
 
     @Override
     public void removeAll() {
-
+        // Delete all
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
     }
 
     @Override
