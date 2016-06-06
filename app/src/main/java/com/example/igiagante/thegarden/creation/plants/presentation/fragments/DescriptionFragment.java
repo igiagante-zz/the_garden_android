@@ -83,9 +83,10 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         mAdapter = new PlagueAdapter(getContext());
         mPlaguesRecycleView.setAdapter(mAdapter);
 
-        //Get plagues
-        mPlaguePresenter.getPlagues();
-
+        if(mPlagues.isEmpty()) {
+            //Get plagues
+            mPlaguePresenter.getPlagues();
+        }
         return containerView;
     }
 
