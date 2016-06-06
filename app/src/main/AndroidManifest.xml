@@ -15,7 +15,7 @@
         android:theme="@style/CustomTheme">
 
         <provider
-            android:authorities="com.igiagante.provider.plagues"
+            android:authorities="com.igiagante.provider.flavors"
             android:name=".core.repository.sqlite.FlavorProvider" />
 
         <activity

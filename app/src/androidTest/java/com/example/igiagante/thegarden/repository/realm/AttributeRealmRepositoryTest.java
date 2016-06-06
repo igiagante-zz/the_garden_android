@@ -86,21 +86,6 @@ public class AttributeRealmRepositoryTest extends AndroidTestCase {
         result.subscribe(count -> Assert.assertEquals(1, count.intValue()));
     }
 
-    public void testRemoveAttributes() {
-
-        // setup
-        // create three attributes
-        ArrayList<Attribute> attributes = createAttributes();
-
-        repository.add(attributes);
-
-        // when
-        Observable<Integer> result = repository.remove(attributes);
-
-        // assertions
-        result.subscribe(count -> Assert.assertEquals(3, count.intValue()));
-    }
-
     private Attribute createAttribute(String id, String name, String type) {
 
         Attribute attribute = new Attribute();

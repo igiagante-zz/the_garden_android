@@ -123,27 +123,6 @@ public class AttributeRealmRepository implements Repository<Attribute> {
         return Observable.just(attributeRealm.isValid() ? 0 : 1);
     }
 
-    public Observable<Integer> remove(Iterable<Attribute> attributes) {
-
-        int size = 0;
-        realm = Realm.getInstance(realmConfiguration);
-
-        realm.executeTransaction(realmParam -> {
-            for (Attribute attribute : attributes) {
-                AttributeRealm attributeRealm = realm.where(AttributeRealm.class).equalTo(PlantTable.ID, attribute.getId()).findFirst();
-                realm.executeTransaction(other -> attributeRealm.deleteFromRealm());
-            }
-        });
-
-        realm.close();
-
-        if (attributes instanceof Collection<?>) {
-            size = ((Collection<?>) attributes).size();
-        }
-
-        return Observable.just(size);
-    }
-
     @Override
     public void removeAll() {
         // Delete all
