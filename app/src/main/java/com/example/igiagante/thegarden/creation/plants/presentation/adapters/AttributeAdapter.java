@@ -103,6 +103,10 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
         return attributeHolders != null ? attributeHolders.size() : 0;
     }
 
+    /**
+     * Add a tag to the list
+     * @param attributeHolder Attribute Holder
+     */
     public void addTag(AttributeHolder attributeHolder){
         final int position = attributeHolders.size();
         attributeHolders.add(attributeHolder);

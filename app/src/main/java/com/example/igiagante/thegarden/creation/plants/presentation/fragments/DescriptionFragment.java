@@ -86,7 +86,10 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         if(mPlagues.isEmpty()) {
             //Get plagues
             mPlaguePresenter.getPlagues();
+        } else {
+            mAdapter.setPlagues(mPlagues);
         }
+
         return containerView;
     }
 

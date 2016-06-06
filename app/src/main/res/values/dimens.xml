@@ -113,8 +113,13 @@
     <dimen name="button_height_land">35dp</dimen>
     <dimen name="margin_button_land">8dp</dimen>
 
-    <dimen name="margin_text_view_land">20dp</dimen>
+    <dimen name="margin_text_view_land">0dp</dimen>
     <dimen name="margin_end_genotype_land">50dp</dimen>
     <dimen name="margin_end_ph_soil_land">30dp</dimen>
+
+    <!-- land - attributes rectangles -->
+    <dimen name="rectangle_effects_land_margin_start">60dp</dimen>
+    <dimen name="rectangle_medicinal_land_margin_start">60dp</dimen>
+    <dimen name="rectangle_symptoms_land_margin_start">62dp</dimen>
 
 </resources>

@@ -36,7 +36,8 @@ import butterknife.ButterKnife;
 public class AttributesFragment extends CreationBaseFragment implements AttributesView,
         AttributeAdapter.TagActionListener {
 
-    public static final String ATTRIBUTES = "ATTRIBUTES";
+    public static final String AVAILABLE_ATTRIBUTES = "AVAILABLE_ATTRIBUTES";
+    public static final String SELECTED_ATTRIBUTES = "SELECTED_ATTRIBUTES";
 
     @Bind(R.id.attributes_selected_id)
     RecyclerView attributesSelected;
@@ -52,13 +53,15 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     private AttributeAdapter attributeSelectedAdapter;
 
     private ArrayList<AttributeHolder> mAttributes = new ArrayList<>();
+    private ArrayList<AttributeHolder> mAttributesSelected = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if(savedInstanceState != null) {
-            mAttributes = savedInstanceState.getParcelableArrayList(ATTRIBUTES);
+            mAttributes = savedInstanceState.getParcelableArrayList(AVAILABLE_ATTRIBUTES);
+            mAttributesSelected = savedInstanceState.getParcelableArrayList(SELECTED_ATTRIBUTES);
         }
     }
 
@@ -87,7 +90,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         GridLayoutManager selectedLayout;
 
         if(isLandScape()) {
-            selectedLayout = new GridLayoutManager(getContext(), 4);
+            selectedLayout = new GridLayoutManager(getContext(), 3);
         } else {
             selectedLayout = new GridLayoutManager(getContext(), 2);
         }
@@ -101,6 +104,10 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         if(mAttributes.isEmpty()) {
             //Get available attributes
             mAttributesPresenter.getAttributes();
+        } else {
+            attributeAdapter.setAttributeHolders(mAttributes);
+            // add selected attributes
+            attributeSelectedAdapter.setAttributeHolders(mAttributesSelected);
         }
         return containerView;
     }
@@ -137,7 +144,9 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(ATTRIBUTES, mAttributes);
+        outState.putParcelableArrayList(AVAILABLE_ATTRIBUTES, mAttributes);
+        ArrayList<AttributeHolder> attributeHoldersSelected = attributeSelectedAdapter.getAttributeHolders();
+        outState.putParcelableArrayList(SELECTED_ATTRIBUTES, attributeHoldersSelected);
     }
 
     @Override
@@ -160,12 +169,15 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
         ArrayList<Attribute> attributes = new ArrayList<>();
 
-        for (AttributeHolder holder : attributeSelectedAdapter.getAttributeHolders()) {
-            if(holder.isSelected()) {
-                Attribute attribute = holder.getModel();
-                attributes.add(attribute);
+        if(attributeSelectedAdapter.getAttributeHolders() != null) {
+            for (AttributeHolder holder : attributeSelectedAdapter.getAttributeHolders()) {
+                if(holder.isSelected()) {
+                    Attribute attribute = holder.getModel();
+                    attributes.add(attribute);
+                }
             }
         }
+
         return attributes;
     }
 }
