@@ -1,12 +1,15 @@
 package com.example.igiagante.thegarden.core.repository.restAPI;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.PlantRestAPI;
 import com.google.gson.Gson;
@@ -33,10 +36,12 @@ public class RestApiPlantRepository implements Repository<Plant> {
     private final static String TAG = RestApiPlantRepository.class.getSimpleName();
 
     private final PlantRestAPI api;
+    private final PlantRealmRepository dataBase;
 
     @Inject
-    public RestApiPlantRepository() {
+    public RestApiPlantRepository(Context context) {
         api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
+        dataBase = new PlantRealmRepository(context);
     }
 
     @Override
@@ -48,7 +53,12 @@ public class RestApiPlantRepository implements Repository<Plant> {
     public Observable<String> add(@NonNull final Plant plant) {
 
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
-        return api.createPlant(builder.build()).asObservable().map(plantParam -> plantParam.getId());
+        Observable<Plant> apiResult = api.createPlant(builder.build()).asObservable();
+
+        // persist the plant into database
+        Observable<Plant> dbResult = apiResult.doOnNext(plantFromApi -> dataBase.add(plantFromApi));
+
+        return dbResult.map(plantFromDb -> plantFromDb.getId());
     }
 
     @Override

@@ -12,7 +12,6 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.ui.CountView;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.satsuware.usefulviews.LabelledSpinner;
 
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
     @Override
     protected void move() {
-        PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
         builder.addPlantName(mNameOfPlant.getText().toString());
         builder.addPhSoil(mPhSoil.getEditValue());
         builder.addEcSoil(mEcSoil.getEditValue());
@@ -123,6 +122,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         EditText sizeText = (EditText) mSize.findViewById(R.id.count_input);
         sizeText.setHint(R.string.size);
         sizeText.setText(R.string.size_default_value);
+
     }
 
     private Plant createParcelable() {

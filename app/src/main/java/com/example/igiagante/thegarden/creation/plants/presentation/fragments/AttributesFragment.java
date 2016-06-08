@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
-import com.example.igiagante.thegarden.core.ui.RecyclerViewItemClickListener;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeDecorator;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.AttributeHolder;
@@ -159,7 +158,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
     @Override
     protected void move() {
-        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
         builder.addAttributes(createAttributesSelectedList());
     }
 

@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.presenters;
 
+import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
@@ -16,6 +17,7 @@ import javax.inject.Named;
 /**
  * @author Ignacio Giagante, on 6/4/16.
  */
+@PerActivity
 public class PlaguePresenter extends AbstractPresenter<PlagueView> {
 
     private final UseCase getPlaguesUserCase;

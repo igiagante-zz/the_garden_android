@@ -128,7 +128,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if(!imagesCollection.isEmpty()) {
             this.items.addAll(0, imagesCollection);
             this.notifyItemRangeInserted(0, imagesCollection.size());
-
             //update carousel images
         }
     }
@@ -142,5 +141,4 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.items.remove(position);
         notifyItemRemoved(position);
     }
-
 }

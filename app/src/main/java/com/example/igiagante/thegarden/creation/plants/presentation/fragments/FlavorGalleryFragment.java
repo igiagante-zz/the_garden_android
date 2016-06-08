@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.FlavorAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
@@ -142,7 +142,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
 
     @Override
     protected void move() {
-        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
         builder.addFlavors(createFlavorsSelectedList());
     }
 

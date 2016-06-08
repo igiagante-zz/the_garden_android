@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 18/4/16.
  */
-public class MainActivity extends BaseActivity implements HasComponent<PlantComponent> {
+public class  MainActivity extends BaseActivity implements HasComponent<PlantComponent> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 

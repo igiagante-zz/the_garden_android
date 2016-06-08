@@ -16,11 +16,9 @@ import android.widget.Toast;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
-import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PhotoGalleryPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.PhotoGalleryView;
@@ -70,7 +68,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         if(savedInstanceState != null) {
             Plant plant = savedInstanceState.getParcelable(CreatePlantActivity.PLANT_KEY);
             if(plant != null) {
-                mImages =  plant.getImages();
+                mImages = plant.getImages();
             }
         }
     }
@@ -182,7 +180,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
                 //update images from builder
                 ArrayList<Image> imagesFromFilesPaths = getImagesFromFilesPaths(imagesFilesPaths);
                 this.mImages = imagesFromFilesPaths;
-                updateImagesFromBuilder(imagesFromFilesPaths);
+                updateImagesFromBuilder(imagesFromFilesPaths, true);
             }
         }
     }
@@ -192,13 +190,25 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      */
     public void addImagesToBuilder(Collection<Image> images) {
         this.mImages.addAll(images);
-        updateImagesFromBuilder(images);
+        updateImagesFromBuilder(images, false);
         Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
     }
 
-    private void updateImagesFromBuilder(Collection<Image> images) {
-        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
-        builder.addImages(images);
+    @Override
+    protected void move() {
+        super.move();
+        // double check in case some image was deleted. So, the builder needs to be updated.
+        updateImagesFromBuilder(mImages, true);
+    }
+
+    /**
+     * Update images list from builder
+     * @param images list of images
+     * @param carousel indicates if the images come from the carousel
+     */
+    private void updateImagesFromBuilder(Collection<Image> images, boolean carousel) {
+        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        builder.addImages(images, carousel);
     }
 
     private ArrayList<Image> getImagesFromFilesPaths(List<String> paths) {

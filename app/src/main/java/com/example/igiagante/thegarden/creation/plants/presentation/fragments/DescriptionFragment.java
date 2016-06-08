@@ -9,13 +9,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.PlagueAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.PlagueHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PlaguePresenter;
@@ -44,6 +45,12 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     @Bind(R.id.plant_description_id)
     EditText descriptionTextArea;
 
+    @Bind(R.id.plant_save_button)
+    Button saveButton;
+
+    @Bind(R.id.plant_cancel_button)
+    Button cancelButton;
+
     @Inject
     PlaguePresenter mPlaguePresenter;
 
@@ -52,6 +59,15 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     private ArrayList<PlagueHolder> mPlagues = new ArrayList<>();
 
     private String mPlantDescription;
+
+    /**
+     * Listener used to notify when wizard process has finished
+     */
+    private OnSavePlantListener onSavePlantListener;
+
+    public interface OnSavePlantListener {
+        void onSavePlant();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,6 +104,11 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
             mAdapter.setPlagues(mPlagues);
         }
 
+        saveButton.setOnClickListener(v -> {
+            saveDescription();
+            onSavePlantListener.onSavePlant();
+        });
+
         return containerView;
     }
 
@@ -122,8 +143,25 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            onSavePlantListener = (CreatePlantActivity)context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnSavePlantListener");
+        }
+
+    }
+
+    private void saveDescription() {
+        move();
+    }
+
+    @Override
     protected void move() {
-        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
         builder.addPlagues(createAttributesSelectedList());
         builder.addDescription(descriptionTextArea.getText().toString());
     }

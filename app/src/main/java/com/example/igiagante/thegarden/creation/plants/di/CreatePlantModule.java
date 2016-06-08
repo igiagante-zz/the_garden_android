@@ -6,6 +6,7 @@ import com.example.igiagante.thegarden.creation.plants.usecase.GetAttributesUseC
 import com.example.igiagante.thegarden.creation.plants.usecase.GetFlavorsUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetImagesUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetPlaguesUseCase;
+import com.example.igiagante.thegarden.creation.plants.usecase.SavePlantUseCase;
 
 import javax.inject.Named;
 
@@ -16,9 +17,9 @@ import dagger.Provides;
  * @author Ignacio Giagante, on 19/5/16.
  */
 @Module
-public class CreationPlantModule {
+public class CreatePlantModule {
 
-    public CreationPlantModule() {}
+    public CreatePlantModule() {}
 
     @Provides
     @PerActivity
@@ -46,5 +47,12 @@ public class CreationPlantModule {
     @Named("plagues")
     UseCase provideGetPlaguesUseCase(GetPlaguesUseCase plagues) {
         return plagues;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("savePlant")
+    UseCase provideSavePlantUseCase(SavePlantUseCase savePlant) {
+        return savePlant;
     }
 }

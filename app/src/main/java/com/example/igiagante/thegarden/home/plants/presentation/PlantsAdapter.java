@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -54,8 +55,12 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     public void onBindViewHolder(PlantViewHolder holder, int position) {
         final PlantHolder plantHolder = this.mPlants.get(position);
 
-        String thumbnailUrl = plantHolder.getMainImage().getThumbnailUrl();
-        holder.mPlantImage.setImageURI(Uri.parse(thumbnailUrl));
+        Image mainImage = plantHolder.getMainImage();
+
+        if(mainImage != null) {
+            String thumbnailUrl = mainImage.getThumbnailUrl();
+            holder.mPlantImage.setImageURI(Uri.parse(thumbnailUrl));
+        }
 
         holder.mPlantName.setText(plantHolder.getName());
         String seedDateLabel = mContext.getString(R.string.seedDate);
