@@ -126,7 +126,6 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
 
     @Override
     public void addFlavor(int flavorPosition) {
-
         if(mFlavors.get(flavorPosition).isSelected()) {
             mFlavors.get(flavorPosition).setSelected(false);
         } else {

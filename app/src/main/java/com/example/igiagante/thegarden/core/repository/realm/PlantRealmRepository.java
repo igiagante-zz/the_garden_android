@@ -27,7 +27,6 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 5/5/16.
  */
-@Singleton
 public class PlantRealmRepository implements Repository<Plant> {
 
     private final Mapper<PlantRealm, Plant> toPlant;

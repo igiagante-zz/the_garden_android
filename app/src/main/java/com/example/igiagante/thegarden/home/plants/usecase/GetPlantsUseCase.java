@@ -6,6 +6,8 @@ import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
+import com.example.igiagante.thegarden.core.repository.managers.PlagueRepositoryManager;
+import com.example.igiagante.thegarden.core.repository.managers.PlantRepositoryManager;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;
@@ -17,16 +19,26 @@ import rx.Observable;
  */
 public class GetPlantsUseCase extends UseCase<Void> {
 
-    private final Repository plantRepository;
+    /**
+     * Repository Manager which delegates the actions to the correct repository
+     */
+    private final PlantRepositoryManager plantRepositoryManager;
 
     @Inject
-    public GetPlantsUseCase(@NonNull Repository plantRepository, @NonNull ThreadExecutor threadExecutor, @NonNull PostExecutionThread postExecutionThread) {
+    public GetPlantsUseCase(@NonNull PlantRepositoryManager plantRepositoryManager, @NonNull ThreadExecutor threadExecutor, @NonNull PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.plantRepository = plantRepository;
+        this.plantRepositoryManager = plantRepositoryManager;
+        // set repositories order
+        this.plantRepositoryManager.setRepositoriesOrder(getRepositoryOrder());
     }
 
     @Override
     protected Observable buildUseCaseObservable(Void aVoid) {
-        return plantRepository.query(new Specification() {});
+        return plantRepositoryManager.query(null);
+    }
+
+    @Override
+    protected void setRepositoryOrder() {
+        repositoryOrder.add(LOCAL_REPOSITORY, REMOTE_REPOSITORY);
     }
 }

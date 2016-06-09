@@ -20,16 +20,17 @@ public class Plant implements Parcelable {
     }
 
     public Plant(PlantBuilder builder) {
-        this.id = builder.plant.getId();
-        this.gardenId = builder.plant.getGardenId();
-        this.seedDate = builder.plant.getSeedDate();
-        this.name = builder.plant.getName();
-        this.phSoil = builder.plant.getPhSoil();
-        this.ecSoil = builder.plant.getEcSoil();
-        this.floweringTime = builder.plant.getFloweringTime();
-        this.size = builder.plant.getSize();
-        this.harvest = builder.plant.getHarvest();
-        this.description = builder.plant.getDescription();
+        this.id = builder.id;
+        this.gardenId = builder.gardenId;
+        this.seedDate = builder.seedDate;
+        this.name = builder.name;
+        this.phSoil = builder.phSoil;
+        this.ecSoil = builder.ecSoil;
+        this.floweringTime = builder.floweringTime;
+        this.genotype = builder.genotype;
+        this.size = builder.size;
+        this.harvest = builder.harvest;
+        this.description = builder.description;
         this.images = builder.mImages;
         this.flavors = builder.flavors;
         this.attributes = builder.attributes;
@@ -298,10 +299,17 @@ public class Plant implements Parcelable {
      */
     public static class PlantBuilder {
 
-        /**
-         * Used to keep all the data related to the plant
-         */
-        private Plant plant;
+        private String id;
+        private String gardenId = "5716c3793f3bffbd34000002";
+        private Date seedDate = new Date();
+        private String name;
+        private float phSoil;
+        private float ecSoil;
+        private String floweringTime;
+        private String genotype;
+        private int size;
+        private int harvest;
+        private String description;
 
         /**
          * Represent the mImages which belong to the plant
@@ -324,7 +332,6 @@ public class Plant implements Parcelable {
         private ArrayList<Plague> plagues;
 
         public PlantBuilder() {
-            plant = new Plant();
             mImages = new ArrayList<>();
             flavors = new ArrayList<>();
             attributes = new ArrayList<>();
@@ -337,7 +344,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addPlantName(String plantName) {
-            plant.setName(plantName);
+            this.name = plantName;
             return this;
         }
 
@@ -347,7 +354,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addPhSoil(float phSoil) {
-            plant.setPhSoil(phSoil);
+            this.phSoil = phSoil;
             return this;
         }
 
@@ -357,7 +364,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addEcSoil(float ecSoil) {
-            plant.setEcSoil(ecSoil);
+            this.ecSoil = ecSoil;
             return this;
         }
 
@@ -367,7 +374,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addFloweringTime(String floweringTime) {
-            plant.setFloweringTime(floweringTime);
+            this.floweringTime = floweringTime;
             return this;
         }
 
@@ -377,7 +384,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addHarvest(int harvest) {
-            plant.setHarvest(harvest);
+            this.harvest = harvest;
             return this;
         }
 
@@ -387,7 +394,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addGenotype(String genotype) {
-            plant.setGenotype(genotype);
+            this.genotype = genotype;
             return this;
         }
 
@@ -397,7 +404,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addSize(int size) {
-            plant.setSize(size);
+            this.size = size;
             return this;
         }
 
@@ -407,7 +414,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addDescription(String description) {
-            plant.setDescription(description);
+            this.description = description;
             return this;
         }
 
@@ -445,22 +452,6 @@ public class Plant implements Parcelable {
 
         public Plant build() {
             return new Plant(this);
-        }
-
-        private void addImages(ArrayList<Image> imagesList) {
-            for(Image image : imagesList) {
-                if(!mImages.contains(image)) {
-                    mImages.add(image);
-                }
-            }
-/*
-            for (int i = 0; i < imagesList.size(); i++) {
-                for (int j = 0; j < mImages.size(); j++) {
-                    if(imagesList.get(i).getName().equals(mImages.get(j))){
-
-                    }
-                }
-            }*/
         }
     }
 }

@@ -54,9 +54,4 @@ public class ApplicationModule {
         return new HttpStatus();
     }
 
-    @Provides @Singleton
-    Repository provideRepository(RestApiPlantRepository repository) {
-        return repository;
-    }
-
 }

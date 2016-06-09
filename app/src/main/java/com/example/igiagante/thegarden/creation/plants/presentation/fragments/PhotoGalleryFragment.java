@@ -189,7 +189,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      * Add images to builder selected by the user.
      */
     public void addImagesToBuilder(Collection<Image> images) {
-        this.mImages.addAll(images);
+        //this.mImages.addAll(images);
         updateImagesFromBuilder(images, false);
         Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
     }

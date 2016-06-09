@@ -1,11 +1,14 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.presenters;
 
+import android.util.Log;
+
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.SavePlantView;
+import com.example.igiagante.thegarden.home.plants.presentation.PlantListPresenter;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -46,7 +49,7 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
         @Override
         public void onError(Throwable e) {
             //PlantListPresenter.this.hideViewLoading();
-            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+            Log.e("Error", e.getMessage());
             //PlantListPresenter.this.showViewRetry();
         }
 
