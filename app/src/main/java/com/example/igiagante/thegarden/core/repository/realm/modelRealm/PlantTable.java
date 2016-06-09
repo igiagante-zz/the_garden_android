@@ -17,6 +17,9 @@ public interface PlantTable {
     String SIZE = "size";
     String HARVEST = "harvest";
     String DESCRIPTION = "description";
+    String FLAVORS = "flavors";
+    String ATTRIBUTES = "attributes";
+    String PLAGUES = "plagues";
 
     // this attribute is only to check if some image should be deleted
     String RESOURCES_IDS =  "resourcesIds";

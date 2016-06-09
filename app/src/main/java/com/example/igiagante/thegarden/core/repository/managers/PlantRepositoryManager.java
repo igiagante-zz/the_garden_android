@@ -8,7 +8,6 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.specification.PlantByNameSpecification;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlantSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiPlantRepository;
 
 import java.util.ArrayList;
@@ -38,9 +37,14 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         Observable<Plant> observableOne = mRepositories.get(0).query(plantSpecification)
                 .flatMap(list -> Observable.just(list.get(0)));
 
+        List<Plant> list = new ArrayList<>();
+        observableOne.map(plant1 -> list.add(plant));
+
+        Observable<List<Plant>> observable = Observable.just(list);
+
         // check if the plant already exits. If the plant exists, it returns the plant. On the other
         // side, it asks to the rest api to save the plant.
-        return observableOne.map(v -> true).firstOrDefault(false)
+        return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists
                         ? observableOne.map(plant1 -> plant.getId())
                         : mRepositories.get(1).add(plant));
@@ -56,13 +60,13 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         Observable<List<Plant>> query = mRepositories.get(0).query(specification);
 
         List<Plant> list = new ArrayList<>();
-        query.subscribe(plants -> list.addAll(plants));
+       // query.subscribe(plants -> list.addAll(plants));
 
         Observable<List<Plant>> observable = Observable.just(list);
 
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists
-                        ? Observable.just(list)
+                        ? observable
                         : mRepositories.get(1).query(null));
     }
 }

@@ -37,6 +37,24 @@ public class Plant implements Parcelable {
         this.plagues = builder.plagues;
     }
 
+    public Plant(Plant plant) {
+        this.id = plant.id;
+        this.gardenId = plant.gardenId;
+        this.seedDate = plant.seedDate;
+        this.name = plant.name;
+        this.phSoil = plant.phSoil;
+        this.ecSoil = plant.ecSoil;
+        this.floweringTime = plant.floweringTime;
+        this.genotype = plant.genotype;
+        this.size = plant.size;
+        this.harvest = plant.harvest;
+        this.description = plant.description;
+        this.images = plant.images;
+        this.flavors = plant.flavors;
+        this.attributes = plant.attributes;
+        this.plagues = plant.plagues;
+    }
+
     @SerializedName("_id")
     private String id;
 

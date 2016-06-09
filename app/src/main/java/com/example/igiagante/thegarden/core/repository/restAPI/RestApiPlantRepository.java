@@ -1,9 +1,11 @@
 package com.example.igiagante.thegarden.core.repository.restAPI;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
@@ -53,12 +55,22 @@ public class RestApiPlantRepository implements Repository<Plant> {
     public Observable<String> add(@NonNull final Plant plant) {
 
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
+
         Observable<Plant> apiResult = api.createPlant(builder.build()).asObservable();
 
-        // persist the plant into database
-        Observable<Plant> dbResult = apiResult.doOnNext(plantFromApi -> dataBase.add(plantFromApi));
+        // get Data From api
+        List<Plant> listOne = new ArrayList<>();
+        apiResult.subscribe(plant2 -> listOne.add(plant2));
 
-        return dbResult.map(plantFromDb -> plantFromDb.getId());
+        // persist the plant into database
+        Observable<String> dbResult = dataBase.add(listOne.get(0));
+
+        List<String> list = new ArrayList<>();
+        dbResult.subscribe(plantId -> list.add(plantId));
+
+        Observable<String> observable = Observable.just(list.get(0));
+
+        return observable;
     }
 
     @Override
@@ -115,6 +127,7 @@ public class RestApiPlantRepository implements Repository<Plant> {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
 
+
         builder = addPlantToRequestBody(builder, plant);
 
         ArrayList<File> files = new ArrayList<>();
@@ -135,16 +148,19 @@ public class RestApiPlantRepository implements Repository<Plant> {
      */
     private MultipartBody.Builder addPlantToRequestBody(@NonNull final MultipartBody.Builder builder, @NonNull final Plant plant) {
 
-        if (!plant.getResourcesIds().isEmpty()) {
+        if (plant.getResourcesIds() != null && !plant.getResourcesIds().isEmpty()) {
             String resourcesIds = new Gson().toJson(plant.getResourcesIds());
             builder.addFormDataPart(PlantTable.RESOURCES_IDS, resourcesIds);
         }
 
         return builder.addFormDataPart(PlantTable.NAME, plant.getName())
                 .addFormDataPart(PlantTable.SIZE, String.valueOf(plant.getSize()))
-                .addFormDataPart(PlantTable.PH_SOIL, String.valueOf(6.0))
-                .addFormDataPart(PlantTable.EC_SOIL, String.valueOf(1.0))
+                .addFormDataPart(PlantTable.PH_SOIL, String.valueOf(plant.getPhSoil()))
+                .addFormDataPart(PlantTable.EC_SOIL, String.valueOf(plant.getEcSoil()))
+                .addFormDataPart(PlantTable.FLOWERING_TIME, String.valueOf(plant.getFloweringTime()))
+                .addFormDataPart(PlantTable.GENOTYPE, String.valueOf(plant.getGenotype()))
                 .addFormDataPart(PlantTable.HARVEST, String.valueOf(plant.getHarvest()))
+                .addFormDataPart(PlantTable.DESCRIPTION, String.valueOf(plant.getDescription()))
                 .addFormDataPart(PlantTable.GARDEN_ID, plant.getGardenId());
     }
 
