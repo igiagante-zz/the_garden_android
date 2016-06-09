@@ -91,10 +91,14 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
 
         plant.setName(plantRealm.getName());
         plant.setGardenId(plantRealm.getGardenId());
+        plant.setSeedDate(plantRealm.getSeedDate());
         plant.setSize(plantRealm.getSize());
         plant.setPhSoil(plantRealm.getPhSoil());
         plant.setEcSoil(plantRealm.getEcSoil());
+        plant.setFloweringTime(plantRealm.getFloweringTime());
+        plant.setGenotype(plantRealm.getGenotype());
         plant.setHarvest(plantRealm.getHarvest());
+        plant.setDescription(plantRealm.getDescription());
 
         return plant;
     }

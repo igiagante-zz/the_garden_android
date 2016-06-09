@@ -18,7 +18,8 @@ public class AttributeRealm extends RealmObject {
     @Required
     private String type;
 
-    private int percentage;
+    @Required
+    private Integer percentage;
 
     public String getId() {
         return id;
@@ -44,11 +45,11 @@ public class AttributeRealm extends RealmObject {
         this.type = type;
     }
 
-    public int getPercentage() {
+    public Integer getPercentage() {
         return percentage;
     }
 
-    public void setPercentage(int percentage) {
+    public void setPercentage(Integer percentage) {
         this.percentage = percentage;
     }
 }

@@ -11,6 +11,9 @@ import com.example.igiagante.thegarden.core.repository.realm.specification.Plant
 import com.example.igiagante.thegarden.core.repository.realm.specification.PlantSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiPlantRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import rx.Observable;
@@ -49,9 +52,17 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
      * @return Observable
      */
     public Observable query(Specification specification) {
-        return mRepositories.get(0).query(specification)
-                .map(v -> true).firstOrDefault(false)
-                .flatMap(exists -> exists ? mRepositories.get(0).query(specification)
-                        : mRepositories.get(1).query(specification));
+
+        Observable<List<Plant>> query = mRepositories.get(0).query(specification);
+
+        List<Plant> list = new ArrayList<>();
+        query.subscribe(plants -> list.addAll(plants));
+
+        Observable<List<Plant>> observable = Observable.just(list);
+
+        return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
+                .flatMap(exists -> exists
+                        ? Observable.just(list)
+                        : mRepositories.get(1).query(null));
     }
 }
