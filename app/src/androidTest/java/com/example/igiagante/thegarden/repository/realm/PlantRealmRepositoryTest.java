@@ -134,7 +134,10 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         repository.add(plant);
 
         // assertions
-        repository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getImages().size(), 2));
+        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getImages().size(), 2));
+        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getFlavors().size(), 3));
+        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getAttributes().size(), 3));
+        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getPlagues().size(), 3));
     }
 
     public void testRemoveOnePlant() {
