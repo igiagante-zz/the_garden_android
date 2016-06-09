@@ -55,7 +55,7 @@ public class Plant implements Parcelable {
         this.plagues = plant.plagues;
     }
 
-    @SerializedName("_id")
+    @SerializedName("id")
     private String id;
 
     @SerializedName("gardenId")
@@ -436,9 +436,13 @@ public class Plant implements Parcelable {
             return this;
         }
 
+        /**
+         * Add images to the builder
+         * @param images list of images
+         * @param carousel indicate if the images come from carousel
+         * @return
+         */
         public PlantBuilder addImages(Collection<Image> images, boolean carousel) {
-
-            Log.i("IMAGES", "TESTING size: " + this.mImages.size());
 
             ArrayList<Image> imagesList = (ArrayList<Image>) images;
 
@@ -447,9 +451,6 @@ public class Plant implements Parcelable {
             } else {
                 this.mImages.addAll(imagesList);
             }
-
-            Log.i("IMAGES", "TESTING size: " + this.mImages.size());
-
             return this;
         }
 

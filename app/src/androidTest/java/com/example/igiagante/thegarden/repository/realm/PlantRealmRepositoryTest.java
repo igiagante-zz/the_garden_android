@@ -38,7 +38,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        //repository.removeAll();
+        repository.removeAll();
     }
 
     public void testGetById() {

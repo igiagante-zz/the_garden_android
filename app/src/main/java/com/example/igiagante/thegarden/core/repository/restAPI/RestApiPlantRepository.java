@@ -55,7 +55,6 @@ public class RestApiPlantRepository implements Repository<Plant> {
     public Observable<String> add(@NonNull final Plant plant) {
 
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
-
         Observable<Plant> apiResult = api.createPlant(builder.build()).asObservable();
 
         // get Data From api
@@ -63,7 +62,7 @@ public class RestApiPlantRepository implements Repository<Plant> {
         apiResult.subscribe(plant2 -> listOne.add(plant2));
 
         // persist the plant into database
-        Observable<String> dbResult = dataBase.add(listOne.get(0));
+        Observable<String> dbResult = dataBase.add(plant);
 
         List<String> list = new ArrayList<>();
         dbResult.subscribe(plantId -> list.add(plantId));
@@ -127,7 +126,6 @@ public class RestApiPlantRepository implements Repository<Plant> {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
 
-
         builder = addPlantToRequestBody(builder, plant);
 
         ArrayList<File> files = new ArrayList<>();
@@ -151,6 +149,21 @@ public class RestApiPlantRepository implements Repository<Plant> {
         if (plant.getResourcesIds() != null && !plant.getResourcesIds().isEmpty()) {
             String resourcesIds = new Gson().toJson(plant.getResourcesIds());
             builder.addFormDataPart(PlantTable.RESOURCES_IDS, resourcesIds);
+        }
+
+        if (plant.getFlavors() != null && !plant.getFlavors().isEmpty()) {
+            String flavors = new Gson().toJson(plant.getFlavors());
+            builder.addFormDataPart(PlantTable.FLAVORS, flavors);
+        }
+
+        if (plant.getAttributes() != null && !plant.getAttributes().isEmpty()) {
+            String attributes = new Gson().toJson(plant.getAttributes());
+            builder.addFormDataPart(PlantTable.ATTRIBUTES, attributes);
+        }
+
+        if (plant.getPlagues() != null && !plant.getPlagues().isEmpty()) {
+            String plagues = new Gson().toJson(plant.getPlagues());
+            builder.addFormDataPart(PlantTable.PLAGUES, plagues);
         }
 
         return builder.addFormDataPart(PlantTable.NAME, plant.getName())

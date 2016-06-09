@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.realm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
@@ -13,7 +14,9 @@ import com.example.igiagante.thegarden.core.repository.realm.specification.Plant
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantRealmToPlant;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantToPlantRealm;
+import com.example.igiagante.thegarden.core.repository.sqlite.ConvertRealmResultToModel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,6 +26,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * @author Ignacio Giagante, on 5/5/16.
@@ -55,8 +59,10 @@ public class PlantRealmRepository implements Repository<Plant> {
     @Override
     public Observable<String> add(@NonNull final Plant plant) {
 
-        final Realm realm = Realm.getInstance(realmConfiguration);
-        realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
+        realm = Realm.getInstance(realmConfiguration);
+        realm.executeTransaction(realmParam ->
+            realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
+
         realm.close();
 
         return Observable.just(plant.getId());
