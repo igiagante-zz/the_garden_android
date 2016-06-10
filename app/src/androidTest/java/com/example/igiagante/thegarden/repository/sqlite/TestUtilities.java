@@ -73,7 +73,7 @@ public class TestUtilities extends AndroidTestCase {
     }
 
 
-    static void cleanDataBase(Context mContext){
+    public static void cleanDataBase(Context mContext){
 
         mContext.getContentResolver().delete(
                 FlavorEntry.CONTENT_URI,

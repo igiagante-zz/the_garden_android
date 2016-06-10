@@ -15,6 +15,10 @@ public class AttributeHolder extends DataHolder<Attribute> {
     public AttributeHolder() {
     }
 
+    public String getName() {
+        return getModel().getName();
+    }
+
     @Override
     public int describeContents() {
         return 0;

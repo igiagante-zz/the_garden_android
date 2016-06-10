@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeDecorator;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.AttributeHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.AttributesPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.AttributesView;
 
@@ -58,7 +60,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mAttributes = savedInstanceState.getParcelableArrayList(AVAILABLE_ATTRIBUTES);
             mAttributesSelected = savedInstanceState.getParcelableArrayList(SELECTED_ATTRIBUTES);
         }
@@ -73,14 +75,9 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
-        // ask to the activity if it has a plant for edition
-        if(mPlant != null) {
-            mAttributes = mAttributesPresenter.createAttributeHolderList(mPlant.getAttributes());
-        }
-
         GridLayoutManager availableLayout;
 
-        if(isLandScape()) {
+        if (isLandScape()) {
             availableLayout = new GridLayoutManager(getContext(), 5);
         } else {
             availableLayout = new GridLayoutManager(getContext(), 3);
@@ -93,7 +90,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
         GridLayoutManager selectedLayout;
 
-        if(isLandScape()) {
+        if (isLandScape()) {
             selectedLayout = new GridLayoutManager(getContext(), 3);
         } else {
             selectedLayout = new GridLayoutManager(getContext(), 2);
@@ -103,7 +100,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         attributeSelectedAdapter = new AttributeAdapter(getContext(), this);
         attributesSelected.setAdapter(attributeSelectedAdapter);
 
-        if(mAttributes.isEmpty()) {
+        if (mAttributes.isEmpty()) {
             //Get available attributes
             mAttributesPresenter.getAttributes();
         } else {
@@ -116,10 +113,9 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
     @Override
     public void onTagClicked(AttributeHolder attributeHolder) {
-        if(attributeHolder.isSelected()) {
+        if (attributeHolder.isSelected()) {
             attributeSelectedAdapter.addTag(attributeHolder);
-        }
-        else {
+        } else {
             attributeAdapter.addTag(attributeHolder);
         }
     }
@@ -127,6 +123,13 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     @Override
     public void loadAttributes(Collection<AttributeHolder> attributes) {
         this.mAttributes = (ArrayList<AttributeHolder>) attributes;
+
+        // ask to the activity if it has a plant for edition and filter the flavor list
+        if (mPlant != null) {
+            createAttributesHolderSelectedList();
+            attributeSelectedAdapter.setAttributeHolders(mAttributesSelected);
+        }
+
         attributeAdapter.setAttributeHolders(this.mAttributes);
     }
 
@@ -136,7 +139,8 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         this.mAttributesPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         attributesSelected.setAdapter(null);
         availableAttributes.setAdapter(null);
@@ -163,7 +167,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
     @Override
     protected void move() {
-        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
         builder.addAttributes(createAttributesSelectedList());
     }
 
@@ -171,9 +175,9 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
         ArrayList<Attribute> attributes = new ArrayList<>();
 
-        if(attributeSelectedAdapter.getAttributeHolders() != null) {
+        if (attributeSelectedAdapter.getAttributeHolders() != null) {
             for (AttributeHolder holder : attributeSelectedAdapter.getAttributeHolders()) {
-                if(holder.isSelected()) {
+                if (holder.isSelected()) {
                     Attribute attribute = holder.getModel();
                     attributes.add(attribute);
                 }
@@ -181,5 +185,20 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         }
 
         return attributes;
+    }
+
+    /**
+     * Filter the attribute holder list in order to create a list of selected attributes
+     */
+    private void createAttributesHolderSelectedList() {
+
+        if (mAttributes != null) {
+            for (Attribute attribute : mPlant.getAttributes()) {
+                AttributeHolder attributeHolder = new AttributeHolder();
+                attributeHolder.setModel(attribute);
+                attributeHolder.setSelected(true);
+                mAttributesSelected.add(attributeHolder);
+            }
+        }
     }
 }

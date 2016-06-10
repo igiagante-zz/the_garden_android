@@ -76,7 +76,6 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
             for ( Flavor flavor : plant.getFlavors()) {
                 // create flavor realm object and set id
                 FlavorRealm flavorRealm = realm.createObject(FlavorRealm.class);
-                flavorRealm.setId(flavor.getId());
                 // copy values which should be updated
                 flavorsRealm.add(toFlavorRealm.copy(flavor, flavorRealm));
             }

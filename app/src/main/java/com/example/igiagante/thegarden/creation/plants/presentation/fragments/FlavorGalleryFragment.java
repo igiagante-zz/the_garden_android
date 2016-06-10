@@ -68,11 +68,6 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
-        // ask to the activity if it has a plant for edition
-        if(mPlant != null) {
-            mFlavors = createFlavorHolderList(mPlant.getFlavors());
-        }
-
         mFlavorsRecycleView.setHasFixedSize(true);
 
         GridLayoutManager manager;
@@ -141,6 +136,12 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
     @Override
     public void loadFlavors(List<FlavorHolder> flavors) {
         this.mFlavors = (ArrayList<FlavorHolder>) flavors;
+
+        // ask to the activity if it has a plant for edition and filter the flavor list
+        if(mPlant != null) {
+            selectFlavorsFromPlant();
+        }
+
         mAdapter.setFlavors(mFlavors);
     }
 
@@ -165,17 +166,16 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         return flavors;
     }
 
-    private ArrayList<FlavorHolder> createFlavorHolderList(List<Flavor> flavors) {
+    private void selectFlavorsFromPlant() {
 
-        ArrayList<FlavorHolder> list = new ArrayList<>();
-
-        for (Flavor flavor : flavors) {
-            FlavorHolder flavorHolder = new FlavorHolder();
-            flavorHolder.setModel(flavor);
-            flavorHolder.setSelected(true);
-            list.add(flavorHolder);
+        if(mFlavors != null) {
+            for (Flavor flavor : mPlant.getFlavors()) {
+                for ( FlavorHolder flavorHolder : mFlavors) {
+                    if(flavor.getName().equals(flavorHolder.getName())) {
+                        flavorHolder.setSelected(true);
+                    }
+                }
+            }
         }
-
-        return list;
     }
 }

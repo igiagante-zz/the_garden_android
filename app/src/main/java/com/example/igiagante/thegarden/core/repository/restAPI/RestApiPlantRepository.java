@@ -13,6 +13,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.specification.PlagueByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.PlantRestAPI;
 import com.google.gson.Gson;
 
@@ -64,10 +65,19 @@ public class RestApiPlantRepository implements Repository<Plant> {
 
         // persist the plant into database
         PlantRealmRepository dataBase = new PlantRealmRepository(mContext);
-        Observable<String> dbResult = dataBase.add(plant);
+        Observable<String> dbResult = dataBase.add(listOne.get(0));
 
         List<String> list = new ArrayList<>();
         dbResult.subscribe(plantId -> list.add(plantId));
+
+        dataBase.query(new PlagueByIdSpecification(list.get(0))).subscribe(
+                plants -> {
+                    Log.i("AttributeName: ", plants.get(1).getAttributes().get(0).getName());
+                    Log.i("AttributeType: ", plants.get(1).getAttributes().get(0).getType());
+                    Log.i("Attribute2Name: ", plants.get(1).getAttributes().get(1).getName());
+                    Log.i("Attribute2Type: ", plants.get(1).getAttributes().get(1).getType());
+                }
+        );
 
         Observable<String> observable = Observable.just(list.get(0));
 

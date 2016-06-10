@@ -43,6 +43,7 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
                 .name("garden.realm")
+                .deleteRealmIfMigrationNeeded()
                 .build();
 
         this.realm = Realm.getInstance(realmConfiguration);

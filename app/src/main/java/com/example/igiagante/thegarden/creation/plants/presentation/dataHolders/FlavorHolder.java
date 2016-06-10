@@ -38,6 +38,10 @@ public class FlavorHolder extends DataHolder<Flavor> {
         dest.writeInt(selected ? 1 : 0);
     }
 
+    public String getName() {
+        return getModel().getName();
+    }
+
     public static final Parcelable.Creator<FlavorHolder> CREATOR = new Parcelable.Creator<FlavorHolder>() {
         public FlavorHolder createFromParcel(Parcel in) {
             return new FlavorHolder(in);
