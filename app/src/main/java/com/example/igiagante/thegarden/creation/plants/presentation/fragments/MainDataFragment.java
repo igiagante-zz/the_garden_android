@@ -49,8 +49,6 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
     private String mFloweringTime;
 
-    private Plant mPlant;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +65,17 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         spinner.setItemsArray(R.array.flowering_time_array);
         spinner.setOnItemChosenListener(this);
 
-        if(savedInstanceState != null) {
+        // ask to the activity if it has a plant for edition
+        if (mPlant != null) {
+            setPlantValuesInView();
+        }
+
+        if (savedInstanceState != null) {
             mPlant = savedInstanceState.getParcelable(PLANT_KEY);
             setPlantValuesInView();
         }
 
         initDefaultValues();
-
 
         return fragmentView;
     }
@@ -148,10 +150,10 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         mPhSoil.setEditValue(mPlant.getPhSoil());
         mEcSoil.setEditValue(mPlant.getEcSoil());
 
-        String [] list = getActivity().getResources().getStringArray(R.array.flowering_time_array);
+        String[] list = getActivity().getResources().getStringArray(R.array.flowering_time_array);
         ArrayList<String> newList = new ArrayList<>(Arrays.asList(list));
 
-        if(spinner != null) {
+        if (spinner != null) {
             spinner.setSelection(newList.indexOf(mPlant.getFloweringTime()));
         }
 

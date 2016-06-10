@@ -83,6 +83,11 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         final View containerView = inflater.inflate(R.layout.plant_gallery_fragment, container, false);
         ButterKnife.bind(this, containerView);
 
+        // ask to the activity if it has a plant for edition
+        if(mPlant != null) {
+            mImages = mPlant.getImages();
+        }
+
         mGallery.setHasFixedSize(true);
 
         //Two columns for portrait

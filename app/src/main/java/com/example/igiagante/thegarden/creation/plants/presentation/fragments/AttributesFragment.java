@@ -73,6 +73,11 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
+        // ask to the activity if it has a plant for edition
+        if(mPlant != null) {
+            mAttributes = mAttributesPresenter.createAttributeHolderList(mPlant.getAttributes());
+        }
+
         GridLayoutManager availableLayout;
 
         if(isLandScape()) {

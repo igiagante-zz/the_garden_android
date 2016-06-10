@@ -28,11 +28,6 @@
         </activity>
 
         <activity
-            android:name=".home.plants.presentation.PlantListActivity"
-            android:label="@string/activity_plant_name">
-        </activity>
-
-        <activity
             android:name=".creation.plants.presentation.CreatePlantActivity"
             android:label="@string/activity_create_plant"
             android:windowSoftInputMode="adjustPan">

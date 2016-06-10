@@ -47,7 +47,7 @@ public class AttributesPresenter extends AbstractPresenter<AttributesView> {
      * @param attributes list of attributes
      * @return list of attribute holders
      */
-    private ArrayList<AttributeHolder> createAttributeHolderList(List<Attribute> attributes) {
+    public ArrayList<AttributeHolder> createAttributeHolderList(List<Attribute> attributes) {
 
         ArrayList<AttributeHolder> attributeHolders = new ArrayList<>();
 

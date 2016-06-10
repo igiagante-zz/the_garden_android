@@ -88,6 +88,12 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
+        // ask to the activity if it has a plant for edition
+        if(mPlant != null) {
+            mPlagues = mPlaguePresenter.createPlagueHolderList(mPlant.getPlagues());
+            descriptionTextArea.setText(mPlant.getDescription());
+        }
+
         if (!TextUtils.isEmpty(mPlantDescription)) {
             descriptionTextArea.setText(mPlantDescription);
         }

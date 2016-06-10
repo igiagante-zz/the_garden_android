@@ -47,7 +47,7 @@ public class PlaguePresenter extends AbstractPresenter<PlagueView> {
      * @param plagues list of attributes
      * @return list of plague holders
      */
-    private ArrayList<PlagueHolder> createPlagueHolderList(List<Plague> plagues) {
+    public ArrayList<PlagueHolder> createPlagueHolderList(List<Plague> plagues) {
 
         ArrayList<PlagueHolder> plagueHolders = new ArrayList<>();
 

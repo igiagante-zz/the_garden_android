@@ -52,6 +52,11 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      */
     private Plant.PlantBuilder plantBuilder;
 
+    /**
+     * Model to keep all the data related to the plant
+     */
+    private Plant mPlant;
+
     private Toolbar mToolbar;
 
     /**
@@ -79,12 +84,11 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         setContentView(R.layout.create_plant_activity);
 
+        // check if the activity was started in order to edit a plant
+        mPlant = getIntent().getParcelableExtra(PLANT_KEY);
+
         if(savedInstanceState != null){
             currentPage = savedInstanceState.getInt(CURRENT_PAGE_KEY);
-            Plant plant = getIntent().getParcelableExtra(PLANT_KEY);
-            if(plant != null) {
-
-            }
         }
 
         plantBuilder = new Plant.PlantBuilder();
@@ -117,16 +121,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), this, viewPager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
-    }
-
-    private void setDataForEdition(Plant plant) {
-        PlantHolder plantHolder = new PlantHolder();
-        plantHolder.setModel(plant);
-
-        PagerAdapter adapter = mPager.getAdapter();
-        for (int i = 0; i < NUMBER_OF_PAGES; i++) {
-        }
-
     }
 
     @Override
@@ -223,6 +217,10 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public void goToNextStep(Bundle bundle, Class clazz) {
 
+    }
+
+    public Plant getPlant() {
+        return mPlant;
     }
 
     /**

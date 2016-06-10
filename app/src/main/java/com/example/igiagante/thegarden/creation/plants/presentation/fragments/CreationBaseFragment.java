@@ -1,7 +1,13 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
@@ -14,6 +20,13 @@ import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
  */
 public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
+    protected Plant mPlant;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPlant = ((CreatePlantActivity)getActivity()).getPlant();
+    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

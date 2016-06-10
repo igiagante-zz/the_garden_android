@@ -22,6 +22,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.request.ImageRequest;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -41,17 +42,16 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     private final LayoutInflater layoutInflater;
     private Context mContext;
 
-    private OnEditPlant onEditPlant;
+    private WeakReference<OnEditPlant> onEditPlant;
 
     public interface OnEditPlant {
         void editPlant(PlantHolder plantHolder);
     }
 
     @Inject
-    public PlantsAdapter(Context context, OnEditPlant onEditPlant) {
+    public PlantsAdapter(Context context) {
         this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.onEditPlant = onEditPlant;
         this.mPlants = Collections.emptyList();
     }
 
@@ -84,7 +84,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         String floweringTimeLabel = mContext.getString(R.string.flower);
         holder.mFloweringTime.setText(floweringTimeLabel + ": " + plantHolder.getFloweringTime());
 
-        holder.mEditButton.setOnClickListener(v -> onEditPlant.editPlant(plantHolder));
+        holder.mEditButton.setOnClickListener(v -> onEditPlant.get().editPlant(plantHolder));
 
     }
 
@@ -96,6 +96,10 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     public void setPlants(Collection<PlantHolder> mPlants) {
         this.mPlants = (List<PlantHolder>) mPlants;
         this.notifyDataSetChanged();
+    }
+
+    public void setOnEditPlant(OnEditPlant onEditPlant) {
+        this.onEditPlant = new WeakReference<>(onEditPlant);
     }
 
     static class PlantViewHolder extends RecyclerView.ViewHolder {

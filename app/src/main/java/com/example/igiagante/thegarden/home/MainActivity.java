@@ -31,7 +31,9 @@ import com.example.igiagante.thegarden.home.charts.presentation.ChartsFragment;
 import com.example.igiagante.thegarden.home.irrigations.presentation.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
 import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
+import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
+import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.navigation.NavigationGardenAdapter;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 18/4/16.
  */
-public class  MainActivity extends BaseActivity implements HasComponent<PlantComponent> {
+public class  MainActivity extends BaseActivity implements HasComponent<PlantComponent>, PlantsAdapter.OnEditPlant {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -218,6 +220,13 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
     @Override
     public PlantComponent getComponent() {
         return plantComponent;
+    }
+
+    @Override
+    public void editPlant(PlantHolder plantHolder) {
+        Intent intent = new Intent(this, CreatePlantActivity.class);
+        intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
+        startActivity(intent);
     }
 
     private void initializeInjector() {
