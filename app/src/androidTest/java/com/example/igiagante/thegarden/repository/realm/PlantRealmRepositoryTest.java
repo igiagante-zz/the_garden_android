@@ -134,10 +134,13 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         repository.add(plant);
 
         // assertions
-        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getImages().size(), 2));
-        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getFlavors().size(), 3));
-        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getAttributes().size(), 3));
-        repository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getPlagues().size(), 3));
+        repository.getById(ID).subscribe(plantFromDB -> {
+            Assert.assertEquals(plantFromDB.getImages().size(), 2);
+            Assert.assertEquals(plantFromDB.getImages().get(0).getThumbnailUrl(), "thumbnailUrl");
+            Assert.assertEquals(plantFromDB.getFlavors().size(), 3);
+            Assert.assertEquals(plantFromDB.getAttributes().size(), 3);
+            Assert.assertEquals(plantFromDB.getAttributes().size(), 3);
+        });
     }
 
     public void testRemoveOnePlant() {
@@ -340,7 +343,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         image.setId(id);
         image.setName(name);
         image.setUrl("url");
-        image.setThumbnailUrl("thumbUrl");
+        image.setThumbnailUrl("thumbnailUrl");
         image.setType("jpeg");
         image.setSize(4233);
         image.setMain(main);
