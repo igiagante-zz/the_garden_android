@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.creation.plants.presentation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -12,15 +13,15 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
+import com.example.igiagante.thegarden.core.presentation.FlowStepExecutor;
 import com.example.igiagante.thegarden.core.presentation.FlowStepResolver;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.ViewPagerAdapter;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.SavePlantView;
-import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
+import com.example.igiagante.thegarden.home.MainActivity;
 
 import java.lang.ref.WeakReference;
 
@@ -34,7 +35,8 @@ import butterknife.ButterKnife;
 public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPageChangeListener,
         HasComponent<CreatePlantComponent>,
         FlowStepResolver,
-        DescriptionFragment.OnSavePlantListener, SavePlantView {
+        DescriptionFragment.OnSavePlantListener,
+        SavePlantView {
 
     public static final String PLANT_KEY = "PLANT";
     public static final String CURRENT_PAGE_KEY = "CURRENT_PAGE";
@@ -190,7 +192,8 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void notifyIfPlantWasPersisted(String plantId) {
-
+        FlowStepExecutor flowStepExecutor = new FlowStepExecutor();
+        flowStepExecutor.goToNextStep(null, MainActivity.class, this);
     }
 
     @Override
@@ -216,7 +219,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void goToNextStep(Bundle bundle, Class clazz) {
-
+        startActivity(new Intent(this, clazz));
     }
 
     public Plant getPlant() {
