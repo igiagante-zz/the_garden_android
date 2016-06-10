@@ -60,7 +60,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         Observable<List<Plant>> query = mRepositories.get(0).query(specification);
 
         List<Plant> list = new ArrayList<>();
-       // query.subscribe(plants -> list.addAll(plants));
+        query.subscribe(plants -> list.addAll(plants));
 
         Observable<List<Plant>> observable = Observable.just(list);
 

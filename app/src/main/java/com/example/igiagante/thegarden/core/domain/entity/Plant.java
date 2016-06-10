@@ -88,7 +88,7 @@ public class Plant implements Parcelable {
     @SerializedName("description")
     private String description;
 
-    @SerializedName("mImages")
+    @SerializedName("images")
     private List<Image> images = new ArrayList<>();
 
     @SerializedName("flavors")
@@ -330,7 +330,7 @@ public class Plant implements Parcelable {
         private String description;
 
         /**
-         * Represent the mImages which belong to the plant
+         * Represent the images which belong to the plant
          */
         private ArrayList<Image> mImages;
 

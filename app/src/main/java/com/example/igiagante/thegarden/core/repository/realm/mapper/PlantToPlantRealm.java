@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.core.repository.realm.mapper;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
@@ -38,7 +39,6 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
 
     @Override
     public PlantRealm map(@NonNull Plant plant) {
-
         // create plant realm object and set id
         PlantRealm plantRealm = realm.createObject(PlantRealm.class);
         plantRealm.setId(plant.getId());

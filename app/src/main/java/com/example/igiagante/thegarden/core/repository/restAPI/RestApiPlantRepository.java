@@ -38,12 +38,13 @@ public class RestApiPlantRepository implements Repository<Plant> {
     private final static String TAG = RestApiPlantRepository.class.getSimpleName();
 
     private final PlantRestAPI api;
-    private final PlantRealmRepository dataBase;
+    private Context mContext;
 
     @Inject
     public RestApiPlantRepository(Context context) {
+        this.mContext = context;
         api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
-        dataBase = new PlantRealmRepository(context);
+        Log.i(TAG, "Thread Name in constructor: " + Thread.currentThread().getName());
     }
 
     @Override
@@ -62,6 +63,7 @@ public class RestApiPlantRepository implements Repository<Plant> {
         apiResult.subscribe(plant2 -> listOne.add(plant2));
 
         // persist the plant into database
+        PlantRealmRepository dataBase = new PlantRealmRepository(mContext);
         Observable<String> dbResult = dataBase.add(plant);
 
         List<String> list = new ArrayList<>();
