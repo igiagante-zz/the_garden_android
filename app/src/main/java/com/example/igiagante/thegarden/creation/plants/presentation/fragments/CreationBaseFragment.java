@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager;
 
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
+import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 
 /**
  * Base Fragment class used to get some events in common for the fragments which are in the viewPager
@@ -33,4 +34,9 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
      * Notify to the builder that the fragment have some data for saving.
      */
     protected void move() {}
+
+    /**
+     * Update view with the corresponding data
+     */
+    protected void loadPlantDataForEdition(PlantHolder plantHolder) {}
 }

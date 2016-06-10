@@ -357,6 +357,16 @@ public class Plant implements Parcelable {
         }
 
         /**
+         * Add the id of the plant to builder
+         * @param id Plant Id
+         * @return builder
+         */
+        public PlantBuilder addPlantId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        /**
          * Add the name of the plant to builder
          * @param plantName name
          * @return builder

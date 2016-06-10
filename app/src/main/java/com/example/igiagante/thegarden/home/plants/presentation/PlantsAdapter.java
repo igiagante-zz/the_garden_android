@@ -1,17 +1,20 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
@@ -38,10 +41,17 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     private final LayoutInflater layoutInflater;
     private Context mContext;
 
+    private OnEditPlant onEditPlant;
+
+    public interface OnEditPlant {
+        void editPlant(PlantHolder plantHolder);
+    }
+
     @Inject
-    public PlantsAdapter(Context context) {
+    public PlantsAdapter(Context context, OnEditPlant onEditPlant) {
         this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.onEditPlant = onEditPlant;
         this.mPlants = Collections.emptyList();
     }
 
@@ -73,6 +83,9 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         holder.mHigh.setText(highLabel + ": " + String.valueOf(plantHolder.getSize()));
         String floweringTimeLabel = mContext.getString(R.string.flower);
         holder.mFloweringTime.setText(floweringTimeLabel + ": " + plantHolder.getFloweringTime());
+
+        holder.mEditButton.setOnClickListener(v -> onEditPlant.editPlant(plantHolder));
+
     }
 
     @Override
@@ -107,6 +120,9 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
         @Bind(R.id.flower_time_id)
         TextView mFloweringTime;
+
+        @Bind(R.id.edit_plant_button)
+        Button mEditButton;
 
         public PlantViewHolder(View itemView) {
             super(itemView);

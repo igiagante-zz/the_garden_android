@@ -12,6 +12,7 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.ui.CountView;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
+import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.satsuware.usefulviews.LabelledSpinner;
 
 import java.util.ArrayList;
@@ -107,6 +108,11 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         builder.addFloweringTime(mFloweringTime);
         builder.addGenotype(mGenotype.getText().toString());
         builder.addSize((int) mSize.getEditValue());
+    }
+
+    @Override
+    protected void loadPlantDataForEdition(PlantHolder plantHolder) {
+        super.loadPlantDataForEdition(plantHolder);
     }
 
     private void initDefaultValues() {

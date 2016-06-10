@@ -2,6 +2,8 @@ package com.example.igiagante.thegarden.creation.plants.presentation;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -14,9 +16,11 @@ import com.example.igiagante.thegarden.core.presentation.FlowStepResolver;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.ViewPagerAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.SavePlantView;
+import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 
 import java.lang.ref.WeakReference;
 
@@ -53,7 +57,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     /**
      * The number of pages (wizard steps).
      */
-    private static final int NUM_PAGES = 5;
+    private static final int NUMBER_OF_PAGES = 5;
 
     /**
      * The current page.
@@ -77,6 +81,10 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         if(savedInstanceState != null){
             currentPage = savedInstanceState.getInt(CURRENT_PAGE_KEY);
+            Plant plant = getIntent().getParcelableExtra(PLANT_KEY);
+            if(plant != null) {
+
+            }
         }
 
         plantBuilder = new Plant.PlantBuilder();
@@ -104,11 +112,21 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      */
     private void setupViewPager(ViewPager viewPager) {
 
-        mPager.setOffscreenPageLimit(5);
+        mPager.setOffscreenPageLimit(NUMBER_OF_PAGES);
         mPager.setCurrentItem(currentPage);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), this, viewPager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
+    }
+
+    private void setDataForEdition(Plant plant) {
+        PlantHolder plantHolder = new PlantHolder();
+        plantHolder.setModel(plant);
+
+        PagerAdapter adapter = mPager.getAdapter();
+        for (int i = 0; i < NUMBER_OF_PAGES; i++) {
+        }
+
     }
 
     @Override
@@ -165,7 +183,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      * Notify to the active fragment about the movement to the next page
      */
     private void moveToNextPage() {
-        if(currentPage < NUM_PAGES) {
+        if(currentPage < NUMBER_OF_PAGES) {
             currentPage += 1;
             mPager.setCurrentItem(currentPage);
         }
