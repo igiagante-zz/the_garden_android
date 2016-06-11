@@ -15,10 +15,6 @@ public class AttributeHolder extends DataHolder<Attribute> {
     public AttributeHolder() {
     }
 
-    public String getName() {
-        return getModel().getName();
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -43,10 +39,6 @@ public class AttributeHolder extends DataHolder<Attribute> {
     private AttributeHolder(Parcel in) {
         model = in.readParcelable(this.getClass().getClassLoader());
         selected = in.readInt() == 1;
-    }
-
-    public void setTagName(String tagName) {
-        getModel().setName(tagName);
     }
 
     public String getTagName(){

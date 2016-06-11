@@ -59,6 +59,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
 
         Observable<List<Plant>> query = mRepositories.get(0).query(specification);
 
+        // TODO - it needs to save in db the domain of images
         List<Plant> list = new ArrayList<>();
         query.subscribe(plants -> list.addAll(plants));
 

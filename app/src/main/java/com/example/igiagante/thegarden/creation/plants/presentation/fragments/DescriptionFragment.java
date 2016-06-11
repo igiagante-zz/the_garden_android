@@ -168,11 +168,11 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     @Override
     protected void move() {
         Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
-        builder.addPlagues(createAttributesSelectedList());
+        builder.addPlagues(createPlaguesSelectedList());
         builder.addDescription(descriptionTextArea.getText().toString());
     }
 
-    private ArrayList<Plague> createAttributesSelectedList() {
+    private ArrayList<Plague> createPlaguesSelectedList() {
 
         ArrayList<Plague> plagues = new ArrayList<>();
 

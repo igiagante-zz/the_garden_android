@@ -70,15 +70,6 @@ public class RestApiPlantRepository implements Repository<Plant> {
         List<String> list = new ArrayList<>();
         dbResult.subscribe(plantId -> list.add(plantId));
 
-        dataBase.query(new PlagueByIdSpecification(list.get(0))).subscribe(
-                plants -> {
-                    Log.i("AttributeName: ", plants.get(1).getAttributes().get(0).getName());
-                    Log.i("AttributeType: ", plants.get(1).getAttributes().get(0).getType());
-                    Log.i("Attribute2Name: ", plants.get(1).getAttributes().get(1).getName());
-                    Log.i("Attribute2Type: ", plants.get(1).getAttributes().get(1).getType());
-                }
-        );
-
         Observable<String> observable = Observable.just(list.get(0));
 
         return observable;

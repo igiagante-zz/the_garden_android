@@ -15,11 +15,11 @@ public class Attribute implements Parcelable {
     @SerializedName("id")
     private String id;
 
-    @SerializedName("type")
-    private String type;
-
     @SerializedName("name")
     private String name;
+
+    @SerializedName("type")
+    private String type;
 
     @SerializedName("percentage")
     private int percentage;
@@ -64,8 +64,8 @@ public class Attribute implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(type);
         dest.writeString(name);
+        dest.writeString(type);
         dest.writeInt(percentage);
     }
 
