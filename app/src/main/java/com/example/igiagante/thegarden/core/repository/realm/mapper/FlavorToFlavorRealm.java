@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.realm.mapper;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.Mapper;
+import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.FlavorRealm;
 
 import io.realm.Realm;
@@ -30,7 +31,7 @@ public class FlavorToFlavorRealm implements Mapper<Flavor, FlavorRealm> {
     @Override
     public FlavorRealm copy(Flavor flavor, FlavorRealm flavorRealm) {
         flavorRealm.setName(flavor.getName());
-        flavorRealm.setImageUrl(flavor.getImageUrl());
+        flavorRealm.setImageUrl(Settings.DOMAIN + flavor.getImageUrl());
         return flavorRealm;
     }
 }

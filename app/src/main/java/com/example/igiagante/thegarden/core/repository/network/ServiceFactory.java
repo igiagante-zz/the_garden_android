@@ -13,11 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceFactory {
 
-    //Genymotion
-    //public static final String API_ENDPOINT = "http://10.0.3.2:3000/api/";
-    //Real Device
-    public static final String API_ENDPOINT = "http://192.168.0.101:3000/api/";
-
     public static <T> T createRetrofitService(final Class<T> clazz) {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -26,7 +21,7 @@ public class ServiceFactory {
                 .addInterceptor(interceptor).build();
 
         final Retrofit restAdapter = new Retrofit.Builder()
-                .baseUrl(API_ENDPOINT)
+                .baseUrl(Settings.API_ENDPOINT)
                 .addConverterFactory(StringConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

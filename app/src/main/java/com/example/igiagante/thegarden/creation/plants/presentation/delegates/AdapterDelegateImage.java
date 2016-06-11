@@ -63,7 +63,7 @@ public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImag
 
         public void setImagePath(String imagePath) {
             this.imagePath = imagePath;
-            mImage.setImageURI(Uri.fromFile(new File(imagePath)));
+            mImage.setImageURI(Uri.parse(imagePath));
         }
 
         public void setPositionImage(int positionImage) {
