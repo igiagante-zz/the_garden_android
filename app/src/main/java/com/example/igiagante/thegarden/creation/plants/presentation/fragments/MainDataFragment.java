@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.ui.CountView;
+import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.satsuware.usefulviews.LabelledSpinner;
@@ -37,10 +39,10 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     TextView mGenotype;
 
     @Bind(R.id.ph_soil_id)
-    CountView mPhSoil;
+    CountViewDecimal mPhSoil;
 
     @Bind(R.id.ec_soil_id)
-    CountView mEcSoil;
+    CountViewDecimal mEcSoil;
 
     @Bind(R.id.size_id)
     CountView mSize;
@@ -121,15 +123,12 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
         EditText mPhSoilText = (EditText) mPhSoil.findViewById(R.id.count_input);
         mPhSoilText.setHint(R.string.ph_soil);
-        mPhSoilText.setText(R.string.ph_soil_default_value);
 
         EditText mEcSoilText = (EditText) mEcSoil.findViewById(R.id.count_input);
         mEcSoilText.setHint(R.string.ec_soil);
-        mEcSoilText.setText(R.string.ec_soil_default_value);
 
         EditText sizeText = (EditText) mSize.findViewById(R.id.count_input);
         sizeText.setHint(R.string.size);
-        sizeText.setText(R.string.size_default_value);
 
     }
 
@@ -140,7 +139,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         plant.setEcSoil(mEcSoil.getEditValue());
         plant.setFloweringTime(mFloweringTime);
         plant.setGenotype(mGenotype.getText().toString());
-        plant.setSize((int) mSize.getEditValue());
+        plant.setSize(mSize.getEditValue());
         return plant;
     }
 

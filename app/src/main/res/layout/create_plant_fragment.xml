@@ -3,6 +3,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/tools"
     android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,11 +35,12 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <com.example.igiagante.thegarden.core.ui.CountView
+            <com.example.igiagante.thegarden.core.ui.CountViewDecimal
                 android:id="@+id/ph_soil_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_margin_start" />
+                android:layout_marginStart="@dimen/count_view_margin_start"
+                app:setValueDecimal="6.5"/>
 
         </LinearLayout>
 
@@ -55,11 +57,12 @@
                 android:layout_marginTop="@dimen/margin_top_spinner"
                 ls:labelText="@string/flowering_time" />
 
-            <com.example.igiagante.thegarden.core.ui.CountView
+            <com.example.igiagante.thegarden.core.ui.CountViewDecimal
                 android:id="@+id/ec_soil_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_margin_start" />
+                android:layout_marginStart="@dimen/count_view_margin_start"
+                app:setValueDecimal="0.4"/>
 
         </LinearLayout>
 
@@ -88,7 +91,8 @@
                 android:id="@+id/size_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_margin_start" />
+                android:layout_marginStart="@dimen/count_view_margin_start"
+                app:setValue="9"/>
 
         </LinearLayout>
 

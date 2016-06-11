@@ -2,7 +2,6 @@ package com.example.igiagante.thegarden.core.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -17,28 +16,28 @@ import com.example.igiagante.thegarden.R;
 import java.text.DecimalFormat;
 
 /**
- * @author igiagante on 6/5/16.
+ * @author Ignacio Giagante, on 6/11/16.
  */
-public class CountView extends LinearLayout {
+public class CountViewDecimal  extends LinearLayout {
 
     private Context mContext;
 
-    private int mDefaultValue;
+    private float mDefaultValue;
     private EditText mEditValue;
 
-    public CountView(Context context) {
+    public CountViewDecimal(Context context) {
         super(context);
-        inflate(getContext(), R.layout.count_view, this);
+        inflate(getContext(), R.layout.count_view_decimal, this);
         init(context);
     }
 
-    public CountView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CountViewDecimal(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(getContext(), R.layout.count_view, this);
+        inflate(getContext(), R.layout.count_view_decimal, this);
         init(context);
     }
 
-    public CountView(Context context, AttributeSet attrs) {
+    public CountViewDecimal(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
@@ -47,7 +46,7 @@ public class CountView extends LinearLayout {
                 0, 0);
 
         try {
-            mDefaultValue = a.getInteger(R.styleable.CountView_setValue, 10);
+            mDefaultValue = a.getFloat(R.styleable.CountViewDecimal_setValueDecimal, 6);
         } finally {
             a.recycle();
         }
@@ -60,9 +59,9 @@ public class CountView extends LinearLayout {
 
         mContext = context;
 
-        inflate(mContext, R.layout.count_view, this);
+        inflate(mContext, R.layout.count_view_decimal, this);
         mEditValue = (EditText) findViewById(R.id.count_input);
-        mEditValue.setText(String.valueOf(mDefaultValue));
+        mEditValue.setText(formatFloat(mDefaultValue));
 
         Button mButtonUp = (Button) findViewById(R.id.count_button_up);
         mButtonUp.setOnClickListener(view -> incrementValue());
@@ -75,20 +74,20 @@ public class CountView extends LinearLayout {
      * Set the edit value of the view with a float value
      * @param value value
      */
-    public void setEditValue(int value) {
+    public void setEditValue(float value) {
         if(mEditValue != null) {
-            mEditValue.setText(String.valueOf(value));
+            mEditValue.setText(formatFloat(value));
         }
     }
 
     /**
      * Get the edit value from the view
      */
-    public int getEditValue() {
-        int count = 0;
+    public float getEditValue() {
+        float count = 0;
         String value = mEditValue.getText().toString();
         if(!TextUtils.isEmpty(value)) {
-            count = Integer.parseInt(value);
+            count = Float.parseFloat(value);
         }
         return count;
     }
@@ -98,8 +97,8 @@ public class CountView extends LinearLayout {
      */
     private void incrementValue() {
         if(mEditValue != null) {
-            int value = getEditValue();
-            value += 1;
+            float value = getEditValue();
+            value += 0.1;
             setEditValue(value);
         }
     }
@@ -109,10 +108,16 @@ public class CountView extends LinearLayout {
      */
     private void decrementValue() {
         if(mEditValue != null) {
-            int value = getEditValue();
-            value -= 1;
+            float value = getEditValue();
+            value -= 0.1;
             setEditValue(value);
         }
+    }
+
+    private String formatFloat(float value) {
+        DecimalFormat df = new DecimalFormat("0.0");
+        df.setMaximumFractionDigits(2);
+        return df.format(value);
     }
 
     @Override

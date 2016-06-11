@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CountView">
-        <attr name="setValue" format="float" />
+        <attr name="setValue" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="CountViewDecimal">
+        <attr name="setValueDecimal" format="float" />
     </declare-styleable>
 </resources>

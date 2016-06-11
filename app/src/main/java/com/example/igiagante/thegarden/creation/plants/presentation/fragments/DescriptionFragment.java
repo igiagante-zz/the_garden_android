@@ -13,11 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.PlagueAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.AttributeHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.PlagueHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PlaguePresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.PlagueView;
@@ -88,12 +92,6 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
-        // ask to the activity if it has a plant for edition
-        if(mPlant != null) {
-            mPlagues = mPlaguePresenter.createPlagueHolderList(mPlant.getPlagues());
-            descriptionTextArea.setText(mPlant.getDescription());
-        }
-
         if (!TextUtils.isEmpty(mPlantDescription)) {
             descriptionTextArea.setText(mPlantDescription);
         }
@@ -138,7 +136,30 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     @Override
     public void loadPlagues(Collection<PlagueHolder> plagues) {
         this.mPlagues = (ArrayList<PlagueHolder>) plagues;
+
+        // ask to the activity if it has a plant for edition
+        if(mPlant != null) {
+            createAttributesHolderSelectedList();
+            descriptionTextArea.setText(mPlant.getDescription());
+        }
+
         mAdapter.setPlagues(mPlagues);
+    }
+
+    /**
+     * Filter the plague holder list
+     */
+    private void createAttributesHolderSelectedList() {
+
+        if(mPlagues != null) {
+            for (Plague plague : mPlant.getPlagues()) {
+                for ( PlagueHolder plagueHolder : mPlagues) {
+                    if(plague.getName().equals(plagueHolder.getPlagueName())) {
+                        plagueHolder.setSelected(true);
+                    }
+                }
+            }
+        }
     }
 
     @Override
