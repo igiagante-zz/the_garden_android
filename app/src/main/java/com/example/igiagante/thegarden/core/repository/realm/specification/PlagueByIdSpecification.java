@@ -21,7 +21,7 @@ public class PlagueByIdSpecification implements RealmSpecification {
     }
 
     @Override
-    public Observable<RealmResults<PlagueRealm>>  toObservableRealmResults(Realm realm) {
+    public Observable<RealmResults<PlagueRealm>> toObservableRealmResults(Realm realm) {
         return realm.where(PlagueRealm.class)
                 .equalTo(PlantTable.Plague.ID, id)
                 .findAll().asObservable();

@@ -45,7 +45,6 @@ public class RestApiPlantRepository implements Repository<Plant> {
     public RestApiPlantRepository(Context context) {
         this.mContext = context;
         api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
-        Log.i(TAG, "Thread Name in constructor: " + Thread.currentThread().getName());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.core.repository.managers;
 
+import android.content.Context;
+
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
@@ -16,9 +18,9 @@ import rx.Observable;
 public class AttributeRepositoryManager extends RepositoryManager<Repository<Attribute>> {
 
     @Inject
-    public AttributeRepositoryManager() {
-
-        mRepositories.add(new RestApiAttributeRepository());
+    public AttributeRepositoryManager(Context context) {
+        mRepositories.add(new AttributeRealmRepository(context));
+        mRepositories.add(new RestApiAttributeRepository(context));
     }
 
     /**
@@ -28,6 +30,20 @@ public class AttributeRepositoryManager extends RepositoryManager<Repository<Att
      */
     public Observable query(Specification specification) {
 
-        return mRepositories.get(0).query(specification);
+        // TODO - This should be implemented the first time the app is installed
+        /*
+        Observable<List<Attribute>> query = mRepositories.get(0).query(specification);
+
+        List<Attribute> list = new ArrayList<>();
+        query.subscribe(attributes -> list.addAll(attributes));
+
+        Observable<List<Attribute>> observable = Observable.just(list);
+
+        return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
+                .flatMap(exists -> exists
+                        ? observable
+                        : mRepositories.get(1).query(null)); */
+
+        return  mRepositories.get(0).query(specification);
     }
 }
