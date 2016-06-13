@@ -42,7 +42,7 @@ public class CountViewDecimal  extends LinearLayout {
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
-                R.styleable.CountView,
+                R.styleable.CountViewDecimal,
                 0, 0);
 
         try {

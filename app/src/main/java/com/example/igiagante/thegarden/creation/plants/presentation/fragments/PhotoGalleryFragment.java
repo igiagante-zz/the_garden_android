@@ -235,7 +235,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         ArrayList<String> paths = new ArrayList<>();
 
         for(Image image : images) {
-            paths.add(image.getUrl());
+            paths.add(image.getThumbnailUrl());
         }
         return paths;
     }
