@@ -450,7 +450,7 @@ public class Plant implements Parcelable {
          * Add images to the builder
          * @param images list of images
          * @param carousel indicate if the images come from carousel
-         * @return
+         * @return builder
          */
         public PlantBuilder addImages(Collection<Image> images, boolean carousel) {
 

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.example.igiagante.thegarden.creation.plants.presentation.presenters.P
 import com.example.igiagante.thegarden.creation.plants.presentation.views.PhotoGalleryView;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -221,6 +223,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         for(String path : paths) {
             Image image = new Image();
             image.setUrl(path);
+            image.setFile(new File(path));
             images.add(image);
         }
         return images;
@@ -232,10 +235,16 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      * @return paths images folder path
      */
     private ArrayList<String> getImagesFilesPaths(List<Image> images) {
+
         ArrayList<String> paths = new ArrayList<>();
 
         for(Image image : images) {
-            paths.add(image.getThumbnailUrl());
+            if(!TextUtils.isEmpty(image.getThumbnailUrl())) {
+                // if the image is retrieved from DB or Api, there should have an Thumbnail url set
+                paths.add(image.getThumbnailUrl());
+            } else {
+                paths.add(image.getUrl());
+            }
         }
         return paths;
     }

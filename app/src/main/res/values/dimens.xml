@@ -21,7 +21,7 @@
     <!-- Plants -->
     <dimen name="card_plant_elevation">4dp</dimen>
     <dimen name="card_plant_corner_radius">5dp</dimen>
-    <dimen name="card_plant_margin">5dp</dimen>
+    <dimen name="card_plant_margin">12dp</dimen>
     <dimen name="card_plant_image_size">400dp</dimen>
     <dimen name="card_plant_name_margin_top">5dp</dimen>
     <dimen name="card_plant_name_margin_start">15dp</dimen>
