@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  * Adapter that provides the fragments for the view pager
- * {@link com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment#viewP}
+ * {@link com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity#mPager}
  *
  * @author Ignacio Giagante, on 23/5/16.
  */
