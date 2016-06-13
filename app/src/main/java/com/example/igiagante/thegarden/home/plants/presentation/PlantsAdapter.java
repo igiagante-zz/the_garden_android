@@ -16,6 +16,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
+import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActivity;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -37,6 +38,8 @@ import butterknife.ButterKnife;
  * Create an adapter for RecycleView Plants
  */
 public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewHolder> {
+
+    private static final String SHOW_PLANT_KEY = "SHOW_PLANT";
 
     private List<PlantHolder> mPlants;
     private final LayoutInflater layoutInflater;
@@ -102,7 +105,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         this.onEditPlant = new WeakReference<>(onEditPlant);
     }
 
-    static class PlantViewHolder extends RecyclerView.ViewHolder {
+    class PlantViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.main_image_plant)
         SimpleDraweeView mPlantImage;
@@ -131,6 +134,14 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         public PlantViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(v -> startGetPlantDataActivity(getAdapterPosition()));
+        }
+
+        private void startGetPlantDataActivity(int adapterPosition) {
+            PlantHolder plantHolder = mPlants.get(adapterPosition);
+            Intent intent = new Intent(mContext, GetPlantDataActivity.class);
+            intent.putExtra(SHOW_PLANT_KEY, plantHolder);
         }
     }
 }

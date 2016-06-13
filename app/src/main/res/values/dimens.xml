@@ -104,6 +104,25 @@
     <dimen name="description_button_width">100dp</dimen>
     <dimen name="description_button_height">45dp</dimen>
 
+    <!-- SHOW PLANT -->
+    <dimen name="plague_view_ph_image_size">50dp</dimen>
+    <dimen name="plague_view_text_size">22sp</dimen>
+
+    <dimen name="plague_view_ec_image_size">35dp</dimen>
+    <dimen name="plague_view_ec_image_margin_start">15dp</dimen>
+    <dimen name="plague_view_ec_image_margin_end">10dp</dimen>
+    <dimen name="plague_view_ec_image_margin_top">3dp</dimen>
+    <dimen name="plague_view_ec_text_margin_top">7dp</dimen>
+
+    <dimen name="plague_view_plant_high_image_size">38dp</dimen>
+    <dimen name="plague_view_plant_high_image_margin_start">15dp</dimen>
+    <dimen name="plague_view_plant_high_text_margin_top">7dp</dimen>
+
+    <dimen name="plague_view_grow_date_image_size">50dp</dimen>
+    <dimen name="plague_view_grow_date_image_margin_start">10dp</dimen>
+    <dimen name="plague_view_grow_date_image_margin_top">-3dp</dimen>
+    <dimen name="plague_view_grow_date_text_margin_top">7dp</dimen>
+
     <!-- Land dimens -->
 
     <dimen name="count_view_land_margin_start">15dp</dimen>

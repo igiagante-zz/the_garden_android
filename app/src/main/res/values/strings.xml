@@ -103,4 +103,11 @@
     <string name="plant_save">Save</string>
     <string name="plant_cancel">Cancel</string>
 
+    <!-- SHOW PLANT -->
+
+    <string name="plague_view_ph_default_text">6.3</string>
+    <string name="plague_view_ec_default_text">0.4</string>
+    <string name="plague_view_plant_high_default_text">30</string>
+    <string name="plague_view_grow_date_default_text">10/9</string>
+
 </resources>
