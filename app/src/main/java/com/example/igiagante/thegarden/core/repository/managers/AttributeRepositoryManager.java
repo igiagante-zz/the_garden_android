@@ -44,6 +44,6 @@ public class AttributeRepositoryManager extends RepositoryManager<Repository<Att
                         ? observable
                         : mRepositories.get(1).query(null)); */
 
-        return  mRepositories.get(0).query(specification);
+        return  mRepositories.get(1).query(specification);
     }
 }

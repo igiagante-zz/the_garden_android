@@ -66,19 +66,6 @@ public class RestApiAttributeRepository implements Repository<Attribute> {
 
     @Override
     public Observable<List<Attribute>> query(Specification specification) {
-
-        Observable<List<Attribute>> attributes = api.getAttributes();
-
-        List<Attribute> listOne = new ArrayList<>();
-
-        attributes.subscribe(list -> listOne.addAll(list));
-
-        // persist the attributes into database
-        AttributeRealmRepository dataBase = new AttributeRealmRepository(mContext);
-        Observable<Integer> rowInserted = dataBase.add(listOne);
-
-        Log.i("Attributes", "inserted: " + rowInserted);
-
         return api.getAttributes();
     }
 }

@@ -38,6 +38,11 @@
             android:label="@string/activity_carousel">
         </activity>
 
+        <activity
+            android:name=".show_plant.presentation.GetPlantDataActivity"
+            android:label="@string/activity_carousel">
+        </activity>
+
     </application>
 
 </manifest>

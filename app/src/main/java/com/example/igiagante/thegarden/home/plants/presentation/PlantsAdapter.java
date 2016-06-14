@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,10 @@ import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
-import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActivity;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.request.ImageRequest;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,7 +32,7 @@ import butterknife.ButterKnife;
  */
 public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewHolder> {
 
-    private static final String SHOW_PLANT_KEY = "SHOW_PLANT";
+    public static final String SHOW_PLANT_KEY = "SHOW_PLANT";
 
     private List<PlantHolder> mPlants;
     private final LayoutInflater layoutInflater;
@@ -142,6 +135,8 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             PlantHolder plantHolder = mPlants.get(adapterPosition);
             Intent intent = new Intent(mContext, GetPlantDataActivity.class);
             intent.putExtra(SHOW_PLANT_KEY, plantHolder);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
         }
     }
 }

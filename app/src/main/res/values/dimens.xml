@@ -123,6 +123,13 @@
     <dimen name="plague_view_grow_date_image_margin_top">-3dp</dimen>
     <dimen name="plague_view_grow_date_text_margin_top">7dp</dimen>
 
+    <dimen name="show_plant_plague_image_width">60dp</dimen>
+
+    <dimen name="show_plant_card_view_width">340dp</dimen>
+    <dimen name="show_plant_card_view_height">300dp</dimen>
+
+    <dimen name="show_plant_image_carousel_width">300dp</dimen>
+
     <!-- Land dimens -->
 
     <dimen name="count_view_land_margin_start">15dp</dimen>

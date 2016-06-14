@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/image_flavor_id"
-    android:layout_width="@dimen/flavor_image_width"
-    android:layout_height="@dimen/flavor_image_width"
+    android:id="@+id/image_plague_id"
+    android:layout_width="@dimen/show_plant_plague_image_width"
+    android:layout_height="@dimen/show_plant_plague_image_width"
     android:layout_margin="15dp"
     fresco:fadeDuration="300"
     fresco:roundAsCircle="true"

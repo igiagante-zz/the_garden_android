@@ -1,18 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <include layout="@layout/plagues_view_info"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/plant_data_plagues_recycle_view_id"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/plant_data_flavors_recycle_view_id"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"/>
+        <include layout="@layout/card_view_plant_data_carousel"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="90dp"/>
 
-</LinearLayout>
+        <include layout="@layout/plagues_view_info" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/plant_data_plagues_recycle_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_gravity="center"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/plant_data_flavors_recycle_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:padding="15dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <include layout="@layout/show_plant_attributes" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:id="@+id/show_plant_description_title_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_plant_description_tittle"
+                android:textSize="30sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/show_plant_description_text_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_plant_description_text"
+                android:layout_marginTop="7dp"
+                android:layout_marginStart="10dp"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:gravity="left"
+                android:layout_below="@+id/show_plant_description_title_id"
+                android:layout_marginBottom="10dp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

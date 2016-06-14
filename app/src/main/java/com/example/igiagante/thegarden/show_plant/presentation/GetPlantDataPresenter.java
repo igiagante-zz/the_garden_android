@@ -23,7 +23,7 @@ public class GetPlantDataPresenter extends AbstractPresenter<GetPlantDataView> {
     private final UseCase getPlantUserCase;
 
     @Inject
-    public GetPlantDataPresenter(@Named("plant") UseCase getPlantUserCase) {
+    public GetPlantDataPresenter(@Named("plantData") UseCase getPlantUserCase) {
         this.getPlantUserCase = getPlantUserCase;
     }
 

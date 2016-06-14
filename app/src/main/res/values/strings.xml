@@ -26,6 +26,7 @@
     <!-- Plant Creation -->
 
     <string name="activity_carousel">Carousel</string>
+    <string name="activity_plant_data">Plant Info</string>
 
     <string name="activity_create_plant">Create a new plant</string>
     <string name="button_previous">Previous</string>
@@ -109,5 +110,12 @@
     <string name="plague_view_ec_default_text">0.4</string>
     <string name="plague_view_plant_high_default_text">30</string>
     <string name="plague_view_grow_date_default_text">10/9</string>
+
+    <string name="tab_effects">Effects</string>
+    <string name="tab_medicinal">Medicinal</string>
+    <string name="tab_symptoms">Symptoms</string>
+
+    <string name="show_plant_description_tittle">Description</string>
+    <string name="show_plant_description_text">Salvia divinorum, es un planta herbácea perenne, de la familia de las lamiáceas, que es originaria de México donde se encuentra en Oaxaca en San José Tenango.</string>
 
 </resources>

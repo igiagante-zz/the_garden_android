@@ -78,6 +78,6 @@ dependencies {
     //picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    //image picker
-    compile 'com.mlsdev.rximagepicker:library:1.1.6'
+    //chart
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
 }

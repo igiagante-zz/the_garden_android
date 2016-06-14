@@ -8,28 +8,24 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_size"
         android:background="?attr/colorPrimary"
-        android:elevation="@dimen/elevation_toolbar"
-        >
+        android:elevation="@dimen/elevation_toolbar">
 
         <TextView
+            android:id="@+id/create_plant_toolbar_title"
+            style="@style/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/create_plant_toolbar_title"
-            style="@style/title"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
-        </android.support.v7.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>
 
-        <android.support.v4.view.ViewPager
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/viewpager_create_plant"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_pager_margin_top"
-            android:layout_marginStart="@dimen/margin_left"
-            />
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/viewpager_create_plant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_left"
+        android:layout_marginTop="@dimen/view_pager_margin_top" />
 
 </RelativeLayout>
 
