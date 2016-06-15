@@ -14,6 +14,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorContract.FlavorEntry;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -72,6 +73,32 @@ public class FlavorDao {
         flavorCursor.close();
 
         return flavorId;
+    }
+
+    /**
+     * Add a flavor collection to Sqlite
+     * @param flavors flavor list
+     * @return number of rows inserted
+     */
+    public int add(List<Flavor> flavors) {
+        return mContext.getContentResolver().bulkInsert(FlavorEntry.CONTENT_URI, getContentValues(flavors));
+    }
+
+    private ContentValues[] getContentValues(List<Flavor> flavors) {
+
+        ContentValues [] values = new ContentValues[flavors.size()];
+
+        for (int i = 0; i < flavors.size(); i++) {
+
+            ContentValues flavorValues = new ContentValues();
+
+            flavorValues.put(FlavorEntry.COLUMN_NAME, flavors.get(i).getName());
+            flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL,flavors.get(i).getImageUrl());
+
+            values[i] = flavorValues;
+        }
+
+        return values;
     }
 
 

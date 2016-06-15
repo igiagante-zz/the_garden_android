@@ -1,8 +1,12 @@
 package com.example.igiagante.thegarden.core.repository.managers;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
+import com.example.igiagante.thegarden.core.repository.realm.PlagueRealmRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiPlagueRepository;
 
 import javax.inject.Inject;
@@ -14,9 +18,11 @@ import rx.Observable;
  */
 public class PlagueRepositoryManager  extends RepositoryManager<Repository<Plague>> {
 
+    private Context mContext;
+
     @Inject
-    public PlagueRepositoryManager() {
-        mRepositories.add(new RestApiPlagueRepository());
+    public PlagueRepositoryManager(Context context) {
+        this.mContext = context;
     }
 
     /**
@@ -25,14 +31,9 @@ public class PlagueRepositoryManager  extends RepositoryManager<Repository<Plagu
      * @return Observable
      */
     public Observable query(Specification specification) {
+        PlagueRealmRepository plagueRealmRepository = new PlagueRealmRepository(mContext);
+        Log.i("Thread", "   PlagueRepositoryManager    " + Thread.currentThread().getName());
 
-        /*
-        Observable observable;
-
-        for(Repository<Attribute> repository : mRepositories) {
-            observable = repository.query(specification);
-        }*/
-
-        return mRepositories.get(0).query(specification);
+        return plagueRealmRepository.query(specification);
     }
 }

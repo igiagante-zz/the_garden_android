@@ -28,29 +28,6 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         mRepositories.add(new RestApiPlantRepository(context));
     }
 
-    public Observable<Plant> getPlantById(String plantId) {
-
-        // ask to the database
-        Observable<Plant> query = mRepositories.get(0).getById(plantId);
-
-        List<Plant> list = new ArrayList<>();
-        query.subscribe(plant -> list.add(plant));
-
-        Observable<Plant> observable = Observable.just(list.get(0));
-
-        // if the plant is not into the database, we ask to the api
-        return observable.map(plant -> {
-            if(plant != null) {
-                return true;
-            } else {
-                return false;
-            }
-        }).firstOrDefault(false)
-                .flatMap(exists -> exists
-                        ? observable
-                        : mRepositories.get(1).getById(plantId));
-
-    }
 
     public Observable<String> add(@NonNull Plant plant) {
 

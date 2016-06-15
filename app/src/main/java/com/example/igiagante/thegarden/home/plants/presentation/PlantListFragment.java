@@ -17,6 +17,8 @@ import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
+import com.example.igiagante.thegarden.home.plants.presentation.presenters.PlantListPresenter;
+import com.example.igiagante.thegarden.home.plants.presentation.view.PlantListView;
 
 import java.util.ArrayList;
 import java.util.Collection;

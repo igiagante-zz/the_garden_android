@@ -49,6 +49,7 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         // images realm list
         RealmList<ImageRealm> imagesRealm = new RealmList<>();
 
+        /*
         // flavors realm list
         RealmList<FlavorRealm> flavorsRealm = new RealmList<>();
 
@@ -56,7 +57,7 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         RealmList<AttributeRealm> attributesRealm = new RealmList<>();
 
         // plagues realm list
-        RealmList<PlagueRealm> plaguesRealm = new RealmList<>();
+        RealmList<PlagueRealm> plaguesRealm = new RealmList<>(); */
 
         // add images
         if(plant.getImages() != null) {
@@ -71,6 +72,7 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
 
         plantRealm.setImages(imagesRealm);
 
+        /*
         // add flavors
         if(plant.getFlavors() != null) {
             for ( Flavor flavor : plant.getFlavors()) {
@@ -108,6 +110,7 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         }
 
         plantRealm.setPlagues(plaguesRealm);
+        */
 
         return plantRealm;
     }

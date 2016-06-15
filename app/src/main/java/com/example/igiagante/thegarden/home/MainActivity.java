@@ -45,7 +45,8 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 18/4/16.
  */
-public class  MainActivity extends BaseActivity implements HasComponent<PlantComponent>, PlantsAdapter.OnEditPlant {
+public class  MainActivity extends BaseActivity implements HasComponent<PlantComponent>,
+        PlantsAdapter.OnEditPlant {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -83,6 +84,8 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
         fab.setOnClickListener(view -> startActivity(new Intent(this, CreatePlantActivity.class)));
 
         setupToolbar();
+
+
     }
 
     private void setupToolbar() {

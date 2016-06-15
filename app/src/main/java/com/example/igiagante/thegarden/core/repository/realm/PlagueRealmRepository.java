@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.realm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.Mapper;
@@ -114,6 +115,9 @@ public class PlagueRealmRepository implements Repository<Plague> {
 
     @Override
     public Observable<List<Plague>> query(Specification specification) {
+
+        Log.i("Thread", "   PlagueRealmRepository    " + Thread.currentThread().getName());
+
         final RealmSpecification realmSpecification = (RealmSpecification) specification;
 
         final Realm realm = Realm.getInstance(realmConfiguration);

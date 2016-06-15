@@ -20,7 +20,6 @@ public class AttributeRepositoryManager extends RepositoryManager<Repository<Att
     @Inject
     public AttributeRepositoryManager(Context context) {
         mRepositories.add(new AttributeRealmRepository(context));
-        mRepositories.add(new RestApiAttributeRepository(context));
     }
 
     /**
@@ -29,21 +28,6 @@ public class AttributeRepositoryManager extends RepositoryManager<Repository<Att
      * @return Observable
      */
     public Observable query(Specification specification) {
-
-        // TODO - This should be implemented the first time the app is installed
-        /*
-        Observable<List<Attribute>> query = mRepositories.get(0).query(specification);
-
-        List<Attribute> list = new ArrayList<>();
-        query.subscribe(attributes -> list.addAll(attributes));
-
-        Observable<List<Attribute>> observable = Observable.just(list);
-
-        return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
-                .flatMap(exists -> exists
-                        ? observable
-                        : mRepositories.get(1).query(null)); */
-
-        return  mRepositories.get(1).query(specification);
+        return  mRepositories.get(0).query(specification);
     }
 }

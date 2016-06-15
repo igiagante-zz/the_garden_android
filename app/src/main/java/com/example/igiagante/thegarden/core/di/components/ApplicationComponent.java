@@ -3,12 +3,14 @@ package com.example.igiagante.thegarden.core.di.components;
 
 import android.content.Context;
 
+import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.core.di.modules.ApplicationModule;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDao;
+import com.example.igiagante.thegarden.home.plants.usecase.PersistStaticDataUseCase;
 
 import javax.inject.Singleton;
 
@@ -22,9 +24,11 @@ import dagger.Component;
 public interface ApplicationComponent {
 
     void inject(BaseActivity baseActivity);
+    void inject(AndroidApplication androidApplication);
 
     //Exposed to sub-graphs.
     Context context();
     ThreadExecutor threadExecutor();
     PostExecutionThread postExecutionThread();
+    PersistStaticDataUseCase persistStaticDataUseCase();
 }

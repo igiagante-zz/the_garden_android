@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.core.repository.di.modules;
 
+import android.content.Context;
+
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.repository.managers.AttributeRepositoryManager;
 import com.example.igiagante.thegarden.core.repository.managers.PlagueRepositoryManager;
@@ -15,7 +17,7 @@ public class PlagueModule {
 
     @Provides
     @PerActivity
-    PlagueRepositoryManager providePlagueRepositoryManager() {
-        return new PlagueRepositoryManager();
+    PlagueRepositoryManager providePlagueRepositoryManager(Context context) {
+        return new PlagueRepositoryManager(context);
     }
 }

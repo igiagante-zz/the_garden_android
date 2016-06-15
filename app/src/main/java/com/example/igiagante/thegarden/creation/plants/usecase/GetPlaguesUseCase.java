@@ -1,11 +1,13 @@
 package com.example.igiagante.thegarden.creation.plants.usecase;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.managers.PlagueRepositoryManager;
+import com.example.igiagante.thegarden.core.repository.realm.specification.PlagueSpecification;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;
@@ -32,7 +34,8 @@ public class GetPlaguesUseCase extends UseCase<Void> {
 
     @Override
     protected Observable buildUseCaseObservable(Void aVoid) {
-        return plagueRepositoryManager.query(new Specification() {});
+        Log.i("Thread", "   GetPlaguesUseCase    " + Thread.currentThread().getName());
+        return plagueRepositoryManager.query(new PlagueSpecification());
     }
 
     @Override

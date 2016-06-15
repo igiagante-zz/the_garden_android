@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.UIThread;
+import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.executor.JobExecutor;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
@@ -16,7 +17,10 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiPlantRepository;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDao;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDbHelper;
+import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.home.plants.usecase.PersistStaticDataUseCase;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -33,8 +37,7 @@ public class ApplicationModule {
         this.application = application;
     }
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     Context provideApplicationContext() {
         return this.application;
     }
@@ -54,4 +57,8 @@ public class ApplicationModule {
         return new HttpStatus();
     }
 
+    @Provides @Singleton
+    UseCase providePersistStaticDataUseCase(PersistStaticDataUseCase persistStaticDataUseCase) {
+         return persistStaticDataUseCase;
+    }
 }

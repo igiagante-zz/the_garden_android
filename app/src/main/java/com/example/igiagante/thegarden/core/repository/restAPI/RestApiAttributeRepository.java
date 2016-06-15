@@ -1,19 +1,16 @@
 package com.example.igiagante.thegarden.core.repository.restAPI;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
-import com.example.igiagante.thegarden.core.repository.realm.AttributeRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.AttributeRestApi;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import io.realm.Realm;
 import rx.Observable;
 
 /**
@@ -22,10 +19,8 @@ import rx.Observable;
 public class RestApiAttributeRepository implements Repository<Attribute> {
 
     private final AttributeRestApi api;
-    private Context mContext;
 
-    public RestApiAttributeRepository(Context context) {
-        this.mContext = context;
+    public RestApiAttributeRepository() {
         this.api = ServiceFactory.createRetrofitService(AttributeRestApi.class);
     }
 
