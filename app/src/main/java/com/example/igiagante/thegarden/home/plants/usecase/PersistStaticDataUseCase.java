@@ -101,6 +101,7 @@ public class PersistStaticDataUseCase extends UseCase<Void> {
 
             apiFlavorRepository.query(new Specification() {})
                     .subscribeOn(Schedulers.io())
+                    .toBlocking()
                     .subscribe(list -> {
                                 int rows = flavorDao.add(list);
                                 Log.i(TAG, "   ROWS:  " + rows + "   flavors were inserted into Realm DB");

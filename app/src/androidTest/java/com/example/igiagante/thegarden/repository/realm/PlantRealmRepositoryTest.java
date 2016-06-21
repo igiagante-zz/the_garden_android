@@ -136,7 +136,6 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         // assertions
         repository.getById(ID).subscribe(plantFromDB -> {
             Assert.assertEquals(plantFromDB.getImages().size(), 2);
-            Assert.assertEquals(plantFromDB.getImages().get(0).getThumbnailUrl(), "thumbnailUrl");
             Assert.assertEquals(plantFromDB.getFlavors().size(), 3);
             Assert.assertEquals(plantFromDB.getAttributes().size(), 3);
             Assert.assertEquals(plantFromDB.getAttributes().size(), 3);

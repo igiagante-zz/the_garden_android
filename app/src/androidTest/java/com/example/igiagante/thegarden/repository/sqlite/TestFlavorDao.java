@@ -39,9 +39,9 @@ public class TestFlavorDao extends AndroidTestCase {
 
         Flavor flavorFromDb = flavorDao.getFlavor(String.valueOf(flavorId));
 
-        assertEquals(flavor.getId(), flavorFromDb.getId());
         assertEquals(flavor.getName(), flavorFromDb.getName());
         assertEquals(flavor.getImageUrl(), flavorFromDb.getImageUrl());
+        assertEquals(flavor.getMongoId(), flavorFromDb.getMongoId());
     }
 
     public void testGetAllFlavors(){
@@ -87,9 +87,9 @@ public class TestFlavorDao extends AndroidTestCase {
 
         ArrayList<Flavor> flavors = new ArrayList<>();
 
-        Flavor one = createOneFlavor("1", "lemon", "/images/lemon.jpg");
-        Flavor two = createOneFlavor("2", "skunk", "/images/skunk.jpg");
-        Flavor three = createOneFlavor("3", "wood", "/images/wood.jpg");
+        Flavor one = createOneFlavor("1", "lemon", "/images/lemon.jpg", "57605cf782a9a92ee597f7c7");
+        Flavor two = createOneFlavor("2", "skunk", "/images/skunk.jpg", "57605cf782a9a92ee597f7c8");
+        Flavor three = createOneFlavor("3", "wood", "/images/wood.jpg", "57605cf782a9a92ee597f7c9");
 
         flavors.add(one);
         flavors.add(two);
@@ -98,11 +98,12 @@ public class TestFlavorDao extends AndroidTestCase {
         return  flavors;
     }
 
-    private Flavor createOneFlavor(String id, String name, String imageUrl) {
+    private Flavor createOneFlavor(String id, String name, String imageUrl, String mongoId) {
         Flavor flavor = new Flavor();
         flavor.setId(id);
         flavor.setName(name);
         flavor.setImageUrl(imageUrl);
+        flavor.setMongoId(mongoId);
         return flavor;
     }
 }

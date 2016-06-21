@@ -12,7 +12,7 @@ import com.example.igiagante.thegarden.core.repository.sqlite.FlavorContract.Fla
 public class FlavorDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "flavor.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public FlavorDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,7 +24,8 @@ public class FlavorDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " + FlavorEntry.TABLE_NAME + " (" +
                 FlavorEntry._ID + " INTEGER PRIMARY KEY, " +
                 FlavorEntry.COLUMN_NAME + " TEXT NOT NULL, " +
-                FlavorEntry.COLUMN_IMAGE_URL + " TEXT NOT NULL " +
+                FlavorEntry.COLUMN_IMAGE_URL + " TEXT NOT NULL, " +
+                FlavorEntry.COLUMN_MONGO_ID + " TEXT NOT NULL " +
                 " );";
 
         db.execSQL(SQL_CREATE_MOVIE_TABLE);

@@ -11,7 +11,6 @@ import com.google.gson.annotations.SerializedName;
 public class Flavor implements Parcelable {
 
     public Flavor() {
-        this.selected = false;
     }
 
     @SerializedName("id")
@@ -23,8 +22,8 @@ public class Flavor implements Parcelable {
     @SerializedName("imageUrl")
     private String imageUrl;
 
-    @SerializedName("selected")
-    private Boolean selected;
+    @SerializedName("mongoId")
+    private String mongoId;
 
     public String getId() {
         return id;
@@ -50,12 +49,12 @@ public class Flavor implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    public Boolean getSelected() {
-        return selected;
+    public String getMongoId() {
+        return mongoId;
     }
 
-    public void setSelected(Boolean selected) {
-        this.selected = selected;
+    public void setMongoId(String mongoId) {
+        this.mongoId = mongoId;
     }
 
     @Override
@@ -68,7 +67,7 @@ public class Flavor implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(imageUrl);
-        dest.writeInt(selected ? 1 : 0);
+        dest.writeString(mongoId);
     }
 
     public static final Parcelable.Creator<Flavor> CREATOR = new Parcelable.Creator<Flavor>() {
@@ -85,6 +84,6 @@ public class Flavor implements Parcelable {
         id = in.readString();
         name = in.readString();
         imageUrl = in.readString();
-        selected = in.readInt() == 1;
+        mongoId = in.readString();
     }
 }

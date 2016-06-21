@@ -158,7 +158,8 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         for (FlavorHolder holder : mFlavors) {
             if(holder.isSelected()) {
                 Flavor flavor = holder.getModel();
-                flavor.setSelected(holder.isSelected());
+                // TODO - refactor this after project has been approved
+                flavor.setId(flavor.getMongoId());
                 flavors.add(flavor);
             }
         }

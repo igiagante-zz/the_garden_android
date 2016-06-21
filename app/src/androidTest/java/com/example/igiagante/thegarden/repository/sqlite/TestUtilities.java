@@ -43,6 +43,7 @@ public class TestUtilities extends AndroidTestCase {
 
         flavorValues.put(FlavorEntry.COLUMN_NAME, "Lemon");
         flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL, "url");
+        flavorValues.put(FlavorEntry.COLUMN_MONGO_ID, "57605cf782a9a92ee597f7c9");
 
         return flavorValues;
     }
@@ -68,6 +69,7 @@ public class TestUtilities extends AndroidTestCase {
         flavor.setId(id);
         flavor.setName("Lemon");
         flavor.setImageUrl("url");
+        flavor.setMongoId("57605cf782a9a92ee597f7c9");
 
         return flavor;
     }

@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.repository.realm;
+package com.example.igiagante.thegarden.repository;
 
 import android.test.AndroidTestCase;
 

@@ -123,13 +123,15 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
         EditText mPhSoilText = (EditText) mPhSoil.findViewById(R.id.count_input);
         mPhSoilText.setHint(R.string.ph_soil);
+        mPhSoilText.setText(R.string.ph_soil_default_value);
 
         EditText mEcSoilText = (EditText) mEcSoil.findViewById(R.id.count_input);
         mEcSoilText.setHint(R.string.ec_soil);
+        mEcSoilText.setText(R.string.ec_soil_default_value);
 
         EditText sizeText = (EditText) mSize.findViewById(R.id.count_input);
         sizeText.setHint(R.string.size);
-
+        sizeText.setText(R.string.size_default_value);
     }
 
     private Plant createParcelable() {

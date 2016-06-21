@@ -9,10 +9,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorContract.FlavorEntry;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,8 @@ public class FlavorDao {
     private String[] allColumnsFlavor = {
             FlavorEntry._ID,
             FlavorEntry.COLUMN_NAME,
-            FlavorEntry.COLUMN_IMAGE_URL };
+            FlavorEntry.COLUMN_IMAGE_URL,
+            FlavorEntry.COLUMN_MONGO_ID };
 
     /**
      * Persist a flavor object into the database.
@@ -60,9 +63,9 @@ public class FlavorDao {
 
             ContentValues flavorValues = new ContentValues();
 
-            flavorValues.put(FlavorEntry._ID, flavor.getId());
             flavorValues.put(FlavorEntry.COLUMN_NAME, flavor.getName());
-            flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL,flavor.getImageUrl());
+            flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL, flavor.getImageUrl());
+            flavorValues.put(FlavorEntry.COLUMN_MONGO_ID, flavor.getMongoId());
 
             Uri insertedUri = mContext.getContentResolver().insert(FlavorEntry.CONTENT_URI,
                     flavorValues
@@ -94,6 +97,7 @@ public class FlavorDao {
 
             flavorValues.put(FlavorEntry.COLUMN_NAME, flavors.get(i).getName());
             flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL,flavors.get(i).getImageUrl());
+            flavorValues.put(FlavorEntry.COLUMN_MONGO_ID, flavors.get(i).getId());
 
             values[i] = flavorValues;
         }
@@ -154,15 +158,17 @@ public class FlavorDao {
         return flavors;
     }
 
-    private Flavor setFlavorCursorData(Cursor movieCursor, Flavor flavor){
+    private Flavor setFlavorCursorData(Cursor flavorCursor, Flavor flavor){
 
-        int id = movieCursor.getColumnIndex(FlavorEntry._ID);
-        int nameIndex = movieCursor.getColumnIndex(FlavorEntry.COLUMN_NAME);
-        int imageUrlIndex = movieCursor.getColumnIndex(FlavorEntry.COLUMN_IMAGE_URL);
+        int id = flavorCursor.getColumnIndex(FlavorEntry._ID);
+        int nameIndex = flavorCursor.getColumnIndex(FlavorEntry.COLUMN_NAME);
+        int imageUrlIndex = flavorCursor.getColumnIndex(FlavorEntry.COLUMN_IMAGE_URL);
+        int mongoIdIndex = flavorCursor.getColumnIndex(FlavorEntry.COLUMN_MONGO_ID);
 
         flavor.setId(String.valueOf(id));
-        flavor.setName(movieCursor.getString(nameIndex));
-        flavor.setImageUrl(movieCursor.getString(imageUrlIndex));
+        flavor.setName(flavorCursor.getString(nameIndex));
+        flavor.setImageUrl(flavorCursor.getString(imageUrlIndex));
+        flavor.setMongoId(flavorCursor.getString(mongoIdIndex));
 
         return flavor;
     }
@@ -177,9 +183,10 @@ public class FlavorDao {
     public Flavor createFlavorFromCursor(Cursor cursor) {
 
         Flavor flavor = new Flavor();
-        flavor.setId(cursor.getString(cursor.getColumnIndex(FlavorEntry._ID)));
+        flavor.setId(Long.toHexString(cursor.getLong(cursor.getColumnIndex(FlavorEntry._ID))));
         flavor.setName(cursor.getString(cursor.getColumnIndex(FlavorEntry.COLUMN_NAME)));
         flavor.setImageUrl(cursor.getString(cursor.getColumnIndex(FlavorEntry.COLUMN_IMAGE_URL)));
+        flavor.setMongoId(cursor.getString(cursor.getColumnIndex(FlavorEntry.COLUMN_MONGO_ID)));
 
         cursor.close();
 

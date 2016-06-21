@@ -37,6 +37,8 @@ public class FlavorContract {
 
         public static final String COLUMN_IMAGE_URL = "imageUrl";
 
+        public static final String COLUMN_MONGO_ID = "mongoId";
+
         public static Uri buildFlavorUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }

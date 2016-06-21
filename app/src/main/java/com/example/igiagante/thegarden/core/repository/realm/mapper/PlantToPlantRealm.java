@@ -14,6 +14,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.FlavorRe
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -49,7 +50,7 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         // images realm list
         RealmList<ImageRealm> imagesRealm = new RealmList<>();
 
-        /*
+
         // flavors realm list
         RealmList<FlavorRealm> flavorsRealm = new RealmList<>();
 
@@ -57,7 +58,7 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         RealmList<AttributeRealm> attributesRealm = new RealmList<>();
 
         // plagues realm list
-        RealmList<PlagueRealm> plaguesRealm = new RealmList<>(); */
+        RealmList<PlagueRealm> plaguesRealm = new RealmList<>();
 
         // add images
         if(plant.getImages() != null) {
@@ -72,7 +73,6 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
 
         plantRealm.setImages(imagesRealm);
 
-        /*
         // add flavors
         if(plant.getFlavors() != null) {
             for ( Flavor flavor : plant.getFlavors()) {
@@ -88,11 +88,8 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         // add attributes
         if(plant.getAttributes() != null) {
             for ( Attribute attribute : plant.getAttributes()) {
-                // create attribute realm object and set id
-                AttributeRealm attributeRealm = realm.createObject(AttributeRealm.class);
-                attributeRealm.setId(attribute.getId());
-                // copy values which should be updated
-                attributesRealm.add(toAttributeRealm.copy(attribute, attributeRealm));
+                AttributeRealm attributeRealm = realm.where(AttributeRealm.class).equalTo(PlantTable.Attribute.ID, attribute.getId()).findFirst();
+                attributesRealm.add(attributeRealm);
             }
         }
 
@@ -101,16 +98,12 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         // add plagues
         if(plant.getPlagues() != null) {
             for ( Plague plague : plant.getPlagues()) {
-                // create plague realm object and set id
-                PlagueRealm plagueRealm = realm.createObject(PlagueRealm.class);
-                plagueRealm.setId(plague.getId());
-                // copy values which should be updated
-                plaguesRealm.add(toPlagueRealm.copy(plague, plagueRealm));
+                PlagueRealm plagueRealm = realm.where(PlagueRealm.class).equalTo(PlantTable.Attribute.ID, plague.getId()).findFirst();
+                plaguesRealm.add(plagueRealm);
             }
         }
 
         plantRealm.setPlagues(plaguesRealm);
-        */
 
         return plantRealm;
     }
