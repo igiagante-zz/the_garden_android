@@ -2,8 +2,10 @@ package com.example.igiagante.thegarden.creation.plants.presentation.dataHolders
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
+import com.example.igiagante.thegarden.core.repository.network.Settings;
 
 /**
  * @author Ignacio Giagante, on 6/4/16.
@@ -13,6 +15,19 @@ public class PlagueHolder extends DataHolder<Plague> {
     private boolean selected = false;
 
     public PlagueHolder() {
+    }
+
+    /**
+     * Get the image's path without domain
+     * @return image's path
+     */
+    public String getImagePath() {
+        String url = getModel().getImageUrl();
+        if(!TextUtils.isEmpty(url) && getModel().getImageUrl().contains("http")) {
+            url = url.replace(Settings.DOMAIN, "");
+            return url;
+        }
+        return url;
     }
 
     @Override

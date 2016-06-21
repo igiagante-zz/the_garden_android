@@ -201,6 +201,7 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
             for (PlagueHolder holder : mAdapter.getPlagues()) {
                 if(holder.isSelected()) {
                     Plague plague = holder.getModel();
+                    plague.setImageUrl(holder.getImagePath());
                     plagues.add(plague);
                 }
             }

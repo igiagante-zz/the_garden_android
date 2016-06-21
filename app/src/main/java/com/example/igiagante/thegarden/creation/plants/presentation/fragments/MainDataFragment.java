@@ -106,12 +106,12 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Override
     protected void move() {
         Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
-        builder.addPlantName(mNameOfPlant.getText().toString());
+        builder.addPlantName(mNameOfPlant.getText().toString().trim());
         builder.addPhSoil(mPhSoil.getEditValue());
         builder.addEcSoil(mEcSoil.getEditValue());
         builder.addFloweringTime(mFloweringTime);
-        builder.addGenotype(mGenotype.getText().toString());
-        builder.addSize((int) mSize.getEditValue());
+        builder.addGenotype(mGenotype.getText().toString().trim());
+        builder.addSize(mSize.getEditValue());
     }
 
     @Override
@@ -136,11 +136,11 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
     private Plant createParcelable() {
         Plant plant = new Plant();
-        plant.setName(mNameOfPlant.getText().toString());
+        plant.setName(mNameOfPlant.getText().toString().trim());
         plant.setPhSoil(mPhSoil.getEditValue());
         plant.setEcSoil(mEcSoil.getEditValue());
         plant.setFloweringTime(mFloweringTime);
-        plant.setGenotype(mGenotype.getText().toString());
+        plant.setGenotype(mGenotype.getText().toString().trim());
         plant.setSize(mSize.getEditValue());
         return plant;
     }

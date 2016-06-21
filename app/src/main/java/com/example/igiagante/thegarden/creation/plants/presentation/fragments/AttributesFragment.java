@@ -196,6 +196,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
             for (Attribute attribute : mPlant.getAttributes()) {
                 AttributeHolder attributeHolder = new AttributeHolder();
                 attributeHolder.setModel(attribute);
+                attributeHolder.setPercentage(attribute.getPercentage());
                 attributeHolder.setSelected(true);
                 mAttributesSelected.add(attributeHolder);
             }

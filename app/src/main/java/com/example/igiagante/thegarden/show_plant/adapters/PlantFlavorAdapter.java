@@ -33,7 +33,7 @@ public class PlantFlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public FlavorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.image_flavor, parent, false);
+        View view = layoutInflater.inflate(R.layout.image_flavor_show_plant, parent, false);
         return new FlavorViewHolder(view);
     }
 
