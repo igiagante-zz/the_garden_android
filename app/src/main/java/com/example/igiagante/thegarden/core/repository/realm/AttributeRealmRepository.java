@@ -2,8 +2,10 @@ package com.example.igiagante.thegarden.core.repository.realm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.core.repository.Repository;
@@ -11,9 +13,11 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeRealmToAttribute;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeToAttributeRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.specification.AttributeByIdSpecification;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -139,10 +143,15 @@ public class AttributeRealmRepository implements Repository<Attribute> {
         final Realm realm = Realm.getInstance(realmConfiguration);
         final Observable<RealmResults<AttributeRealm>> realmResults = realmSpecification.toObservableRealmResults(realm);
 
-        // convert Observable<RealmResults<AttributeRealm>> into Observable<List<Attribute>>
-        return realmResults.flatMap(list ->
-                Observable.from(list)
-                        .map(plantRealm -> toAttribute.map(plantRealm))
-                        .toList());
+        // convert Observable<RealmResults<PlagueRealm>> into Observable<List<Plague>>
+        List<Attribute> list = new ArrayList<>();
+
+        realmResults.subscribe(attributeRealms -> {
+            for (AttributeRealm attributeRealm : attributeRealms) {
+                list.add(toAttribute.map(attributeRealm));
+            }
+        });
+
+        return Observable.just(list);
     }
 }

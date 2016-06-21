@@ -85,11 +85,12 @@ public class PersistStaticDataUseCase extends UseCase<Void> {
 
             apiAttributeRepository.query(attributeSpecification)
                     .subscribeOn(Schedulers.io())
+                    .toBlocking()
                     .subscribe(list -> attributesFromApi.addAll(list),
                             error -> Log.d(TAG, error.toString()));
 
             Observable<Integer> rows = attributeRealmRepository.add(attributesFromApi);
-            rows.subscribe(row -> Log.i(TAG, "  ROWS " + row + " attributes were inserted into Realm DB"));
+            rows.toBlocking().subscribe(row -> Log.i(TAG, "  ROWS " + row + " attributes were inserted into Realm DB"));
         }
 
         // ask if flavors are already persisted (Sqlite)
@@ -102,7 +103,7 @@ public class PersistStaticDataUseCase extends UseCase<Void> {
                     .subscribeOn(Schedulers.io())
                     .subscribe(list -> {
                                 int rows = flavorDao.add(list);
-                                Log.i(TAG, "   ROWS:  " + rows + "flavors were inserted into Realm DB");
+                                Log.i(TAG, "   ROWS:  " + rows + "   flavors were inserted into Realm DB");
                             },
                             error -> Log.d(TAG, error.toString()));
         }
@@ -122,11 +123,12 @@ public class PersistStaticDataUseCase extends UseCase<Void> {
 
             apiPlagueRepository.query(plagueSpecification)
                     .subscribeOn(Schedulers.io())
+                    .toBlocking()
                     .subscribe(list -> plaguesFromApi.addAll(list),
                             error -> Log.d(TAG, error.toString()));
 
             Observable<Integer> rows = plagueRealmRepository.add(plaguesFromApi);
-            rows.subscribe(row -> Log.i(TAG, rows + "plagues were inserted into Realm DB"));
+            rows.toBlocking().subscribe(row -> Log.i(TAG,"   ROWS:  " + row + "   plagues were inserted into Realm DB"));
         }
 
         return Observable.just("OK");

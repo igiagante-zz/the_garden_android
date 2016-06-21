@@ -15,6 +15,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRe
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.specification.AttributeByIdSpecification;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -116,17 +117,20 @@ public class PlagueRealmRepository implements Repository<Plague> {
     @Override
     public Observable<List<Plague>> query(Specification specification) {
 
-        Log.i("Thread", "   PlagueRealmRepository    " + Thread.currentThread().getName());
-
         final RealmSpecification realmSpecification = (RealmSpecification) specification;
 
         final Realm realm = Realm.getInstance(realmConfiguration);
         final Observable<RealmResults<PlagueRealm>> realmResults = realmSpecification.toObservableRealmResults(realm);
 
         // convert Observable<RealmResults<PlagueRealm>> into Observable<List<Plague>>
-        return realmResults.flatMap(list ->
-                Observable.from(list)
-                        .map(plagueRealm -> toPlague.map(plagueRealm))
-                        .toList());
+        List<Plague> list = new ArrayList<>();
+
+        realmResults.subscribe(plagueRealms -> {
+           for (PlagueRealm plagueRealm : plagueRealms) {
+               list.add(toPlague.map(plagueRealm));
+           }
+        });
+
+        return Observable.just(list);
     }
 }

@@ -34,7 +34,7 @@ public class GetPlantDataUseCase extends UseCase<String> {
 
     @Override
     protected Observable buildUseCaseObservable(String plantId) {
-        return plantRepositoryManager.getPlantById(plantId);
+        return null;
     }
 
     @Override
