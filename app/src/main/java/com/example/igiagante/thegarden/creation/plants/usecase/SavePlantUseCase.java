@@ -2,12 +2,15 @@ package com.example.igiagante.thegarden.creation.plants.usecase;
 
 import android.support.annotation.NonNull;
 
+import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.PlagueRepositoryManager;
 import com.example.igiagante.thegarden.core.repository.managers.PlantRepositoryManager;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -34,11 +37,22 @@ public class SavePlantUseCase extends UseCase<Plant> {
 
     @Override
     protected Observable buildUseCaseObservable(Plant plant) {
+        deleteImagesFiles(plant);
         return plantRepositoryManager.add(plant);
     }
 
     @Override
     protected void setRepositoryOrder() {
         repositoryOrder.add(LOCAL_REPOSITORY, REMOTE_REPOSITORY);
+    }
+
+    /**
+     * Delete images created by RxPaparazzo
+     * @param plant Plant object
+     */
+    private void deleteImagesFiles(Plant plant) {
+        for (Image image : plant.getImages()) {
+            new File(image.getUrl()).delete();
+        }
     }
 }
