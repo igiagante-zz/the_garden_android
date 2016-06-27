@@ -10,6 +10,7 @@ import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.plants.presentation.view.PlantListView;
 
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,8 +25,6 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
 
     private final static String TAG = PlantListPresenter.class.getSimpleName();
 
-    private PlantListView plantListView;
-
     private final UseCase getPlantListUseCase;
 
     private final UseCase deletePlantUseCase;
@@ -39,11 +38,7 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
 
     public void destroy() {
         this.getPlantListUseCase.unsubscribe();
-        this.plantListView = null;
-    }
-
-    public void setView(@NonNull PlantListView view) {
-        this.plantListView = view;
+        this.view = null;
     }
 
     /**
@@ -62,7 +57,7 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
     }
 
     private void showPlantsCollectionInView(Collection<Plant> plantsCollection) {
-        this.plantListView.renderPlantList(plantsCollection);
+        getView().renderPlantList(plantsCollection);
     }
 
     private void notifyPlantWasDeleted() {

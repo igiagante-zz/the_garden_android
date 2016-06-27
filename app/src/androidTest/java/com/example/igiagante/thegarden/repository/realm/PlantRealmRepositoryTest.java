@@ -152,7 +152,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         repository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getName(), NAME));
 
         // when
-        Observable<Integer> result = repository.remove(plant);
+        Observable<Integer> result = repository.remove(plant.getId());
 
         // assertions
         result.subscribe(count -> Assert.assertEquals(1, count.intValue()));

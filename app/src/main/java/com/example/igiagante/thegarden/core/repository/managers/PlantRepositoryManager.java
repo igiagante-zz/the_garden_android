@@ -57,7 +57,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
 
         //Create a list of Integer in order to avoid calling Realm from other Thread
         List<Integer> list = new ArrayList<>();
-        resultFromApi.subscribeOn(Schedulers.io()).subscribe(success -> list.add(success));
+        resultFromApi.subscribeOn(Schedulers.io()).toBlocking().subscribe(success -> list.add(success));
 
         // delete plant from DB
         if(!list.isEmpty() && list.get(0) != -1) {
@@ -82,6 +82,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
      * @return Observable
      */
     public Observable query(Specification specification) {
+
 
         Observable<List<Plant>> query = mRepositories.get(0).query(specification);
 

@@ -20,6 +20,7 @@ import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.presenters.PlantListPresenter;
 import com.example.igiagante.thegarden.home.plants.presentation.view.PlantListView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -78,7 +79,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.plantListPresenter.setView(this);
+        this.plantListPresenter.setView(new WeakReference<>(this));
         if (savedInstanceState == null) {
             this.plantListPresenter.getPlantList();
         }

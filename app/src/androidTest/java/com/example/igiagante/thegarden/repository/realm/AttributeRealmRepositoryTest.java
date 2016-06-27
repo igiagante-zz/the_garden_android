@@ -80,7 +80,7 @@ public class AttributeRealmRepositoryTest extends AndroidTestCase {
         repository.getById(ID).subscribe(plagueFromDB -> Assert.assertEquals(plagueFromDB.getName(), NAME));
 
         // when
-        Observable<Integer> result = repository.remove(attribute);
+        Observable<Integer> result = repository.remove(attribute.getId());
 
         // assertions
         result.subscribe(count -> Assert.assertEquals(1, count.intValue()));
