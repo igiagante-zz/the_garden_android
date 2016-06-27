@@ -1,13 +1,16 @@
 package com.example.igiagante.thegarden.core.repository.restAPI;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.AttributeRestApi;
 
+import java.util.Collection;
 import java.util.List;
 
+import io.realm.Realm;
 import rx.Observable;
 
 /**

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -17,6 +19,11 @@ import com.example.igiagante.thegarden.R;
  * @author Ignacio Giagante, on 2/6/16.
  */
 public class TagView extends LinearLayout {
+
+    /**
+     * Used to save the view's position within the adapter
+     */
+    private int positionAdapter;
 
     private final int MAX_VALUE = 100;
     private final int SHOW_TIME = 750;
@@ -32,12 +39,15 @@ public class TagView extends LinearLayout {
 
     private OnPercentageChanged onPercentageChanged;
 
+    /**
+     * Listener to be notify about the change of level
+     */
     public interface OnPercentageChanged {
-        void percentageChanged(int percentage);
+        void percentageChanged(int percentage, int positionAdapter);
     }
 
     /**
-     * Used to increment or decrement the progress basr
+     * Used to increment or decrement the progress bar
      */
     final OnClickListener tagButtonListener = new OnClickListener() {
         @Override
@@ -50,25 +60,32 @@ public class TagView extends LinearLayout {
                 case R.id.tagButtonMinus:
                     if ((level) > 0) {
                         level -= DELTA;
+                        onPercentageChanged.percentageChanged(level, positionAdapter);
                     }
                     break;
 
                 case R.id.tagButtonPlus:
                     if ((level) < MAX_VALUE) {
                         level += DELTA;
+                        onPercentageChanged.percentageChanged(level, positionAdapter);
                     }
                     break;
             }
 
-            tagProgressBar.setProgress(level);
-            tagProgressText.setText(level + " %");
-            tagProgressText.setVisibility(VISIBLE);
-
-            //avoid user clicking a lot
-            removeCallbacks(hideProgressTextIndicator);
-            postDelayed(hideProgressTextIndicator, SHOW_TIME);
+            updateProgressBar();
         }
     };
+
+    public void updateProgressBar() {
+
+        tagProgressBar.setProgress(level);
+        tagProgressText.setText(level + " %");
+        tagProgressText.setVisibility(VISIBLE);
+
+        //avoid user clicking a lot
+        removeCallbacks(hideProgressTextIndicator);
+        postDelayed(hideProgressTextIndicator, SHOW_TIME);
+    }
 
     final Runnable hideProgressTextIndicator = new Runnable() {
         @Override
@@ -155,8 +172,16 @@ public class TagView extends LinearLayout {
         return level;
     }
 
-    public OnPercentageChanged getOnPercentageChanged() {
-        return onPercentageChanged;
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getPositionAdapter() {
+        return positionAdapter;
+    }
+
+    public void setPositionAdapter(int positionAdapter) {
+        this.positionAdapter = positionAdapter;
     }
 
     public void setOnPercentageChanged(OnPercentageChanged onPercentageChanged) {

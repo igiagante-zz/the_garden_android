@@ -41,10 +41,6 @@ public class AttributeHolder extends DataHolder<Attribute> {
         selected = in.readInt() == 1;
     }
 
-    public void setTagName(String tagName) {
-        getModel().setName(tagName);
-    }
-
     public String getTagName(){
         return getModel().getName();
     }
@@ -64,5 +60,7 @@ public class AttributeHolder extends DataHolder<Attribute> {
     public String getType() {
         return getModel().getType();
     }
+
+    public int getPercentage() { return getModel().getPercentage(); }
 
 }

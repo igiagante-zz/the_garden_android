@@ -21,11 +21,9 @@ import java.text.DecimalFormat;
  */
 public class CountView extends LinearLayout {
 
-    private static final String VALUE_KEY = "VALUE";
-
     private Context mContext;
 
-    private float mDefaultValue;
+    private int mDefaultValue;
     private EditText mEditValue;
 
     public CountView(Context context) {
@@ -49,7 +47,7 @@ public class CountView extends LinearLayout {
                 0, 0);
 
         try {
-            mDefaultValue = a.getFloat(R.styleable.CountView_setValue, 6);
+            mDefaultValue = a.getInteger(R.styleable.CountView_setValue, 10);
         } finally {
             a.recycle();
         }
@@ -64,7 +62,7 @@ public class CountView extends LinearLayout {
 
         inflate(mContext, R.layout.count_view, this);
         mEditValue = (EditText) findViewById(R.id.count_input);
-        mEditValue.setText(formatFloat(mDefaultValue));
+        mEditValue.setText(String.valueOf(mDefaultValue));
 
         Button mButtonUp = (Button) findViewById(R.id.count_button_up);
         mButtonUp.setOnClickListener(view -> incrementValue());
@@ -77,32 +75,20 @@ public class CountView extends LinearLayout {
      * Set the edit value of the view with a float value
      * @param value value
      */
-    public void setEditValue(float value) {
+    public void setEditValue(int value) {
         if(mEditValue != null) {
-            mEditValue.setText(formatFloat(value));
+            mEditValue.setText(String.valueOf(value));
         }
     }
 
     /**
      * Get the edit value from the view
      */
-    public String getEditValueString() {
-        float count = 0;
+    public int getEditValue() {
+        int count = 0;
         String value = mEditValue.getText().toString();
         if(!TextUtils.isEmpty(value)) {
-            count = Float.parseFloat(value);
-        }
-        return formatFloat(count);
-    }
-
-    /**
-     * Get the edit value from the view
-     */
-    public float getEditValue() {
-        float count = 0;
-        String value = mEditValue.getText().toString();
-        if(!TextUtils.isEmpty(value)) {
-            count = Float.parseFloat(value);
+            count = Integer.parseInt(value);
         }
         return count;
     }
@@ -112,8 +98,8 @@ public class CountView extends LinearLayout {
      */
     private void incrementValue() {
         if(mEditValue != null) {
-            float value = getEditValue();
-            value += 0.1;
+            int value = getEditValue();
+            value += 1;
             setEditValue(value);
         }
     }
@@ -123,16 +109,10 @@ public class CountView extends LinearLayout {
      */
     private void decrementValue() {
         if(mEditValue != null) {
-            float value = getEditValue();
-            value -= 0.1;
+            int value = getEditValue();
+            value -= 1;
             setEditValue(value);
         }
-    }
-
-    private String formatFloat(float value) {
-        DecimalFormat df = new DecimalFormat("0.0");
-        df.setMaximumFractionDigits(2);
-        return df.format(value);
     }
 
     @Override

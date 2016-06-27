@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +17,15 @@ import android.widget.Toast;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
-import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PhotoGalleryPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.PhotoGalleryView;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,7 +70,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         if(savedInstanceState != null) {
             Plant plant = savedInstanceState.getParcelable(CreatePlantActivity.PLANT_KEY);
             if(plant != null) {
-                mImages =  plant.getImages();
+                mImages = plant.getImages();
             }
         }
     }
@@ -84,6 +84,11 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.plant_gallery_fragment, container, false);
         ButterKnife.bind(this, containerView);
+
+        // ask to the activity if it has a plant for edition
+        if(mPlant != null) {
+            mImages = mPlant.getImages();
+        }
 
         mGallery.setHasFixedSize(true);
 
@@ -182,7 +187,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
                 //update images from builder
                 ArrayList<Image> imagesFromFilesPaths = getImagesFromFilesPaths(imagesFilesPaths);
                 this.mImages = imagesFromFilesPaths;
-                updateImagesFromBuilder(imagesFromFilesPaths);
+                updateImagesFromBuilder(imagesFromFilesPaths, true);
             }
         }
     }
@@ -191,14 +196,25 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      * Add images to builder selected by the user.
      */
     public void addImagesToBuilder(Collection<Image> images) {
-        this.mImages.addAll(images);
-        updateImagesFromBuilder(images);
+        updateImagesFromBuilder(images, false);
         Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
     }
 
-    private void updateImagesFromBuilder(Collection<Image> images) {
-        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
-        builder.addImages(images);
+    @Override
+    protected void move() {
+        super.move();
+        // double check in case some image was deleted. So, the builder needs to be updated.
+        updateImagesFromBuilder(mImages, true);
+    }
+
+    /**
+     * Update images list from builder
+     * @param images list of images
+     * @param carousel indicates if the images come from the carousel
+     */
+    private void updateImagesFromBuilder(Collection<Image> images, boolean carousel) {
+        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        builder.addImages(images, carousel);
     }
 
     private ArrayList<Image> getImagesFromFilesPaths(List<String> paths) {
@@ -207,6 +223,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         for(String path : paths) {
             Image image = new Image();
             image.setUrl(path);
+            image.setFile(new File(path));
             images.add(image);
         }
         return images;
@@ -218,10 +235,16 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      * @return paths images folder path
      */
     private ArrayList<String> getImagesFilesPaths(List<Image> images) {
+
         ArrayList<String> paths = new ArrayList<>();
 
         for(Image image : images) {
-            paths.add(image.getUrl());
+            if(!TextUtils.isEmpty(image.getThumbnailUrl())) {
+                // if the image is retrieved from DB or Api, there should have an Thumbnail url set
+                paths.add(image.getThumbnailUrl());
+            } else {
+                paths.add(image.getUrl());
+            }
         }
         return paths;
     }

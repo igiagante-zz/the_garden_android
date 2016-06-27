@@ -36,13 +36,13 @@ public class TestProvider extends AndroidTestCase {
         // content://com.igiagante.provider.flavors
         String type = mContext.getContentResolver().getType(FlavorContract.FlavorEntry.CONTENT_URI);
         // vnd.android.cursor.dir/com.igiagante.provider.flavors
-        assertEquals("Error: the MovieEntry CONTENT_URI should return MovieEntry.CONTENT_TYPE",
+        assertEquals("Error: the FlavorEntry CONTENT_URI should return MovieEntry.CONTENT_TYPE",
                 FlavorContract.FlavorEntry.CONTENT_TYPE, type);
 
         // content://com.igiagante.provider.flavors
         type = mContext.getContentResolver().getType(FlavorContract.FlavorEntry.buildFlavorUri(TEST_MOVIE_ID));
         // vnd.android.cursor.dir/com.igiagante.provider.flavors
-        assertEquals("Error: the MovieEntry CONTENT_URI should return MovieEntry.CONTENT_TYPE",
+        assertEquals("Error: the FlavorEntry CONTENT_URI should return MovieEntry.CONTENT_TYPE",
                 FlavorContract.FlavorEntry.CONTENT_TYPE_ITEM, type);
 
     }

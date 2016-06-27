@@ -3,6 +3,10 @@ package com.example.igiagante.thegarden.core.di.modules;
 import android.app.Activity;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
+import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.creation.plants.usecase.SavePlantUseCase;
+
+import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;

@@ -3,11 +3,14 @@ package com.example.igiagante.thegarden.home.plants.holders;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.DataHolder;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -52,6 +55,18 @@ public class PlantHolder extends DataHolder<Plant> {
 
     public int getHarvest() {
         return getModel().getHarvest();
+    }
+
+    public List<Image> getImages() {
+        return getModel().getImages();
+    }
+
+    public List<Plague> getPlagues() {
+        return getModel().getPlagues();
+    }
+
+    public List<Flavor> getFlavors() {
+        return getModel().getFlavors();
     }
 
     private String getSeedDateString() {

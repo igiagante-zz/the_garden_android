@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,8 +12,9 @@ import android.widget.TextView;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.ui.CountView;
+import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
+import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.satsuware.usefulviews.LabelledSpinner;
 
 import java.util.ArrayList;
@@ -37,10 +39,10 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     TextView mGenotype;
 
     @Bind(R.id.ph_soil_id)
-    CountView mPhSoil;
+    CountViewDecimal mPhSoil;
 
     @Bind(R.id.ec_soil_id)
-    CountView mEcSoil;
+    CountViewDecimal mEcSoil;
 
     @Bind(R.id.size_id)
     CountView mSize;
@@ -48,8 +50,6 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     private LabelledSpinner spinner;
 
     private String mFloweringTime;
-
-    private Plant mPlant;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,13 +67,17 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         spinner.setItemsArray(R.array.flowering_time_array);
         spinner.setOnItemChosenListener(this);
 
-        if(savedInstanceState != null) {
+        // ask to the activity if it has a plant for edition
+        if (mPlant != null) {
+            setPlantValuesInView();
+        }
+
+        if (savedInstanceState != null) {
             mPlant = savedInstanceState.getParcelable(PLANT_KEY);
             setPlantValuesInView();
         }
 
         initDefaultValues();
-
 
         return fragmentView;
     }
@@ -101,13 +105,18 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
     @Override
     protected void move() {
-        PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
-        builder.addPlantName(mNameOfPlant.getText().toString());
+        Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
+        builder.addPlantName(mNameOfPlant.getText().toString().trim());
         builder.addPhSoil(mPhSoil.getEditValue());
         builder.addEcSoil(mEcSoil.getEditValue());
         builder.addFloweringTime(mFloweringTime);
-        builder.addGenotype(mGenotype.getText().toString());
-        builder.addSize((int) mSize.getEditValue());
+        builder.addGenotype(mGenotype.getText().toString().trim());
+        builder.addSize(mSize.getEditValue());
+    }
+
+    @Override
+    protected void loadPlantDataForEdition(PlantHolder plantHolder) {
+        super.loadPlantDataForEdition(plantHolder);
     }
 
     private void initDefaultValues() {
@@ -127,12 +136,12 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
     private Plant createParcelable() {
         Plant plant = new Plant();
-        plant.setName(mNameOfPlant.getText().toString());
+        plant.setName(mNameOfPlant.getText().toString().trim());
         plant.setPhSoil(mPhSoil.getEditValue());
         plant.setEcSoil(mEcSoil.getEditValue());
         plant.setFloweringTime(mFloweringTime);
-        plant.setGenotype(mGenotype.getText().toString());
-        plant.setSize((int) mSize.getEditValue());
+        plant.setGenotype(mGenotype.getText().toString().trim());
+        plant.setSize(mSize.getEditValue());
         return plant;
     }
 
@@ -142,10 +151,10 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         mPhSoil.setEditValue(mPlant.getPhSoil());
         mEcSoil.setEditValue(mPlant.getEcSoil());
 
-        String [] list = getActivity().getResources().getStringArray(R.array.flowering_time_array);
+        String[] list = getActivity().getResources().getStringArray(R.array.flowering_time_array);
         ArrayList<String> newList = new ArrayList<>(Arrays.asList(list));
 
-        if(spinner != null) {
+        if (spinner != null) {
             spinner.setSelection(newList.indexOf(mPlant.getFloweringTime()));
         }
 

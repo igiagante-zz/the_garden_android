@@ -1,8 +1,11 @@
 package com.example.igiagante.thegarden.core.repository.managers;
 
+import android.content.Context;
+
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
+import com.example.igiagante.thegarden.core.repository.realm.AttributeRealmRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiAttributeRepository;
 
 import javax.inject.Inject;
@@ -15,8 +18,8 @@ import rx.Observable;
 public class AttributeRepositoryManager extends RepositoryManager<Repository<Attribute>> {
 
     @Inject
-    public AttributeRepositoryManager() {
-        mRepositories.add(new RestApiAttributeRepository());
+    public AttributeRepositoryManager(Context context) {
+        mRepositories.add(new AttributeRealmRepository(context));
     }
 
     /**

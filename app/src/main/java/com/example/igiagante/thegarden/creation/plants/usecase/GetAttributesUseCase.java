@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
-import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.managers.AttributeRepositoryManager;
+import com.example.igiagante.thegarden.core.repository.realm.specification.AttributeSpecification;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;
@@ -34,7 +34,8 @@ public class GetAttributesUseCase extends UseCase<Void> {
 
     @Override
     protected Observable buildUseCaseObservable(Void aVoid) {
-        return attributeRepositoryManager.query(new Specification() {});
+        AttributeSpecification specification = new AttributeSpecification();
+        return attributeRepositoryManager.query(specification);
     }
 
     @Override

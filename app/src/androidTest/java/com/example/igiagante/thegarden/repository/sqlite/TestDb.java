@@ -62,6 +62,7 @@ public class TestDb extends AndroidTestCase {
         flavorColumnHashSet.add(FlavorContract.FlavorEntry._ID);
         flavorColumnHashSet.add(FlavorContract.FlavorEntry.COLUMN_NAME);
         flavorColumnHashSet.add(FlavorContract.FlavorEntry.COLUMN_IMAGE_URL);
+        flavorColumnHashSet.add(FlavorContract.FlavorEntry.COLUMN_MONGO_ID);
 
         int columnNameIndex = c.getColumnIndex("name");
         do {

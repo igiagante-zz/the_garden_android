@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/carousel_container_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="2dp"
-    android:background="@color/background">
+    android:background="@color/white">
 
-    <ImageView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
         android:id="@+id/carousel_image_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="330dp"
+        android:layout_height="400dp"
+        fresco:fadeDuration="300"
+        fresco:placeholderImage="@drawable/no_image"
+        android:scaleType="center"
         android:layout_gravity="center"
-        android:contentDescription="@string/text_image_slider"
-        android:scaleType="center" />
+        android:contentDescription="@string/text_image_slider"/>
 
     <Button
         android:id="@+id/carousel_delete_button_id"
@@ -21,6 +24,7 @@
         android:layout_marginEnd="12dp"
         android:layout_marginTop="12dp"
         android:layout_gravity="top|end"
-        android:background="@drawable/delete_image" />
+        android:background="@drawable/delete_image"
+        android:visibility="gone"/>
 
 </FrameLayout>

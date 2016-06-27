@@ -9,14 +9,19 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.PlagueAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.AttributeHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.PlagueHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PlaguePresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.PlagueView;
@@ -44,6 +49,12 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     @Bind(R.id.plant_description_id)
     EditText descriptionTextArea;
 
+    @Bind(R.id.plant_save_button)
+    Button saveButton;
+
+    @Bind(R.id.plant_cancel_button)
+    Button cancelButton;
+
     @Inject
     PlaguePresenter mPlaguePresenter;
 
@@ -52,6 +63,15 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     private ArrayList<PlagueHolder> mPlagues = new ArrayList<>();
 
     private String mPlantDescription;
+
+    /**
+     * Listener used to notify when wizard process has finished
+     */
+    private OnSavePlantListener onSavePlantListener;
+
+    public interface OnSavePlantListener {
+        void onSavePlant();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,27 +92,28 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         this.getComponent(CreatePlantComponent.class).inject(this);
         ButterKnife.bind(this, containerView);
 
-        if(!TextUtils.isEmpty(mPlantDescription)) {
+        if (!TextUtils.isEmpty(mPlantDescription)) {
             descriptionTextArea.setText(mPlantDescription);
         }
-
-        setDescriptionTextAreaWidth();
 
         GridLayoutManager selectedLayout = new GridLayoutManager(getContext(), 3);
         mPlaguesRecycleView.setLayoutManager(selectedLayout);
         mAdapter = new PlagueAdapter(getContext());
         mPlaguesRecycleView.setAdapter(mAdapter);
 
-        //Get plagues
-        mPlaguePresenter.getPlagues();
+        if (mPlagues.isEmpty()) {
+            //Get plagues
+            mPlaguePresenter.getPlagues();
+        } else {
+            mAdapter.setPlagues(mPlagues);
+        }
+
+        saveButton.setOnClickListener(v -> {
+            saveDescription();
+            onSavePlantListener.onSavePlant();
+        });
 
         return containerView;
-    }
-
-    private void setDescriptionTextAreaWidth() {
-        if(isLandScape()) {
-            descriptionTextArea.setWidth(descriptionTextArea.getWidth() * 2);
-        }
     }
 
     @Override
@@ -115,7 +136,30 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     @Override
     public void loadPlagues(Collection<PlagueHolder> plagues) {
         this.mPlagues = (ArrayList<PlagueHolder>) plagues;
+
+        // ask to the activity if it has a plant for edition
+        if(mPlant != null) {
+            createAttributesHolderSelectedList();
+            descriptionTextArea.setText(mPlant.getDescription());
+        }
+
         mAdapter.setPlagues(mPlagues);
+    }
+
+    /**
+     * Filter the plague holder list
+     */
+    private void createAttributesHolderSelectedList() {
+
+        if(mPlagues != null) {
+            for (Plague plague : mPlant.getPlagues()) {
+                for ( PlagueHolder plagueHolder : mPlagues) {
+                    if(plague.getName().equals(plagueHolder.getPlagueName())) {
+                        plagueHolder.setSelected(true);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -126,20 +170,40 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            onSavePlantListener = (CreatePlantActivity)context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnSavePlantListener");
+        }
+
+    }
+
+    private void saveDescription() {
+        move();
+    }
+
+    @Override
     protected void move() {
-        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
-        builder.addPlagues(createAttributesSelectedList());
+        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        builder.addPlagues(createPlaguesSelectedList());
         builder.addDescription(descriptionTextArea.getText().toString());
     }
 
-    private ArrayList<Plague> createAttributesSelectedList() {
+    private ArrayList<Plague> createPlaguesSelectedList() {
 
         ArrayList<Plague> plagues = new ArrayList<>();
 
-        for (PlagueHolder holder : mAdapter.getPlagues()) {
-            if(holder.isSelected()) {
-                Plague plague = holder.getModel();
-                plagues.add(plague);
+        if(mAdapter.getPlagues() != null) {
+            for (PlagueHolder holder : mAdapter.getPlagues()) {
+                if(holder.isSelected()) {
+                    Plague plague = holder.getModel();
+                    plague.setImageUrl(holder.getImagePath());
+                    plagues.add(plague);
+                }
             }
         }
         return plagues;

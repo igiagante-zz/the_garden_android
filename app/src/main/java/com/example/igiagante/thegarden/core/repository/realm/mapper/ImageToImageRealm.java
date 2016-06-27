@@ -4,12 +4,13 @@ import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 
 import io.realm.Realm;
 
 /**
- * Created by igiagante on 28/4/16.
+ * @author Ignacio Giagante, on 28/4/16.
  */
 public class ImageToImageRealm implements Mapper<Image, ImageRealm> {
 

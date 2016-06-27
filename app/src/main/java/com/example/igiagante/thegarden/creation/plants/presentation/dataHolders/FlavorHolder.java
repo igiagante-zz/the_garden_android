@@ -2,8 +2,10 @@ package com.example.igiagante.thegarden.creation.plants.presentation.dataHolders
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.repository.network.Settings;
 
 /**
  * @author Ignacio Giagante, on 1/6/16.
@@ -23,8 +25,29 @@ public class FlavorHolder extends DataHolder<Flavor> {
         this.selected = selected;
     }
 
+    /**
+     * Get Image Url resource
+     * @return image url
+     */
     public String getImageUrl() {
         return getModel().getImageUrl();
+    }
+
+    public String getName() {
+        return getModel().getName();
+    }
+
+    /**
+     * Get the image's path without domain
+     * @return image's path
+     */
+    public String getImagePath() {
+        String url = getModel().getImageUrl();
+        if(!TextUtils.isEmpty(url) && getModel().getImageUrl().contains("http")) {
+            url = url.replace(Settings.DOMAIN, "");
+            return url;
+        }
+        return url;
     }
 
     @Override

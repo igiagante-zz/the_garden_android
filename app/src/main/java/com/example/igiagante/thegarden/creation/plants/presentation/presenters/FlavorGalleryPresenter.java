@@ -47,7 +47,7 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
      * @param flavors list of flavors
      * @return list of flavor holders
      */
-    private ArrayList<FlavorHolder> createFlavorHolderList(List<Flavor> flavors) {
+    public ArrayList<FlavorHolder> createFlavorHolderList(List<Flavor> flavors) {
 
         ArrayList<FlavorHolder> flavorHolders = new ArrayList<>();
 

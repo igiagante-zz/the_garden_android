@@ -1,9 +1,5 @@
 package com.example.igiagante.thegarden.core.executor;
 
-/**
- * Created by igiagante on 18/4/16.
- */
-
 import javax.inject.Inject;
 
 import java.util.concurrent.BlockingQueue;

@@ -40,6 +40,7 @@ public class PlagueAdapter extends RecyclerView.Adapter<PlagueAdapter.PlagueView
     @Override
     public void onBindViewHolder(PlagueViewHolder holder, int position) {
         holder.tag.setText(plagues.get(position).getPlagueName());
+        holder.setBackgroundButton(plagues.get(position).isSelected(), holder.tag);
     }
 
     @Override
@@ -58,7 +59,6 @@ public class PlagueAdapter extends RecyclerView.Adapter<PlagueAdapter.PlagueView
         public PlagueViewHolder(View view) {
             super(view);
             tag = (Button) view.findViewById(R.id.button_plague);
-            tag.setBackground(ContextCompat.getDrawable(mContext, R.drawable.plague_available_button));
 
             setWidthAndHeightFromButton(tag);
 
@@ -67,15 +67,18 @@ public class PlagueAdapter extends RecyclerView.Adapter<PlagueAdapter.PlagueView
                 final int position = getAdapterPosition();
                 PlagueHolder plagueHolder = plagues.get(position);
                 plagueHolder.setSelected(!plagueHolder.isSelected());
-
-                if(plagues.get(position).isSelected()) {
-                    tag.setBackground(ContextCompat.getDrawable(mContext, R.drawable.plague_selected_button));
-                    tag.setWidth(width);
-                    tag.setHeight(height);
-                } else {
-                    tag.setBackground(ContextCompat.getDrawable(mContext, R.drawable.plague_available_button));
-                }
+                setBackgroundButton(plagueHolder.isSelected(), tag);
             });
+        }
+
+        public void setBackgroundButton(Boolean plagueSelected, Button button) {
+            if(plagueSelected) {
+                button.setBackground(ContextCompat.getDrawable(mContext, R.drawable.plague_selected_button));
+                button.setWidth(width);
+                button.setHeight(height);
+            } else {
+                button.setBackground(ContextCompat.getDrawable(mContext, R.drawable.plague_available_button));
+            }
         }
 
         private void setWidthAndHeightFromButton(Button button) {

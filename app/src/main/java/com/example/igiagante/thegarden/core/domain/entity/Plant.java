@@ -2,10 +2,12 @@ package com.example.igiagante.thegarden.core.domain.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +19,43 @@ public class Plant implements Parcelable {
     public Plant() {
     }
 
-    @SerializedName("_id")
+    public Plant(PlantBuilder builder) {
+        this.id = builder.id;
+        this.gardenId = builder.gardenId;
+        this.seedDate = builder.seedDate;
+        this.name = builder.name;
+        this.phSoil = builder.phSoil;
+        this.ecSoil = builder.ecSoil;
+        this.floweringTime = builder.floweringTime;
+        this.genotype = builder.genotype;
+        this.size = builder.size;
+        this.harvest = builder.harvest;
+        this.description = builder.description;
+        this.images = builder.mImages;
+        this.flavors = builder.flavors;
+        this.attributes = builder.attributes;
+        this.plagues = builder.plagues;
+    }
+
+    public Plant(Plant plant) {
+        this.id = plant.id;
+        this.gardenId = plant.gardenId;
+        this.seedDate = plant.seedDate;
+        this.name = plant.name;
+        this.phSoil = plant.phSoil;
+        this.ecSoil = plant.ecSoil;
+        this.floweringTime = plant.floweringTime;
+        this.genotype = plant.genotype;
+        this.size = plant.size;
+        this.harvest = plant.harvest;
+        this.description = plant.description;
+        this.images = plant.images;
+        this.flavors = plant.flavors;
+        this.attributes = plant.attributes;
+        this.plagues = plant.plagues;
+    }
+
+    @SerializedName("id")
     private String id;
 
     @SerializedName("gardenId")
@@ -58,6 +96,9 @@ public class Plant implements Parcelable {
 
     @SerializedName("attributes")
     private List<Attribute> attributes = new ArrayList<>();
+
+    @SerializedName("plagues")
+    private List<Plague> plagues = new ArrayList<>();
 
     @SerializedName("resourcesIds")
     private List<String> resourcesIds;
@@ -174,6 +215,14 @@ public class Plant implements Parcelable {
         this.attributes = attributes;
     }
 
+    public List<Plague> getPlagues() {
+        return plagues;
+    }
+
+    public void setPlagues(List<Plague> plagues) {
+        this.plagues = plagues;
+    }
+
     public List<String> getResourcesIds() {
         return resourcesIds;
     }
@@ -202,6 +251,7 @@ public class Plant implements Parcelable {
         dest.writeList(images);
         dest.writeList(flavors);
         dest.writeList(attributes);
+        dest.writeList(plagues);
         dest.writeList(resourcesIds);
     }
 
@@ -229,6 +279,7 @@ public class Plant implements Parcelable {
         in.readList(images, this.getClass().getClassLoader());
         in.readList(flavors, this.getClass().getClassLoader());
         in.readList(attributes, this.getClass().getClassLoader());
+        in.readList(plagues, this.getClass().getClassLoader());
         in.readList(resourcesIds, this.getClass().getClassLoader());
     }
 
@@ -247,7 +298,7 @@ public class Plant implements Parcelable {
 
         if (this.getImages() != null) {
             stringBuilder.append("\n");
-            stringBuilder.append("************** Number of images: " + this.getImages().size() + "  *****************");
+            stringBuilder.append("************** Number of Images: " + this.getImages().size() + "  *****************");
             stringBuilder.append("\n");
 
             for (Image image : this.getImages()) {
@@ -259,5 +310,177 @@ public class Plant implements Parcelable {
         }
 
         return stringBuilder.toString();
+    }
+
+    /**
+     * This class represent the object which will be contain all the data entered in each wizards' step
+     */
+    public static class PlantBuilder {
+
+        private String id;
+        private String gardenId = "5716c3793f3bffbd34000002";
+        private Date seedDate = new Date();
+        private String name;
+        private float phSoil;
+        private float ecSoil;
+        private String floweringTime;
+        private String genotype;
+        private int size;
+        private int harvest;
+        private String description;
+
+        /**
+         * Represent the images which belong to the plant
+         */
+        private ArrayList<Image> mImages;
+
+        /**
+         * Represent the flavors with which the plant could be identify
+         */
+        private ArrayList<Flavor> flavors;
+
+        /**
+         * Represent the attributes with which the plant could be identify
+         */
+        private ArrayList<Attribute> attributes;
+
+        /**
+         * Represent the plagues with which the plant could be identify
+         */
+        private ArrayList<Plague> plagues;
+
+        public PlantBuilder() {
+            mImages = new ArrayList<>();
+            flavors = new ArrayList<>();
+            attributes = new ArrayList<>();
+            plagues = new ArrayList<>();
+        }
+
+        /**
+         * Add the id of the plant to builder
+         * @param id Plant Id
+         * @return builder
+         */
+        public PlantBuilder addPlantId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        /**
+         * Add the name of the plant to builder
+         * @param plantName name
+         * @return builder
+         */
+        public PlantBuilder addPlantName(String plantName) {
+            this.name = plantName;
+            return this;
+        }
+
+        /**
+         * Add the Ph Soil to builder
+         * @param phSoil ph soil
+         * @return builder
+         */
+        public PlantBuilder addPhSoil(float phSoil) {
+            this.phSoil = phSoil;
+            return this;
+        }
+
+        /**
+         * Add the Ec Soil to builder
+         * @param ecSoil ec soil
+         * @return builder
+         */
+        public PlantBuilder addEcSoil(float ecSoil) {
+            this.ecSoil = ecSoil;
+            return this;
+        }
+
+        /**
+         * Add the flowering time of the plant to builder
+         * @param floweringTime name
+         * @return builder
+         */
+        public PlantBuilder addFloweringTime(String floweringTime) {
+            this.floweringTime = floweringTime;
+            return this;
+        }
+
+        /**
+         * Add the harvest to builder
+         * @param harvest indicate how much was the harvest
+         * @return builder
+         */
+        public PlantBuilder addHarvest(int harvest) {
+            this.harvest = harvest;
+            return this;
+        }
+
+        /**
+         * Add the genoytpe to builder
+         * @param genotype indicate the genotype of the plant
+         * @return builder
+         */
+        public PlantBuilder addGenotype(String genotype) {
+            this.genotype = genotype;
+            return this;
+        }
+
+        /**
+         * Add the size to builder
+         * @param size indicate how long is the plant in one moment
+         * @return builder
+         */
+        public PlantBuilder addSize(int size) {
+            this.size = size;
+            return this;
+        }
+
+        /**
+         * Add the plants description to builder
+         * @param description plant's description
+         * @return builder
+         */
+        public PlantBuilder addDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        /**
+         * Add images to the builder
+         * @param images list of images
+         * @param carousel indicate if the images come from carousel
+         * @return builder
+         */
+        public PlantBuilder addImages(Collection<Image> images, boolean carousel) {
+
+            ArrayList<Image> imagesList = (ArrayList<Image>) images;
+
+            if(carousel || images.isEmpty()) {
+                this.mImages = imagesList;
+            } else {
+                this.mImages.addAll(imagesList);
+            }
+            return this;
+        }
+
+        public PlantBuilder addFlavors(Collection<Flavor> flavors) {
+            this.flavors = (ArrayList<Flavor>) flavors;
+            return this;
+        }
+
+        public PlantBuilder addAttributes(Collection<Attribute> attributes) {
+            this.attributes = (ArrayList<Attribute>) attributes;
+            return this;
+        }
+
+        public PlantBuilder addPlagues(Collection<Plague> plagues) {
+            this.plagues = (ArrayList<Plague>) plagues;
+            return this;
+        }
+
+        public Plant build() {
+            return new Plant(this);
+        }
     }
 }

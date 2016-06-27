@@ -3,6 +3,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/tools"
     android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,14 +39,16 @@
                 android:layout_width="@dimen/edit_text_width"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_top_spinner"
+                android:layout_marginStart="@dimen/flowering_time_land_margin_start"
                 ls:labelText="@string/flowering_time"
                 android:layout_marginEnd="@dimen/margin_text_view_land"/>
 
-            <com.example.igiagante.thegarden.core.ui.CountView
+            <com.example.igiagante.thegarden.core.ui.CountViewDecimal
                 android:id="@+id/ec_soil_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_padding_start" />
+                android:layout_marginStart="@dimen/count_view_land_margin_start"
+                app:setValueDecimal="0.4"/>
 
         </LinearLayout>
 
@@ -72,18 +75,19 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <com.example.igiagante.thegarden.core.ui.CountView
+            <com.example.igiagante.thegarden.core.ui.CountViewDecimal
                 android:id="@+id/ph_soil_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_padding_start"
-                android:layout_marginEnd="@dimen/margin_end_ph_soil_land"/>
+                android:layout_marginStart="@dimen/count_view_margin_start"
+                android:layout_marginEnd="@dimen/margin_end_ph_soil_land"
+                app:setValueDecimal="6.5"/>
 
             <com.example.igiagante.thegarden.core.ui.CountView
                 android:id="@+id/size_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/count_view_padding_start" />
+                android:layout_marginStart="@dimen/count_view_margin_start" />
 
         </LinearLayout>
 

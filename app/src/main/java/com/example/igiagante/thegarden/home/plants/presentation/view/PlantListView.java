@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.home.plants.presentation;
+package com.example.igiagante.thegarden.home.plants.presentation.view;
 
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;

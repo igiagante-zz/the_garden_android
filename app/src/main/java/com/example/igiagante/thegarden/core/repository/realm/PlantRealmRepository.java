@@ -13,12 +13,9 @@ import com.example.igiagante.thegarden.core.repository.realm.specification.Plant
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantRealmToPlant;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantToPlantRealm;
-import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import java.util.Collection;
 import java.util.List;
-
-import javax.inject.Singleton;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -28,7 +25,6 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 5/5/16.
  */
-@Singleton
 public class PlantRealmRepository implements Repository<Plant> {
 
     private final Mapper<PlantRealm, Plant> toPlant;
@@ -41,6 +37,7 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
                 .name("garden.realm")
+                .deleteRealmIfMigrationNeeded()
                 .build();
 
         this.realm = Realm.getInstance(realmConfiguration);
@@ -57,8 +54,10 @@ public class PlantRealmRepository implements Repository<Plant> {
     @Override
     public Observable<String> add(@NonNull final Plant plant) {
 
-        final Realm realm = Realm.getInstance(realmConfiguration);
-        realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
+        realm = Realm.getInstance(realmConfiguration);
+        realm.executeTransaction(realmParam ->
+            realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant)));
+
         realm.close();
 
         return Observable.just(plant.getId());
@@ -121,7 +120,7 @@ public class PlantRealmRepository implements Repository<Plant> {
         realm = Realm.getInstance(realmConfiguration);
 
         final RealmSpecification realmSpecification = (RealmSpecification) specification;
-        final PlantRealm plantRealm = (PlantRealm) realmSpecification.toPlantRealm(realm);
+        final PlantRealm plantRealm = (PlantRealm) realmSpecification.toObjectRealm(realm);
 
         realm.executeTransaction(realmParam -> plantRealm.deleteFromRealm());
 

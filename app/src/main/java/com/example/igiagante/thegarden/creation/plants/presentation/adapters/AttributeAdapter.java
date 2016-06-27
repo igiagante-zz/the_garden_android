@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * @author Ignacio Giagante, on 6/2/16.
  */
-public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> implements RecyclerViewItemClickListener.OnRecyclerViewItemClickListener {
+public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> implements TagView.OnPercentageChanged {
 
     private static final String EFFECTS = "effects";
     private static final String MEDICINAL = "medicinal";
@@ -77,7 +77,15 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
         } else {
             TagView tagView = ((AttributeSelectedViewHolder) holder).tagView;
 
+            // TODO - refactor this
+            tagView.setPositionAdapter(position);
+
             tagView.setTagName(attributeHolder.getTagName());
+
+            // progress bar level
+            tagView.setLevel(attributeHolder.getPercentage());
+            tagView.updateProgressBar();
+
             setTypeOfAttributeBackground(attributeHolder, tagView.getContainerButton());
         }
     }
@@ -103,6 +111,10 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
         return attributeHolders != null ? attributeHolders.size() : 0;
     }
 
+    /**
+     * Add a tag to the list
+     * @param attributeHolder Attribute Holder
+     */
     public void addTag(AttributeHolder attributeHolder){
         final int position = attributeHolders.size();
         attributeHolders.add(attributeHolder);
@@ -110,10 +122,8 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
     }
 
     @Override
-    public void onRecyclerViewItemClick(@NonNull RecyclerView parent, @NonNull View view, int adapterPosition, long id) {
-        int level = ((TagView)view).getLevel();
-        AttributeHolder attributeHolder = attributeHolders.get(adapterPosition);
-        attributeHolder.setPercentage(level);
+    public void percentageChanged(int percentage, int adapterPosition) {
+        attributeHolders.get(adapterPosition).setPercentage(percentage);
     }
 
     /**
@@ -141,6 +151,7 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
             super(flavorView);
             tagView = (TagView) flavorView.findViewById(R.id.tag_item_id);
             tagView.setOnLongClickListener(tagLongClickedLister);
+            tagView.setOnPercentageChanged(AttributeAdapter.this);
         }
     }
 

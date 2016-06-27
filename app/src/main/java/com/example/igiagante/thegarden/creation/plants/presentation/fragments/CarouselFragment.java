@@ -1,16 +1,21 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -28,7 +33,7 @@ public class CarouselFragment extends BaseFragment {
 
     private String mImageUrl;
     private int mPosition;
-    private ImageView mImage;
+    private SimpleDraweeView mImage;
     private OnDeleteImageInCarousel mOnDeleteImageInCarousel;
 
     public interface OnDeleteImageInCarousel {
@@ -55,6 +60,7 @@ public class CarouselFragment extends BaseFragment {
             mImageUrl = args.getString(IMAGE_URL_KEY);
             mPosition = args.getInt(IMAGE_POSITION_KEY);
         }
+
     }
 
     @Nullable
@@ -63,13 +69,21 @@ public class CarouselFragment extends BaseFragment {
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.carousel_fragment, container, false);
 
-        mImage = (ImageView) containerView.findViewById(R.id.carousel_image_id);
-        //mImage.setImageURI(Uri.fromFile(new File(mImageUrl)));
+        mImage = (SimpleDraweeView) containerView.findViewById(R.id.carousel_image_id);
+        if(mImageUrl.contains("http")) {
+            mImage.setImageURI(Uri.parse(mImageUrl));
+        } else {
+            mImage.setImageURI(Uri.fromFile(new File(mImageUrl)));
+        }
 
-        Picasso.with(getContext()).load(new File(mImageUrl)).into(mImage);
 
-        Button button = (Button) containerView.findViewById(R.id.carousel_delete_button_id);
-        button.setOnClickListener(view -> mOnDeleteImageInCarousel.deleteImageInCarousel(mPosition));
+        if(getActivity() instanceof CarouselActivity) {
+            FrameLayout frameLayout = (FrameLayout) containerView.findViewById(R.id.carousel_container_id);
+            frameLayout.setBackground(ContextCompat.getDrawable(getContext(), R.color.background));
+
+            Button button = (Button) containerView.findViewById(R.id.carousel_delete_button_id);
+            button.setOnClickListener(view -> mOnDeleteImageInCarousel.deleteImageInCarousel(mPosition));
+        }
 
         return  containerView;
     }

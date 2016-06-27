@@ -35,7 +35,7 @@ public class PlantByIdSpecification implements RealmSpecification {
     }
 
     @Override
-    public PlantRealm toPlantRealm(@NonNull Realm realm) {
+    public PlantRealm toObjectRealm(@NonNull Realm realm) {
         return null;
     }
 }

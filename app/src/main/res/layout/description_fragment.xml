@@ -77,20 +77,21 @@
 
             <Button
                 android:id="@+id/plant_save_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/description_button_width"
+                android:layout_height="@dimen/description_button_height"
                 android:text="@string/plant_save"
                 android:layout_weight="0.2"
-                android:layout_marginEnd="@dimen/description_button_save_margin_end"
-                android:textSize="@dimen/description_text_size"/>
+                style="@style/save_button"
+                android:layout_marginEnd="@dimen/description_button_save_margin_end"/>
 
             <Button
                 android:id="@+id/plant_cancel_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/description_button_width"
+                android:layout_height="@dimen/description_button_height"
                 android:text="@string/plant_cancel"
                 android:layout_weight="0.2"
-                android:textSize="@dimen/description_text_size"/>
+                style="@style/cancel_button"
+                android:background="@drawable/button_cancel_background"/>
 
         </LinearLayout>
 

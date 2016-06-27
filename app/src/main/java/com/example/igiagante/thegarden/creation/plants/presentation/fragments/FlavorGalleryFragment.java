@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.FlavorAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
@@ -126,7 +126,6 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
 
     @Override
     public void addFlavor(int flavorPosition) {
-
         if(mFlavors.get(flavorPosition).isSelected()) {
             mFlavors.get(flavorPosition).setSelected(false);
         } else {
@@ -137,12 +136,18 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
     @Override
     public void loadFlavors(List<FlavorHolder> flavors) {
         this.mFlavors = (ArrayList<FlavorHolder>) flavors;
+
+        // ask to the activity if it has a plant for edition and filter the flavor list
+        if(mPlant != null) {
+            selectFlavorsFromPlant();
+        }
+
         mAdapter.setFlavors(mFlavors);
     }
 
     @Override
     protected void move() {
-        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
         builder.addFlavors(createFlavorsSelectedList());
     }
 
@@ -153,11 +158,26 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         for (FlavorHolder holder : mFlavors) {
             if(holder.isSelected()) {
                 Flavor flavor = holder.getModel();
-                flavor.setSelected(holder.isSelected());
+                // TODO - refactor this after project has been approved
+                flavor.setId(flavor.getMongoId());
+                flavor.setImageUrl(holder.getImagePath());
                 flavors.add(flavor);
             }
         }
 
         return flavors;
+    }
+
+    private void selectFlavorsFromPlant() {
+
+        if(mFlavors != null) {
+            for (Flavor flavor : mPlant.getFlavors()) {
+                for ( FlavorHolder flavorHolder : mFlavors) {
+                    if(flavor.getName().equals(flavorHolder.getName())) {
+                        flavorHolder.setSelected(true);
+                    }
+                }
+            }
+        }
     }
 }

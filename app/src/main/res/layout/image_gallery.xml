@@ -19,7 +19,7 @@
         fresco:roundTopRight="true"
         fresco:roundedCornerRadius="1dp"
         fresco:roundingBorderColor="@color/cardview_dark_background"
-        fresco:roundingBorderWidth="2dp" />
+        fresco:roundingBorderWidth="2dp"/>
 
     <Button
         android:id="@+id/delete_button_id"

@@ -15,7 +15,7 @@
             android:layout_height="@dimen/count_input_height"
             android:singleLine="true"
             android:hint="@string/ph_soil"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:textSize="@dimen/text_size"
             android:gravity="center"/>
 

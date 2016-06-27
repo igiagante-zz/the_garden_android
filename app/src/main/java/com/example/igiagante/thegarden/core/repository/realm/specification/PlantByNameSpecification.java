@@ -13,7 +13,7 @@ import rx.Observable;
 /**
  * @author giagante on 5/5/16.
  */
-public class PlantByNameSpecification implements RealmSpecification {
+public class PlantByNameSpecification implements RealmSpecification<PlantRealm> {
 
     private final String name;
 
@@ -34,7 +34,7 @@ public class PlantByNameSpecification implements RealmSpecification {
     }
 
     @Override
-    public PlantRealm toPlantRealm(@NonNull Realm realm) {
+    public PlantRealm toObjectRealm(@NonNull Realm realm) {
         return realm.where(PlantRealm.class).equalTo(PlantTable.NAME, name).findFirst();
     }
 }

@@ -21,17 +21,6 @@ public class FlavorRepositoryManager extends RepositoryManager<Repository<Flavor
     @Inject
     public FlavorRepositoryManager(Context context){
         mRepositories.add(new FlavorDaoRepository(new FlavorDao(context)));
-        mRepositories.add(new RestApiFlavorRepository());
-    }
-
-    /**
-     * Return a resource using the id
-     * @param id Object id
-     * @return Observable
-     */
-    public Observable getById(String id) {
-
-        return Observable.just(1);
     }
 
     /**
@@ -40,14 +29,6 @@ public class FlavorRepositoryManager extends RepositoryManager<Repository<Flavor
      * @return Observable
      */
     public Observable query(Specification specification) {
-
-        /*
-        Observable observable;
-
-        for(Repository<Attribute> repository : mRepositories) {
-            observable = repository.query(specification);
-        }*/
-
-        return mRepositories.get(1).query(specification);
+        return mRepositories.get(0).query(specification);
     }
 }

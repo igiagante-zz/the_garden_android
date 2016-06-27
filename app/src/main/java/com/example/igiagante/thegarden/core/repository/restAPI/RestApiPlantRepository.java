@@ -1,15 +1,20 @@
 package com.example.igiagante.thegarden.core.repository.restAPI;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.specification.PlagueByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.PlantRestAPI;
-import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -34,9 +39,11 @@ public class RestApiPlantRepository implements Repository<Plant> {
     private final static String TAG = RestApiPlantRepository.class.getSimpleName();
 
     private final PlantRestAPI api;
+    private Context mContext;
 
     @Inject
-    public RestApiPlantRepository() {
+    public RestApiPlantRepository(Context context) {
+        this.mContext = context;
         api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
     }
 
@@ -49,7 +56,22 @@ public class RestApiPlantRepository implements Repository<Plant> {
     public Observable<String> add(@NonNull final Plant plant) {
 
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
-        return api.createPlant(builder.build()).asObservable().map(plantParam -> plantParam.getId());
+        Observable<Plant> apiResult = api.createPlant(builder.build()).asObservable();
+
+        // get Data From api
+        List<Plant> listOne = new ArrayList<>();
+        apiResult.subscribe(plant2 -> listOne.add(plant2));
+
+        // persist the plant into database
+        PlantRealmRepository dataBase = new PlantRealmRepository(mContext);
+        Observable<String> dbResult = dataBase.add(listOne.get(0));
+
+        List<String> list = new ArrayList<>();
+        dbResult.subscribe(plantId -> list.add(plantId));
+
+        Observable<String> observable = Observable.just(list.get(0));
+
+        return observable;
     }
 
     @Override
@@ -126,17 +148,35 @@ public class RestApiPlantRepository implements Repository<Plant> {
      */
     private MultipartBody.Builder addPlantToRequestBody(@NonNull final MultipartBody.Builder builder, @NonNull final Plant plant) {
 
-        if (!plant.getResourcesIds().isEmpty()) {
+        if (plant.getResourcesIds() != null && !plant.getResourcesIds().isEmpty()) {
             String resourcesIds = new Gson().toJson(plant.getResourcesIds());
             builder.addFormDataPart(PlantTable.RESOURCES_IDS, resourcesIds);
         }
 
+        if (plant.getFlavors() != null && !plant.getFlavors().isEmpty()) {
+            String flavors = new Gson().toJson(plant.getFlavors());
+            builder.addFormDataPart(PlantTable.FLAVORS, flavors);
+        }
+
+        if (plant.getAttributes() != null && !plant.getAttributes().isEmpty()) {
+            String attributes = new Gson().toJson(plant.getAttributes());
+            builder.addFormDataPart(PlantTable.ATTRIBUTES, attributes);
+        }
+
+        if (plant.getPlagues() != null && !plant.getPlagues().isEmpty()) {
+            String plagues = new Gson().toJson(plant.getPlagues());
+            builder.addFormDataPart(PlantTable.PLAGUES, plagues);
+        }
+
         return builder.addFormDataPart(PlantTable.NAME, plant.getName())
                 .addFormDataPart(PlantTable.SIZE, String.valueOf(plant.getSize()))
-                .addFormDataPart(PlantTable.PHSOIL, String.valueOf(6.0))
-                .addFormDataPart(PlantTable.ECSOIL, String.valueOf(1.0))
+                .addFormDataPart(PlantTable.PH_SOIL, String.valueOf(plant.getPhSoil()))
+                .addFormDataPart(PlantTable.EC_SOIL, String.valueOf(plant.getEcSoil()))
+                .addFormDataPart(PlantTable.FLOWERING_TIME, String.valueOf(plant.getFloweringTime()))
+                .addFormDataPart(PlantTable.GENOTYPE, String.valueOf(plant.getGenotype()))
                 .addFormDataPart(PlantTable.HARVEST, String.valueOf(plant.getHarvest()))
-                .addFormDataPart(PlantTable.GARDENID, plant.getGardenId());
+                .addFormDataPart(PlantTable.DESCRIPTION, String.valueOf(plant.getDescription()))
+                .addFormDataPart(PlantTable.GARDEN_ID, plant.getGardenId());
     }
 
     /**

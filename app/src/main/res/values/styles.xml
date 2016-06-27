@@ -23,4 +23,18 @@
         <item name="android:textSize">30sp</item>
     </style>
 
+    <!-- Save Button -->
+    <style name="save_button" parent="android:Widget.Holo.Light.Button">
+        <item name="android:textColor">@color/text_title_color</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:background">@drawable/button_save_background</item>
+    </style>
+
+    <!-- Cancel Button -->
+    <style name="cancel_button" parent="android:Widget.Holo.Light.Button">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:background">@drawable/button_cancel_background</item>
+    </style>
+
 </resources>

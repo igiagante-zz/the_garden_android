@@ -12,5 +12,5 @@ public interface RealmSpecification<T extends RealmObject> extends Specification
 
     Observable<RealmResults<T>> toObservableRealmResults(Realm realm);
     RealmResults<T> toRealmResults(Realm realm);
-    T toPlantRealm(Realm realm);
+    T toObjectRealm(Realm realm);
 }

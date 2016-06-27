@@ -15,7 +15,7 @@
         android:theme="@style/CustomTheme">
 
         <provider
-            android:authorities="com.igiagante.provider.plagues"
+            android:authorities="com.igiagante.provider.flavors"
             android:name=".core.repository.sqlite.FlavorProvider" />
 
         <activity
@@ -28,11 +28,6 @@
         </activity>
 
         <activity
-            android:name=".home.plants.presentation.PlantListActivity"
-            android:label="@string/activity_plant_name">
-        </activity>
-
-        <activity
             android:name=".creation.plants.presentation.CreatePlantActivity"
             android:label="@string/activity_create_plant"
             android:windowSoftInputMode="adjustPan">
@@ -40,6 +35,11 @@
 
         <activity
             android:name=".creation.plants.presentation.CarouselActivity"
+            android:label="@string/activity_carousel">
+        </activity>
+
+        <activity
+            android:name=".show_plant.presentation.GetPlantDataActivity"
             android:label="@string/activity_carousel">
         </activity>
 

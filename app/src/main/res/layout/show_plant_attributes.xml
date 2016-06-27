@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/show_plant_tab_layout_attributes"
+        style="@style/AppTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        android:background="@color/colorPrimary"
+        >
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_effects_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/tab_effects"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_medicinal_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/tab_medicinal"/>
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_symptoms_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/tab_symptoms"/>
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/show_plant_attributes_viewpager_id"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/show_plant_tab_layout_attributes" />
+
+</RelativeLayout>

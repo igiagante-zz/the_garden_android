@@ -1,23 +1,22 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.interfaces.DraweeController;
+import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.request.ImageRequest;
 
-import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -33,9 +32,17 @@ import butterknife.ButterKnife;
  */
 public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewHolder> {
 
+    public static final String SHOW_PLANT_KEY = "SHOW_PLANT";
+
     private List<PlantHolder> mPlants;
     private final LayoutInflater layoutInflater;
     private Context mContext;
+
+    private WeakReference<OnEditPlant> onEditPlant;
+
+    public interface OnEditPlant {
+        void editPlant(PlantHolder plantHolder);
+    }
 
     @Inject
     public PlantsAdapter(Context context) {
@@ -54,8 +61,12 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     public void onBindViewHolder(PlantViewHolder holder, int position) {
         final PlantHolder plantHolder = this.mPlants.get(position);
 
-        String thumbnailUrl = plantHolder.getMainImage().getThumbnailUrl();
-        holder.mPlantImage.setImageURI(Uri.parse(thumbnailUrl));
+        Image mainImage = plantHolder.getMainImage();
+
+        if(mainImage != null) {
+            String thumbnailUrl = mainImage.getThumbnailUrl();
+            holder.mPlantImage.setImageURI(Uri.parse(thumbnailUrl));
+        }
 
         holder.mPlantName.setText(plantHolder.getName());
         String seedDateLabel = mContext.getString(R.string.seedDate);
@@ -68,6 +79,9 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         holder.mHigh.setText(highLabel + ": " + String.valueOf(plantHolder.getSize()));
         String floweringTimeLabel = mContext.getString(R.string.flower);
         holder.mFloweringTime.setText(floweringTimeLabel + ": " + plantHolder.getFloweringTime());
+
+        holder.mEditButton.setOnClickListener(v -> onEditPlant.get().editPlant(plantHolder));
+
     }
 
     @Override
@@ -80,7 +94,11 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         this.notifyDataSetChanged();
     }
 
-    static class PlantViewHolder extends RecyclerView.ViewHolder {
+    public void setOnEditPlant(OnEditPlant onEditPlant) {
+        this.onEditPlant = new WeakReference<>(onEditPlant);
+    }
+
+    class PlantViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.main_image_plant)
         SimpleDraweeView mPlantImage;
@@ -103,9 +121,22 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         @Bind(R.id.flower_time_id)
         TextView mFloweringTime;
 
+        @Bind(R.id.edit_plant_button)
+        Button mEditButton;
+
         public PlantViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(v -> startGetPlantDataActivity(getAdapterPosition()));
+        }
+
+        private void startGetPlantDataActivity(int adapterPosition) {
+            PlantHolder plantHolder = mPlants.get(adapterPosition);
+            Intent intent = new Intent(mContext, GetPlantDataActivity.class);
+            intent.putExtra(SHOW_PLANT_KEY, plantHolder);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
         }
     }
 }

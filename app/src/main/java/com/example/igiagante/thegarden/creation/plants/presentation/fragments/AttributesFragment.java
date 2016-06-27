@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
-import com.example.igiagante.thegarden.core.ui.RecyclerViewItemClickListener;
+import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.PlantBuilder;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.AttributeDecorator;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.AttributeHolder;
+import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.AttributesPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.AttributesView;
 
@@ -36,7 +37,8 @@ import butterknife.ButterKnife;
 public class AttributesFragment extends CreationBaseFragment implements AttributesView,
         AttributeAdapter.TagActionListener {
 
-    public static final String ATTRIBUTES = "ATTRIBUTES";
+    public static final String AVAILABLE_ATTRIBUTES = "AVAILABLE_ATTRIBUTES";
+    public static final String SELECTED_ATTRIBUTES = "SELECTED_ATTRIBUTES";
 
     @Bind(R.id.attributes_selected_id)
     RecyclerView attributesSelected;
@@ -52,13 +54,15 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     private AttributeAdapter attributeSelectedAdapter;
 
     private ArrayList<AttributeHolder> mAttributes = new ArrayList<>();
+    private ArrayList<AttributeHolder> mAttributesSelected = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null) {
-            mAttributes = savedInstanceState.getParcelableArrayList(ATTRIBUTES);
+        if (savedInstanceState != null) {
+            mAttributes = savedInstanceState.getParcelableArrayList(AVAILABLE_ATTRIBUTES);
+            mAttributesSelected = savedInstanceState.getParcelableArrayList(SELECTED_ATTRIBUTES);
         }
     }
 
@@ -73,7 +77,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
         GridLayoutManager availableLayout;
 
-        if(isLandScape()) {
+        if (isLandScape()) {
             availableLayout = new GridLayoutManager(getContext(), 5);
         } else {
             availableLayout = new GridLayoutManager(getContext(), 3);
@@ -86,8 +90,8 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
         GridLayoutManager selectedLayout;
 
-        if(isLandScape()) {
-            selectedLayout = new GridLayoutManager(getContext(), 4);
+        if (isLandScape()) {
+            selectedLayout = new GridLayoutManager(getContext(), 3);
         } else {
             selectedLayout = new GridLayoutManager(getContext(), 2);
         }
@@ -96,21 +100,22 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         attributeSelectedAdapter = new AttributeAdapter(getContext(), this);
         attributesSelected.setAdapter(attributeSelectedAdapter);
 
-        attributesSelected.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(), attributeSelectedAdapter));
-
-        if(mAttributes.isEmpty()) {
+        if (mAttributes.isEmpty()) {
             //Get available attributes
             mAttributesPresenter.getAttributes();
+        } else {
+            attributeAdapter.setAttributeHolders(mAttributes);
+            // add selected attributes
+            attributeSelectedAdapter.setAttributeHolders(mAttributesSelected);
         }
         return containerView;
     }
 
     @Override
     public void onTagClicked(AttributeHolder attributeHolder) {
-        if(attributeHolder.isSelected()) {
+        if (attributeHolder.isSelected()) {
             attributeSelectedAdapter.addTag(attributeHolder);
-        }
-        else {
+        } else {
             attributeAdapter.addTag(attributeHolder);
         }
     }
@@ -118,6 +123,13 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     @Override
     public void loadAttributes(Collection<AttributeHolder> attributes) {
         this.mAttributes = (ArrayList<AttributeHolder>) attributes;
+
+        // ask to the activity if it has a plant for edition and filter the flavor list
+        if (mPlant != null) {
+            createAttributesHolderSelectedList();
+            attributeSelectedAdapter.setAttributeHolders(mAttributesSelected);
+        }
+
         attributeAdapter.setAttributeHolders(this.mAttributes);
     }
 
@@ -127,7 +139,8 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
         this.mAttributesPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         attributesSelected.setAdapter(null);
         availableAttributes.setAdapter(null);
@@ -137,7 +150,9 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(ATTRIBUTES, mAttributes);
+        outState.putParcelableArrayList(AVAILABLE_ATTRIBUTES, mAttributes);
+        ArrayList<AttributeHolder> attributeHoldersSelected = attributeSelectedAdapter.getAttributeHolders();
+        outState.putParcelableArrayList(SELECTED_ATTRIBUTES, attributeHoldersSelected);
     }
 
     @Override
@@ -152,7 +167,7 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
     @Override
     protected void move() {
-        PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
         builder.addAttributes(createAttributesSelectedList());
     }
 
@@ -160,12 +175,31 @@ public class AttributesFragment extends CreationBaseFragment implements Attribut
 
         ArrayList<Attribute> attributes = new ArrayList<>();
 
-        for (AttributeHolder holder : attributeSelectedAdapter.getAttributeHolders()) {
-            if(holder.isSelected()) {
-                Attribute attribute = holder.getModel();
-                attributes.add(attribute);
+        if (attributeSelectedAdapter.getAttributeHolders() != null) {
+            for (AttributeHolder holder : attributeSelectedAdapter.getAttributeHolders()) {
+                if (holder.isSelected()) {
+                    Attribute attribute = holder.getModel();
+                    attributes.add(attribute);
+                }
             }
         }
+
         return attributes;
+    }
+
+    /**
+     * Filter the attribute holder list in order to create a list of selected attributes
+     */
+    private void createAttributesHolderSelectedList() {
+
+        if (mAttributes != null) {
+            for (Attribute attribute : mPlant.getAttributes()) {
+                AttributeHolder attributeHolder = new AttributeHolder();
+                attributeHolder.setModel(attribute);
+                attributeHolder.setPercentage(attribute.getPercentage());
+                attributeHolder.setSelected(true);
+                mAttributesSelected.add(attributeHolder);
+            }
+        }
     }
 }
