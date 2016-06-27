@@ -25,14 +25,6 @@ public class AttributeRepositoryManager extends RepositoryManager<Repository<Att
      * @return Observable
      */
     public Observable query(Specification specification) {
-
-        /*
-        Observable observable;
-
-        for(Repository<Attribute> repository : mRepositories) {
-            observable = repository.query(specification);
-        }*/
-
-        return mRepositories.get(0).query(specification);
+        return  mRepositories.get(0).query(specification);
     }
 }
