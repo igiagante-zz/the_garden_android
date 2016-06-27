@@ -16,6 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 8/6/16.
@@ -27,7 +28,6 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         mRepositories.add(new PlantRealmRepository(context));
         mRepositories.add(new RestApiPlantRepository(context));
     }
-
 
     public Observable<String> add(@NonNull Plant plant) {
 
@@ -49,6 +49,31 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
                 .flatMap(exists -> exists
                         ? observableOne.map(plant1 -> plant.getId())
                         : mRepositories.get(1).add(plant));
+    }
+
+    public Observable delete(@NonNull String plantId) {
+        // delete plant from api
+        Observable<Integer> resultFromApi = mRepositories.get(1).remove(plantId);
+
+        //Create a list of Integer in order to avoid calling Realm from other Thread
+        List<Integer> list = new ArrayList<>();
+        resultFromApi.subscribeOn(Schedulers.io()).subscribe(success -> list.add(success));
+
+        // delete plant from DB
+        if(!list.isEmpty() && list.get(0) != -1) {
+            Observable<Integer> resultFromDB = mRepositories.get(0).remove(plantId);
+            resultFromDB.toBlocking().subscribe(success -> list.add(success));
+        }
+
+        Observable<Integer> result;
+
+        if(list.contains(-1)) {
+            result = Observable.just(-1);
+        } else {
+            result = Observable.from(list);
+        }
+
+        return result;
     }
 
     /**

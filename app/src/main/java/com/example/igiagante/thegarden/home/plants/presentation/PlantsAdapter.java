@@ -38,10 +38,25 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     private final LayoutInflater layoutInflater;
     private Context mContext;
 
+    /**
+     * Reference to MainActivity
+     */
     private WeakReference<OnEditPlant> onEditPlant;
+
+    private OnDeletePlant onDeletePlant;
+
+    /**
+     * Save the position from the last plant which was deleted. If the use case `delete plant` finishes
+     * successfully, then the plants list should be updated.
+     */
+    private int plantDeletedPosition;
 
     public interface OnEditPlant {
         void editPlant(PlantHolder plantHolder);
+    }
+
+    public interface OnDeletePlant {
+        void deletePlant(String plantId);
     }
 
     @Inject
@@ -81,7 +96,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         holder.mFloweringTime.setText(floweringTimeLabel + ": " + plantHolder.getFloweringTime());
 
         holder.mEditButton.setOnClickListener(v -> onEditPlant.get().editPlant(plantHolder));
-
+        holder.mDeleteButton.setOnClickListener(v -> deletePlant(holder.getAdapterPosition()));
     }
 
     @Override
@@ -94,8 +109,25 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         this.notifyDataSetChanged();
     }
 
+    private void deletePlant(int position) {
+        PlantHolder plantHolder = mPlants.get(position);
+        this.onDeletePlant.deletePlant(plantHolder.getPlantId());
+    }
+
+    /**
+     * Remove plant from the adapter's list
+     */
+    public void removePlant() {
+        this.mPlants.remove(plantDeletedPosition);
+        this.notifyItemRemoved(plantDeletedPosition);
+    }
+
     public void setOnEditPlant(OnEditPlant onEditPlant) {
         this.onEditPlant = new WeakReference<>(onEditPlant);
+    }
+
+    public void setOnDeletePlant(OnDeletePlant onDeletePlant) {
+        this.onDeletePlant = onDeletePlant;
     }
 
     class PlantViewHolder extends RecyclerView.ViewHolder {
@@ -123,6 +155,9 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
         @Bind(R.id.edit_plant_button)
         Button mEditButton;
+
+        @Bind(R.id.plant_delete_button_id)
+        Button mDeleteButton;
 
         public PlantViewHolder(View itemView) {
             super(itemView);

@@ -21,6 +21,10 @@ public class PlantHolder extends DataHolder<Plant> {
     public PlantHolder() {
     }
 
+    public String getPlantId() {
+        return getModel().getId();
+    }
+
     public String getName() {
         return getModel().getName();
     }

@@ -89,10 +89,10 @@ public class PlagueRealmRepository implements Repository<Plague> {
     }
 
     @Override
-    public Observable<Integer> remove(Plague plague) {
+    public Observable<Integer> remove(@NonNull String plagueId) {
         realm = Realm.getInstance(realmConfiguration);
 
-        PlagueRealm plagueRealm = realm.where(PlagueRealm.class).equalTo(PlantTable.ID, plague.getId()).findFirst();
+        PlagueRealm plagueRealm = realm.where(PlagueRealm.class).equalTo(PlantTable.ID, plagueId).findFirst();
         realm.executeTransaction(realmParam -> plagueRealm.deleteFromRealm());
 
         realm.close();

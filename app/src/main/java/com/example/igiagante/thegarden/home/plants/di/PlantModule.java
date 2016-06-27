@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.home.plants.di;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.home.plants.delete_plant.DeletePlantDataUseCase;
 import com.example.igiagante.thegarden.home.plants.usecase.GetPlantsUseCase;
 
 import javax.inject.Named;
@@ -22,5 +23,12 @@ public class PlantModule {
     @Named("plantList")
     UseCase provideGetPlantListUseCase(GetPlantsUseCase getPlantList) {
         return getPlantList;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("deletePlant")
+    UseCase provideDeletePlantDataUseCase(DeletePlantDataUseCase deletePlantDataUseCase) {
+        return deletePlantDataUseCase;
     }
 }

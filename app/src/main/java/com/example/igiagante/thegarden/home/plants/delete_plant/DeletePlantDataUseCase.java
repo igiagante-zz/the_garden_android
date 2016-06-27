@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.show_plant.usecase;
+package com.example.igiagante.thegarden.home.plants.delete_plant;
 
 import android.support.annotation.NonNull;
 
@@ -16,7 +16,7 @@ import rx.Observable;
  * @author Ignacio Giagante, on 13/6/16.
  */
 @PerActivity
-public class GetPlantDataUseCase extends UseCase<String> {
+public class DeletePlantDataUseCase extends UseCase<String> {
 
     /**
      * Repository Manager which delegates the actions to the correct repository
@@ -24,8 +24,8 @@ public class GetPlantDataUseCase extends UseCase<String> {
     private final PlantRepositoryManager plantRepositoryManager;
 
     @Inject
-    public GetPlantDataUseCase(@NonNull PlantRepositoryManager plantRepositoryManager,
-                               ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public DeletePlantDataUseCase(@NonNull PlantRepositoryManager plantRepositoryManager,
+                                  ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.plantRepositoryManager = plantRepositoryManager;
         // set repositories order
@@ -34,7 +34,7 @@ public class GetPlantDataUseCase extends UseCase<String> {
 
     @Override
     protected Observable buildUseCaseObservable(String plantId) {
-        return null;
+        return plantRepositoryManager.delete(plantId);
     }
 
     @Override

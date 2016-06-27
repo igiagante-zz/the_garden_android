@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
  * Fragment
  * @author Ignacio Giagante, on 5/5/16.
  */
-public class PlantListFragment extends BaseFragment implements PlantListView {
+public class PlantListFragment extends BaseFragment implements PlantListView, PlantsAdapter.OnDeletePlant {
 
     @Inject
     PlantListPresenter plantListPresenter;
@@ -70,6 +70,8 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
 
         plantsAdapter.setOnEditPlant((MainActivity)getActivity());
 
+        plantsAdapter.setOnDeletePlant(this);
+
         return fragmentView;
     }
 
@@ -96,6 +98,16 @@ public class PlantListFragment extends BaseFragment implements PlantListView {
     @Override
     public void renderPlantList(Collection<Plant> plants) {
         this.plantsAdapter.setPlants(createFlavorHolderList(plants));
+    }
+
+    @Override
+    public void notifyPlantWasDeleted() {
+        this.plantsAdapter.removePlant();
+    }
+
+    @Override
+    public void deletePlant(String plantId) {
+        this.plantListPresenter.deletePlant(plantId);
     }
 
     /**

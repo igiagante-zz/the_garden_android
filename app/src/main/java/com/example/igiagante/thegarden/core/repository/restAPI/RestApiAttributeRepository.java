@@ -45,7 +45,7 @@ public class RestApiAttributeRepository implements Repository<Attribute> {
     }
 
     @Override
-    public Observable<Integer> remove(Attribute item) {
+    public Observable<Integer> remove(String attributeId) {
         return null;
     }
 

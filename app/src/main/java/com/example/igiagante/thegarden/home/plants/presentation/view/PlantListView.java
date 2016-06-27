@@ -16,4 +16,9 @@ public interface PlantListView extends IView {
      * @param plants The collection of {@link Plant} that will be shown.
      */
     void renderPlantList(Collection<Plant> plants);
+
+    /**
+     * Notify that a plant was deleted from the garden
+     */
+    void notifyPlantWasDeleted();
 }

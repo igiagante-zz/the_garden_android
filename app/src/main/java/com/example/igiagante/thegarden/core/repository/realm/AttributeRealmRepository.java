@@ -101,10 +101,10 @@ public class AttributeRealmRepository implements Repository<Attribute> {
     }
 
     @Override
-    public Observable<Integer> remove(Attribute attribute) {
+    public Observable<Integer> remove(@NonNull String attributeId) {
         realm = Realm.getInstance(realmConfiguration);
 
-        AttributeRealm attributeRealm = realm.where(AttributeRealm.class).equalTo(PlantTable.ID, attribute.getId()).findFirst();
+        AttributeRealm attributeRealm = realm.where(AttributeRealm.class).equalTo(PlantTable.ID, attributeId).findFirst();
         realm.executeTransaction(realmParam -> attributeRealm.deleteFromRealm());
 
         realm.close();

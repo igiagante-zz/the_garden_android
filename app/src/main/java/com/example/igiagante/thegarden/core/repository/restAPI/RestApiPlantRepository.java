@@ -96,10 +96,10 @@ public class RestApiPlantRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Integer> remove(@NonNull final Plant plant) {
+    public Observable<Integer> remove(@NonNull String plantId) {
 
-        return api.deletePlant(plant.getId()).asObservable()
-                .map(response -> response.isSuccessful() ? 1 : 0);
+        return api.deletePlant(plantId).asObservable()
+                .map(response -> response.isSuccessful() ? 0 : -1);
     }
 
     @Override

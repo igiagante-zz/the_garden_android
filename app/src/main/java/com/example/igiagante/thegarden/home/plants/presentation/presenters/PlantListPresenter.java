@@ -26,15 +26,19 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
 
     private PlantListView plantListView;
 
-    private final UseCase getPlantListUserCase;
+    private final UseCase getPlantListUseCase;
+
+    private final UseCase deletePlantUseCase;
 
     @Inject
-    public PlantListPresenter(@Named("plantList") UseCase getPlantListUserCase) {
-        this.getPlantListUserCase = getPlantListUserCase;
+    public PlantListPresenter(@Named("plantList") UseCase getPlantListUseCase,
+                              @Named("deletePlant") UseCase deletePlantUseCase) {
+        this.getPlantListUseCase = getPlantListUseCase;
+        this.deletePlantUseCase = deletePlantUseCase;
     }
 
     public void destroy() {
-        this.getPlantListUserCase.unsubscribe();
+        this.getPlantListUseCase.unsubscribe();
         this.plantListView = null;
     }
 
@@ -42,14 +46,28 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
         this.plantListView = view;
     }
 
+    /**
+     * Retrieve all the plant which belong to one garden
+     */
     public void getPlantList() {
-        this.getPlantListUserCase.execute(null, new PlantListSubscriber());
+        this.getPlantListUseCase.execute(null, new PlantListSubscriber());
+    }
+
+    /**
+     * Delete a plant from one garden
+     * @param plantId Plant Id
+     */
+    public void deletePlant(String plantId) {
+        this.deletePlantUseCase.execute(plantId, new DeletePlantSubscriber());
     }
 
     private void showPlantsCollectionInView(Collection<Plant> plantsCollection) {
         this.plantListView.renderPlantList(plantsCollection);
     }
 
+    private void notifyPlantWasDeleted() {
+        getView().notifyPlantWasDeleted();
+    }
 
     private final class PlantListSubscriber extends DefaultSubscriber<List<Plant>> {
 
@@ -66,6 +84,24 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
 
         @Override public void onNext(List<Plant> plants) {
             PlantListPresenter.this.showPlantsCollectionInView(plants);
+        }
+    }
+
+    private final class DeletePlantSubscriber extends DefaultSubscriber<Integer> {
+
+        @Override public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override public void onError(Throwable e) {
+            //PlantListPresenter.this.hideViewLoading();
+            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+            //PlantListPresenter.this.showViewRetry();
+            Log.e(TAG, e.getMessage());
+        }
+
+        @Override public void onNext(Integer result) {
+            PlantListPresenter.this.notifyPlantWasDeleted();
         }
     }
 }

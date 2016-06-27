@@ -42,7 +42,7 @@ public class RestApiPlagueRepository implements Repository<Plague> {
     }
 
     @Override
-    public Observable<Integer> remove(Plague item) {
+    public Observable<Integer> remove(String plagueId) {
         return null;
     }
 

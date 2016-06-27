@@ -6,25 +6,19 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CarouselFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
-import com.example.igiagante.thegarden.show_plant.di.DaggerPlantDataComponent;
-import com.example.igiagante.thegarden.show_plant.di.PlantDataComponent;
 
 /**
  * @author Ignacio Giagante, on 13/6/16.
  */
-public class GetPlantDataActivity extends BaseActivity implements HasComponent<PlantDataComponent>,
-        CarouselFragment.OnDeleteImageInCarousel {
+public class GetPlantDataActivity extends BaseActivity {
 
     private static final String PLANT_ID_KEY = "PLANT_ID";
 
     private String plantId;
-
-    PlantDataComponent plantDataComponent;
 
     private PlantHolder mPlant;
 
@@ -34,7 +28,6 @@ public class GetPlantDataActivity extends BaseActivity implements HasComponent<P
         setContentView(R.layout.get_plant_data_activity);
 
         this.initializeActivity(savedInstanceState);
-        this.initializeInjector();
 
         Intent intent = getIntent();
 
@@ -48,21 +41,11 @@ public class GetPlantDataActivity extends BaseActivity implements HasComponent<P
         ((TextView) findViewById(R.id.get_plant_toolbar_title)).setText(mPlant.getName());
     }
 
-    @Override
-    public PlantDataComponent getComponent() {
-        return plantDataComponent;
-    }
-
     @Override protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
             outState.putString(PLANT_ID_KEY, this.plantId);
         }
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void deleteImageInCarousel(int position) {
-
     }
 
     /**
@@ -75,13 +58,6 @@ public class GetPlantDataActivity extends BaseActivity implements HasComponent<P
         } else {
             this.plantId = savedInstanceState.getString(PLANT_ID_KEY);
         }
-    }
-
-    private void initializeInjector() {
-        this.plantDataComponent = DaggerPlantDataComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .activityModule(getActivityModule())
-                .build();
     }
 
     public PlantHolder getPlant() {

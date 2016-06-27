@@ -101,11 +101,11 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Integer> remove(@NonNull final Plant plant) {
+    public Observable<Integer> remove(@NonNull String plantId) {
 
         realm = Realm.getInstance(realmConfiguration);
 
-        PlantRealm plantRealm = realm.where(PlantRealm.class).equalTo(PlantTable.ID, plant.getId()).findFirst();
+        PlantRealm plantRealm = realm.where(PlantRealm.class).equalTo(PlantTable.ID, plantId).findFirst();
         realm.executeTransaction(realmParam -> plantRealm.deleteFromRealm());
 
         realm.close();

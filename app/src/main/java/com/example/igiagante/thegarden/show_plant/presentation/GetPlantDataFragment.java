@@ -1,6 +1,5 @@
 package com.example.igiagante.thegarden.show_plant.presentation;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -18,20 +17,15 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.ui.CirclePageIndicator;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.CarouselAdapter;
-import com.example.igiagante.thegarden.creation.plants.presentation.adapters.ViewPagerAdapter;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.show_plant.adapters.PlantFlavorAdapter;
 import com.example.igiagante.thegarden.show_plant.adapters.PlantPlagueAdapter;
-import com.example.igiagante.thegarden.show_plant.di.PlantDataComponent;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,10 +33,7 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 13/6/16.
  */
-public class GetPlantDataFragment extends BaseFragment implements GetPlantDataView {
-
-    @Inject
-    GetPlantDataPresenter getPlantDataPresenter;
+public class GetPlantDataFragment extends BaseFragment {
 
     @Bind(R.id.plant_data_plagues_recycle_view_id)
     RecyclerView mPlaguesRecycleView;
@@ -64,11 +55,6 @@ public class GetPlantDataFragment extends BaseFragment implements GetPlantDataVi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        /**
-         * Get component in order to inject the presenter
-         */
-        this.getComponent(PlantDataComponent.class).inject(this);
 
         final View fragmentView = inflater.inflate(R.layout.get_plant_data_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
@@ -128,21 +114,9 @@ public class GetPlantDataFragment extends BaseFragment implements GetPlantDataVi
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        this.getPlantDataPresenter.setView(this);
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        this.getPlantDataPresenter.destroy();
     }
 
     private void loadPlantData() {
@@ -166,11 +140,6 @@ public class GetPlantDataFragment extends BaseFragment implements GetPlantDataVi
         }
     }
 
-    @Override
-    public void loadPlantData(Plant plant) {
-
-    }
-
     /**
      * Get all the images path from the parcelable image list.
      *
@@ -186,16 +155,6 @@ public class GetPlantDataFragment extends BaseFragment implements GetPlantDataVi
         }
 
         return paths;
-    }
-
-    @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
-    public Context context() {
-        return getActivity().getApplicationContext();
     }
 
     class PlantViewPagerAdapter extends FragmentPagerAdapter {

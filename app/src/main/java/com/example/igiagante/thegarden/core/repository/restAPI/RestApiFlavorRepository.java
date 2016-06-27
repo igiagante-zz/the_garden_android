@@ -46,7 +46,7 @@ public class RestApiFlavorRepository implements Repository<Flavor> {
     }
 
     @Override
-    public Observable<Integer> remove(Flavor item) {
+    public Observable<Integer> remove(String flavorId) {
         return null;
     }
 

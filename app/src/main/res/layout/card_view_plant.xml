@@ -18,16 +18,33 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            xmlns:fresco="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/main_image_plant"
-            android:layout_width="@dimen/card_plant_image_size"
-            android:layout_height="@dimen/card_plant_image_size"
-            android:layout_gravity="center"
-            android:scaleType="centerCrop"
-            android:background="@android:color/holo_orange_light"
-            fresco:placeholderImage="@drawable/no_image"
-            android:layout_weight="0.5"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/main_image_plant"
+                android:layout_width="@dimen/card_plant_image_size"
+                android:layout_height="@dimen/card_plant_image_size"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:background="@android:color/holo_orange_light"
+                fresco:placeholderImage="@drawable/no_image"
+                />
+
+            <Button
+                android:id="@+id/plant_delete_button_id"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/delete_image"
+                />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -49,7 +66,6 @@
                 android:layout_width="@dimen/edit_plant_button_size"
                 android:layout_height="@dimen/edit_plant_button_size"
                 android:layout_alignParentEnd="true"
-                android:gravity="top|end"
                 android:layout_marginTop="@dimen/edit_plant_button_margin"
                 android:layout_marginEnd="@dimen/edit_plant_button_margin"
                 android:background="@drawable/ic_edit_button" />
