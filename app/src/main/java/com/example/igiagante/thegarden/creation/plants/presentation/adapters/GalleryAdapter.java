@@ -124,11 +124,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param imagesCollection images collections
      */
     private void notifyImagesAddedToCollection(Collection<ViewTypeImage> imagesCollection) {
-
         if(!imagesCollection.isEmpty()) {
             this.items.addAll(0, imagesCollection);
             this.notifyItemRangeInserted(0, imagesCollection.size());
-            //update carousel images
         }
     }
 

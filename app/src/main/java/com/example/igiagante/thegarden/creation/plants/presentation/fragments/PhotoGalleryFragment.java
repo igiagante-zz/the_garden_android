@@ -54,14 +54,19 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     private GalleryAdapter mAdapter;
 
     /**
-     * The list of images which should share between the gallery and teh carousel
+     * List of images which should share between the gallery and teh carousel
      */
     private List<Image> mImages = new ArrayList<>();
 
     /**
-     * The list of files' paths from files which were added using the android's gallery
+     * List of files' paths from files which were added using the android's gallery
      */
     private List<String> imagesFilesPaths = new ArrayList<>();
+
+    /**
+     * List of resources ids which identify each image
+     */
+    private List<String> resourcesIds = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +76,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
             Plant plant = savedInstanceState.getParcelable(CreatePlantActivity.PLANT_KEY);
             if(plant != null) {
                 mImages = plant.getImages();
+                loadResourcesIds();
             }
         }
     }
@@ -88,6 +94,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         // ask to the activity if it has a plant for edition
         if(mPlant != null) {
             mImages = mPlant.getImages();
+            loadResourcesIds();
         }
 
         mGallery.setHasFixedSize(true);
@@ -118,6 +125,15 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     }
 
     /**
+     * Load the resources ids from each image in order to know which image was updated or not modified.
+     */
+    private void loadResourcesIds() {
+        for(Image image : mImages) {
+            resourcesIds.add(image.getId());
+        }
+    }
+
+    /**
      * This method should implemented by the button Add Image
      */
     private void pickImages() {
@@ -130,6 +146,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      * @param positionSelected represent the image's position inside the image's list
      */
     private void deleteImage(int positionSelected) {
+        Image image = mImages.get(positionSelected);
+        resourcesIds.remove(image.getId());
         mAdapter.deleteImage(positionSelected);
         this.mImages.remove(positionSelected);
     }
@@ -215,6 +233,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     private void updateImagesFromBuilder(Collection<Image> images, boolean carousel) {
         Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
         builder.addImages(images, carousel);
+        builder.addResourcesIds(resourcesIds);
     }
 
     private ArrayList<Image> getImagesFromFilesPaths(List<String> paths) {

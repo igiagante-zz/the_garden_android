@@ -51,6 +51,10 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
                         : mRepositories.get(1).add(plant));
     }
 
+    public Observable<Plant> update(@NonNull Plant plant) {
+        return mRepositories.get(1).update(plant);
+    }
+
     public Observable delete(@NonNull String plantId) {
         // delete plant from api
         Observable<Integer> resultFromApi = mRepositories.get(1).remove(plantId);

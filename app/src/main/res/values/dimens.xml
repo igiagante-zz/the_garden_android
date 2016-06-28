@@ -105,6 +105,12 @@
     <dimen name="description_button_width">100dp</dimen>
     <dimen name="description_button_height">45dp</dimen>
 
+    <!-- EDIT PLANT -->
+    <dimen name="edit_plant_button_width">20dp</dimen>
+    <dimen name="edit_plant_button_height">35dp</dimen>
+    <dimen name="edit_plant_button_margin_top">30dp</dimen>
+    <dimen name="edit_plant_button_margin_end">10dp</dimen>
+
     <!-- SHOW PLANT -->
     <dimen name="plague_view_ph_image_size">50dp</dimen>
     <dimen name="plague_view_text_size">22sp</dimen>

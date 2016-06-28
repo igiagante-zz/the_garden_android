@@ -35,6 +35,7 @@ public class Plant implements Parcelable {
         this.flavors = builder.flavors;
         this.attributes = builder.attributes;
         this.plagues = builder.plagues;
+        this.resourcesIds = builder.resourcesIds;
     }
 
     public Plant(Plant plant) {
@@ -53,6 +54,7 @@ public class Plant implements Parcelable {
         this.flavors = plant.flavors;
         this.attributes = plant.attributes;
         this.plagues = plant.plagues;
+        this.resourcesIds = plant.resourcesIds;
     }
 
     @SerializedName("id")
@@ -283,35 +285,6 @@ public class Plant implements Parcelable {
         in.readList(resourcesIds, this.getClass().getClassLoader());
     }
 
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("***** Plant Details *****\n");
-        stringBuilder.append("id = " + this.getId() + "\n");
-        stringBuilder.append("name = " + this.getName() + "\n");
-        stringBuilder.append("size = " + this.getSize() + "\n");
-        stringBuilder.append("phSoil = " + this.getPhSoil() + "\n");
-        stringBuilder.append("ecSoil = " + this.getEcSoil() + "\n");
-        stringBuilder.append("gardenId = " + this.getGardenId() + "\n");
-        stringBuilder.append("harvest = " + this.getHarvest() + "\n");
-
-        if (this.getImages() != null) {
-            stringBuilder.append("\n");
-            stringBuilder.append("************** Number of Images: " + this.getImages().size() + "  *****************");
-            stringBuilder.append("\n");
-
-            for (Image image : this.getImages()) {
-                stringBuilder.append("\n");
-                stringBuilder.append("******** Image  Details **********");
-                stringBuilder.append("\n");
-                stringBuilder.append(image.toString());
-            }
-        }
-
-        return stringBuilder.toString();
-    }
-
     /**
      * This class represent the object which will be contain all the data entered in each wizards' step
      */
@@ -333,6 +306,11 @@ public class Plant implements Parcelable {
          * Represent the images which belong to the plant
          */
         private ArrayList<Image> mImages;
+
+        /**
+         * Represent the resources ids which identify each image
+         */
+        private ArrayList<String> resourcesIds;
 
         /**
          * Represent the flavors with which the plant could be identify
@@ -449,11 +427,11 @@ public class Plant implements Parcelable {
         /**
          * Add images to the builder
          * @param images list of images
-         * @param carousel indicate if the images come from carousel
+         * @param carousel indicate if the images come from the carousel
          * @return builder
          */
         public PlantBuilder addImages(Collection<Image> images, boolean carousel) {
-
+            // TODO - Refactor
             ArrayList<Image> imagesList = (ArrayList<Image>) images;
 
             if(carousel || images.isEmpty()) {
@@ -461,6 +439,11 @@ public class Plant implements Parcelable {
             } else {
                 this.mImages.addAll(imagesList);
             }
+            return this;
+        }
+
+        public PlantBuilder addResourcesIds(List<String> resourcesIds) {
+            this.resourcesIds = (ArrayList<String>)resourcesIds;
             return this;
         }
 

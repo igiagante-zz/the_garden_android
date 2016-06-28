@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.creation.plants.usecase;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
@@ -38,7 +39,11 @@ public class SavePlantUseCase extends UseCase<Plant> {
     @Override
     protected Observable buildUseCaseObservable(Plant plant) {
         //deleteImagesFiles(plant);
-        return plantRepositoryManager.add(plant);
+        if(TextUtils.isEmpty(plant.getId())) {
+            return plantRepositoryManager.add(plant);
+        } else {
+            return plantRepositoryManager.update(plant);
+        }
     }
 
     @Override

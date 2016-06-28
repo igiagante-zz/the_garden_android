@@ -133,7 +133,10 @@ public class RestApiPlantRepository implements Repository<Plant> {
         ArrayList<File> files = new ArrayList<>();
 
         for (Image image : plant.getImages()) {
-            files.add(image.getFile());
+            File file = image.getFile();
+            if(file != null) {
+                files.add(file);
+            }
         }
 
         return addImagesToRequestBody(builder, files);

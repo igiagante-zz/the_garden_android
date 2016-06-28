@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
@@ -27,6 +30,7 @@ import java.lang.ref.WeakReference;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -77,14 +81,23 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      */
     private ViewPager mPager;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Bind(R.id.edit_plant_button_back)
+    Button mButtonBack;
+
+    @Bind(R.id.edit_plant_button_save)
+    Button mButtonSave;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.create_plant_activity);
+
         this.initializeInjector();
+        ButterKnife.bind(this);
 
         // set view for this presenter
         this.mSavePlantPresenter.setView(new WeakReference<>(this));
-
-        setContentView(R.layout.create_plant_activity);
 
         // check if the activity was started in order to edit a plant
         mPlant = getIntent().getParcelableExtra(PLANT_KEY);
@@ -102,6 +115,9 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setToolbarTitle(mPager.getAdapter().getPageTitle(0).toString());
+
+        mButtonBack.setOnClickListener(v -> finish());
+        mButtonSave.setOnClickListener(v -> mSavePlantPresenter.savePlant(plantBuilder.build()));
     }
 
     private void initializeInjector() {
