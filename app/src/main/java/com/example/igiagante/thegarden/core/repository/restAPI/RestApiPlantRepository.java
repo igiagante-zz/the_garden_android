@@ -99,15 +99,7 @@ public class RestApiPlantRepository implements Repository<Plant> {
     public Observable<Integer> remove(@NonNull String plantId) {
 
         return api.deletePlant(plantId).asObservable()
-                .map(response -> {
-                    if (response.isSuccessful()) {
-                        Log.d("Delete", response.body().toString());
-                    }
-                    else {
-                        Log.d("Delete", response.code() + "");
-                    }
-                return 1;
-                });
+                .map(response -> response.isSuccessful() ? 1 : -1);
     }
 
     @Override

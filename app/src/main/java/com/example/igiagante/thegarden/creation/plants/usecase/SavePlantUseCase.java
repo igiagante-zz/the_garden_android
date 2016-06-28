@@ -37,7 +37,7 @@ public class SavePlantUseCase extends UseCase<Plant> {
 
     @Override
     protected Observable buildUseCaseObservable(Plant plant) {
-        deleteImagesFiles(plant);
+        //deleteImagesFiles(plant);
         return plantRepositoryManager.add(plant);
     }
 

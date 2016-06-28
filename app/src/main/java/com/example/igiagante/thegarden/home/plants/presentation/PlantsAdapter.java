@@ -110,6 +110,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     }
 
     private void deletePlant(int position) {
+        this.plantDeletedPosition = position;
         PlantHolder plantHolder = mPlants.get(position);
         this.onDeletePlant.deletePlant(plantHolder.getPlantId());
     }
@@ -118,8 +119,10 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
      * Remove plant from the adapter's list
      */
     public void removePlant() {
-        this.mPlants.remove(plantDeletedPosition);
-        this.notifyItemRemoved(plantDeletedPosition);
+        if(!mPlants.isEmpty()) {
+            this.mPlants.remove(plantDeletedPosition);
+            this.notifyItemRemoved(plantDeletedPosition);
+        }
     }
 
     public void setOnEditPlant(OnEditPlant onEditPlant) {

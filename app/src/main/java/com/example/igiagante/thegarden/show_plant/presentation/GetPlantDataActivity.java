@@ -14,7 +14,8 @@ import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 /**
  * @author Ignacio Giagante, on 13/6/16.
  */
-public class GetPlantDataActivity extends BaseActivity {
+public class GetPlantDataActivity extends BaseActivity implements
+        CarouselFragment.OnDeleteImageInCarousel {
 
     private static final String PLANT_ID_KEY = "PLANT_ID";
 
@@ -58,6 +59,11 @@ public class GetPlantDataActivity extends BaseActivity {
         } else {
             this.plantId = savedInstanceState.getString(PLANT_ID_KEY);
         }
+    }
+
+    @Override
+    public void deleteImageInCarousel(int position) {
+
     }
 
     public PlantHolder getPlant() {
