@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.views;
 
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 
 /**
@@ -12,5 +13,11 @@ public interface SavePlantView extends IView {
      * @param plantId Plant Id
      */
     void notifyIfPlantWasPersisted(String plantId);
+
+    /**
+     * Notify if the plant was updated successfully or not
+     * @param plant Plant object
+     */
+    void notifyIfPlantWasUpdated(Plant plant);
 
 }

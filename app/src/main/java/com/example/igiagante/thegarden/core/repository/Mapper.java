@@ -6,4 +6,5 @@ package com.example.igiagante.thegarden.core.repository;
 public interface Mapper<From, To> {
     To map(From from);
     To copy(From from, To to);
+    To copy(From from, To to, boolean update);
 }

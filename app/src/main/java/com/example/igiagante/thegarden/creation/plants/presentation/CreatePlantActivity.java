@@ -101,12 +101,14 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         // check if the activity was started in order to edit a plant
         mPlant = getIntent().getParcelableExtra(PLANT_KEY);
-
-        if(savedInstanceState != null){
-            currentPage = savedInstanceState.getInt(CURRENT_PAGE_KEY);
+        plantBuilder = new Plant.PlantBuilder();
+        if (mPlant != null) {
+            plantBuilder.addPlantId(mPlant.getId());
         }
 
-        plantBuilder = new Plant.PlantBuilder();
+        if (savedInstanceState != null) {
+            currentPage = savedInstanceState.getInt(CURRENT_PAGE_KEY);
+        }
 
         mPager = (ViewPager) findViewById(R.id.viewpager_create_plant);
         setupViewPager(mPager);
@@ -130,6 +132,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     /**
      * Setup view pager with its adapter and buttons
+     *
      * @param viewPager view pager
      */
     private void setupViewPager(ViewPager viewPager) {
@@ -167,11 +170,11 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public void onPageSelected(int position) {
         setToolbarTitle(mPager.getAdapter().getPageTitle(position).toString());
-        if(position < currentPage) {
+        if (position < currentPage) {
             moveToPreviousPage();
         }
 
-        if(position > currentPage) {
+        if (position > currentPage) {
             moveToNextPage();
         }
     }
@@ -185,7 +188,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      * Notify to the active fragment about the movement to the previous page
      */
     private void moveToPreviousPage() {
-        if(currentPage > 0) {
+        if (currentPage > 0) {
             currentPage -= 1;
             mPager.setCurrentItem(currentPage);
         }
@@ -195,7 +198,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      * Notify to the active fragment about the movement to the next page
      */
     private void moveToNextPage() {
-        if(currentPage < NUMBER_OF_PAGES) {
+        if (currentPage < NUMBER_OF_PAGES) {
             currentPage += 1;
             mPager.setCurrentItem(currentPage);
         }
@@ -213,11 +216,17 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     @Override
+    public void notifyIfPlantWasUpdated(Plant plant) {
+
+    }
+
+    @Override
     public void showError(String message) {
 
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.mSavePlantPresenter.destroy();
         ButterKnife.unbind(this);
@@ -244,6 +253,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     /**
      * Get Plant Builder
+     *
      * @return plantBuilder
      */
     public Plant.PlantBuilder getPlantBuilder() {

@@ -25,7 +25,7 @@ public class ImageToImageRealm implements Mapper<Image, ImageRealm> {
 
         ImageRealm imageRealm = realm.createObject(ImageRealm.class);
         imageRealm.setId(image.getId());
-        copy(image, imageRealm);
+        copy(image, imageRealm, false);
 
         return imageRealm;
     }
@@ -40,5 +40,10 @@ public class ImageToImageRealm implements Mapper<Image, ImageRealm> {
         imageRealm.setMain(image.isMain());
 
         return imageRealm;
+    }
+
+    @Override
+    public ImageRealm copy(Image image, ImageRealm imageRealm, boolean update) {
+        return null;
     }
 }

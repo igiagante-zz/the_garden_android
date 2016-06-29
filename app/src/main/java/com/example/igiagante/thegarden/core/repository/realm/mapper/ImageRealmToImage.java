@@ -34,4 +34,9 @@ public class ImageRealmToImage implements Mapper<ImageRealm, Image> {
 
         return image;
     }
+
+    @Override
+    public Image copy(ImageRealm imageRealm, Image image, boolean update) {
+        return null;
+    }
 }

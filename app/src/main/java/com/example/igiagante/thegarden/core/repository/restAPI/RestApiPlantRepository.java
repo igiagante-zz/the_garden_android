@@ -29,6 +29,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 19/4/16.
@@ -92,12 +93,24 @@ public class RestApiPlantRepository implements Repository<Plant> {
     @Override
     public Observable<Plant> update(@NonNull final Plant plant) {
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
-        return api.updatePlant(plant.getId(), builder.build()).asObservable();
+        Observable<Plant> apiResult = api.updatePlant(plant.getId(), builder.build()).asObservable();
+
+        // get Data From api
+        List<Plant> listOne = new ArrayList<>();
+        apiResult.subscribeOn(Schedulers.io()).toBlocking().subscribe(plant2 -> listOne.add(plant2));
+
+        // persist the plant into database
+        PlantRealmRepository dataBase = new PlantRealmRepository(mContext);
+        Observable<Plant> dbResult = dataBase.update(listOne.get(0));
+
+        List<Plant> list = new ArrayList<>();
+        dbResult.toBlocking().subscribe(plantId -> list.add(plantId));
+
+        return Observable.just(list.get(0));
     }
 
     @Override
     public Observable<Integer> remove(@NonNull String plantId) {
-
         return api.deletePlant(plantId).asObservable()
                 .map(response -> response.isSuccessful() ? 1 : -1);
     }

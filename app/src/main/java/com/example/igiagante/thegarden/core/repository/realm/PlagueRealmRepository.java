@@ -14,6 +14,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.PlagueToPlag
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.specification.AttributeByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.PlagueByIdSpecification;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,7 +52,7 @@ public class PlagueRealmRepository implements Repository<Plague> {
 
     @Override
     public Observable<Plague> getById(String id) {
-        return query(new AttributeByIdSpecification(id)).flatMap(Observable::from);
+        return query(new PlagueByIdSpecification(id)).flatMap(Observable::from);
     }
 
     @Override

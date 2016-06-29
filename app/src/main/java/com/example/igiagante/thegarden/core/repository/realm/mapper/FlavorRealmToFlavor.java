@@ -28,4 +28,9 @@ public class FlavorRealmToFlavor implements Mapper<FlavorRealm, Flavor> {
 
         return flavor;
     }
+
+    @Override
+    public Flavor copy(FlavorRealm flavorRealm, Flavor flavor, boolean update) {
+        return null;
+    }
 }

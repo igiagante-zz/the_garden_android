@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.realm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
@@ -13,6 +14,8 @@ import com.example.igiagante.thegarden.core.repository.realm.specification.Plant
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantRealmToPlant;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantToPlantRealm;
+
+import junit.framework.Assert;
 
 import java.util.Collection;
 import java.util.List;
@@ -93,7 +96,7 @@ public class PlantRealmRepository implements Repository<Plant> {
         PlantRealm plantRealm = realm.where(PlantRealm.class).equalTo(PlantTable.ID, plant.getId()).findFirst();
 
         realm.executeTransaction(realmParam -> {
-            realmParam.copyToRealmOrUpdate(toPlantRealm.copy(plant, plantRealm));
+            toPlantRealm.copy(plant, plantRealm, true);
         });
         realm.close();
 

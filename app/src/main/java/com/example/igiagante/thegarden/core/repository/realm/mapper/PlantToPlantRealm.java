@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.core.repository.realm.mapper;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
@@ -45,11 +46,32 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         plantRealm.setId(plant.getId());
 
         // copy values which should be updated
-        copy(plant, plantRealm);
+        copy(plant, plantRealm, false);
+
+        return plantRealm;
+    }
+
+    @Override
+    public PlantRealm copy(Plant plant, PlantRealm plantRealm) {
+        return null;
+    }
+
+    @Override
+    public PlantRealm copy(@NonNull Plant plant, @NonNull PlantRealm plantRealm, boolean update) {
+
+        plantRealm.setName(plant.getName());
+        plantRealm.setGardenId(plant.getGardenId());
+        plantRealm.setSeedDate(plant.getSeedDate());
+        plantRealm.setFloweringTime(plant.getFloweringTime());
+        plantRealm.setGenotype(plant.getGenotype());
+        plantRealm.setSize(plant.getSize());
+        plantRealm.setPhSoil(plant.getPhSoil());
+        plantRealm.setEcSoil(plant.getEcSoil());
+        plantRealm.setHarvest(plant.getHarvest());
+        plantRealm.setDescription(plant.getDescription());
 
         // images realm list
         RealmList<ImageRealm> imagesRealm = new RealmList<>();
-
 
         // flavors realm list
         RealmList<FlavorRealm> flavorsRealm = new RealmList<>();
@@ -63,9 +85,12 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         // add images
         if(plant.getImages() != null) {
             for ( Image image : plant.getImages() ){
-                // create image realm object and set id
-                ImageRealm imageRealm = realm.createObject(ImageRealm.class);
-                imageRealm.setId(image.getId());
+                ImageRealm imageRealm = realm.where(ImageRealm.class).equalTo(PlantTable.Image.ID, image.getId()).findFirst();
+                if(imageRealm == null) {
+                    // create image realm object and set id
+                    imageRealm = realm.createObject(ImageRealm.class);
+                    imageRealm.setId(image.getId());
+                }
                 // copy values which should be updated
                 imagesRealm.add(toImageRealm.copy(image, imageRealm));
             }
@@ -76,8 +101,12 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         // add flavors
         if(plant.getFlavors() != null) {
             for ( Flavor flavor : plant.getFlavors()) {
-                // create flavor realm object and set id
-                FlavorRealm flavorRealm = realm.createObject(FlavorRealm.class);
+                FlavorRealm flavorRealm = realm.where(FlavorRealm.class).equalTo(PlantTable.Flavor.ID, flavor.getId()).findFirst();
+                if(flavorRealm == null) {
+                    // create flavor realm object and set id
+                    flavorRealm = realm.createObject(FlavorRealm.class);
+                    flavorRealm.setId(flavor.getId());
+                }
                 // copy values which should be updated
                 flavorsRealm.add(toFlavorRealm.copy(flavor, flavorRealm));
             }
@@ -104,23 +133,6 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         }
 
         plantRealm.setPlagues(plaguesRealm);
-
-        return plantRealm;
-    }
-
-    @Override
-    public PlantRealm copy(@NonNull Plant plant, @NonNull PlantRealm plantRealm) {
-
-        plantRealm.setName(plant.getName());
-        plantRealm.setGardenId(plant.getGardenId());
-        plantRealm.setSeedDate(plant.getSeedDate());
-        plantRealm.setFloweringTime(plant.getFloweringTime());
-        plantRealm.setGenotype(plant.getGenotype());
-        plantRealm.setSize(plant.getSize());
-        plantRealm.setPhSoil(plant.getPhSoil());
-        plantRealm.setEcSoil(plant.getEcSoil());
-        plantRealm.setHarvest(plant.getHarvest());
-        plantRealm.setDescription(plant.getDescription());
 
         return plantRealm;
     }
