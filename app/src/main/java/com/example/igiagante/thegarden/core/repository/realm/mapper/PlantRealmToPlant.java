@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.core.repository.realm.mapper;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
@@ -8,6 +9,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributePerPlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.FlavorRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
@@ -16,6 +18,9 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRea
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * @author Ignacio Giagante, on 26/4/16.
@@ -27,11 +32,22 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
     private final AttributeRealmToAttribute toAttribute;
     private final PlagueRealmToPlague toPlague;
 
-    public PlantRealmToPlant(){
+    // TODO - Refactor. This should not be here, because this object it's a Mapper.
+    private Realm realm;
+    private final RealmConfiguration realmConfiguration;
+
+    public PlantRealmToPlant(@NonNull Context context){
         this.toImage = new ImageRealmToImage();
         this.toFlavor = new FlavorRealmToFlavor();
         this.toAttribute = new AttributeRealmToAttribute();
         this.toPlague = new PlagueRealmToPlague();
+
+        this.realmConfiguration = new RealmConfiguration.Builder(context)
+                .name("garden.realm")
+                .deleteRealmIfMigrationNeeded()
+                .build();
+
+        this.realm = Realm.getInstance(realmConfiguration);
     }
 
     @Override
@@ -67,7 +83,18 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
 
         // add attributes
         if(plantRealm.getAttributes() != null) {
-            for (AttributeRealm attributeRealm : plantRealm.getAttributes()) {
+            for (AttributePerPlantRealm attributePerPlantRealm : plantRealm.getAttributes()) {
+
+                // get attribute using attributeId from AttributePerPlantRealm
+                AttributeRealm attributeRealm = realm.where(AttributeRealm.class)
+                        .equalTo(PlantTable.Attribute.ID,
+                                attributePerPlantRealm.getAttributeId()).findFirst();
+                // TODO - It should not execute a transaction inside a Mapper
+                realm.executeTransaction(realmParam ->
+                        // set the percentage to the attribute from AttributePerPlantRealm
+                        attributeRealm.setPercentage(attributePerPlantRealm.getPercentage()));
+                realm.close();
+
                 attributes.add(toAttribute.map(attributeRealm));
             }
         }

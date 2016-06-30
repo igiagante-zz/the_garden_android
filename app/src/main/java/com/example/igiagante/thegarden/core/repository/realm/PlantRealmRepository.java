@@ -45,7 +45,7 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         this.realm = Realm.getInstance(realmConfiguration);
 
-        this.toPlant = new PlantRealmToPlant();
+        this.toPlant = new PlantRealmToPlant(context);
         this.toPlantRealm = new PlantToPlantRealm(realm);
     }
 

@@ -43,6 +43,10 @@ public interface PlantTable {
         String ID = "id";
         String NAME = "name";
         String TYPE = "type";
+    }
+
+    interface AttributePerPlant {
+        String ATTRIBUTE_ID = "attributeId";
         String PERCENTAGE = "percentage";
     }
 

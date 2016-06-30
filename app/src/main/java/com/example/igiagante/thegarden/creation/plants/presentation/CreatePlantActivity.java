@@ -217,7 +217,8 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void notifyIfPlantWasUpdated(Plant plant) {
-
+        FlowStepExecutor flowStepExecutor = new FlowStepExecutor();
+        flowStepExecutor.goToNextStep(null, MainActivity.class, this);
     }
 
     @Override

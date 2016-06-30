@@ -14,7 +14,7 @@ public class Image implements Parcelable {
 
     public Image() {}
 
-    @SerializedName("_id")
+    @SerializedName("id")
     private String id;
 
     @SerializedName("name")

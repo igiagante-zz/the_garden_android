@@ -31,7 +31,6 @@ public class AttributeToAttributeRealm implements Mapper<Attribute, AttributeRea
 
         attributeRealm.setName(attribute.getName());
         attributeRealm.setType(attribute.getType());
-        attributeRealm.setPercentage(attribute.getPercentage());
 
         return attributeRealm;
     }

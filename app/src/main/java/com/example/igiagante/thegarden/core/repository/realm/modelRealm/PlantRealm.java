@@ -41,7 +41,7 @@ public class PlantRealm extends RealmObject {
 
     private RealmList<FlavorRealm> flavors;
 
-    private RealmList<AttributeRealm> attributes;
+    private RealmList<AttributePerPlantRealm> attributes;
 
     private RealmList<PlagueRealm> plagues;
 
@@ -149,11 +149,11 @@ public class PlantRealm extends RealmObject {
         this.flavors = flavors;
     }
 
-    public RealmList<AttributeRealm> getAttributes() {
+    public RealmList<AttributePerPlantRealm> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(RealmList<AttributeRealm> attributes) {
+    public void setAttributes(RealmList<AttributePerPlantRealm> attributes) {
         this.attributes = attributes;
     }
 

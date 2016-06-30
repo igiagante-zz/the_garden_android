@@ -125,7 +125,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     }
 
     /**
-     * Load the resources ids from each image in order to know which image was updated or not modified.
+     * Load the resources ids from each image in order to know which image was deleted, added or not.
      */
     private void loadResourcesIds() {
         for(Image image : mImages) {

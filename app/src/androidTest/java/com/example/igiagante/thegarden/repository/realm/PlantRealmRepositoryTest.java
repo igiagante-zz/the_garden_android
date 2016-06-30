@@ -56,7 +56,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         // verify
         attributeRealmRepository.getById("1").subscribe(
-                item -> Assert.assertEquals(item.getName(), "euphoric")
+                item -> Assert.assertEquals(item.getName(), "Euphoric")
         );
 
         // verify
@@ -162,6 +162,8 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
             Assert.assertEquals(plantFromDB.getImages().size(), 2);
             Assert.assertEquals(plantFromDB.getFlavors().size(), 3);
             Assert.assertEquals(plantFromDB.getAttributes().size(), 3);
+            Assert.assertEquals(plantFromDB.getAttributes().get(0).getPercentage(), 30);
+            Assert.assertEquals(plantFromDB.getAttributes().get(1).getPercentage(), 50);
             Assert.assertEquals(plantFromDB.getPlagues().size(), 4);
         });
     }
@@ -186,6 +188,8 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
             Assert.assertEquals(plantFromDB.getFlavors().size(), 2);
             Assert.assertEquals(plantFromDB.getFlavors().get(1).getName(), "soil");
             Assert.assertEquals(plantFromDB.getAttributes().size(), 2);
+            Assert.assertEquals(plantFromDB.getAttributes().get(0).getPercentage(), 50);
+            Assert.assertEquals(plantFromDB.getAttributes().get(1).getPercentage(), 60);
             Assert.assertEquals(plantFromDB.getPlagues().size(), 3);
         });
     }
@@ -365,8 +369,8 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         // UPDATE ATTRIBUTES
         ArrayList<Attribute> attributes = new ArrayList<>();
 
-        Attribute attributeOne = createAttribute("1", "Euphoric", "effects");
-        Attribute attributeThree = createAttribute("3", "Headache", "symptoms");
+        Attribute attributeOne = createAttribute("1", "Euphoric", "effects", 50);
+        Attribute attributeThree = createAttribute("3", "Symptoms", "headache", 60);
 
         attributes.add(attributeOne);
         attributes.add(attributeThree);
@@ -392,15 +396,14 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
     /**
      * Create a list of attributes
      *
-     * @return attributes
      */
     private ArrayList<Attribute> createAttributes() {
 
         ArrayList<Attribute> attributes = new ArrayList<>();
 
-        Attribute attributeOne = createAttribute("1", "euphoric", "effects");
-        Attribute attributeTwo = createAttribute("2", "Insomnia", "medicinal");
-        Attribute attributeThree = createAttribute("3", "symptoms", "headache");
+        Attribute attributeOne = createAttribute("1", "Euphoric", "effects", 30);
+        Attribute attributeTwo = createAttribute("2", "Insomnia", "medicinal", 50);
+        Attribute attributeThree = createAttribute("3", "Symptoms", "headache", 70);
 
         attributes.add(attributeOne);
         attributes.add(attributeTwo);
@@ -480,11 +483,12 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         return flavor;
     }
 
-    private Attribute createAttribute(String id, String name, String type) {
+    private Attribute createAttribute(String id, String name, String type, int percentage) {
         Attribute attribute = new Attribute();
         attribute.setId(id);
         attribute.setName(name);
         attribute.setType(type);
+        attribute.setPercentage(percentage);
         return attribute;
     }
 
