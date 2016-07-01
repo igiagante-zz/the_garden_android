@@ -150,6 +150,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         resourcesIds.remove(image.getId());
         mAdapter.deleteImage(positionSelected);
         this.mImages.remove(positionSelected);
+        // double check in case some image was deleted at the carousel. So, the builder needs to be updated.
+        updateImagesFromBuilder(mImages, true);
     }
 
     @Override
@@ -221,8 +223,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     @Override
     protected void move() {
         super.move();
-        // double check in case some image was deleted. So, the builder needs to be updated.
-        updateImagesFromBuilder(mImages, true);
     }
 
     /**
@@ -232,7 +232,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      */
     private void updateImagesFromBuilder(Collection<Image> images, boolean carousel) {
         Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
-        builder.addImages(images, carousel);
+        builder.setUpdatingPlant(updatingPlant);
+        builder.addImages((ArrayList<Image>) images, carousel);
         builder.addResourcesIds(resourcesIds);
     }
 

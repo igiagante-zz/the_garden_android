@@ -34,9 +34,4 @@ public class FlavorToFlavorRealm implements Mapper<Flavor, FlavorRealm> {
         flavorRealm.setImageUrl(flavor.getImageUrl());
         return flavorRealm;
     }
-
-    @Override
-    public FlavorRealm copy(Flavor flavor, FlavorRealm flavorRealm, boolean update) {
-        return null;
-    }
 }

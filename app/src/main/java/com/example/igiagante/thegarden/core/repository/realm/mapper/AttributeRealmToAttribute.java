@@ -25,9 +25,4 @@ public class AttributeRealmToAttribute implements Mapper<AttributeRealm, Attribu
 
         return attribute;
     }
-
-    @Override
-    public Attribute copy(AttributeRealm attributeRealm, Attribute attribute, boolean update) {
-        return null;
-    }
 }

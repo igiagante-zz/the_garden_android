@@ -302,6 +302,8 @@ public class Plant implements Parcelable {
         private int harvest;
         private String description;
 
+        private boolean updatingPlant = false;
+
         /**
          * Represent the images which belong to the plant
          */
@@ -430,16 +432,33 @@ public class Plant implements Parcelable {
          * @param carousel indicate if the images come from the carousel
          * @return builder
          */
-        public PlantBuilder addImages(Collection<Image> images, boolean carousel) {
+        public PlantBuilder addImages(ArrayList<Image> images, boolean carousel) {
             // TODO - Refactor
-            ArrayList<Image> imagesList = (ArrayList<Image>) images;
-
             if(carousel || images.isEmpty()) {
-                this.mImages = imagesList;
+                this.mImages = images;
             } else {
-                this.mImages.addAll(imagesList);
+                this.mImages.addAll(images);
+            }
+            if(this.updatingPlant){
+                this.mImages = filterImagesWithoutFile(mImages);
             }
             return this;
+        }
+
+        public void setUpdatingPlant(boolean updatingPlant) {
+            this.updatingPlant = updatingPlant;
+        }
+
+        private ArrayList<Image> filterImagesWithoutFile(List<Image> images) {
+
+            ArrayList<Image> temp = new ArrayList<>();
+
+            for(Image image : images) {
+                if(image.getFile() != null) {
+                    temp.add(image);
+                }
+            }
+            return temp;
         }
 
         public PlantBuilder addResourcesIds(List<String> resourcesIds) {

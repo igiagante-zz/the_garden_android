@@ -22,10 +22,16 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
 
     protected Plant mPlant;
 
+    /**
+     * Indicate that a plant is being updated
+     */
+    protected boolean updatingPlant = false;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPlant = ((CreatePlantActivity)getActivity()).getPlant();
+        updatingPlant = true;
     }
 
     @Override

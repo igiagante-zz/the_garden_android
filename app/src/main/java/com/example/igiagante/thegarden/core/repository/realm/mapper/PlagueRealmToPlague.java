@@ -27,9 +27,4 @@ public class PlagueRealmToPlague implements Mapper<PlagueRealm, Plague> {
 
         return plague;
     }
-
-    @Override
-    public Plague copy(PlagueRealm plagueRealm, Plague plague, boolean update) {
-        return null;
-    }
 }

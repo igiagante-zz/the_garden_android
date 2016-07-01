@@ -130,8 +130,4 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
         return plant;
     }
 
-    @Override
-    public Plant copy(PlantRealm plantRealm, Plant plant, boolean update) {
-        return null;
-    }
 }
