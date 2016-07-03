@@ -1,19 +1,15 @@
 package com.example.igiagante.thegarden.core.repository.restAPI;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlagueByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.PlantRestAPI;
 import com.google.gson.Gson;
 
@@ -36,8 +32,6 @@ import rx.schedulers.Schedulers;
  */
 @Singleton
 public class RestApiPlantRepository implements Repository<Plant> {
-
-    private final static String TAG = RestApiPlantRepository.class.getSimpleName();
 
     private final PlantRestAPI api;
     private Context mContext;
@@ -104,7 +98,7 @@ public class RestApiPlantRepository implements Repository<Plant> {
         List<Plant> listOne = new ArrayList<>();
         apiResult.subscribeOn(Schedulers.io()).toBlocking().subscribe(plant2 -> listOne.add(plant2));
 
-        // persist the plant into database
+        // update the plant into database
         PlantRealmRepository dataBase = new PlantRealmRepository(mContext);
         Observable<Plant> dbResult = dataBase.update(listOne.get(0));
 

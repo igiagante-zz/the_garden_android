@@ -3,7 +3,7 @@ package com.example.igiagante.thegarden.core.repository.realm.specification;
 import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 
 import io.realm.Realm;

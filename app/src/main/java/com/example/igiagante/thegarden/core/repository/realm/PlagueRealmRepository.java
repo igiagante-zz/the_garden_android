@@ -2,7 +2,6 @@ package com.example.igiagante.thegarden.core.repository.realm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.Mapper;
@@ -12,8 +11,7 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlagueRealmToPlague;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlagueToPlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
-import com.example.igiagante.thegarden.core.repository.realm.specification.AttributeByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.specification.PlagueByIdSpecification;
 
 import java.util.ArrayList;

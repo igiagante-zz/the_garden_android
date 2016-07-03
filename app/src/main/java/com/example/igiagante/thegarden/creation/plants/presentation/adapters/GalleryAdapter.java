@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegate;
+import com.example.igiagante.thegarden.core.presentation.adapter.delegate.AdapterDelegate;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateButton;
 import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateImage;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.IViewType;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeButton;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeConstans;
+import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.IViewType;
+import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeButton;
+import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeConstans;
 import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeImage;
 
 import java.util.ArrayList;
@@ -53,8 +53,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         // add adapter delegates
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButton(mContext, mPicker));
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE,
-                new AdapterDelegateImage(mContext, deleteImage, onShowImages));
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage(mContext, deleteImage, onShowImages));
 
         // add first item -> button
         items.add(new ViewTypeButton());

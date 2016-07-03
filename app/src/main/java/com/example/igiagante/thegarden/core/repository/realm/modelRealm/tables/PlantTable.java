@@ -1,12 +1,11 @@
-package com.example.igiagante.thegarden.core.repository.realm.modelRealm;
+package com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables;
 
 /**
  * @author Ignacio Giagante, on 26/4/16.
  */
 
-public interface PlantTable {
+public interface PlantTable extends Table {
 
-    String ID = "id";
     String GARDEN_ID = "gardenId";
     String SEED_DATE = "seedDate";
     String NAME = "name";

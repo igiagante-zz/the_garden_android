@@ -34,7 +34,7 @@ import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
-import com.example.igiagante.thegarden.navigation.NavigationGardenAdapter;
+import com.example.igiagante.thegarden.home.plants.presentation.adapters.NavigationGardenAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

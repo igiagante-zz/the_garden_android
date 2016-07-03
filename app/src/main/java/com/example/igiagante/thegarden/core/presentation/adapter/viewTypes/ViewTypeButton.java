@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.viewTypes;
+package com.example.igiagante.thegarden.core.presentation.adapter.viewTypes;
 
 /**
  * ViewType that represents a button.

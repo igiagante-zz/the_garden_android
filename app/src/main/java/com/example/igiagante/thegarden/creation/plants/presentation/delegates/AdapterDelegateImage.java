@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.presentation.adapter.delegate.AdapterDelegate;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeImage;
 import com.facebook.drawee.view.SimpleDraweeView;

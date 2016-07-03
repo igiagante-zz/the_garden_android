@@ -2,7 +2,6 @@ package com.example.igiagante.thegarden.core.repository.realm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
@@ -10,14 +9,12 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.specification.PlantByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantRealmToPlant;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantToPlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.specification.PlantByNameSpecification;
-
-import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.Collection;

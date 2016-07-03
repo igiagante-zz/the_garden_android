@@ -1,9 +1,9 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.delegates;
+package com.example.igiagante.thegarden.core.presentation.adapter.delegate;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.IViewType;
+import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.IViewType;
 
 /**
  * @param <T> the type of adapter's data source i.e. List<Accessory>

@@ -15,7 +15,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.FlavorRe
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 
 import java.util.ArrayList;
 

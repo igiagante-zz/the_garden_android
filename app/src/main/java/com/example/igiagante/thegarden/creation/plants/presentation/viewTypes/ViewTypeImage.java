@@ -1,5 +1,8 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.viewTypes;
 
+import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.IViewType;
+import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeConstans;
+
 /**
  * ViewType that represent an image.
  *
