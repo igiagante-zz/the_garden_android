@@ -15,6 +15,7 @@ import com.example.igiagante.thegarden.core.repository.realm.specification.Plant
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantRealmToPlant;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantToPlantRealm;
+import com.example.igiagante.thegarden.core.repository.realm.specification.PlantByNameSpecification;
 
 import junit.framework.Assert;
 
@@ -54,6 +55,10 @@ public class PlantRealmRepository implements Repository<Plant> {
     @Override
     public Observable<Plant> getById(@NonNull String id) {
         return query(new PlantByIdSpecification(id)).flatMap(Observable::from);
+    }
+
+    public Observable<Plant> getByName(@NonNull String name) {
+        return query(new PlantByNameSpecification(name)).flatMap(Observable::from);
     }
 
     @Override

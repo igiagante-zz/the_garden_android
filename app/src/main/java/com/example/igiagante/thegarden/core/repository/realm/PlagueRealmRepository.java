@@ -56,6 +56,11 @@ public class PlagueRealmRepository implements Repository<Plague> {
     }
 
     @Override
+    public Observable<Plague> getByName(String name) {
+        return null;
+    }
+
+    @Override
     public Observable<String> add(Plague plague) {
         final Realm realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toPlagueRealm.map(plague)));

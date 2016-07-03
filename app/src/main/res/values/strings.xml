@@ -84,6 +84,7 @@
     <string name="garden_image">Active Garden</string>
     <string name="settings_image">Settings</string>
 
+    <string name="name_of_the_plant_already_exist">The name of plant already exits</string>
 
     <!-- Carousel -->
     <string name="text_image_slider">Slider Image</string>

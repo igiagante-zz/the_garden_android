@@ -18,15 +18,15 @@ import javax.inject.Named;
 @PerActivity
 public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
 
-    private final UseCase savePlantUserCase;
+    private final UseCase savePlantUseCase;
 
     @Inject
-    public SavePlantPresenter(@Named("savePlant") UseCase savePlantUserCase) {
-        this.savePlantUserCase = savePlantUserCase;
+    public SavePlantPresenter(@Named("savePlant") UseCase savePlantUseCase) {
+        this.savePlantUseCase = savePlantUseCase;
     }
 
     public void destroy() {
-        this.savePlantUserCase.unsubscribe();
+        this.savePlantUseCase.unsubscribe();
         this.view = null;
     }
 
@@ -39,7 +39,7 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
     }
 
     public void savePlant(Plant plant) {
-        savePlantUserCase.execute(plant, new SavePlantSubscriber());
+        savePlantUseCase.execute(plant, new SavePlantSubscriber());
     }
 
     private final class SavePlantSubscriber extends DefaultSubscriber<Object> {

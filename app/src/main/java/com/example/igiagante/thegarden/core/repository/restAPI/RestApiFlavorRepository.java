@@ -31,6 +31,11 @@ public class RestApiFlavorRepository implements Repository<Flavor> {
     }
 
     @Override
+    public Observable<Flavor> getByName(String name) {
+        return null;
+    }
+
+    @Override
     public Observable<String> add(Flavor item) {
         return null;
     }

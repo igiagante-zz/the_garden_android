@@ -30,6 +30,11 @@ public class RestApiAttributeRepository implements Repository<Attribute> {
     }
 
     @Override
+    public Observable<Attribute> getByName(String name) {
+        return null;
+    }
+
+    @Override
     public Observable<String> add(Attribute item) {
         return null;
     }

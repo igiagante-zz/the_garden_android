@@ -1,6 +1,10 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +17,18 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.ui.CountView;
 import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
+import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.MainDataPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.views.MainDataView;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.satsuware.usefulviews.LabelledSpinner;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,9 +38,13 @@ import butterknife.ButterKnife;
  *
  * @author Ignacio Giagante, on 6/5/16.
  */
-public class MainDataFragment extends CreationBaseFragment implements LabelledSpinner.OnItemChosenListener {
+public class MainDataFragment extends CreationBaseFragment implements LabelledSpinner.OnItemChosenListener,
+        TextWatcher, MainDataView{
 
     public static final String PLANT_KEY = "PLANT";
+
+    @Inject
+    MainDataPresenter mainDataPresenter;
 
     @Bind(R.id.name_of_plant_id)
     TextView mNameOfPlant;
@@ -59,6 +73,9 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        this.getComponent(CreatePlantComponent.class).inject(this);
+
         final View fragmentView = inflater.inflate(R.layout.create_plant_fragment, container, false);
 
         ButterKnife.bind(this, fragmentView);
@@ -79,7 +96,59 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
         initDefaultValues();
 
+        mNameOfPlant.addTextChangedListener(this);
+
         return fragmentView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.mainDataPresenter.setView(new WeakReference<>(this));
+    }
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        this.mainDataPresenter.destroy();
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void informIfPlantExist(Boolean exist) {
+        if(exist) {
+            mNameOfPlant.setError(getString(R.string.name_of_the_plant_already_exist));
+        }
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public Context context() {
+        return null;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if(!TextUtils.isEmpty(s.toString())) {
+            mainDataPresenter.existPlant(s.toString().trim());
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 
     @Override

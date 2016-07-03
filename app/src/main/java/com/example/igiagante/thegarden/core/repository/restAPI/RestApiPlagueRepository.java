@@ -27,6 +27,11 @@ public class RestApiPlagueRepository implements Repository<Plague> {
     }
 
     @Override
+    public Observable<Plague> getByName(String name) {
+        return null;
+    }
+
+    @Override
     public Observable<String> add(Plague item) {
         return null;
     }

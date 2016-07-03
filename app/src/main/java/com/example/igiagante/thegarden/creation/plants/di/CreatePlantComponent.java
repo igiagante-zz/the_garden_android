@@ -9,8 +9,10 @@ import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantA
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.AttributesFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.FlavorGalleryFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.MainDataFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.MainDataPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PhotoGalleryPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
 
@@ -29,10 +31,13 @@ public interface CreatePlantComponent extends ActivityComponent {
     void inject(AttributesFragment attributesFragment);
     void inject(DescriptionFragment descriptionFragment);
     void inject(CreatePlantActivity createPlantActivity);
+    void inject(MainDataFragment mainDataFragment);
 
     PhotoGalleryPresenter photoGalleryPresenter();
 
     FlavorGalleryPresenter flavorGalleryPresenter();
 
     SavePlantPresenter savePlantPresenter();
+
+    MainDataPresenter mainDataPresenter();
 }

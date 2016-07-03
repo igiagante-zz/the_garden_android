@@ -17,6 +17,13 @@ public interface Repository<T> {
     Observable<T> getById(String id);
 
     /**
+     * Return a resource using the name
+     * @param name Name of the resource
+     * @return Observable<T>
+     */
+    Observable<T> getByName(String name);
+
+    /**
      * Return an Object's id which was added
      * @param item Object to be inserted into the repository
      * @return Observable<String> The Observable contains an id

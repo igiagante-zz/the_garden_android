@@ -54,6 +54,11 @@ public class RestApiPlantRepository implements Repository<Plant> {
     }
 
     @Override
+    public Observable<Plant> getByName(String name) {
+        return null;
+    }
+
+    @Override
     public Observable<String> add(@NonNull final Plant plant) {
 
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
