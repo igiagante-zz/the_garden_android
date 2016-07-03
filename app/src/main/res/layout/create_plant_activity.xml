@@ -24,7 +24,8 @@
                 android:gravity="center_horizontal"
                 android:background="@drawable/left_arrow"
                 android:layout_weight="0.1"
-                android:layout_marginTop="@dimen/edit_plant_button_margin_top"/>
+                android:layout_marginTop="@dimen/edit_plant_button_margin_top"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/create_plant_toolbar_title"
@@ -45,11 +46,19 @@
                 android:gravity="center_horizontal"
                 android:background="@drawable/button_check"
                 android:layout_weight="0.1"
-                android:layout_marginTop="@dimen/edit_plant_button_margin_top"/>
+                android:layout_marginTop="@dimen/edit_plant_button_margin_top"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_plant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/viewpager_create_plant"

@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -102,13 +103,24 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
     }
 
     @Override
-    public void notifyPlantWasDeleted() {
-        this.plantsAdapter.removePlant();
+    public void showDeletePlantDialog(int position) {
+        new AlertDialog.Builder(getActivity())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.delete_plant_dialog_title)
+                .setMessage(R.string.delete_plant_dialog_content)
+                .setPositiveButton("Yes", (dialog, which) -> plantsAdapter.deletePlant(position))
+                .setNegativeButton("No", null)
+                .show();
     }
 
     @Override
     public void deletePlant(String plantId) {
         this.plantListPresenter.deletePlant(plantId);
+    }
+
+    @Override
+    public void notifyPlantWasDeleted() {
+        this.plantsAdapter.removePlant();
     }
 
     /**

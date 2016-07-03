@@ -31,7 +31,9 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPlant = ((CreatePlantActivity)getActivity()).getPlant();
-        updatingPlant = true;
+        if(mPlant != null) {
+            updatingPlant = true;
+        }
     }
 
     @Override
@@ -47,6 +49,10 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    public void updateBuilder() {
+        move();
     }
 
     /**

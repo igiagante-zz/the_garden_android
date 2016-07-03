@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -111,6 +112,23 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         saveButton.setOnClickListener(v -> {
             saveDescription();
             onSavePlantListener.onSavePlant();
+        });
+
+        cancelButton.setOnClickListener(v -> {
+            String type;
+            if(updatingPlant) {
+                type = getString(R.string.cancel_button_dialog_content, getString(R.string.cancel_button_edition));
+            } else {
+                type = getString(R.string.cancel_button_dialog_content, getString(R.string.cancel_button_creation));
+            }
+
+            new AlertDialog.Builder(getActivity())
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(R.string.cancel_button_dialog_title)
+                    .setMessage(type)
+                    .setPositiveButton("Yes", (dialog, which) -> getActivity().finish())
+                    .setNegativeButton("No", null)
+                    .show();
         });
 
         return containerView;

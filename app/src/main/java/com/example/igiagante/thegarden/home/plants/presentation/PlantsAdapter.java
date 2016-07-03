@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -56,6 +58,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     }
 
     public interface OnDeletePlant {
+        void showDeletePlantDialog(int position);
         void deletePlant(String plantId);
     }
 
@@ -96,7 +99,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         holder.mFloweringTime.setText(floweringTimeLabel + ": " + plantHolder.getFloweringTime());
 
         holder.mEditButton.setOnClickListener(v -> onEditPlant.get().editPlant(plantHolder));
-        holder.mDeleteButton.setOnClickListener(v -> deletePlant(holder.getAdapterPosition()));
+        holder.mDeleteButton.setOnClickListener(v -> onDeletePlant.showDeletePlantDialog(holder.getAdapterPosition()));
     }
 
     @Override
@@ -109,7 +112,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         this.notifyDataSetChanged();
     }
 
-    private void deletePlant(int position) {
+    public void deletePlant(int position) {
         this.plantDeletedPosition = position;
         PlantHolder plantHolder = mPlants.get(position);
         this.onDeletePlant.deletePlant(plantHolder.getPlantId());

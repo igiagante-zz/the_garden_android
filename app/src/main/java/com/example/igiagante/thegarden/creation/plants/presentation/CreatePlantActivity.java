@@ -9,7 +9,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
@@ -21,7 +23,9 @@ import com.example.igiagante.thegarden.core.presentation.FlowStepResolver;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.ViewPagerAdapter;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.MainDataFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.SavePlantView;
 import com.example.igiagante.thegarden.home.MainActivity;
@@ -87,6 +91,11 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Bind(R.id.edit_plant_button_save)
     Button mButtonSave;
 
+    @Bind(R.id.progress_bar_plant)
+    ProgressBar mProgressBar;
+
+    private ViewPagerAdapter mViewPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,8 +127,16 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setToolbarTitle(mPager.getAdapter().getPageTitle(0).toString());
 
-        mButtonBack.setOnClickListener(v -> finish());
-        mButtonSave.setOnClickListener(v -> mSavePlantPresenter.savePlant(plantBuilder.build()));
+        if(mPlant != null) {
+            mButtonBack.setVisibility(View.VISIBLE);
+            mButtonSave.setVisibility(View.VISIBLE);
+            mButtonBack.setOnClickListener(v -> finish());
+            mButtonSave.setOnClickListener(v -> {
+                mProgressBar.setVisibility(View.VISIBLE);
+                updateBuilder();
+                mSavePlantPresenter.savePlant(plantBuilder.build());
+            });
+        }
     }
 
     private void initializeInjector() {
@@ -136,12 +153,22 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      * @param viewPager view pager
      */
     private void setupViewPager(ViewPager viewPager) {
-
         mPager.setOffscreenPageLimit(NUMBER_OF_PAGES);
         mPager.setCurrentItem(currentPage);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), this, viewPager);
-        viewPager.setAdapter(adapter);
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, viewPager);
+        viewPager.setAdapter(mViewPagerAdapter);
         viewPager.addOnPageChangeListener(this);
+    }
+
+    /**
+     * If the user is editing a plant, it doesn't matter where the user is standing at the wizard.
+     * After the user click the button save, it needs to walk through the fragments and verify if
+     * some data has been modified.
+     */
+    private void updateBuilder() {
+        for (int i = 0; i < mViewPagerAdapter.getCount(); i++) {
+            ((CreationBaseFragment)mViewPagerAdapter.getItem(i)).updateBuilder();
+        }
     }
 
     @Override
@@ -211,12 +238,16 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void notifyIfPlantWasPersisted(String plantId) {
-        FlowStepExecutor flowStepExecutor = new FlowStepExecutor();
-        flowStepExecutor.goToNextStep(null, MainActivity.class, this);
+        goToMainActivity();
     }
 
     @Override
     public void notifyIfPlantWasUpdated(Plant plant) {
+        goToMainActivity();
+    }
+
+    private void goToMainActivity() {
+        mProgressBar.setVisibility(View.GONE);
         FlowStepExecutor flowStepExecutor = new FlowStepExecutor();
         flowStepExecutor.goToNextStep(null, MainActivity.class, this);
     }
@@ -240,6 +271,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onSavePlant() {
+        mProgressBar.setVisibility(View.VISIBLE);
         mSavePlantPresenter.savePlant(plantBuilder.build());
     }
 
