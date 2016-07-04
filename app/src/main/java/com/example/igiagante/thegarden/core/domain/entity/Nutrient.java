@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class Nutrient implements Parcelable {
 
+    public Nutrient(){}
+
     @SerializedName("id")
     private String id;
 

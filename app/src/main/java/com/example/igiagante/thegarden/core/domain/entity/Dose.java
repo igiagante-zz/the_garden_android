@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class Dose implements Parcelable {
 
+    public Dose() {
+    }
+
     @SerializedName("id")
     private String id;
 
@@ -102,7 +105,7 @@ public class Dose implements Parcelable {
         dest.writeFloat(phDose);
         dest.writeFloat(ec);
         dest.writeFloat(ph);
-        dest.writeInt(editable  ? 1 : 0);
+        dest.writeInt(editable ? 1 : 0);
         dest.writeList(nutrients);
     }
 

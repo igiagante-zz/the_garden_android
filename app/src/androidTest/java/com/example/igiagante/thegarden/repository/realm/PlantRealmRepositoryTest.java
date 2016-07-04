@@ -83,7 +83,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         plantRealmRepository.add(plant);
 
-        plantRealmRepository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getName(), NAME));
+        plantRealmRepository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
     }
 
     /**
@@ -116,7 +116,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         plantRealmRepository.update(plant);
 
         // assertions
-        plantRealmRepository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(NEW_NAME, attributeFromDB.getName()));
+        plantRealmRepository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(NEW_NAME, plantFromDB.getName()));
     }
 
     public void testPersistOnePlantWithImages() {
@@ -201,7 +201,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         plantRealmRepository.add(plant);
 
-        plantRealmRepository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getName(), NAME));
+        plantRealmRepository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
 
         // when
         Observable<Integer> result = plantRealmRepository.remove(plant.getId());

@@ -12,6 +12,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenRealmT
 import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenToGardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
+import com.example.igiagante.thegarden.core.repository.realm.specification.GardenByIdSpecification;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +48,7 @@ public class GardenRealmRepository implements Repository<Garden> {
 
     @Override
     public Observable<Garden> getById(String id) {
-        return null;
+        return query(new GardenByIdSpecification(id)).flatMap(Observable::from);
     }
 
     @Override
@@ -60,7 +61,6 @@ public class GardenRealmRepository implements Repository<Garden> {
         realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam ->
                 realmParam.copyToRealmOrUpdate(toGardenRealm.map(garden)));
-
         realm.close();
 
         return Observable.just(garden.getId());
@@ -124,7 +124,10 @@ public class GardenRealmRepository implements Repository<Garden> {
 
     @Override
     public void removeAll() {
-
+        // Delete all
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
     }
 
     @Override
@@ -134,10 +137,10 @@ public class GardenRealmRepository implements Repository<Garden> {
         final Realm realm = Realm.getInstance(realmConfiguration);
         final Observable<RealmResults<GardenRealm>> realmResults = realmSpecification.toObservableRealmResults(realm);
 
-        // convert Observable<RealmResults<PlantRealm>> into Observable<List<Plant>>
+        // convert Observable<RealmResults<GardenRealm>> into Observable<List<Garden>>
         return realmResults.flatMap(list ->
                 Observable.from(list)
-                        .map(plantRealm -> toGarden.map(plantRealm))
+                        .map(gardenRealm -> toGarden.map(gardenRealm))
                         .toList());
     }
 }

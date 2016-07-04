@@ -13,6 +13,7 @@ public class GardenToGardenRealm implements Mapper<GardenRealm, Garden> {
     public Garden map(GardenRealm gardenRealm) {
         Garden garden = new Garden();
         garden.setId(gardenRealm.getId());
+        copy(gardenRealm, garden);
         return garden;
     }
 
