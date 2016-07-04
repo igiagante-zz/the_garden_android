@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.home.plants.presentation.delegates;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,7 +17,8 @@ public class AdapterDelegateText implements AdapterDelegate<AdapterDelegateText.
 
     @Override
     public TextHolder onCreateViewHolder(ViewGroup parent) {
-        return new TextHolder(parent);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_garden, parent, false);
+        return new TextHolder(v);
     }
 
     @Override

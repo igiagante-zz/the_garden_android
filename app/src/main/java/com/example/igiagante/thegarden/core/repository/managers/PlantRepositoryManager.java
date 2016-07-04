@@ -87,7 +87,6 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
      */
     public Observable query(Specification specification) {
 
-
         Observable<List<Plant>> query = mRepositories.get(0).query(specification);
 
         List<Plant> list = new ArrayList<>();

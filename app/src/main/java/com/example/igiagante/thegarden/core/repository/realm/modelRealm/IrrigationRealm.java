@@ -23,7 +23,6 @@ public class IrrigationRealm extends RealmObject {
     @Required
     private String doseId;
 
-    @Required
     private float quantity;
 
     public String getId() {

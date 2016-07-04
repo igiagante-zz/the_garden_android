@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.home;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
+import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.charts.presentation.ChartsFragment;
 import com.example.igiagante.thegarden.home.irrigations.presentation.IrrigationsFragment;
@@ -35,9 +37,14 @@ import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.adapters.NavigationGardenAdapter;
+import com.example.igiagante.thegarden.home.plants.presentation.presenters.GardenPresenter;
+import com.example.igiagante.thegarden.home.plants.presentation.view.GardenView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,7 +53,7 @@ import butterknife.ButterKnife;
  * @author Ignacio Giagante, on 18/4/16.
  */
 public class  MainActivity extends BaseActivity implements HasComponent<PlantComponent>,
-        PlantsAdapter.OnEditPlant {
+        PlantsAdapter.OnEditPlant, GardenView {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -56,6 +63,10 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    private NavigationGardenAdapter mNavigationGardenAdapter;
+
+    @Inject
+    GardenPresenter mGardenPresenter;
 
     /**
      * RecycleView for garden list of the navigation drawer
@@ -73,6 +84,10 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
         ButterKnife.bind(this);
 
         initializeInjector();
+        getComponent().inject(this);
+
+        // set view for this presenter
+        this.mGardenPresenter.setView(new WeakReference<>(this));
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -85,7 +100,13 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
 
         setupToolbar();
 
+        // Load gardens!
+        mGardenPresenter.getGardens();
+    }
 
+    @Override
+    public void loadGardens(List<Garden> gardens) {
+        mNavigationGardenAdapter.setGardens(gardens);
     }
 
     private void setupToolbar() {
@@ -119,19 +140,17 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
 
         drawerLayout.addDrawerListener(mDrawerToggle);
 
+        /*
         ArrayList<Garden> gardens = new ArrayList<>();
         gardens.add(new Garden("1", "Garden One"));
         gardens.add(new Garden("2", "Garden Two"));
         gardens.add(new Garden("3", "Garden Three"));
-        gardens.add(new Garden("3", "Add new garden"));
+        gardens.add(new Garden("3", "Add new garden")); */
 
-        NavigationGardenAdapter adapter = new NavigationGardenAdapter(gardens);
-
+        mNavigationGardenAdapter = new NavigationGardenAdapter();
         recyclerViewGardens = (RecyclerView) findViewById(R.id.recycler_view_gardens);
-
         this.recyclerViewGardens.setLayoutManager(new LinearLayoutManager(this));
-
-        this.recyclerViewGardens.setAdapter(adapter);
+        this.recyclerViewGardens.setAdapter(mNavigationGardenAdapter);
 
         fab = (FloatingActionButton) findViewById(R.id.fab_id);
         fab.setVisibility(View.INVISIBLE);
@@ -213,6 +232,16 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public Context context() {
+        return null;
     }
 
     @Override

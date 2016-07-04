@@ -1,16 +1,14 @@
 package com.example.igiagante.thegarden.home.plants.presentation.presenters;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.plants.presentation.view.PlantListView;
 
-import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.List;
 

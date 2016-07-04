@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
+import com.example.igiagante.thegarden.core.repository.managers.GardenRepositoryManager;
 import com.example.igiagante.thegarden.core.repository.managers.PlantRepositoryManager;
+import com.example.igiagante.thegarden.core.repository.realm.specification.GardenSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.PlantSpecification;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
@@ -20,22 +22,21 @@ public class GetGardensUseCase extends UseCase<Void> {
     /**
      * Repository Manager which delegates the actions to the correct repository
      */
-    private final PlantRepositoryManager plantRepositoryManager;
+    private final GardenRepositoryManager gardenRepositoryManager;
 
     @Inject
-    public GetGardensUseCase(@NonNull PlantRepositoryManager plantRepositoryManager, @NonNull ThreadExecutor threadExecutor, @NonNull PostExecutionThread postExecutionThread) {
+    public GetGardensUseCase(@NonNull GardenRepositoryManager gardenRepositoryManager, @NonNull ThreadExecutor threadExecutor, @NonNull PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.plantRepositoryManager = plantRepositoryManager;
+        this.gardenRepositoryManager = gardenRepositoryManager;
         // set repositories order
-        this.plantRepositoryManager.setRepositoriesOrder(getRepositoryOrder());
+        this.gardenRepositoryManager.setRepositoriesOrder(getRepositoryOrder());
     }
 
     @Override
     protected Observable buildUseCaseObservable(Void aVoid) {
 
-        PlantSpecification plantSpecification = new PlantSpecification();
-
-        return plantRepositoryManager.query(plantSpecification);
+        GardenSpecification gardenSpecification = new GardenSpecification();
+        return gardenRepositoryManager.query(gardenSpecification);
     }
 
     @Override

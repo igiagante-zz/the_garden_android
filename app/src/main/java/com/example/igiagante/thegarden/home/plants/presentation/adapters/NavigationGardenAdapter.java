@@ -31,14 +31,11 @@ import java.util.List;
 public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<Garden> gardens;
 
     private SparseArray<AdapterDelegate> adapterDelegates = new SparseArray<>(2);
     private List<IViewType> items = new LinkedList<>();
 
-    public NavigationGardenAdapter(ArrayList<Garden> gardens) {
-        this.gardens = gardens;
-
+    public NavigationGardenAdapter() {
         // add adapter delegates
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButtonAddGarden(mContext));
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_TEXT, new AdapterDelegateText());
@@ -65,27 +62,27 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
-        return gardens == null ? 0 : gardens.size();
+        return items == null ? 0 : items.size();
     }
 
     /**
      * Set the items collection using gardens' names and add the button again.
      * @param gardens List of Gardens
      */
-    public void setGardens(List<String> gardens) {
+    public void setGardens(List<Garden> gardens) {
         this.items.clear();
         this.items.addAll(getGardenCollection(gardens));
         this.items.add(new ViewTypeButton());
         notifyDataSetChanged();
     }
 
-    private Collection<ViewTypeText> getGardenCollection(List<String> gardens) {
+    private Collection<ViewTypeText> getGardenCollection(List<Garden> gardens) {
 
         ArrayList<ViewTypeText> viewTypeTexts = new ArrayList<>();
 
-        for (String name : gardens) {
+        for (Garden garden : gardens) {
             ViewTypeText viewTypeText = new ViewTypeText();
-            viewTypeText.setText(name);
+            viewTypeText.setText(garden.getName());
             viewTypeTexts.add(viewTypeText);
         }
 

@@ -103,7 +103,7 @@ public class Plant implements Parcelable {
     private List<Plague> plagues = new ArrayList<>();
 
     @SerializedName("resourcesIds")
-    private List<String> resourcesIds;
+    private List<String> resourcesIds = new ArrayList<>();
 
     public String getId() {
         return id;
