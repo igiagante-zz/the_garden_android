@@ -46,7 +46,7 @@ public interface Repository<T> {
 
     /**
      * Return an observable with the integer, which indicates if the resource was deleted or not.
-     * @param item Object to be deleted into the repository
+     * @param id Id from Object to be deleted into the repository
      * @return Observable<Integer>
      */
     Observable<Integer> remove(String id);

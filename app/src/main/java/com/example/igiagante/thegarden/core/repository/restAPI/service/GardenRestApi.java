@@ -1,11 +1,14 @@
 package com.example.igiagante.thegarden.core.repository.restAPI.service;
 
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.repository.network.Message;
 
 import java.util.List;
 
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -24,9 +27,12 @@ public interface GardenRestApi {
     Observable<List<Garden>> getGardens();
 
     @POST("garden/")
-    Observable<Garden> createGarden(@Body RequestBody body);
+    Observable<Garden> createGarden(@Body Garden body);
 
     @PUT("garden/{id}")
-    Observable<Garden> updateGarden(@Path("id") String id, @Body RequestBody body);
+    Observable<Garden> updateGarden(@Path("id") String id, @Body Garden body);
+
+    @DELETE("garden/{id}")
+    Observable<Response<Message>> deleteGarden(@Path("id") String id);
 
 }

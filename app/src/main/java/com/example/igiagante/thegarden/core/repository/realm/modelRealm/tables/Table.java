@@ -6,4 +6,5 @@ package com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables;
 public interface Table {
 
     String ID = "id";
+    String NAME = "name";
 }

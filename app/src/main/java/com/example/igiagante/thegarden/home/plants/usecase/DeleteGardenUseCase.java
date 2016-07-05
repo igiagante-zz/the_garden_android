@@ -1,9 +1,7 @@
 package com.example.igiagante.thegarden.home.plants.usecase;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
-import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.GardenRepositoryManager;
@@ -14,9 +12,9 @@ import javax.inject.Inject;
 import rx.Observable;
 
 /**
- * @author Ignacio Giagante, on 4/7/16.
+ * @author Ignacio Giagante, on 5/7/16.
  */
-public class SaveGardenUseCase extends UseCase<Garden> {
+public class DeleteGardenUseCase extends UseCase<String> {
 
     /**
      * Repository Manager which delegates the actions to the correct repository
@@ -24,17 +22,13 @@ public class SaveGardenUseCase extends UseCase<Garden> {
     private final GardenRepositoryManager gardenRepositoryManager;
 
     @Inject
-    public SaveGardenUseCase(@NonNull GardenRepositoryManager gardenRepositoryManager, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public DeleteGardenUseCase(@NonNull GardenRepositoryManager gardenRepositoryManager, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.gardenRepositoryManager = gardenRepositoryManager;
     }
 
     @Override
-    protected Observable buildUseCaseObservable(Garden garden) {
-        if(TextUtils.isEmpty(garden.getId())) {
-            return gardenRepositoryManager.add(garden);
-        } else {
-            return gardenRepositoryManager.update(garden);
-        }
+    protected Observable buildUseCaseObservable(String gardenId) {
+        return gardenRepositoryManager.delete(gardenId);
     }
 }

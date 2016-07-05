@@ -3,8 +3,10 @@ package com.example.igiagante.thegarden.home.plants.di;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.home.plants.delete_plant.DeletePlantDataUseCase;
+import com.example.igiagante.thegarden.home.plants.usecase.DeleteGardenUseCase;
 import com.example.igiagante.thegarden.home.plants.usecase.GetGardensUseCase;
 import com.example.igiagante.thegarden.home.plants.usecase.GetPlantsUseCase;
+import com.example.igiagante.thegarden.home.plants.usecase.SaveGardenUseCase;
 
 import javax.inject.Named;
 
@@ -38,5 +40,19 @@ public class PlantModule {
     @Named("gardens")
     UseCase provideGetGardensUseCase(GetGardensUseCase getGardensUseCase) {
         return getGardensUseCase;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("saveGarden")
+    UseCase provideSaveGardenUseCase(SaveGardenUseCase saveGardenUseCase) {
+        return saveGardenUseCase;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("deleteGarden")
+    UseCase provideDeleteGardenUseCase(DeleteGardenUseCase deleteGardenUseCase) {
+        return deleteGardenUseCase;
     }
 }

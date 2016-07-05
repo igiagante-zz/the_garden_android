@@ -54,7 +54,6 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
             //PlantListPresenter.this.hideViewLoading();
             Log.e("Error", e.getMessage());
             e.printStackTrace();
-            //PlantListPresenter.this.showViewRetry();
         }
 
         @Override

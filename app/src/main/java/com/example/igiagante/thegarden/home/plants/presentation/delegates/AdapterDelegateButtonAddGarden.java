@@ -1,12 +1,16 @@
 package com.example.igiagante.thegarden.home.plants.presentation.delegates;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.adapter.delegate.AdapterDelegate;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeButton;
 
@@ -16,9 +20,17 @@ import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewT
 public class AdapterDelegateButtonAddGarden implements AdapterDelegate<AdapterDelegateButtonAddGarden.ButtonAddGardenHolder, ViewTypeButton> {
 
     private Context mContext;
+    private OnGardenDialog onGardenDialog;
+    private final LayoutInflater layoutInflater;
 
-    public AdapterDelegateButtonAddGarden(Context context) {
+    public interface OnGardenDialog {
+        void createGarden(Garden garden);
+    }
+
+    public AdapterDelegateButtonAddGarden(Context context, OnGardenDialog onGardenDialog) {
         this.mContext = context;
+        this.onGardenDialog = onGardenDialog;
+        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -36,7 +48,7 @@ public class AdapterDelegateButtonAddGarden implements AdapterDelegate<AdapterDe
      */
     class ButtonAddGardenHolder extends RecyclerView.ViewHolder {
 
-        Button mButtonAddImage;
+        Button mButtonAddGarden;
         Context mContext;
 
         public ButtonAddGardenHolder(ViewGroup parent, Context context) {
@@ -44,7 +56,27 @@ public class AdapterDelegateButtonAddGarden implements AdapterDelegate<AdapterDe
             super(LayoutInflater.from(parent.getContext()).inflate(R.layout.add_garden_button, parent, false));
             this.mContext = context;
 
-            mButtonAddImage = (Button) itemView.findViewById(R.id.add_garden_button_id);
+            mButtonAddGarden = (Button) itemView.findViewById(R.id.add_garden_button_id);
+            mButtonAddGarden.setOnClickListener(v -> showDialogAddGarden());
+        }
+
+        private void showDialogAddGarden(){
+            View promptView = layoutInflater.inflate(R.layout.add_garden_dialog, null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+            alertDialogBuilder.setView(promptView);
+
+            final EditText editText = (EditText) promptView.findViewById(R.id.add_garden_dialog_enter_name);
+            // setup a dialog window
+            alertDialogBuilder
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        Garden garden = new Garden();
+                        garden.setName(editText.getText().toString());
+                        onGardenDialog.createGarden(garden);})
+                    .setNegativeButton("No", null);
+
+            // create an alert dialog
+            AlertDialog alert = alertDialogBuilder.create();
+            alert.show();
         }
     }
 }

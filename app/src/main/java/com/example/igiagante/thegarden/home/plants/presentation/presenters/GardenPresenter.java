@@ -20,13 +20,19 @@ import javax.inject.Named;
 @PerActivity
 public class GardenPresenter extends AbstractPresenter<GardenView> {
 
-    private final static String TAG = PlantListPresenter.class.getSimpleName();
+    private final static String TAG = GardenPresenter.class.getSimpleName();
 
     private final UseCase getGardensUseCase;
+    private final UseCase saveGardenUseCase;
+    private final UseCase deleteGardenUseCase;
 
     @Inject
-    public GardenPresenter(@Named("gardens") UseCase getGardensUseCase) {
+    public GardenPresenter(@Named("gardens") UseCase getGardensUseCase,
+                           @Named("saveGarden") UseCase saveGardenUseCase,
+                           @Named("deleteGarden") UseCase deleteGardenUseCase) {
         this.getGardensUseCase = getGardensUseCase;
+        this.saveGardenUseCase = saveGardenUseCase;
+        this.deleteGardenUseCase = deleteGardenUseCase;
     }
 
     public void destroy() {
@@ -38,6 +44,14 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         getGardensUseCase.execute(null, new GardenSubscriber());
     }
 
+    public void saveGarden(Garden garden) {
+        saveGardenUseCase.execute(garden, new SaveGardenSubscriber());
+    }
+
+    public void deleteGarden(String gardenId) {
+        deleteGardenUseCase.execute(gardenId, new DeleteGardenSubscriber());
+    }
+
     private void showGardens(List<Garden> gardens) {
         getView().loadGardens(gardens);
     }
@@ -45,18 +59,61 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     private final class GardenSubscriber extends DefaultSubscriber<List<Garden>> {
 
         @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
-            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            //PlantListPresenter.this.showViewRetry();
             Log.e(TAG, e.getMessage());
         }
 
         @Override public void onNext(List<Garden> gardens) {
             GardenPresenter.this.showGardens(gardens);
+        }
+    }
+
+    private void notifyIfGardenWasPersisted(String gardenId) {
+        getView().notifyIfGardenWasPersisted(gardenId);
+    }
+
+    private void notifyIfGardenWasUpdated(Garden garden) {
+        getView().notifyIfGardenWasUpdated(garden);
+    }
+
+    private void notifyIfGardenWasDeleted(String result) {
+        getView().notifyIfGardenWasDeleted();
+    }
+
+    private final class SaveGardenSubscriber extends DefaultSubscriber<Object> {
+
+        @Override public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+
+        @Override public void onNext(Object object) {
+            if(object instanceof String) {
+                GardenPresenter.this.notifyIfGardenWasPersisted((String)object);
+            } else {
+                GardenPresenter.this.notifyIfGardenWasUpdated((Garden)object);
+            }
+        }
+    }
+
+    private final class DeleteGardenSubscriber extends DefaultSubscriber<String> {
+
+        @Override public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        @Override public void onNext(String result) {
+            GardenPresenter.this.notifyIfGardenWasDeleted(result);
         }
     }
 }

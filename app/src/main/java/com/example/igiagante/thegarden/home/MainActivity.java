@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.home;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -19,15 +20,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
-import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
+import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeText;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.charts.presentation.ChartsFragment;
 import com.example.igiagante.thegarden.home.irrigations.presentation.IrrigationsFragment;
@@ -37,8 +41,11 @@ import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.adapters.NavigationGardenAdapter;
+import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateButtonAddGarden;
+import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateGarden;
 import com.example.igiagante.thegarden.home.plants.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.plants.presentation.view.GardenView;
+import com.example.igiagante.thegarden.home.plants.presentation.viewTypes.ViewTypeGarden;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -53,7 +60,10 @@ import butterknife.ButterKnife;
  * @author Ignacio Giagante, on 18/4/16.
  */
 public class  MainActivity extends BaseActivity implements HasComponent<PlantComponent>,
-        PlantsAdapter.OnEditPlant, GardenView {
+        PlantsAdapter.OnEditPlant,
+        GardenView,
+        AdapterDelegateButtonAddGarden.OnGardenDialog,
+        AdapterDelegateGarden.OnClickLongListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -76,6 +86,16 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
 
     @Bind(R.id.fab_id)
     FloatingActionButton fab;
+
+    /**
+     * The garden's position within the garden's list
+     */
+    private int gardenPosition;
+
+    /**
+     * The garden that is tried to be inserted.
+     */
+    private Garden garden;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +122,6 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
 
         // Load gardens!
         mGardenPresenter.getGardens();
-    }
-
-    @Override
-    public void loadGardens(List<Garden> gardens) {
-        mNavigationGardenAdapter.setGardens(gardens);
     }
 
     private void setupToolbar() {
@@ -140,14 +155,7 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
 
         drawerLayout.addDrawerListener(mDrawerToggle);
 
-        /*
-        ArrayList<Garden> gardens = new ArrayList<>();
-        gardens.add(new Garden("1", "Garden One"));
-        gardens.add(new Garden("2", "Garden Two"));
-        gardens.add(new Garden("3", "Garden Three"));
-        gardens.add(new Garden("3", "Add new garden")); */
-
-        mNavigationGardenAdapter = new NavigationGardenAdapter();
+        mNavigationGardenAdapter = new NavigationGardenAdapter(this, this, this);
         recyclerViewGardens = (RecyclerView) findViewById(R.id.recycler_view_gardens);
         this.recyclerViewGardens.setLayoutManager(new LinearLayoutManager(this));
         this.recyclerViewGardens.setAdapter(mNavigationGardenAdapter);
@@ -162,6 +170,77 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
         adapter.addFragment(new IrrigationsFragment(), "Irrigations");
         adapter.addFragment(new ChartsFragment(), "Charts");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void loadGardens(List<Garden> gardens) {
+        mNavigationGardenAdapter.setGardens(gardens);
+    }
+
+    @Override
+    public void showGardenDialog(int position) {
+        this.gardenPosition = position;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        ViewTypeGarden gardenViewTypeText = (ViewTypeGarden) mNavigationGardenAdapter.getItem(gardenPosition);
+        Garden garden = new Garden();
+        garden.setId(gardenViewTypeText.getId());
+        garden.setName(gardenViewTypeText.getName());
+        garden.setStartDate(gardenViewTypeText.getStartDate());
+
+        switch (item.getItemId()) {
+            case R.id.edit_plant:
+                showEditGardenDialog(garden);
+                break;
+            case R.id.delete_plant:
+                mGardenPresenter.deleteGarden(garden.getId());
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void showEditGardenDialog(Garden garden) {
+        View promptView = LayoutInflater.from(this).inflate(R.layout.add_garden_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(promptView);
+
+        final EditText editText = (EditText) promptView.findViewById(R.id.add_garden_dialog_enter_name);
+        editText.setText(garden.getName());
+        // setup a dialog window
+        alertDialogBuilder
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    garden.setName(editText.getText().toString());
+                    mGardenPresenter.saveGarden(garden);
+                })
+                .setNegativeButton("No", null);
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    @Override
+    public void createGarden(Garden garden) {
+        mGardenPresenter.saveGarden(garden);
+        this.garden = garden;
+    }
+
+    @Override
+    public void notifyIfGardenWasPersisted(String gardenId) {
+        mNavigationGardenAdapter.addGarden(garden);
+    }
+
+    @Override
+    public void notifyIfGardenWasUpdated(Garden garden) {
+        mNavigationGardenAdapter.updateItem(garden);
+    }
+
+    @Override
+    public void notifyIfGardenWasDeleted() {
+        mNavigationGardenAdapter.notify();
     }
 
     @Override

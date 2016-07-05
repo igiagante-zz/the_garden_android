@@ -109,7 +109,11 @@ public class GardenRealmRepository implements Repository<Garden> {
 
         GardenRealm gardenRealm = realm.where(GardenRealm.class).equalTo(Table.ID, gardenId).findFirst();
 
-        realm.executeTransaction(realmParam -> gardenRealm.deleteFromRealm());
+        realm.executeTransaction(realmParam -> {
+            if (gardenRealm != null) {
+                gardenRealm.deleteFromRealm();
+            }
+        });
 
         realm.close();
 

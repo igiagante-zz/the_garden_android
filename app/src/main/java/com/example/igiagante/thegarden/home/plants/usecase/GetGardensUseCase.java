@@ -25,7 +25,9 @@ public class GetGardensUseCase extends UseCase<Void> {
     private final GardenRepositoryManager gardenRepositoryManager;
 
     @Inject
-    public GetGardensUseCase(@NonNull GardenRepositoryManager gardenRepositoryManager, @NonNull ThreadExecutor threadExecutor, @NonNull PostExecutionThread postExecutionThread) {
+    public GetGardensUseCase(@NonNull GardenRepositoryManager gardenRepositoryManager,
+                             @NonNull ThreadExecutor threadExecutor,
+                             @NonNull PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.gardenRepositoryManager = gardenRepositoryManager;
         // set repositories order
@@ -34,7 +36,6 @@ public class GetGardensUseCase extends UseCase<Void> {
 
     @Override
     protected Observable buildUseCaseObservable(Void aVoid) {
-
         GardenSpecification gardenSpecification = new GardenSpecification();
         return gardenRepositoryManager.query(gardenSpecification);
     }

@@ -54,25 +54,23 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
 
     private Observable addOrUpdate(Garden garden, boolean update) {
 
-        MultipartBody.Builder builder = new MultipartBody.Builder();
-        builder.addFormDataPart(PlantTable.NAME, garden.getName());
-
         Observable<Garden> apiResult;
 
         if(update) {
-            apiResult = api.updateGarden(garden.getId(), builder.build()).asObservable();
+            apiResult = api.updateGarden(garden.getId(), garden).asObservable();
         } else {
-            apiResult = api.createGarden(builder.build()).asObservable();
+            apiResult = api.createGarden(garden).asObservable();
         }
 
-        Garden result = execute(apiResult, garden, GardenRealmRepository.class);
+        Garden result = execute(apiResult, garden, GardenRealmRepository.class, update);
 
         return update ? Observable.just(result) : Observable.just(result.getId());
     }
 
     @Override
-    public Observable<Integer> remove(String id) {
-        return null;
+    public Observable<Integer> remove(String gardenId) {
+        return api.deleteGarden(gardenId).asObservable()
+                .map(response -> response.isSuccessful() ? 1 : -1);
     }
 
     @Override

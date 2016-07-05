@@ -3,20 +3,17 @@ package com.example.igiagante.thegarden.home.plants.presentation.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.adapter.delegate.AdapterDelegate;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.IViewType;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeButton;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeConstans;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeText;
-import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeImage;
 import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateButtonAddGarden;
-import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateText;
+import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateGarden;
+import com.example.igiagante.thegarden.home.plants.presentation.viewTypes.ViewTypeGarden;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,10 +32,13 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
     private SparseArray<AdapterDelegate> adapterDelegates = new SparseArray<>(2);
     private List<IViewType> items = new LinkedList<>();
 
-    public NavigationGardenAdapter() {
+    public NavigationGardenAdapter(Context context, AdapterDelegateButtonAddGarden.OnGardenDialog onGardenDialog,
+                                   AdapterDelegateGarden.OnClickLongListener onClickLongListener) {
+        this.mContext = context;
+
         // add adapter delegates
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButtonAddGarden(mContext));
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_TEXT, new AdapterDelegateText());
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButtonAddGarden(mContext, onGardenDialog));
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_GARDEN, new AdapterDelegateGarden(onClickLongListener));
 
         // add first item -> button
         items.add(new ViewTypeButton());
@@ -65,6 +65,12 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
         return items == null ? 0 : items.size();
     }
 
+    @Override
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        holder.itemView.setOnLongClickListener(null);
+        super.onViewRecycled(holder);
+    }
+
     /**
      * Set the items collection using gardens' names and add the button again.
      * @param gardens List of Gardens
@@ -76,17 +82,56 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    private Collection<ViewTypeText> getGardenCollection(List<Garden> gardens) {
+    public IViewType getItem(int position) {
+        return this.items.get(position);
+    }
 
-        ArrayList<ViewTypeText> viewTypeTexts = new ArrayList<>();
+    /**
+     * Update garden data
+     * @param garden Garden Object
+     */
+    public void updateItem(Garden garden) {
+        for (int i = 0; i < items.size(); i++) {
+            if(items.get(i) instanceof ViewTypeGarden) {
+                ViewTypeGarden viewTypeGarden = (ViewTypeGarden)items.get(i);
+                if(viewTypeGarden.getId().equals(garden.getId())) {
+                    viewTypeGarden.setName(garden.getName());
+                    viewTypeGarden.setStartDate(garden.getStartDate());
+                    notifyItemChanged(i);
+                }
+            }
+        }
+    }
+
+    /**
+     * Add new garden to the list
+     * @param garden Garden Object
+     */
+    public void addGarden(Garden garden) {
+        this.items.remove(items.size() - 1);
+        this.items.add(createViewTypeGarden(garden));
+        this.items.add(new ViewTypeButton());
+
+        this.notifyDataSetChanged();
+    }
+
+    private Collection<ViewTypeGarden> getGardenCollection(List<Garden> gardens) {
+
+        ArrayList<ViewTypeGarden> viewTypeGardens = new ArrayList<>();
 
         for (Garden garden : gardens) {
-            ViewTypeText viewTypeText = new ViewTypeText();
-            viewTypeText.setText(garden.getName());
-            viewTypeTexts.add(viewTypeText);
+            viewTypeGardens.add(createViewTypeGarden(garden));
         }
 
-        return viewTypeTexts;
+        return viewTypeGardens;
+    }
+
+    private ViewTypeGarden createViewTypeGarden(Garden garden) {
+        ViewTypeGarden viewTypeGarden = new ViewTypeGarden();
+        viewTypeGarden.setId(garden.getId());
+        viewTypeGarden.setName(garden.getName());
+        viewTypeGarden.setStartDate(garden.getStartDate());
+        return viewTypeGarden;
     }
 
 }
