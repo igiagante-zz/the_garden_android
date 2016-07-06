@@ -38,7 +38,7 @@ public class RestApiNutrientRepository extends BaseRestApiRepository<Nutrient> i
     }
 
     @Override
-    public Observable<String> add(Nutrient nutrient) {
+    public Observable<Nutrient> add(Nutrient nutrient) {
         return addOrUpdate(nutrient, false);
     }
 
@@ -68,7 +68,7 @@ public class RestApiNutrientRepository extends BaseRestApiRepository<Nutrient> i
             apiResult = api.createNutrient(builder.build()).asObservable();
         }
 
-        Nutrient result = execute(apiResult, nutrient, GardenRealmRepository.class, update);
+        Nutrient result = execute(apiResult, GardenRealmRepository.class, update);
 
         return update ? Observable.just(result) : Observable.just(result.getId());
     }

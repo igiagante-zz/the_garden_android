@@ -237,12 +237,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     @Override
-    public void notifyIfPlantWasPersisted(String plantId) {
-        goToMainActivity();
-    }
-
-    @Override
-    public void notifyIfPlantWasUpdated(Plant plant) {
+    public void notifyIfPlantWasPersistedOrUpdated(Plant plant) {
         goToMainActivity();
     }
 

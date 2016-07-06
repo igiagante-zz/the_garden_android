@@ -35,7 +35,7 @@ public class RestApiDoseRespository extends BaseRestApiRepository<Dose> implemen
     }
 
     @Override
-    public Observable<String> add(Dose item) {
+    public Observable<Dose> add(Dose item) {
         return null;
     }
 

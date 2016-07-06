@@ -8,6 +8,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.Nutrient
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
 
@@ -35,7 +36,7 @@ public class NutrientByIdSpecification  implements RealmSpecification {
     }
 
     @Override
-    public NutrientRealm toObjectRealm(@NonNull Realm realm) {
+    public RealmObject toObjectRealm(Realm realm) {
         return null;
     }
 }

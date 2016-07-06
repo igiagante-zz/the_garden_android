@@ -9,15 +9,10 @@ import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 public interface SavePlantView extends IView {
 
     /**
-     * Notify if the plant was persisted successfully or not
-     * @param plantId Plant Id
+     * Notify if the plant was persisted or updated successfully or not
+     * @param plant Plant Object
      */
-    void notifyIfPlantWasPersisted(String plantId);
+    void notifyIfPlantWasPersistedOrUpdated(Plant plant);
 
-    /**
-     * Notify if the plant was updated successfully or not
-     * @param plant Plant object
-     */
-    void notifyIfPlantWasUpdated(Plant plant);
 
 }

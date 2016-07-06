@@ -57,13 +57,13 @@ public class NutrientRealmRepository implements Repository<Nutrient> {
     }
 
     @Override
-    public Observable<String> add(Nutrient nutrient) {
+    public Observable<Nutrient> add(Nutrient nutrient) {
         realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam ->
                 realmParam.copyToRealmOrUpdate(toNutrientRealm.map(nutrient)));
         realm.close();
 
-        return Observable.just(nutrient.getId());
+        return Observable.just(nutrient);
     }
 
     @Override

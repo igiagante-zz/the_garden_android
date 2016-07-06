@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,6 +37,8 @@ import butterknife.ButterKnife;
  */
 public class PlantListFragment extends BaseFragment implements PlantListView, PlantsAdapter.OnDeletePlant {
 
+    private final static String PLANTS_KEY = "PLANTS";
+
     @Inject
     PlantListPresenter plantListPresenter;
 
@@ -47,6 +50,18 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
     @Bind(R.id.add_new_plant_id)
     Button buttonAddPlant;
+
+    private ArrayList<Plant> mPlants = new ArrayList<>();
+
+    public static PlantListFragment newInstance(ArrayList<Plant> plants) {
+        PlantListFragment myFragment = new PlantListFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(PLANTS_KEY, plants);
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +80,15 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         final View fragmentView = inflater.inflate(R.layout.fragment_plant_list, container, false);
         ButterKnife.bind(this, fragmentView);
 
+        Bundle args = getArguments();
+        if(args != null) {
+            mPlants = args.getParcelableArrayList(PLANTS_KEY);
+        }
+
+        if(savedInstanceState != null) {
+            mPlants = savedInstanceState.getParcelableArrayList(PLANTS_KEY);
+        }
+
         this.recyclerViewPlants.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewPlants.setAdapter(plantsAdapter);
 
@@ -74,16 +98,22 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
         plantsAdapter.setOnDeletePlant(this);
 
+        //load plant list from garden
+        this.plantsAdapter.setPlants(createFlavorHolderList(mPlants));
+
         return fragmentView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(PLANTS_KEY, mPlants);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.plantListPresenter.setView(new WeakReference<>(this));
-        if (savedInstanceState == null) {
-            this.plantListPresenter.getPlantList();
-        }
     }
 
     @Override public void onDestroyView() {
@@ -121,6 +151,10 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
     @Override
     public void notifyPlantWasDeleted() {
         this.plantsAdapter.removePlant();
+    }
+
+    public void setPlants(ArrayList<Plant> mPlants) {
+        this.mPlants = mPlants;
     }
 
     /**

@@ -25,7 +25,7 @@ public class PlagueSpecification implements RealmSpecification<PlagueRealm> {
     }
 
     @Override
-    public PlagueRealm toObjectRealm(@NonNull Realm realm) {
+    public PlagueRealm toObjectRealm(Realm realm) {
         return null;
     }
 }

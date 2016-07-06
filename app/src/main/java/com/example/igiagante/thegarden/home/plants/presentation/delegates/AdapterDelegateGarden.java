@@ -17,14 +17,15 @@ import com.example.igiagante.thegarden.home.plants.presentation.viewTypes.ViewTy
  */
 public class AdapterDelegateGarden implements AdapterDelegate<AdapterDelegateGarden.TextHolder, ViewTypeGarden> {
 
-    private OnClickLongListener mOnClickLongListener;
+    private OnClickGardenListener mOnClickGardenListener;
 
-    public interface OnClickLongListener {
+    public interface OnClickGardenListener {
         void showGardenDialog(int position);
+        void getGarden(String gardenId);
     }
 
-    public AdapterDelegateGarden(OnClickLongListener mOnClickLongListener) {
-        this.mOnClickLongListener = mOnClickLongListener;
+    public AdapterDelegateGarden(OnClickGardenListener OnClickGardenListener) {
+        this.mOnClickGardenListener = OnClickGardenListener;
     }
 
     @Override
@@ -37,9 +38,10 @@ public class AdapterDelegateGarden implements AdapterDelegate<AdapterDelegateGar
     public void onBindViewHolder(TextHolder holder, ViewTypeGarden item) {
         holder.setGardenName(item.getName());
         holder.itemView.setOnLongClickListener(v -> {
-            mOnClickLongListener.showGardenDialog(holder.getAdapterPosition());
+            mOnClickGardenListener.showGardenDialog(holder.getAdapterPosition());
             return false;
         });
+        holder.itemView.setOnClickListener(v -> mOnClickGardenListener.getGarden(item.getId()));
     }
 
     /**

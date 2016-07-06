@@ -5,7 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Ignacio Giagante, on 15/4/16.
@@ -25,6 +27,12 @@ public class Garden implements Parcelable {
 
     @SerializedName("endDate")
     private Date endDate;
+
+    @SerializedName("plants")
+    private List<Plant> plants = new ArrayList<>();
+
+    @SerializedName("irrigations")
+    private List<Plant> irrigations = new ArrayList<>();
 
     public Garden(String id, String name) {
         this.id = id;
@@ -63,6 +71,22 @@ public class Garden implements Parcelable {
         this.endDate = endDate;
     }
 
+    public List<Plant> getPlants() {
+        return plants;
+    }
+
+    public void setPlants(List<Plant> plants) {
+        this.plants = plants;
+    }
+
+    public List<Plant> getIrrigations() {
+        return irrigations;
+    }
+
+    public void setIrrigations(List<Plant> irrigations) {
+        this.irrigations = irrigations;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -72,6 +96,8 @@ public class Garden implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(name);
+        dest.writeList(plants);
+        dest.writeList(irrigations);
     }
 
     public static final Parcelable.Creator<Garden> CREATOR = new Parcelable.Creator<Garden>() {
@@ -87,5 +113,7 @@ public class Garden implements Parcelable {
     private Garden(Parcel in) {
         id = in.readString();
         name = in.readString();
+        in.readList(plants, this.getClass().getClassLoader());
+        in.readList(irrigations, this.getClass().getClassLoader());
     }
 }

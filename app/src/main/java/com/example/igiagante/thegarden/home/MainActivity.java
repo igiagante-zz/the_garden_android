@@ -30,9 +30,17 @@ import android.widget.Toast;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
+import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeText;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.AttributesFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.FlavorGalleryFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.MainDataFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
 import com.example.igiagante.thegarden.home.charts.presentation.ChartsFragment;
 import com.example.igiagante.thegarden.home.irrigations.presentation.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
@@ -40,6 +48,7 @@ import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
+import com.example.igiagante.thegarden.home.plants.presentation.adapters.GardenViewPagerAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.adapters.NavigationGardenAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateButtonAddGarden;
 import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateGarden;
@@ -59,17 +68,18 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 18/4/16.
  */
-public class  MainActivity extends BaseActivity implements HasComponent<PlantComponent>,
+public class MainActivity extends BaseActivity implements HasComponent<PlantComponent>,
         PlantsAdapter.OnEditPlant,
         GardenView,
         AdapterDelegateButtonAddGarden.OnGardenDialog,
-        AdapterDelegateGarden.OnClickLongListener {
+        AdapterDelegateGarden.OnClickGardenListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private PlantComponent plantComponent;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private GardenViewPagerAdapter mAdapter;
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -93,9 +103,11 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
     private int gardenPosition;
 
     /**
-     * The garden that is tried to be inserted.
+     * The garden that is tried to be persisted or updated.
      */
     private Garden garden;
+
+    private ArrayList<Garden> gardens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,10 +122,7 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
         this.mGardenPresenter.setView(new WeakReference<>(this));
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
 
         // show FAB
         fab.setOnClickListener(view -> startActivity(new Intent(this, CreatePlantActivity.class)));
@@ -164,17 +173,19 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
         fab.setVisibility(View.INVISIBLE);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new PlantListFragment(), "Plants");
-        adapter.addFragment(new IrrigationsFragment(), "Irrigations");
-        adapter.addFragment(new ChartsFragment(), "Charts");
-        viewPager.setAdapter(adapter);
-    }
-
     @Override
     public void loadGardens(List<Garden> gardens) {
         mNavigationGardenAdapter.setGardens(gardens);
+        this.gardens = (ArrayList<Garden>)gardens;
+        this.garden = gardens.get(0);
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this);
+        mAdapter.setGarden(garden);
+        viewPager.setAdapter(mAdapter);
     }
 
     @Override
@@ -229,13 +240,19 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
     }
 
     @Override
-    public void notifyIfGardenWasPersisted(String gardenId) {
-        mNavigationGardenAdapter.addGarden(garden);
+    public void getGarden(String gardenId) {
+        mGardenPresenter.getGarden(gardenId);
     }
 
     @Override
-    public void notifyIfGardenWasUpdated(Garden garden) {
-        mNavigationGardenAdapter.updateItem(garden);
+    public void loadGarden(Garden garden) {
+        this.garden = garden;
+        mAdapter.setGarden(garden);
+    }
+
+    @Override
+    public void notifyIfGardenWasPersistedOrUpdated(Garden garden) {
+        mNavigationGardenAdapter.addOrUpdateGarden(garden);
     }
 
     @Override
@@ -283,35 +300,6 @@ public class  MainActivity extends BaseActivity implements HasComponent<PlantCom
         return true;
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
 
     @Override
     public void showError(String message) {

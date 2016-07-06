@@ -59,7 +59,7 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<String> add(@NonNull final Plant plant) {
+    public Observable<Plant> add(@NonNull final Plant plant) {
 
         realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam ->
@@ -67,7 +67,7 @@ public class PlantRealmRepository implements Repository<Plant> {
 
         realm.close();
 
-        return Observable.just(plant.getId());
+        return Observable.just(plant);
     }
 
     @Override

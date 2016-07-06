@@ -7,6 +7,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseReal
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
 
@@ -34,7 +35,7 @@ public class DoseByIdSpecification implements RealmSpecification {
     }
 
     @Override
-    public DoseRealm toObjectRealm(@NonNull Realm realm) {
+    public RealmObject toObjectRealm(Realm realm) {
         return null;
     }
 }

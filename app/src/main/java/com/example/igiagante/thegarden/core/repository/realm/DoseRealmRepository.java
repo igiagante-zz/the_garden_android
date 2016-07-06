@@ -57,13 +57,13 @@ public class DoseRealmRepository implements Repository<Dose> {
     }
 
     @Override
-    public Observable<String> add(Dose dose) {
+    public Observable<Dose> add(Dose dose) {
         realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam ->
                 realmParam.copyToRealmOrUpdate(toDoseRealm.map(dose)));
         realm.close();
 
-        return Observable.just(dose.getId());
+        return Observable.just(dose);
     }
 
     @Override

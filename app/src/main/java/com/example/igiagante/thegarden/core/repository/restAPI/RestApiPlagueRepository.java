@@ -32,7 +32,7 @@ public class RestApiPlagueRepository implements Repository<Plague> {
     }
 
     @Override
-    public Observable<String> add(Plague item) {
+    public Observable<Plague> add(Plague item) {
         return null;
     }
 

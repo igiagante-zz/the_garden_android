@@ -5,9 +5,7 @@ import android.support.annotation.NonNull;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.GardenRepositoryManager;
-import com.example.igiagante.thegarden.core.repository.managers.PlantRepositoryManager;
-import com.example.igiagante.thegarden.core.repository.realm.specification.GardenSpecification;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlantSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.GardenByIdSpecification;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;
@@ -15,9 +13,9 @@ import javax.inject.Inject;
 import rx.Observable;
 
 /**
- * @author Ignacio Giagante, on 3/7/16.
+ * @author Ignacio Giagante, on 6/7/16.
  */
-public class GetGardensUseCase extends UseCase<Void> {
+public class GetGardenUseCase extends UseCase<String> {
 
     /**
      * Repository Manager which delegates the actions to the correct repository
@@ -25,7 +23,7 @@ public class GetGardensUseCase extends UseCase<Void> {
     private final GardenRepositoryManager gardenRepositoryManager;
 
     @Inject
-    public GetGardensUseCase(@NonNull GardenRepositoryManager gardenRepositoryManager,
+    public GetGardenUseCase(@NonNull GardenRepositoryManager gardenRepositoryManager,
                              @NonNull ThreadExecutor threadExecutor,
                              @NonNull PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
@@ -35,13 +33,7 @@ public class GetGardensUseCase extends UseCase<Void> {
     }
 
     @Override
-    protected Observable buildUseCaseObservable(Void aVoid) {
-        GardenSpecification gardenSpecification = new GardenSpecification();
-        return gardenRepositoryManager.getRepositories().get(1).query(gardenSpecification);
-    }
-
-    @Override
-    protected void setRepositoryOrder() {
-        repositoryOrder.add(LOCAL_REPOSITORY, REMOTE_REPOSITORY);
+    protected Observable buildUseCaseObservable(String gardenId) {
+        return gardenRepositoryManager.getRepositories().get(1).getById(gardenId);
     }
 }

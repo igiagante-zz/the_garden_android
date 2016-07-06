@@ -53,7 +53,7 @@ public class RestApiPlantRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<String> add(@NonNull final Plant plant) {
+    public Observable<Plant> add(@NonNull final Plant plant) {
 
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
         Observable<Plant> apiResult = api.createPlant(builder.build()).asObservable();
@@ -64,12 +64,12 @@ public class RestApiPlantRepository implements Repository<Plant> {
 
         // persist the plant into database
         PlantRealmRepository dataBase = new PlantRealmRepository(mContext);
-        Observable<String> dbResult = dataBase.add(listOne.get(0));
+        Observable<Plant> dbResult = dataBase.add(listOne.get(0));
 
-        List<String> list = new ArrayList<>();
-        dbResult.subscribe(plantId -> list.add(plantId));
+        List<Plant> list = new ArrayList<>();
+        dbResult.subscribe(plant1 -> list.add(plant1));
 
-        Observable<String> observable = Observable.just(list.get(0));
+        Observable<Plant> observable = Observable.just(list.get(0));
 
         return observable;
     }

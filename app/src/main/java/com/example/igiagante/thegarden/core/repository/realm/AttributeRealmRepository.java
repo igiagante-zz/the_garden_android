@@ -58,12 +58,12 @@ public class AttributeRealmRepository implements Repository<Attribute> {
     }
 
     @Override
-    public Observable<String> add(Attribute attribute) {
+    public Observable<Attribute> add(Attribute attribute) {
         final Realm realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam -> realmParam.copyToRealmOrUpdate(toAttributeRealm.map(attribute)));
         realm.close();
 
-        return Observable.just(attribute.getId());
+        return Observable.just(attribute);
     }
 
     @Override

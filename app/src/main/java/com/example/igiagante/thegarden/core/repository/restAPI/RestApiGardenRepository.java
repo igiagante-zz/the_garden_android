@@ -38,7 +38,7 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
     }
 
     @Override
-    public Observable<String> add(Garden garden) {
+    public Observable<Garden> add(Garden garden) {
         return addOrUpdate(garden, false);
     }
 
@@ -62,7 +62,7 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
             apiResult = api.createGarden(garden).asObservable();
         }
 
-        Garden result = execute(apiResult, garden, GardenRealmRepository.class, update);
+        Garden result = execute(apiResult, GardenRealmRepository.class, update);
 
         return update ? Observable.just(result) : Observable.just(result.getId());
     }

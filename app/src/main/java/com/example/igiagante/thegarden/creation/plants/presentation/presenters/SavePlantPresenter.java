@@ -30,19 +30,15 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
         this.view = null;
     }
 
-    public void notifyIfPlantWasPersisted(String plantId) {
-        getView().notifyIfPlantWasPersisted(plantId);
-    }
-
-    public void notifyIfPlantWasUpdated(Plant plant) {
-        getView().notifyIfPlantWasUpdated(plant);
+    public void notifyIfPlantWasPersistedOrUpdated(Plant plant) {
+        getView().notifyIfPlantWasPersistedOrUpdated(plant);
     }
 
     public void savePlant(Plant plant) {
         savePlantUseCase.execute(plant, new SavePlantSubscriber());
     }
 
-    private final class SavePlantSubscriber extends DefaultSubscriber<Object> {
+    private final class SavePlantSubscriber extends DefaultSubscriber<Plant> {
 
         @Override
         public void onCompleted() {
@@ -57,12 +53,8 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
         }
 
         @Override
-        public void onNext(Object object) {
-            if(object instanceof String) {
-                SavePlantPresenter.this.notifyIfPlantWasPersisted((String)object);
-            } else {
-                SavePlantPresenter.this.notifyIfPlantWasUpdated((Plant)object);
-            }
+        public void onNext(Plant plant) {
+            SavePlantPresenter.this.notifyIfPlantWasPersistedOrUpdated(plant);
         }
     }
 }

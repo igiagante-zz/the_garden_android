@@ -4,6 +4,7 @@ import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.home.plants.delete_plant.DeletePlantDataUseCase;
 import com.example.igiagante.thegarden.home.plants.usecase.DeleteGardenUseCase;
+import com.example.igiagante.thegarden.home.plants.usecase.GetGardenUseCase;
 import com.example.igiagante.thegarden.home.plants.usecase.GetGardensUseCase;
 import com.example.igiagante.thegarden.home.plants.usecase.GetPlantsUseCase;
 import com.example.igiagante.thegarden.home.plants.usecase.SaveGardenUseCase;
@@ -40,6 +41,13 @@ public class PlantModule {
     @Named("gardens")
     UseCase provideGetGardensUseCase(GetGardensUseCase getGardensUseCase) {
         return getGardensUseCase;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("getGarden")
+    UseCase provideGetGardenUseCase(GetGardenUseCase getGardenUseCase) {
+        return getGardenUseCase;
     }
 
     @Provides

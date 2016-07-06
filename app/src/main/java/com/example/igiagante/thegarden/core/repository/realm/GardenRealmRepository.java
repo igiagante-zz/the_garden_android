@@ -57,13 +57,13 @@ public class GardenRealmRepository implements Repository<Garden> {
     }
 
     @Override
-    public Observable<String> add(Garden garden) {
+    public Observable<Garden> add(Garden garden) {
         realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam ->
                 realmParam.copyToRealmOrUpdate(toGardenRealm.map(garden)));
         realm.close();
 
-        return Observable.just(garden.getId());
+        return Observable.just(garden);
     }
 
     @Override

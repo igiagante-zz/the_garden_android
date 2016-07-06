@@ -30,7 +30,7 @@ public class FlavorDaoRepository implements Repository<Flavor> {
     }
 
     @Override
-    public Observable<String> add(Flavor item) {
+    public Observable<Flavor> add(Flavor item) {
         return null;
     }
 

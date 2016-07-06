@@ -23,16 +23,19 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     private final static String TAG = GardenPresenter.class.getSimpleName();
 
     private final UseCase getGardensUseCase;
+    private final UseCase getGardenUseCase;
     private final UseCase saveGardenUseCase;
     private final UseCase deleteGardenUseCase;
 
     @Inject
     public GardenPresenter(@Named("gardens") UseCase getGardensUseCase,
+                           @Named("getGarden") UseCase getGardenUseCase,
                            @Named("saveGarden") UseCase saveGardenUseCase,
                            @Named("deleteGarden") UseCase deleteGardenUseCase) {
         this.getGardensUseCase = getGardensUseCase;
         this.saveGardenUseCase = saveGardenUseCase;
         this.deleteGardenUseCase = deleteGardenUseCase;
+        this.getGardenUseCase = getGardenUseCase;
     }
 
     public void destroy() {
@@ -50,6 +53,10 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     public void deleteGarden(String gardenId) {
         deleteGardenUseCase.execute(gardenId, new DeleteGardenSubscriber());
+    }
+
+    public void getGarden(String gardenId){
+        getGardenUseCase.execute(gardenId, new GetGardenSubscriber());
     }
 
     private void showGardens(List<Garden> gardens) {
@@ -70,19 +77,19 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         }
     }
 
-    private void notifyIfGardenWasPersisted(String gardenId) {
-        getView().notifyIfGardenWasPersisted(gardenId);
-    }
-
-    private void notifyIfGardenWasUpdated(Garden garden) {
-        getView().notifyIfGardenWasUpdated(garden);
+    private void notifyIfGardenWasPersistedOrUpdated(Garden garden) {
+        getView().notifyIfGardenWasPersistedOrUpdated(garden);
     }
 
     private void notifyIfGardenWasDeleted(String result) {
         getView().notifyIfGardenWasDeleted();
     }
 
-    private final class SaveGardenSubscriber extends DefaultSubscriber<Object> {
+    private void loadGarden(Garden garden) {
+        getView().loadGarden(garden);
+    }
+
+    private final class SaveGardenSubscriber extends DefaultSubscriber<Garden> {
 
         @Override public void onCompleted() {
             //PlantListPresenter.this.hideViewLoading();
@@ -93,12 +100,8 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
             e.printStackTrace();
         }
 
-        @Override public void onNext(Object object) {
-            if(object instanceof String) {
-                GardenPresenter.this.notifyIfGardenWasPersisted((String)object);
-            } else {
-                GardenPresenter.this.notifyIfGardenWasUpdated((Garden)object);
-            }
+        @Override public void onNext(Garden garden) {
+            GardenPresenter.this.notifyIfGardenWasPersistedOrUpdated(garden);
         }
     }
 
@@ -114,6 +117,21 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
         @Override public void onNext(String result) {
             GardenPresenter.this.notifyIfGardenWasDeleted(result);
+        }
+    }
+
+    private final class GetGardenSubscriber extends DefaultSubscriber<Garden> {
+
+        @Override public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        @Override public void onNext(Garden garden) {
+            GardenPresenter.this.loadGarden(garden);
         }
     }
 }

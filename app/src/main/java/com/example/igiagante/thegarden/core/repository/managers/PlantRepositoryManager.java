@@ -29,7 +29,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         mRepositories.add(new RestApiPlantRepository(context));
     }
 
-    public Observable<String> add(@NonNull Plant plant) {
+    public Observable<Plant> add(@NonNull Plant plant) {
 
         // search a plant using the name
         Specification plantSpecification = new PlantByNameSpecification(plant.getName());
@@ -47,7 +47,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         // side, it asks to the rest api to save the plant.
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists
-                        ? observableOne.map(plant1 -> plant.getId())
+                        ? observableOne
                         : mRepositories.get(1).add(plant));
     }
 

@@ -33,7 +33,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
     private List<IViewType> items = new LinkedList<>();
 
     public NavigationGardenAdapter(Context context, AdapterDelegateButtonAddGarden.OnGardenDialog onGardenDialog,
-                                   AdapterDelegateGarden.OnClickLongListener onClickLongListener) {
+                                   AdapterDelegateGarden.OnClickGardenListener onClickLongListener) {
         this.mContext = context;
 
         // add adapter delegates
@@ -73,6 +73,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * Set the items collection using gardens' names and add the button again.
+     *
      * @param gardens List of Gardens
      */
     public void setGardens(List<Garden> gardens) {
@@ -86,20 +87,31 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
         return this.items.get(position);
     }
 
+
+
+    /**
+     * If the garden exists, it will be updated. In other case, it will be persisted.
+     * @param garden Garden Object
+     */
+    public void addOrUpdateGarden(Garden garden) {
+        int position = existGarden(garden);
+        if (position != -1) {
+            updateItem(garden, position);
+        } else {
+            addGarden(garden);
+        }
+    }
+
     /**
      * Update garden data
      * @param garden Garden Object
      */
-    public void updateItem(Garden garden) {
-        for (int i = 0; i < items.size(); i++) {
-            if(items.get(i) instanceof ViewTypeGarden) {
-                ViewTypeGarden viewTypeGarden = (ViewTypeGarden)items.get(i);
-                if(viewTypeGarden.getId().equals(garden.getId())) {
-                    viewTypeGarden.setName(garden.getName());
-                    viewTypeGarden.setStartDate(garden.getStartDate());
-                    notifyItemChanged(i);
-                }
-            }
+    private void updateItem(Garden garden, int position) {
+        ViewTypeGarden viewTypeGarden = (ViewTypeGarden) items.get(position);
+        if (viewTypeGarden.getId().equals(garden.getId())) {
+            viewTypeGarden.setName(garden.getName());
+            viewTypeGarden.setStartDate(garden.getStartDate());
+            notifyItemChanged(position);
         }
     }
 
@@ -107,12 +119,28 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
      * Add new garden to the list
      * @param garden Garden Object
      */
-    public void addGarden(Garden garden) {
+    private void addGarden(Garden garden) {
         this.items.remove(items.size() - 1);
         this.items.add(createViewTypeGarden(garden));
         this.items.add(new ViewTypeButton());
-
         this.notifyDataSetChanged();
+    }
+
+    /**
+     * Check if the garden is already on the list
+     * @param garden Garden Object
+     * @return garden's position within list or -1 in case doesn't exist
+     */
+    private int existGarden(Garden garden) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) instanceof ViewTypeGarden) {
+                ViewTypeGarden viewTypeGarden = (ViewTypeGarden) items.get(i);
+                if (viewTypeGarden.getId().equals(garden.getId())) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     private Collection<ViewTypeGarden> getGardenCollection(List<Garden> gardens) {

@@ -12,7 +12,7 @@ import rx.Observable;
 /**
  * @author giagante on 5/5/16.
  */
-public class PlantSpecification implements RealmSpecification {
+public class PlantSpecification implements RealmSpecification<PlantRealm> {
 
     @Override
     public Observable<RealmResults<PlantRealm>> toObservableRealmResults(@NonNull Realm realm) {
@@ -25,7 +25,7 @@ public class PlantSpecification implements RealmSpecification {
     }
 
     @Override
-    public PlantRealm toObjectRealm(@NonNull Realm realm) {
+    public PlantRealm toObjectRealm(Realm realm) {
         return null;
     }
 }

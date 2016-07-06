@@ -33,7 +33,7 @@ public class BaseRestApiRepository<T> {
      * @param repository DB
      * @param update indicate if the transaction is about an updating
      */
-    protected T execute(Observable<T> apiResult, T item, Class repository, boolean update) {
+    protected T execute(Observable<T> apiResult, Class repository, boolean update) {
 
         // get Data From api
         List<T> listOne = new ArrayList<>();
@@ -59,16 +59,16 @@ public class BaseRestApiRepository<T> {
             ei.printStackTrace();
         }
 
-        List<T> list = new ArrayList<>();
-        List<String> ids = new ArrayList<>();
+        Observable<T> dbResult = null;
 
         if(update) {
-            Observable<T> dbResult = dataBase.update(listOne.get(0));
-            dbResult.toBlocking().subscribe(gardenId -> list.add(gardenId));
+            dbResult = dataBase.update(listOne.get(0));
         } else {
-            Observable<String> result = dataBase.add(listOne.get(0));
-            result.toBlocking().subscribe(gardenId -> ids.add(gardenId));
+            dbResult = dataBase.add(listOne.get(0));
         }
+
+        List<T> list = new ArrayList<>();
+        dbResult.toBlocking().subscribe(gardenId -> list.add(gardenId));
 
         return list.get(0);
     }

@@ -25,7 +25,7 @@ public class AttributeSpecification  implements RealmSpecification<AttributeReal
     }
 
     @Override
-    public AttributeRealm toObjectRealm(@NonNull Realm realm) {
+    public AttributeRealm toObjectRealm(Realm realm) {
         return null;
     }
 }

@@ -7,6 +7,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.P
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
 
@@ -35,7 +36,7 @@ public class PlantByIdSpecification implements RealmSpecification {
     }
 
     @Override
-    public PlantRealm toObjectRealm(@NonNull Realm realm) {
+    public RealmObject toObjectRealm(Realm realm) {
         return null;
     }
 }

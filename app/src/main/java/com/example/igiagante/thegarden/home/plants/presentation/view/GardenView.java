@@ -15,9 +15,9 @@ public interface GardenView extends IView {
      */
     void loadGardens(List<Garden> gardens);
 
-    void notifyIfGardenWasPersisted(String gardenId);
+    void loadGarden(Garden garden);
 
-    void notifyIfGardenWasUpdated(Garden garden);
+    void notifyIfGardenWasPersistedOrUpdated(Garden garden);
 
     void notifyIfGardenWasDeleted();
 }

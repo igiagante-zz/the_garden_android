@@ -34,7 +34,7 @@ public class GardenByNameSpecification implements RealmSpecification<GardenRealm
     }
 
     @Override
-    public GardenRealm toObjectRealm(@NonNull Realm realm) {
-        return realm.where(GardenRealm.class).equalTo(Table.NAME, name).findFirst();
+    public GardenRealm toObjectRealm(Realm realm) {
+        return null;
     }
 }

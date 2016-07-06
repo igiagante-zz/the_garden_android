@@ -26,9 +26,9 @@ public interface Repository<T> {
     /**
      * Return an Object's id which was added
      * @param item Object to be inserted into the repository
-     * @return Observable<String> The Observable contains an id
+     * @return Observable<T> The Observable contains an object
      */
-    Observable<String> add(T item);
+    Observable<T> add(T item);
 
     /**
      * Return the number of objects which were added.
