@@ -13,6 +13,19 @@
     <dimen name="image_header_view_height">170dp</dimen>
 
     <dimen name="toolbar_size">100dp</dimen>
+    <dimen name="navigation_drawer_width">230dp</dimen>
+    <dimen name="navigation_drawer_garden_logo_size">25dp</dimen>
+    <dimen name="navigation_drawer_garden_logo_margin_top">10dp</dimen>
+    <dimen name="navigation_drawer_garden_logo_margin_start">13dp</dimen>
+    <dimen name="navigation_drawer_garden_logo_margin_end">10dp</dimen>
+
+    <dimen name="navigation_drawer_button_add_garden_padding">2dp</dimen>
+    <dimen name="navigation_drawer_button_add_garden_text_size">16sp</dimen>
+    <dimen name="navigation_drawer_button_add_garden_margin_start">8sp</dimen>
+
+    <dimen name="navigation_drawer_garden_name_margin_top">8dp</dimen>
+    <dimen name="navigation_drawer_garden_name_margin_start">8dp</dimen>
+    <dimen name="navigation_drawer_garden_name_padding_top">8dp</dimen>
 
     <!-- General Keylines -->
     <dimen name="margin_top">60dp</dimen>

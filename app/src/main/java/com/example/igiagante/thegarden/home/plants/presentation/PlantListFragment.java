@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -99,7 +98,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         plantsAdapter.setOnDeletePlant(this);
 
         //load plant list from garden
-        this.plantsAdapter.setPlants(createFlavorHolderList(mPlants));
+        this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
 
         return fragmentView;
     }
@@ -129,7 +128,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
     @Override
     public void renderPlantList(Collection<Plant> plants) {
-        this.plantsAdapter.setPlants(createFlavorHolderList(plants));
+        this.plantsAdapter.setPlants(createPlantHolderList(plants));
     }
 
     @Override
@@ -155,6 +154,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
     public void setPlants(ArrayList<Plant> mPlants) {
         this.mPlants = mPlants;
+        this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
     }
 
     /**
@@ -162,16 +162,16 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
      * @param plants list of plants
      * @return list of plant holders
      */
-    private ArrayList<PlantHolder> createFlavorHolderList(Collection<Plant> plants) {
+    private ArrayList<PlantHolder> createPlantHolderList(Collection<Plant> plants) {
 
-        ArrayList<PlantHolder> flavorHolders = new ArrayList<>();
+        ArrayList<PlantHolder> plantHolders = new ArrayList<>();
 
         for(Plant plant : plants) {
             PlantHolder plantHolder = new PlantHolder();
             plantHolder.setModel(plant);
-            flavorHolders.add(plantHolder);
+            plantHolders.add(plantHolder);
         }
-        return flavorHolders;
+        return plantHolders;
     }
 
     @Override

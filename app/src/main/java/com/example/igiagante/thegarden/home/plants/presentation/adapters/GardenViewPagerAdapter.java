@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -17,9 +20,9 @@ import java.util.ArrayList;
 /**
  * @author Ignacio Giagante, on 6/7/16.
  */
-public class GardenViewPagerAdapter extends FragmentPagerAdapter {
+public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private static final String PLANTS_TAG = "plants";
+    SparseArray<Fragment> registeredFragments = new SparseArray<>(3);
 
     private Context mContext;
     private FragmentManager fragmentManager;
@@ -44,21 +47,33 @@ public class GardenViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
-    }
-
-    @Override
     public CharSequence getPageTitle(int position) {
         return getTitleByPosition(position);
     }
 
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
     public void setGarden(Garden garden) {
         this.garden = garden;
-        /*
-        PlantListFragment plantListFragment = (PlantListFragment)fragmentManager.findFragmentByTag(PLANTS_TAG);
-        plantListFragment.setPlants((ArrayList<Plant>) garden.getPlants()); */
-        notifyDataSetChanged();
+        setDataFromModel(garden);
+    }
+
+    private void setDataFromModel(Garden garden) {
+        PlantListFragment plantListFragment = (PlantListFragment) registeredFragments.get(0);
+        if(plantListFragment != null) {
+            plantListFragment.setPlants((ArrayList<Plant>) garden.getPlants());
+        }
     }
 
     private String getTitleByPosition(int position) {
@@ -77,10 +92,6 @@ public class GardenViewPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 fragment = PlantListFragment.newInstance((ArrayList<Plant>) garden.getPlants());
-                /*
-                fragmentManager.beginTransaction()
-                        .add(android.R.id.content, fragment, PLANTS_TAG)
-                        .commit();*/
                 break;
             case 1:
                 fragment = new IrrigationsFragment();

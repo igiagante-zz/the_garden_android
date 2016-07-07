@@ -248,6 +248,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     public void loadGarden(Garden garden) {
         this.garden = garden;
         mAdapter.setGarden(garden);
+        drawerLayout.closeDrawers();
     }
 
     @Override
