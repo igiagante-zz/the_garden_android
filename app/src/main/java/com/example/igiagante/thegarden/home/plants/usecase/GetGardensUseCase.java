@@ -37,7 +37,7 @@ public class GetGardensUseCase extends UseCase<Void> {
     @Override
     protected Observable buildUseCaseObservable(Void aVoid) {
         GardenSpecification gardenSpecification = new GardenSpecification();
-        return gardenRepositoryManager.getRepositories().get(1).query(gardenSpecification);
+        return gardenRepositoryManager.query(gardenSpecification);
     }
 
     @Override

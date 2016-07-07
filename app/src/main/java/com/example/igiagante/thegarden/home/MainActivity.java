@@ -74,6 +74,8 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         AdapterDelegateButtonAddGarden.OnGardenDialog,
         AdapterDelegateGarden.OnClickGardenListener {
 
+    public static final String GARDEN_KEY = "GARDEN";
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private PlantComponent plantComponent;
@@ -129,6 +131,10 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
 
         setupToolbar();
 
+        mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(mAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
         // Load gardens!
         mGardenPresenter.getGardens();
     }
@@ -171,6 +177,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
 
         fab = (FloatingActionButton) findViewById(R.id.fab_id);
         fab.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
@@ -178,14 +185,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         mNavigationGardenAdapter.setGardens(gardens);
         this.gardens = (ArrayList<Garden>)gardens;
         this.garden = gardens.get(0);
-        setupViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this);
         mAdapter.setGarden(garden);
-        viewPager.setAdapter(mAdapter);
     }
 
     @Override
@@ -207,7 +207,12 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
                 showEditGardenDialog(garden);
                 break;
             case R.id.delete_plant:
-                mGardenPresenter.deleteGarden(garden.getId());
+                if(!garden.getPlants().isEmpty()) {
+                    Toast.makeText(this, "The garden has plants", Toast.LENGTH_SHORT).show();
+                } else {
+                    mGardenPresenter.deleteGarden(garden.getId());
+                }
+
                 break;
         }
         return super.onContextItemSelected(item);

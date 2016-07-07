@@ -24,15 +24,11 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
     SparseArray<Fragment> registeredFragments = new SparseArray<>(3);
 
-    private Context mContext;
-    private FragmentManager fragmentManager;
     private Garden garden;
     private String [] titles = {};
 
     public GardenViewPagerAdapter(FragmentManager manager, Context context) {
         super(manager);
-        this.fragmentManager = manager;
-        this.mContext = context;
         titles = context.getResources().getStringArray(R.array.garden_view_pager_fragment_title);
     }
 
@@ -92,7 +88,11 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 // TODO - Quit second argument after FAB has been implemented
-                fragment = PlantListFragment.newInstance((ArrayList<Plant>) garden.getPlants(), garden);
+                ArrayList<Plant> plants = new ArrayList<>();
+                if(garden != null) {
+                    plants = (ArrayList<Plant>) garden.getPlants();
+                }
+                fragment = PlantListFragment.newInstance(plants, garden);
                 break;
             case 1:
                 fragment = new IrrigationsFragment();

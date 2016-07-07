@@ -64,7 +64,7 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
 
         Garden result = execute(apiResult, GardenRealmRepository.class, update);
 
-        return update ? Observable.just(result) : Observable.just(result.getId());
+        return Observable.just(result);
     }
 
     @Override

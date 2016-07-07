@@ -74,7 +74,6 @@ public class GardenRealmRepository implements Repository<Garden> {
         realm.executeTransaction(realmParam -> {
             for (Garden garden : gardens) {
                 realmParam.copyToRealmOrUpdate(toGardenRealm.map(garden));
-
             }
         });
 

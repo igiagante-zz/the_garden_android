@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.realm.modelRealm;
 
 import java.util.Date;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -20,6 +21,8 @@ public class GardenRealm extends RealmObject {
     private Date startDate;
 
     private Date endDate;
+
+    private RealmList<PlantRealm> plants;
 
     public String getId() {
         return id;
@@ -51,5 +54,13 @@ public class GardenRealm extends RealmObject {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public RealmList<PlantRealm> getPlants() {
+        return plants;
+    }
+
+    public void setPlants(RealmList<PlantRealm> plants) {
+        this.plants = plants;
     }
 }

@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.restAPI;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.Repository;
@@ -30,7 +31,6 @@ import rx.schedulers.Schedulers;
 /**
  * @author Ignacio Giagante, on 19/4/16.
  */
-@Singleton
 public class RestApiPlantRepository implements Repository<Plant> {
 
     private final PlantRestAPI api;
@@ -182,6 +182,8 @@ public class RestApiPlantRepository implements Repository<Plant> {
             String plagues = new Gson().toJson(plant.getPlagues());
             builder.addFormDataPart(PlantTable.PLAGUES, plagues);
         }
+
+        Log.i("GARDEN ID", plant.getGardenId());
 
         return builder.addFormDataPart(PlantTable.NAME, plant.getName())
                 .addFormDataPart(PlantTable.SIZE, String.valueOf(plant.getSize()))
