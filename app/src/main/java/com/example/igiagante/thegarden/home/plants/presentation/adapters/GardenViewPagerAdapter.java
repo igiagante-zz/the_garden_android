@@ -91,7 +91,8 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                fragment = PlantListFragment.newInstance((ArrayList<Plant>) garden.getPlants());
+                // TODO - Quit second argument after FAB has been implemented
+                fragment = PlantListFragment.newInstance((ArrayList<Plant>) garden.getPlants(), garden);
                 break;
             case 1:
                 fragment = new IrrigationsFragment();

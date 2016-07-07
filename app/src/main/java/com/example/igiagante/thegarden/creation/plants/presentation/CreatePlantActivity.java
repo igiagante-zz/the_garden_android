@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.core.presentation.FlowStepExecutor;
@@ -63,6 +64,11 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     private Plant.PlantBuilder plantBuilder;
 
     /**
+     * Where the plant belongs to
+     */
+    private Garden mGarden;
+
+    /**
      * Model to keep all the data related to the plant
      */
     private Plant mPlant;
@@ -105,12 +111,20 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         this.initializeInjector();
         ButterKnife.bind(this);
 
+        // Create builder which will in charge of creating the plant
+        plantBuilder = new Plant.PlantBuilder();
+
+        // get garden info
+        mGarden = getIntent().getParcelableExtra(MainActivity.GARDEN_KEY);
+        if(mGarden != null) {
+            plantBuilder.addGardenId(mGarden.getId());
+        }
+
         // set view for this presenter
         this.mSavePlantPresenter.setView(new WeakReference<>(this));
 
         // check if the activity was started in order to edit a plant
         mPlant = getIntent().getParcelableExtra(PLANT_KEY);
-        plantBuilder = new Plant.PlantBuilder();
         if (mPlant != null) {
             plantBuilder.addPlantId(mPlant.getId());
         }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.MainActivity;
@@ -52,11 +53,14 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
     private ArrayList<Plant> mPlants = new ArrayList<>();
 
-    public static PlantListFragment newInstance(ArrayList<Plant> plants) {
+    private Garden mGarden;
+
+    public static PlantListFragment newInstance(ArrayList<Plant> plants, Garden garden) {
         PlantListFragment myFragment = new PlantListFragment();
 
         Bundle args = new Bundle();
         args.putParcelableArrayList(PLANTS_KEY, plants);
+        args.putParcelable(MainActivity.GARDEN_KEY, garden);
         myFragment.setArguments(args);
 
         return myFragment;
@@ -82,6 +86,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         Bundle args = getArguments();
         if(args != null) {
             mPlants = args.getParcelableArrayList(PLANTS_KEY);
+            mGarden = args.getParcelable(MainActivity.GARDEN_KEY);
         }
 
         if(savedInstanceState != null) {
@@ -91,7 +96,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         this.recyclerViewPlants.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewPlants.setAdapter(plantsAdapter);
 
-        buttonAddPlant.setOnClickListener(view -> startActivity(new Intent(getActivity(), CreatePlantActivity.class)));
+        buttonAddPlant.setOnClickListener(view -> startActivity(createIntentForCreatePlantActivity()));
 
         plantsAdapter.setOnEditPlant((MainActivity)getActivity());
 
@@ -101,6 +106,13 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
 
         return fragmentView;
+    }
+
+    // TODO - Remove this after FAB has been implemented
+    private Intent createIntentForCreatePlantActivity() {
+        Intent intent = new Intent(getActivity(), CreatePlantActivity.class);
+        intent.putExtra(MainActivity.GARDEN_KEY, mGarden);
+        return intent;
     }
 
     @Override

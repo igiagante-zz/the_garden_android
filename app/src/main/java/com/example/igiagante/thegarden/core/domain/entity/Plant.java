@@ -291,7 +291,7 @@ public class Plant implements Parcelable {
     public static class PlantBuilder {
 
         private String id;
-        private String gardenId = "5716c3793f3bffbd34000002";
+        private String gardenId;
         private Date seedDate = new Date();
         private String name;
         private float phSoil;
@@ -337,7 +337,7 @@ public class Plant implements Parcelable {
         }
 
         /**
-         * Add the id of the plant to builder
+         * Add plant's id to builder
          * @param id Plant Id
          * @return builder
          */
@@ -347,7 +347,17 @@ public class Plant implements Parcelable {
         }
 
         /**
-         * Add the name of the plant to builder
+         * Add garden's id to builder
+         * @param gardenId Garden Id
+         * @return builder
+         */
+        public PlantBuilder addGardenId(String gardenId) {
+            this.gardenId = gardenId;
+            return this;
+        }
+
+        /**
+         * Add plant's name to builder
          * @param plantName name
          * @return builder
          */
@@ -357,7 +367,7 @@ public class Plant implements Parcelable {
         }
 
         /**
-         * Add the Ph Soil to builder
+         * Add Ph Soil to builder
          * @param phSoil ph soil
          * @return builder
          */
@@ -367,7 +377,7 @@ public class Plant implements Parcelable {
         }
 
         /**
-         * Add the Ec Soil to builder
+         * Add Ec Soil to builder
          * @param ecSoil ec soil
          * @return builder
          */
@@ -377,7 +387,7 @@ public class Plant implements Parcelable {
         }
 
         /**
-         * Add the flowering time of the plant to builder
+         * Add flowering time of the plant to builder
          * @param floweringTime name
          * @return builder
          */
@@ -387,7 +397,7 @@ public class Plant implements Parcelable {
         }
 
         /**
-         * Add the harvest to builder
+         * Add harvest to builder
          * @param harvest indicate how much was the harvest
          * @return builder
          */
@@ -397,7 +407,7 @@ public class Plant implements Parcelable {
         }
 
         /**
-         * Add the genoytpe to builder
+         * Add genoytpe to builder
          * @param genotype indicate the genotype of the plant
          * @return builder
          */
@@ -407,7 +417,7 @@ public class Plant implements Parcelable {
         }
 
         /**
-         * Add the size to builder
+         * Add size to builder
          * @param size indicate how long is the plant in one moment
          * @return builder
          */
@@ -417,7 +427,7 @@ public class Plant implements Parcelable {
         }
 
         /**
-         * Add the plants description to builder
+         * Add plants description to builder
          * @param description plant's description
          * @return builder
          */
