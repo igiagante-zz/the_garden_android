@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -90,9 +88,9 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     FloatingActionButton fab;
 
     /**
-     * Store the garden's position from {@link #garden}.
+     * Save garden's position from Garden, which should be deleted
      */
-    private int gardenPosition;
+    private int editGardenPosition;
 
     /**
      * The garden that is tried to be persisted or updated.
@@ -114,8 +112,8 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
             gardens = savedInstanceState.getParcelableArrayList(GARDENS_KEY);
         }
 
-        // get garden position to load that garden
-        getLastGardenPosition(getIntent());
+        // get the last active garden
+        setActiveGarden(getIntent());
 
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));
@@ -142,8 +140,12 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         outState.putParcelableArrayList(GARDENS_KEY, gardens);
     }
 
-    private void getLastGardenPosition(Intent intent) {
-        gardenPosition = intent.getIntExtra(GARDEN_KEY, 0);
+    /**
+     * Get Garden data from Intent
+     * @param intent Intent Object
+     */
+    private void setActiveGarden(Intent intent) {
+        this.garden = intent.getParcelableExtra(GARDEN_KEY);
     }
 
     private void setupToolbar() {
@@ -189,23 +191,31 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
 
     @Override
     public void loadGardens(List<GardenHolder> gardens) {
+
         mNavigationGardenAdapter.setGardens(gardens);
         this.gardens = (ArrayList<GardenHolder>)gardens;
-        if(!gardens.isEmpty()) {
-            this.garden = gardens.get(gardenPosition);
-            mAdapter.setGardenHolder(garden);
+
+        if(!gardens.isEmpty() && this.garden == null) {
+            this.garden = gardens.get(0);
         }
+        mAdapter.setGardenHolder(garden);
+    }
+
+    @Override
+    public void loadGarden(GardenHolder gardenHolder) {
+        drawerLayout.closeDrawers();
+        mAdapter.setGardenHolder(gardenHolder);
     }
 
     @Override
     public void showGardenDialog(int position) {
-        this.gardenPosition = position;
+        this.editGardenPosition = position;
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-        ViewTypeGarden gardenViewTypeText = (ViewTypeGarden) mNavigationGardenAdapter.getItem(gardenPosition);
+        ViewTypeGarden gardenViewTypeText = (ViewTypeGarden) mNavigationGardenAdapter.getItem(editGardenPosition);
         Garden garden = new Garden();
         garden.setId(gardenViewTypeText.getId());
         garden.setName(gardenViewTypeText.getName());
@@ -251,7 +261,6 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     @Override
     public void createGarden(Garden garden) {
         mGardenPresenter.saveGarden(garden);
-        this.garden.setModel(garden);
     }
 
     @Override
@@ -260,39 +269,30 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     }
 
     @Override
-    public void loadGarden(Garden garden) {
-        updateGardenAndCloseDrawer(garden);
-        GardenHolder gardenHolder = new GardenHolder();
-        gardenHolder.setModel(garden);
-        mAdapter.setGardenHolder(gardenHolder);
-    }
-
-    @Override
     public void notifyIfGardenWasPersistedOrUpdated(Garden garden) {
-        updateGardenAndCloseDrawer(garden);
-        GardenHolder gardenHolder = new GardenHolder();
-        gardenHolder.setModel(garden);
-        gardenHolder.setPosition(gardenPosition);
-        
+        drawerLayout.closeDrawers();
+
+        // update garden data in adapter menu
         mNavigationGardenAdapter.addOrUpdateGarden(garden);
 
-        gardenPosition = mNavigationGardenAdapter.getGardenPosition(garden);
-        loadGarden(garden);
+        this.garden = mGardenPresenter.createGardenHolder(garden, gardens.size());
+
+        if(!gardens.contains(this.garden)) {
+            this.gardens.add(this.garden.getPosition(), this.garden);
+        }
+
+        loadGarden(this.garden);
     }
 
     @Override
     public void notifyIfGardenWasDeleted() {
-        updateGardenAndCloseDrawer(null);
-        mNavigationGardenAdapter.removeGarden(gardenPosition);
+        drawerLayout.closeDrawers();
+
+        mNavigationGardenAdapter.removeGarden(editGardenPosition);
         mNavigationGardenAdapter.notifyDataSetChanged();
 
         // load the first garden after one is removed
-        loadGarden(gardens.get(gardens.size() - 1).getModel());
-    }
-
-    private void updateGardenAndCloseDrawer(@Nullable Garden garden) {
-        this.garden.setModel(garden);
-        drawerLayout.closeDrawers();
+        loadGarden(gardens.get(0));
     }
 
     @Override

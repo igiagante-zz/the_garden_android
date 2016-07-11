@@ -91,14 +91,25 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         }
     }
 
+    /**
+     * Create garden holder list
+     * @param gardens Gardens
+     * @return gardenHolders
+     */
     private ArrayList<GardenHolder> createGardenHolderList(List<Garden> gardens) {
         ArrayList<GardenHolder> gardenHolders = new ArrayList<>();
-        for(Garden garden : gardens) {
-            GardenHolder gardenHolder = new GardenHolder();
-            gardenHolder.setModel(garden);
-            gardenHolders.add(gardenHolder);
+
+        for (int i = 0; i < gardens.size(); i++) {
+            gardenHolders.add(createGardenHolder(gardens.get(0), i));
         }
         return gardenHolders;
+    }
+
+    public GardenHolder createGardenHolder(Garden garden, int position) {
+        GardenHolder gardenHolder = new GardenHolder();
+        gardenHolder.setModel(garden);
+        gardenHolder.setPosition(position);
+        return gardenHolder;
     }
 
     private final class SaveGardenSubscriber extends DefaultSubscriber<Garden> {

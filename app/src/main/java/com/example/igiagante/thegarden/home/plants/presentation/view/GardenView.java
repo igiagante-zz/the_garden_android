@@ -16,7 +16,11 @@ public interface GardenView extends IView {
      */
     void loadGardens(List<GardenHolder> gardens);
 
-    void loadGarden(Garden garden);
+    /**
+     * Load the data from garden's model
+     * @param gardenHolder Garden Object
+     */
+    void loadGarden(GardenHolder gardenHolder);
 
     void notifyIfGardenWasPersistedOrUpdated(Garden garden);
 
