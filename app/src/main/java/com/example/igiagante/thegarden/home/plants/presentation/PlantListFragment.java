@@ -19,6 +19,7 @@ import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.presenters.PlantListPresenter;
 import com.example.igiagante.thegarden.home.plants.presentation.view.PlantListView;
 
@@ -53,13 +54,12 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
     private ArrayList<Plant> mPlants = new ArrayList<>();
 
-    private Garden mGarden;
+    private GardenHolder mGarden;
 
-    public static PlantListFragment newInstance(ArrayList<Plant> plants, Garden garden) {
+    public static PlantListFragment newInstance(Garden garden) {
         PlantListFragment myFragment = new PlantListFragment();
 
         Bundle args = new Bundle();
-        args.putParcelableArrayList(PLANTS_KEY, plants);
         args.putParcelable(MainActivity.GARDEN_KEY, garden);
         myFragment.setArguments(args);
 
@@ -85,8 +85,10 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
         Bundle args = getArguments();
         if(args != null) {
-            mPlants = args.getParcelableArrayList(PLANTS_KEY);
             mGarden = args.getParcelable(MainActivity.GARDEN_KEY);
+            if(mGarden != null) {
+                mPlants = (ArrayList<Plant>) mGarden.getModel().getPlants();
+            }
         }
 
         if(savedInstanceState != null) {
@@ -162,6 +164,10 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
     @Override
     public void notifyPlantWasDeleted() {
         this.plantsAdapter.removePlant();
+    }
+
+    public void setGarden(GardenHolder mGarden) {
+        this.mGarden = mGarden;
     }
 
     public void setPlants(ArrayList<Plant> mPlants) {

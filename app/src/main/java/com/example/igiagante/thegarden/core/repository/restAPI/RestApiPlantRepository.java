@@ -62,7 +62,7 @@ public class RestApiPlantRepository implements Repository<Plant> {
         List<Plant> listOne = new ArrayList<>();
         apiResult.subscribe(plant2 -> listOne.add(plant2));
 
-        // persist the plant into database
+        // persist the garden into database
         PlantRealmRepository dataBase = new PlantRealmRepository(mContext);
         Observable<Plant> dbResult = dataBase.add(listOne.get(0));
 
@@ -183,7 +183,7 @@ public class RestApiPlantRepository implements Repository<Plant> {
             builder.addFormDataPart(PlantTable.PLAGUES, plagues);
         }
 
-        Log.i("GARDEN ID", plant.getGardenId());
+        Log.i("GARDEN ID", "plant.getGardenId() -- " + plant.getGardenId());
 
         return builder.addFormDataPart(PlantTable.NAME, plant.getName())
                 .addFormDataPart(PlantTable.SIZE, String.valueOf(plant.getSize()))

@@ -6,11 +6,13 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.adapter.delegate.AdapterDelegate;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.IViewType;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeButton;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeConstans;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeText;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateButtonAddGarden;
 import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateGarden;
 import com.example.igiagante.thegarden.home.plants.presentation.viewTypes.ViewTypeGarden;
@@ -76,7 +78,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
      *
      * @param gardens List of Gardens
      */
-    public void setGardens(List<Garden> gardens) {
+    public void setGardens(List<GardenHolder> gardens) {
         this.items.clear();
         this.items.addAll(getGardenCollection(gardens));
         this.items.add(new ViewTypeButton());
@@ -87,7 +89,12 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
         return this.items.get(position);
     }
 
-
+    public void removeGarden(int position) {
+        if(items.size() > 1) {
+            this.items.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
 
     /**
      * If the garden exists, it will be updated. In other case, it will be persisted.
@@ -111,6 +118,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (viewTypeGarden.getId().equals(garden.getId())) {
             viewTypeGarden.setName(garden.getName());
             viewTypeGarden.setStartDate(garden.getStartDate());
+            viewTypeGarden.setPlants((ArrayList<Plant>) garden.getPlants());
             notifyItemChanged(position);
         }
     }
@@ -143,12 +151,21 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
         return -1;
     }
 
-    private Collection<ViewTypeGarden> getGardenCollection(List<Garden> gardens) {
+    /**
+     * Get garden position in order to know which garden is activated
+     * @param garden Garden Object
+     * @return position if exits, -1 if not.
+     */
+    public int getGardenPosition(Garden garden) {
+        return existGarden(garden);
+    }
+
+    private Collection<ViewTypeGarden> getGardenCollection(List<GardenHolder> gardens) {
 
         ArrayList<ViewTypeGarden> viewTypeGardens = new ArrayList<>();
 
-        for (Garden garden : gardens) {
-            viewTypeGardens.add(createViewTypeGarden(garden));
+        for (GardenHolder gardenHolder : gardens) {
+            viewTypeGardens.add(createViewTypeGarden(gardenHolder.getModel()));
         }
 
         return viewTypeGardens;
@@ -159,6 +176,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
         viewTypeGarden.setId(garden.getId());
         viewTypeGarden.setName(garden.getName());
         viewTypeGarden.setStartDate(garden.getStartDate());
+        viewTypeGarden.setPlants((ArrayList<Plant>) garden.getPlants());
         return viewTypeGarden;
     }
 

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.presentation.DataHolder;
 
 /**
  * @author Ignacio Giagante, on 2/6/16.

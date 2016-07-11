@@ -352,6 +352,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addGardenId(String gardenId) {
+            Log.i("GARDEN ID", gardenId + "  was added  ");
             this.gardenId = gardenId;
             return this;
         }

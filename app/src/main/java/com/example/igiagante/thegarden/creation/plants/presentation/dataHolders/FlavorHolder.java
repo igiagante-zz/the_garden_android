@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.presentation.DataHolder;
 import com.example.igiagante.thegarden.core.repository.network.Settings;
 
 /**

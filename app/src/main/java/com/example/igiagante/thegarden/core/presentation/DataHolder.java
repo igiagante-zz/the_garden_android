@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.presentation.dataHolders;
+package com.example.igiagante.thegarden.core.presentation;
 
 import android.os.Parcelable;
 

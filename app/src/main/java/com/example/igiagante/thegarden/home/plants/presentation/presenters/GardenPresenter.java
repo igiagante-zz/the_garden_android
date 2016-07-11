@@ -7,8 +7,10 @@ import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.view.GardenView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -59,8 +61,20 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         getGardenUseCase.execute(gardenId, new GetGardenSubscriber());
     }
 
-    private void showGardens(List<Garden> gardens) {
+    private void showGardens(List<GardenHolder> gardens) {
         getView().loadGardens(gardens);
+    }
+
+    private void notifyIfGardenWasPersistedOrUpdated(Garden garden) {
+        getView().notifyIfGardenWasPersistedOrUpdated(garden);
+    }
+
+    private void notifyIfGardenWasDeleted(Integer result) {
+        getView().notifyIfGardenWasDeleted();
+    }
+
+    private void loadGarden(Garden garden) {
+        getView().loadGarden(garden);
     }
 
     private final class GardenSubscriber extends DefaultSubscriber<List<Garden>> {
@@ -73,20 +87,18 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         }
 
         @Override public void onNext(List<Garden> gardens) {
-            GardenPresenter.this.showGardens(gardens);
+            GardenPresenter.this.showGardens(createGardenHolderList(gardens));
         }
     }
 
-    private void notifyIfGardenWasPersistedOrUpdated(Garden garden) {
-        getView().notifyIfGardenWasPersistedOrUpdated(garden);
-    }
-
-    private void notifyIfGardenWasDeleted(String result) {
-        getView().notifyIfGardenWasDeleted();
-    }
-
-    private void loadGarden(Garden garden) {
-        getView().loadGarden(garden);
+    private ArrayList<GardenHolder> createGardenHolderList(List<Garden> gardens) {
+        ArrayList<GardenHolder> gardenHolders = new ArrayList<>();
+        for(Garden garden : gardens) {
+            GardenHolder gardenHolder = new GardenHolder();
+            gardenHolder.setModel(garden);
+            gardenHolders.add(gardenHolder);
+        }
+        return gardenHolders;
     }
 
     private final class SaveGardenSubscriber extends DefaultSubscriber<Garden> {
@@ -105,7 +117,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         }
     }
 
-    private final class DeleteGardenSubscriber extends DefaultSubscriber<String> {
+    private final class DeleteGardenSubscriber extends DefaultSubscriber<Integer> {
 
         @Override public void onCompleted() {
             //PlantListPresenter.this.hideViewLoading();
@@ -115,7 +127,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(String result) {
+        @Override public void onNext(Integer result) {
             GardenPresenter.this.notifyIfGardenWasDeleted(result);
         }
     }

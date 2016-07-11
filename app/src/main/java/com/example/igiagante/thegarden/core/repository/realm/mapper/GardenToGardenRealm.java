@@ -15,7 +15,7 @@ import io.realm.RealmList;
 /**
  * @author Ignacio Giagante, on 3/7/16.
  */
-public class GardenToGardenRealm implements Mapper<Garden, GardenRealm > {
+public class GardenToGardenRealm implements Mapper<Garden, GardenRealm> {
 
     private final Realm realm;
     private final PlantToPlantRealm toPlantRealm;

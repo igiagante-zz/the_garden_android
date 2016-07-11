@@ -30,6 +30,7 @@ import com.example.igiagante.thegarden.creation.plants.presentation.fragments.Ma
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.SavePlantView;
 import com.example.igiagante.thegarden.home.MainActivity;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 
 import java.lang.ref.WeakReference;
 
@@ -66,7 +67,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     /**
      * Where the plant belongs to
      */
-    private Garden mGarden;
+    private GardenHolder mGarden;
 
     /**
      * Model to keep all the data related to the plant
@@ -117,7 +118,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         // get garden info
         mGarden = getIntent().getParcelableExtra(MainActivity.GARDEN_KEY);
         if(mGarden != null) {
-            plantBuilder.addGardenId(mGarden.getId());
+            plantBuilder.addGardenId(mGarden.getGardenId());
         }
 
         // set view for this presenter
@@ -262,6 +263,14 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     @Override
+    public void goToNextStep(Bundle bundle, Class clazz) {
+        Intent intent = new Intent(this, clazz);
+        intent.putExtra(MainActivity.GARDEN_KEY, mGarden.getPosition());
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     public void showError(String message) {
 
     }
@@ -282,11 +291,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     public void onSavePlant() {
         mProgressBar.setVisibility(View.VISIBLE);
         mSavePlantPresenter.savePlant(plantBuilder.build());
-    }
-
-    @Override
-    public void goToNextStep(Bundle bundle, Class clazz) {
-        startActivity(new Intent(this, clazz));
     }
 
     public Plant getPlant() {

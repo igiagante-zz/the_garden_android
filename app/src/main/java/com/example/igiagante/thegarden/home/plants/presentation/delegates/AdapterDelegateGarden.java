@@ -67,7 +67,7 @@ public class AdapterDelegateGarden implements AdapterDelegate<AdapterDelegateGar
             //menuInfo is null
             menu.setHeaderTitle("Select The Action");
             menu.add(0, R.id.edit_plant, 0, "Edit Garden");//groupId, itemId, order, title
-            menu.add(0, R.id.delete_plant, 0, "Delete Graden");
+            menu.add(0, R.id.delete_plant, 0, "Delete Garden");
         }
     }
 }

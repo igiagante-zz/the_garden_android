@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.home.plants.presentation.view;
 
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface GardenView extends IView {
     /**
      * Load the list of gardens
      */
-    void loadGardens(List<Garden> gardens);
+    void loadGardens(List<GardenHolder> gardens);
 
     void loadGarden(Garden garden);
 

@@ -1,8 +1,10 @@
 package com.example.igiagante.thegarden.home.plants.presentation.viewTypes;
 
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.IViewType;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeConstans;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -13,6 +15,7 @@ public class ViewTypeGarden implements IViewType {
     private String id;
     private String name;
     private Date startDate;
+    private ArrayList<Plant> plants;
 
     @Override
     public int getViewType() {
@@ -41,5 +44,13 @@ public class ViewTypeGarden implements IViewType {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public ArrayList<Plant> getPlants() {
+        return plants;
+    }
+
+    public void setPlants(ArrayList<Plant> plants) {
+        this.plants = plants;
     }
 }

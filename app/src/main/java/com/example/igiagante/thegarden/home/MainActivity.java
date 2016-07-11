@@ -6,11 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -30,26 +29,15 @@ import android.widget.Toast;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
-import com.example.igiagante.thegarden.core.presentation.BaseFragment;
-import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeText;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragments.AttributesFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragments.FlavorGalleryFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragments.MainDataFragment;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
-import com.example.igiagante.thegarden.home.charts.presentation.ChartsFragment;
-import com.example.igiagante.thegarden.home.irrigations.presentation.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
 import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
-import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.adapters.GardenViewPagerAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.adapters.NavigationGardenAdapter;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateButtonAddGarden;
 import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateGarden;
 import com.example.igiagante.thegarden.home.plants.presentation.presenters.GardenPresenter;
@@ -74,7 +62,9 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         AdapterDelegateButtonAddGarden.OnGardenDialog,
         AdapterDelegateGarden.OnClickGardenListener {
 
+    public static final String GARDEN_POSITION_KEY = "GARDEN_POSITION";
     public static final String GARDEN_KEY = "GARDEN";
+    private static final String GARDENS_KEY = "GARDENS";
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -100,16 +90,16 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     FloatingActionButton fab;
 
     /**
-     * The garden's position within the garden's list
+     * Store the garden's position from {@link #garden}.
      */
     private int gardenPosition;
 
     /**
      * The garden that is tried to be persisted or updated.
      */
-    private Garden garden;
+    private GardenHolder garden;
 
-    private ArrayList<Garden> gardens;
+    private ArrayList<GardenHolder> gardens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +109,13 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
 
         initializeInjector();
         getComponent().inject(this);
+
+        if(savedInstanceState != null) {
+            gardens = savedInstanceState.getParcelableArrayList(GARDENS_KEY);
+        }
+
+        // get garden position to load that garden
+        getLastGardenPosition(getIntent());
 
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));
@@ -137,6 +134,16 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
 
         // Load gardens!
         mGardenPresenter.getGardens();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(GARDENS_KEY, gardens);
+    }
+
+    private void getLastGardenPosition(Intent intent) {
+        gardenPosition = intent.getIntExtra(GARDEN_KEY, 0);
     }
 
     private void setupToolbar() {
@@ -181,11 +188,13 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     }
 
     @Override
-    public void loadGardens(List<Garden> gardens) {
+    public void loadGardens(List<GardenHolder> gardens) {
         mNavigationGardenAdapter.setGardens(gardens);
-        this.gardens = (ArrayList<Garden>)gardens;
-        this.garden = gardens.get(0);
-        mAdapter.setGarden(garden);
+        this.gardens = (ArrayList<GardenHolder>)gardens;
+        if(!gardens.isEmpty()) {
+            this.garden = gardens.get(gardenPosition);
+            mAdapter.setGardenHolder(garden);
+        }
     }
 
     @Override
@@ -201,6 +210,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         garden.setId(gardenViewTypeText.getId());
         garden.setName(gardenViewTypeText.getName());
         garden.setStartDate(gardenViewTypeText.getStartDate());
+        garden.setPlants(gardenViewTypeText.getPlants());
 
         switch (item.getItemId()) {
             case R.id.edit_plant:
@@ -208,7 +218,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
                 break;
             case R.id.delete_plant:
                 if(!garden.getPlants().isEmpty()) {
-                    Toast.makeText(this, "The garden has plants", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "The garden has plants. Remove first the plants", Toast.LENGTH_SHORT).show();
                 } else {
                     mGardenPresenter.deleteGarden(garden.getId());
                 }
@@ -241,7 +251,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     @Override
     public void createGarden(Garden garden) {
         mGardenPresenter.saveGarden(garden);
-        this.garden = garden;
+        this.garden.setModel(garden);
     }
 
     @Override
@@ -251,19 +261,38 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
 
     @Override
     public void loadGarden(Garden garden) {
-        this.garden = garden;
-        mAdapter.setGarden(garden);
-        drawerLayout.closeDrawers();
+        updateGardenAndCloseDrawer(garden);
+        GardenHolder gardenHolder = new GardenHolder();
+        gardenHolder.setModel(garden);
+        mAdapter.setGardenHolder(gardenHolder);
     }
 
     @Override
     public void notifyIfGardenWasPersistedOrUpdated(Garden garden) {
-        mNavigationGardenAdapter.addOrUpdateGarden(garden);
+        updateGardenAndCloseDrawer(garden);
+        GardenHolder gardenHolder = new GardenHolder();
+        gardenHolder.setModel(garden);
+        gardenHolder.setPosition(gardenPosition);
+
+        mNavigationGardenAdapter.addOrUpda  teGarden(garden);
+
+        gardenPosition = mNavigationGardenAdapter.getGardenPosition(garden);
+        loadGarden(garden);
     }
 
     @Override
     public void notifyIfGardenWasDeleted() {
-        mNavigationGardenAdapter.notify();
+        updateGardenAndCloseDrawer(null);
+        mNavigationGardenAdapter.removeGarden(gardenPosition);
+        mNavigationGardenAdapter.notifyDataSetChanged();
+
+        // load the first garden after one is removed
+        loadGarden(gardens.get(gardens.size() - 1).getModel());
+    }
+
+    private void updateGardenAndCloseDrawer(@Nullable Garden garden) {
+        this.garden.setModel(garden);
+        drawerLayout.closeDrawers();
     }
 
     @Override

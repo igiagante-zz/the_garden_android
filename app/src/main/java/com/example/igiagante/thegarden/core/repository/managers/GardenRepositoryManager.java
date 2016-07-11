@@ -45,11 +45,11 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
 
         Observable<List<Garden>> observable = Observable.just(list);
 
-        // check if the plant already exits. If the plant exists, it returns the plant. On the other
-        // side, it asks to the rest api to save the plant.
+        // check if the garden already exits. If the garden exists, it returns the garden. On the other
+        // side, it asks to the rest api to save the garden.
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists
-                        ? observableOne.map(plant1 -> garden.getId())
+                        ? observableOne
                         : mRepositories.get(1).add(garden));
     }
 
@@ -76,7 +76,7 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
         if(list.contains(-1)) {
             result = Observable.just(-1);
         } else {
-            result = Observable.from(list);
+            result = Observable.just(1);
         }
 
         return result;
@@ -89,6 +89,9 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
      */
     public Observable query(Specification specification) {
 
+        return mRepositories.get(1).query(specification);
+
+        /*
         Observable<List<Garden>> query = mRepositories.get(0).query(specification);
 
         List<Garden> list = new ArrayList<>();
@@ -99,6 +102,6 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists
                         ? observable
-                        : mRepositories.get(1).query(null));
+                        : mRepositories.get(1).query(null)); */
     }
 }

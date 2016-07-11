@@ -7,7 +7,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
-import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.DataHolder;
+import com.example.igiagante.thegarden.core.presentation.DataHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

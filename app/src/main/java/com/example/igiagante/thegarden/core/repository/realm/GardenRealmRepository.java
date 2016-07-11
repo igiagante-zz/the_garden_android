@@ -13,7 +13,9 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenToGard
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.GardenByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.GardenByNameSpecification;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 3/7/16.
@@ -42,8 +45,8 @@ public class GardenRealmRepository implements Repository<Garden> {
 
         this.realm = Realm.getInstance(realmConfiguration);
 
-        this.toGarden = new GardenToGardenRealm();
-        this.toGardenRealm = new GardenRealmToGarden(realm);
+        this.toGarden = new GardenRealmToGarden(context);
+        this.toGardenRealm = new GardenToGardenRealm(realm);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class GardenRealmRepository implements Repository<Garden> {
 
     @Override
     public Observable<Garden> getByName(String name) {
-        return null;
+        return query(new GardenByNameSpecification(name)).flatMap(Observable::from);
     }
 
     @Override
@@ -63,7 +66,11 @@ public class GardenRealmRepository implements Repository<Garden> {
                 realmParam.copyToRealmOrUpdate(toGardenRealm.map(garden)));
         realm.close();
 
-        return Observable.just(garden);
+        GardenRealm gardenRealm = realm.where(GardenRealm.class)
+                .equalTo(Table.NAME, garden.getName())
+                .findFirst();
+
+        return Observable.just(toGarden.map(gardenRealm));
     }
 
     @Override
