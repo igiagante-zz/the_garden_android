@@ -273,8 +273,8 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         GardenHolder gardenHolder = new GardenHolder();
         gardenHolder.setModel(garden);
         gardenHolder.setPosition(gardenPosition);
-
-        mNavigationGardenAdapter.addOrUpda  teGarden(garden);
+        
+        mNavigationGardenAdapter.addOrUpdateGarden(garden);
 
         gardenPosition = mNavigationGardenAdapter.getGardenPosition(garden);
         loadGarden(garden);
