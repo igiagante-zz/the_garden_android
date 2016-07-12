@@ -170,6 +170,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
     public void setGarden(GardenHolder mGarden) {
         this.mGarden = mGarden;
+        setPlants((ArrayList<Plant>) this.mGarden.getModel().getPlants());
     }
 
     public void setPlants(ArrayList<Plant> mPlants) {

@@ -72,7 +72,6 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
             registeredFragments.put(0, plantListFragment);
         }
         plantListFragment.setGarden(gardenHolder);
-        plantListFragment.setPlants((ArrayList<Plant>) gardenHolder.getModel().getPlants());
     }
 
     private String getTitleByPosition(int position) {
