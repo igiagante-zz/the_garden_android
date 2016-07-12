@@ -396,6 +396,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     @Override
     public void editPlant(PlantHolder plantHolder) {
         Intent intent = new Intent(this, CreatePlantActivity.class);
+        intent.putExtra(GARDEN_KEY, garden);
         intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
         startActivity(intent);
     }

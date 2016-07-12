@@ -1,6 +1,5 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
-import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActivity;
 import com.facebook.drawee.view.SimpleDraweeView;

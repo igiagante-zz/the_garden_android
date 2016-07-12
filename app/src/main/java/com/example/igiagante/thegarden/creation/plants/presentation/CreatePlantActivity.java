@@ -178,12 +178,12 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     /**
      * If the user is editing a plant, it doesn't matter where the user is standing at the wizard.
-     * After the user click the button save, it needs to walk through the fragments and verify if
+     * After the user click the button save, it needs to walk through the fragments and verifies if
      * some data has been modified.
      */
     private void updateBuilder() {
         for (int i = 0; i < mViewPagerAdapter.getCount(); i++) {
-            ((CreationBaseFragment)mViewPagerAdapter.getItem(i)).updateBuilder();
+            ((CreationBaseFragment)mViewPagerAdapter.getRegisteredFragment(i)).updateBuilder();
         }
     }
 

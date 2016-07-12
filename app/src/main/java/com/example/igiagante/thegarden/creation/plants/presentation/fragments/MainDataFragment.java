@@ -87,14 +87,14 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         // ask to the activity if it has a plant for edition
         if (mPlant != null) {
             setPlantValuesInView();
+        } else {
+            initDefaultValues();
         }
 
         if (savedInstanceState != null) {
             mPlant = savedInstanceState.getParcelable(PLANT_KEY);
             setPlantValuesInView();
         }
-
-        initDefaultValues();
 
         mNameOfPlant.addTextChangedListener(this);
 
