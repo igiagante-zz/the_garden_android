@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.core.repository.realm.specification;
+package com.example.igiagante.thegarden.core.repository.realm.specification.garden;
 
 import android.support.annotation.NonNull;
 
@@ -7,25 +7,24 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRe
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
 
 /**
- * @author Ignacio Giagante, on 4/7/16.
+ * @author Ignacio Giagante, on 5/7/16.
  */
-public class GardenByIdSpecification implements RealmSpecification {
+public class GardenByNameSpecification implements RealmSpecification<GardenRealm> {
 
-    private final String id;
+    private final String name;
 
-    public GardenByIdSpecification(final String id) {
-        this.id = id;
+    public GardenByNameSpecification(final String name) {
+        this.name = name;
     }
 
     @Override
     public Observable<RealmResults<GardenRealm>> toObservableRealmResults(@NonNull Realm realm) {
         return realm.where(GardenRealm.class)
-                .equalTo(Table.ID, id)
+                .equalTo(Table.NAME, name)
                 .findAll().asObservable();
     }
 
@@ -35,7 +34,7 @@ public class GardenByIdSpecification implements RealmSpecification {
     }
 
     @Override
-    public RealmObject toObjectRealm(Realm realm) {
+    public GardenRealm toObjectRealm(Realm realm) {
         return null;
     }
 }

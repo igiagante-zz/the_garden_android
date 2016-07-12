@@ -12,7 +12,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.PlagueRealmT
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlagueToPlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlagueByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.plague.PlagueByIdSpecification;
 
 import java.util.ArrayList;
 import java.util.Collection;

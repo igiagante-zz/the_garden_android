@@ -42,6 +42,9 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     public void destroy() {
         this.getGardensUseCase.unsubscribe();
+        this.getGardenUseCase.unsubscribe();
+        this.saveGardenUseCase.unsubscribe();
+        this.deleteGardenUseCase.unsubscribe();
         this.view = null;
     }
 

@@ -151,15 +151,6 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
         return -1;
     }
 
-    /**
-     * Get garden position in order to know which garden is activated
-     * @param garden Garden Object
-     * @return position if exits, -1 if not.
-     */
-    public int getGardenPosition(Garden garden) {
-        return existGarden(garden);
-    }
-
     private Collection<ViewTypeGarden> getGardenCollection(List<GardenHolder> gardens) {
 
         ArrayList<ViewTypeGarden> viewTypeGardens = new ArrayList<>();

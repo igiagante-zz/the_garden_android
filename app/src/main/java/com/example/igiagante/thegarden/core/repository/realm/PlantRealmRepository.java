@@ -10,11 +10,11 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlantByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantRealmToPlant;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlantToPlantRealm;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlantByNameSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByNameSpecification;
 
 import java.util.ArrayList;
 import java.util.Collection;

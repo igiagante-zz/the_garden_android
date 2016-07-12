@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.core.repository.realm.specification;
+package com.example.igiagante.thegarden.core.repository.realm.specification.attribute;
 
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;

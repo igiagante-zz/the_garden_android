@@ -36,6 +36,7 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
 
     public void destroy() {
         this.getPlantListUseCase.unsubscribe();
+        this.deletePlantUseCase.unsubscribe();
         this.view = null;
     }
 

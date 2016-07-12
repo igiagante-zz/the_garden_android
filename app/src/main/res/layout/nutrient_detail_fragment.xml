@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/nutrient_detail_margin_Start"
+            android:layout_marginTop="@dimen/nutrient_detail_margin_Top"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/name_of_nutrient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edit_text_name_margin_top">
+
+                <EditText
+                    android:id="@+id/name_of_nutrient_id"
+                    style="@style/label"
+                    android:layout_width="@dimen/edit_text_width"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <com.example.igiagante.thegarden.core.ui.CountViewDecimal
+                android:id="@+id/ph_soil_id"
+                app:setValueDecimal="6.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/count_view_margin_start" />
+
+        </LinearLayout>
+
+        <include layout="@layout/npk" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/description_title_margin"
+            android:layout_marginStart="@dimen/nutrient_detail_margin_Start"
+            android:layout_marginTop="@dimen/description_title_margin"
+            android:text="How to use"
+            android:textSize="@dimen/description_text_size" />
+
+        <EditText
+            android:id="@+id/plant_description_id"
+            android:layout_width="@dimen/nutrient_detail_text_area_width"
+            android:layout_height="@dimen/nutrient_detail_text_area_height"
+            android:layout_gravity="center"
+            android:background="@drawable/plant_description_background"
+            android:gravity="start"
+            android:padding="@dimen/description_text_area_padding" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/nutrient_deatail_recycle_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/layout_description_buttons_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/description_layout_buttons_margin_top"
+            android:layout_marginTop="@dimen/description_layout_buttons_margin_top"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/nutrient_save_button"
+                style="@style/save_button"
+                android:layout_width="@dimen/description_button_width"
+                android:layout_height="@dimen/description_button_height"
+                android:layout_marginEnd="@dimen/description_button_save_margin_end"
+                android:layout_weight="0.2"
+                android:text="@string/plant_save" />
+
+            <Button
+                android:id="@+id/nutrient_cancel_button"
+                style="@style/cancel_button"
+                android:layout_width="@dimen/description_button_width"
+                android:layout_height="@dimen/description_button_height"
+                android:layout_weight="0.2"
+                android:background="@drawable/button_cancel_background"
+                android:text="@string/plant_cancel" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

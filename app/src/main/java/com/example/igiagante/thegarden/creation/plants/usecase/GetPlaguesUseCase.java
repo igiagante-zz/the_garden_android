@@ -5,9 +5,8 @@ import android.util.Log;
 
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
-import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.managers.PlagueRepositoryManager;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlagueSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.plague.PlagueSpecification;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;

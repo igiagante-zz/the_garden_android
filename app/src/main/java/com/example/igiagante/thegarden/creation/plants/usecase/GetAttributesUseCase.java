@@ -6,7 +6,7 @@ import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.AttributeRepositoryManager;
-import com.example.igiagante.thegarden.core.repository.realm.specification.AttributeSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.attribute.AttributeSpecification;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;

@@ -12,10 +12,9 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenRealmT
 import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenToGardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
-import com.example.igiagante.thegarden.core.repository.realm.specification.GardenByIdSpecification;
-import com.example.igiagante.thegarden.core.repository.realm.specification.GardenByNameSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByNameSpecification;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,7 +22,6 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 3/7/16.

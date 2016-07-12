@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.core.repository.realm.specification;
+package com.example.igiagante.thegarden.core.repository.realm.specification.attribute;
 
 import android.support.annotation.NonNull;
 

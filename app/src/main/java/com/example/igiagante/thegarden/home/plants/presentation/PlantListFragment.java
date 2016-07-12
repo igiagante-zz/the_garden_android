@@ -67,11 +67,6 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -80,7 +75,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
          */
         this.getComponent(PlantComponent.class).inject(this);
 
-        final View fragmentView = inflater.inflate(R.layout.fragment_plant_list, container, false);
+        final View fragmentView = inflater.inflate(R.layout.plant_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
         Bundle args = getArguments();

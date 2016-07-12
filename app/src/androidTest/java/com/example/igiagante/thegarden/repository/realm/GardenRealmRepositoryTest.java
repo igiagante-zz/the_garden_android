@@ -6,7 +6,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.specification.GardenSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenSpecification;
 
 import junit.framework.Assert;
 

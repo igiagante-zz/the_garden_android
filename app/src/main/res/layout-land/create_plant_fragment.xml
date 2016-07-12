@@ -30,7 +30,7 @@
                     style="@style/label"
                     android:layout_width="@dimen/edit_text_width"
                     android:layout_height="wrap_content"
-                    android:hint="@string/name_of_plant"
+                    android:hint="@string/name"
                     android:inputType="textNoSuggestions"/>
 
             </android.support.design.widget.TextInputLayout>

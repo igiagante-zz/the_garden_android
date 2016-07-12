@@ -11,9 +11,8 @@ import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.AttributeRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.PlagueRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlantByNameSpecification;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlantSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByNameSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantSpecification;
 
 import junit.framework.Assert;
 

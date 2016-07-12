@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nutrient_card_view_height"
+    android:layout_marginEnd="@dimen/card_plant_margin"
+    android:layout_marginStart="@dimen/card_plant_margin"
+    android:layout_marginTop="@dimen/card_plant_margin"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/card_plant_corner_radius"
+    app:cardElevation="@dimen/card_plant_elevation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/nutrient_image"
+            android:layout_width="@dimen/nutrient_image_size"
+            android:layout_height="@dimen/nutrient_image_size"
+            android:layout_gravity="center"
+            android:background="@android:color/holo_orange_light"
+            android:scaleType="centerCrop"
+            app:placeholderImage="@drawable/no_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/nutrient_data_margin_start">
+
+            <TextView
+                android:id="@+id/nutrient_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nutrient_name"
+                android:layout_margin="@dimen/nutrient_data_padding"/>
+
+            <TextView
+                android:id="@+id/nutrient_npk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nutrient_npk"
+                android:layout_margin="@dimen/nutrient_data_padding"/>
+
+            <TextView
+                android:id="@+id/nutrient_ph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nutrient_ph"
+                android:layout_margin="@dimen/nutrient_data_padding"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

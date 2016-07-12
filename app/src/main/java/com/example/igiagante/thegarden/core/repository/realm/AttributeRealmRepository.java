@@ -12,7 +12,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeRea
 import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeToAttributeRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
-import com.example.igiagante.thegarden.core.repository.realm.specification.AttributeByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.attribute.AttributeByIdSpecification;
 
 import java.util.ArrayList;
 import java.util.Collection;

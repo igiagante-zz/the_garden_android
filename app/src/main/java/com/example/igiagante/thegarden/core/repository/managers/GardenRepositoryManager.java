@@ -4,12 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.specification.GardenByNameSpecification;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlantByNameSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByNameSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiGardenRepository;
 
 import java.util.ArrayList;
@@ -88,8 +86,6 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
      * @return Observable
      */
     public Observable query(Specification specification) {
-
-        //return mRepositories.get(1).query(specification);
 
         Observable<List<Garden>> query = mRepositories.get(0).query(specification);
 

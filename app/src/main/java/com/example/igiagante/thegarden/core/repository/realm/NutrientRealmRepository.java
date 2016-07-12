@@ -12,7 +12,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.NutrientReal
 import com.example.igiagante.thegarden.core.repository.realm.mapper.NutrientToNutrientRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
-import com.example.igiagante.thegarden.core.repository.realm.specification.NutrientByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientByIdSpecification;
 
 import java.util.Collection;
 import java.util.List;

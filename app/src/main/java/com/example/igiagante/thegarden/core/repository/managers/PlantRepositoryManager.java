@@ -7,7 +7,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.specification.PlantByNameSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByNameSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.RestApiPlantRepository;
 
 import java.util.ArrayList;

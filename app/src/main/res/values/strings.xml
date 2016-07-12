@@ -45,7 +45,7 @@
         <item>Description</item>
     </string-array>
 
-    <string name="name_of_plant">Name</string>
+    <string name="name">Name</string>
     <string name="ph_soil">Ph Soil</string>
     <string name="ec_soil">Ec Soil</string>
     <string name="size">Size</string>
@@ -133,5 +133,11 @@
     <!-- Delete Plant Dialog -->
     <string name="delete_plant_dialog_title">Delete Plant</string>
     <string name="delete_plant_dialog_content">Are you sure you want to delete this plant?</string>
+
+    <!-- NUTRIENTS-->
+
+    <string name="nutrient_name">Flora </string>
+    <string name="nutrient_npk">NPK </string>
+    <string name="nutrient_ph">Ph </string>
 
 </resources>
