@@ -89,9 +89,8 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
      */
     public Observable query(Specification specification) {
 
-        return mRepositories.get(1).query(specification);
+        //return mRepositories.get(1).query(specification);
 
-        /*
         Observable<List<Garden>> query = mRepositories.get(0).query(specification);
 
         List<Garden> list = new ArrayList<>();
@@ -102,6 +101,6 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists
                         ? observable
-                        : mRepositories.get(1).query(null)); */
+                        : mRepositories.get(1).query(null));
     }
 }
