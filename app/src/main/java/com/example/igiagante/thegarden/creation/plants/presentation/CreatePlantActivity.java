@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.creation.plants.presentation;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -253,6 +254,8 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void notifyIfPlantWasPersistedOrUpdated(Plant plant) {
+        //update garden model
+        this.mGarden.getModel().getPlants().add(plant);
         goToMainActivity();
     }
 
@@ -265,7 +268,8 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public void goToNextStep(Bundle bundle, Class clazz) {
         Intent intent = new Intent(this, clazz);
-        intent.putExtra(MainActivity.GARDEN_KEY, mGarden.getPosition());
+        intent.putExtra(MainActivity.GARDEN_KEY, mGarden);
+        setResult(Activity.RESULT_OK);
         startActivity(intent);
         finish();
     }

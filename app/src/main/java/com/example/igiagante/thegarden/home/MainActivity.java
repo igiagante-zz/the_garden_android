@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.home;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -60,7 +61,11 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         AdapterDelegateButtonAddGarden.OnGardenDialog,
         AdapterDelegateGarden.OnClickGardenListener {
 
-    public static final String GARDEN_POSITION_KEY = "GARDEN_POSITION";
+    /**
+     * Used to handle intent which starts the activity {@link CreatePlantActivity}
+     */
+    public static final int REQUEST_CODE_CREATE_PLANT_ACTIVITY = 2345;
+
     public static final String GARDEN_KEY = "GARDEN";
     private static final String GARDENS_KEY = "GARDENS";
 
@@ -97,7 +102,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
      */
     private GardenHolder garden;
 
-    private ArrayList<GardenHolder> gardens;
+    private ArrayList<GardenHolder> gardens = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +113,12 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         initializeInjector();
         getComponent().inject(this);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             gardens = savedInstanceState.getParcelableArrayList(GARDENS_KEY);
         }
 
         // get the last active garden
-        setActiveGarden(getIntent());
+        //setActiveGarden(getIntent());
 
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));
@@ -131,7 +136,9 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         tabLayout.setupWithViewPager(viewPager);
 
         // Load gardens!
-        mGardenPresenter.getGardens();
+        if(gardens != null) {
+            mGardenPresenter.getGardens();
+        }
     }
 
     @Override
@@ -140,12 +147,42 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         outState.putParcelableArrayList(GARDENS_KEY, gardens);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE_CREATE_PLANT_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            setActiveGarden(data);
+        }
+    }
+
     /**
      * Get Garden data from Intent
      * @param intent Intent Object
      */
     private void setActiveGarden(Intent intent) {
-        this.garden = intent.getParcelableExtra(GARDEN_KEY);
+        GardenHolder garden = intent.getParcelableExtra(GARDEN_KEY);
+        if(garden != null) {
+            int position = existGarden(garden);
+            if(position != -1) {
+                gardens.set(position, garden);
+            }
+        }
+    }
+
+    /**
+     * Check if the garden is already on the list
+     *
+     * @param garden Garden Object
+     * @return garden's position within list or -1 in case doesn't exist
+     */
+    private int existGarden(GardenHolder garden) {
+        for (int i = 0; i < gardens.size(); i++) {
+            if (gardens.get(i).getGardenId().equals(garden.getGardenId())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void setupToolbar() {
@@ -193,9 +230,9 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     public void loadGardens(List<GardenHolder> gardens) {
 
         mNavigationGardenAdapter.setGardens(gardens);
-        this.gardens = (ArrayList<GardenHolder>)gardens;
+        this.gardens = (ArrayList<GardenHolder>) gardens;
 
-        if(!gardens.isEmpty() && this.garden == null) {
+        if (!gardens.isEmpty() && this.garden == null) {
             this.garden = gardens.get(0);
         }
         mAdapter.setGardenHolder(garden);
@@ -227,7 +264,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
                 showEditGardenDialog(garden);
                 break;
             case R.id.delete_plant:
-                if(!garden.getPlants().isEmpty()) {
+                if (!garden.getPlants().isEmpty()) {
                     Toast.makeText(this, "The garden has plants. Remove first the plants", Toast.LENGTH_SHORT).show();
                 } else {
                     mGardenPresenter.deleteGarden(garden.getId());
@@ -277,7 +314,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
 
         this.garden = mGardenPresenter.createGardenHolder(garden, gardens.size());
 
-        if(!gardens.contains(this.garden)) {
+        if (!gardens.contains(this.garden)) {
             this.gardens.add(this.garden.getPosition(), this.garden);
         }
 

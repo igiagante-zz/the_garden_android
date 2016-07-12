@@ -98,7 +98,9 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         this.recyclerViewPlants.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewPlants.setAdapter(plantsAdapter);
 
-        buttonAddPlant.setOnClickListener(view -> startActivity(createIntentForCreatePlantActivity()));
+        buttonAddPlant.setOnClickListener(view ->
+                startActivityForResult(createIntentForCreatePlantActivity(),
+                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
 
         plantsAdapter.setOnEditPlant((MainActivity)getActivity());
 

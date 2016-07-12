@@ -40,13 +40,6 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
     }
 
     /**
-     * Retrieve all the plant which belong to one garden
-     */
-    public void getPlantList() {
-        this.getPlantListUseCase.execute(null, new PlantListSubscriber());
-    }
-
-    /**
      * Delete a plant from one garden
      * @param plantId Plant Id
      */
@@ -54,31 +47,10 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
         this.deletePlantUseCase.execute(plantId, new DeletePlantSubscriber());
     }
 
-    private void showPlantsCollectionInView(Collection<Plant> plantsCollection) {
-        getView().renderPlantList(plantsCollection);
-    }
-
     private void notifyPlantWasDeleted() {
         getView().notifyPlantWasDeleted();
     }
 
-    private final class PlantListSubscriber extends DefaultSubscriber<List<Plant>> {
-
-        @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
-        }
-
-        @Override public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
-            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            //PlantListPresenter.this.showViewRetry();
-            Log.e(TAG, e.getMessage());
-        }
-
-        @Override public void onNext(List<Plant> plants) {
-            PlantListPresenter.this.showPlantsCollectionInView(plants);
-        }
-    }
 
     private final class DeletePlantSubscriber extends DefaultSubscriber<Integer> {
 

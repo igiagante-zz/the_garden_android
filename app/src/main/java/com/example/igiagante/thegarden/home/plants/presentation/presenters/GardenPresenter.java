@@ -74,7 +74,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     }
 
     private void loadGarden(Garden garden) {
-        getView().loadGarden(garden);
+        getView().loadGarden(createGardenHolder(garden));
     }
 
     private final class GardenSubscriber extends DefaultSubscriber<List<Garden>> {
@@ -100,7 +100,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         ArrayList<GardenHolder> gardenHolders = new ArrayList<>();
 
         for (int i = 0; i < gardens.size(); i++) {
-            gardenHolders.add(createGardenHolder(gardens.get(0), i));
+            gardenHolders.add(createGardenHolder(gardens.get(i), i));
         }
         return gardenHolders;
     }
@@ -109,6 +109,12 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         GardenHolder gardenHolder = new GardenHolder();
         gardenHolder.setModel(garden);
         gardenHolder.setPosition(position);
+        return gardenHolder;
+    }
+
+    private GardenHolder createGardenHolder(Garden garden) {
+        GardenHolder gardenHolder = new GardenHolder();
+        gardenHolder.setModel(garden);
         return gardenHolder;
     }
 
