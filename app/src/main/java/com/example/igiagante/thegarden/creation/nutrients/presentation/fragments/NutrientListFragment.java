@@ -14,12 +14,14 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientView;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.adapters.NutrientsAdapter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientPresenter;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,8 +37,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
     @Inject
     NutrientPresenter nutrientPresenter;
 
-    @Inject
-    NutrientsAdapter nutrientsAdapter;
+    private NutrientsAdapter nutrientsAdapter;
 
     @Bind(R.id.nutrients_recycle_view_id)
     RecyclerView recyclerViewNutrients;
@@ -44,10 +45,15 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
     @Bind(R.id.nutrients_add_new_nutrient_id)
     Button buttonAddNutrient;
 
+    private OnAddNutrientListener mOnAddNutrientListener;
+
+    public interface OnAddNutrientListener {
+        void startNutrientDetailActivity();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         /**
          * Get component in order to inject the presenter
          */
@@ -56,20 +62,22 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
         final View fragmentView = inflater.inflate(R.layout.nutrient_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
+        nutrientsAdapter = new NutrientsAdapter(getContext(), (NutrientsAdapter.OnNutrientSelected) getActivity());
+
         this.recyclerViewNutrients.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewNutrients.setAdapter(nutrientsAdapter);
 
         //load nutrient list
-        //this.nutrientPresenter.loadNutrients();
+        this.nutrientPresenter.loadNutrients();
 
-        buttonAddNutrient.setOnClickListener(v -> startActivity(new Intent(getActivity(), NutrientDetailActivity.class)));
+        buttonAddNutrient.setOnClickListener(v -> mOnAddNutrientListener.startNutrientDetailActivity());
 
         return fragmentView;
     }
 
     @Override
     public void loadNutrients(List<Nutrient> nutrients) {
-        this.nutrientsAdapter.setPlants(nutrients);
+        this.nutrientsAdapter.setNutrients((ArrayList<Nutrient>) nutrients);
     }
 
     @Override
@@ -97,5 +105,19 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
     @Override
     public Context context() {
         return this.getActivity().getApplicationContext();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mOnAddNutrientListener = (OnAddNutrientListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString() + " must implement OnAddNutrientListener");
+        }
+    }
+
+    public void addNutrient(Nutrient nutrient) {
+        this.nutrientsAdapter.addNutrient(nutrient);
     }
 }

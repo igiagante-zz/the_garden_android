@@ -138,6 +138,9 @@
 
     <!-- NUTRIENTS-->
 
+    <string name="nutrient_list_title">Nutrients</string>
+    <string name="nutrient_detail_title">Nutrient Detail</string>
+
     <string name="nutrient_name">Flora </string>
     <string name="nutrient_npk">NPK </string>
     <string name="nutrient_ph">Ph </string>

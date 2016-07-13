@@ -42,7 +42,7 @@ public class PhotoGalleryPresenter extends AbstractPresenter<PhotoGalleryView> {
     }
 
     private void addImagesToBuilderInView(Collection<Image> images) {
-        getView().addImagesToBuilder(images);
+        getView().loadImages(images);
     }
 
     private final class PhotoGallerySubscriber extends DefaultSubscriber<List<Image>> {

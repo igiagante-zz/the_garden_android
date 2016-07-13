@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.creation.plants.di;
+package com.example.igiagante.thegarden.creation.plants.di.module;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
@@ -21,13 +21,6 @@ import dagger.Provides;
 public class CreatePlantModule {
 
     public CreatePlantModule() {}
-
-    @Provides
-    @PerActivity
-    @Named("images")
-    UseCase provideGetImagesUseCase(GetImagesUseCase images) {
-        return images;
-    }
 
     @Provides
     @PerActivity

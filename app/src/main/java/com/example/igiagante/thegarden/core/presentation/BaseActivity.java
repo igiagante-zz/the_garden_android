@@ -43,6 +43,28 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * Adds a {@link Fragment} to this activity's layout.
+     *
+     * @param containerViewId The container view to where add the fragment.
+     * @param fragment The fragment to be added.
+     * @param tag To tag fragment
+     */
+    protected void addFragment(int containerViewId, Fragment fragment, String tag) {
+        FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(containerViewId, fragment, tag);
+        fragmentTransaction.commit();
+    }
+
+    /**
+     * Find fragment by tag
+     * @param tag Tag to identify the fragment
+     * @return Fragment
+     */
+    protected Fragment getFragmentByTag(String tag) {
+        return this.getSupportFragmentManager().findFragmentByTag(tag);
+    }
+
+    /**
      * Get the Main Application component for dependency injection.
      *
      * @return {@link ApplicationComponent}

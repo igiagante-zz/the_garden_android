@@ -14,15 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Attribute;
-import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
-import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
+import com.example.igiagante.thegarden.creation.plants.di.components.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.PlagueAdapter;
-import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.AttributeHolder;
-import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.FlavorHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.PlagueHolder;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PlaguePresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.PlagueView;

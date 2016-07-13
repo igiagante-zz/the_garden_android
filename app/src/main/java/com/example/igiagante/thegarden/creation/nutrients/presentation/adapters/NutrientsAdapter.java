@@ -13,6 +13,8 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -29,13 +31,19 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
 
     private Context mContext;
     private LayoutInflater layoutInflater;
-    private List<Nutrient> nutrients;
+    private ArrayList<Nutrient> nutrients;
 
-    @Inject
-    public NutrientsAdapter(Context context) {
+    private OnNutrientSelected mOnNutrientSelected;
+
+    public interface OnNutrientSelected {
+        void showNutrientDetails(Nutrient nutrient);
+    }
+
+    public NutrientsAdapter(Context context, OnNutrientSelected onNutrientSelected) {
         this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.nutrients = Collections.emptyList();
+        this.nutrients = new ArrayList<>();
+        this.mOnNutrientSelected = onNutrientSelected;
     }
 
     @Override
@@ -50,11 +58,16 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
 
         Image mainImage = nutrient.getImages().get(0);
 
-        if(mainImage != null) {
+        if (mainImage != null) {
             String thumbnailUrl = mainImage.getThumbnailUrl();
-            holder.mNutrientImage.setImageURI(Uri.parse(thumbnailUrl));
+            if(mainImage.getId() == null) {
+                holder.mNutrientImage.setImageURI(Uri.fromFile(new File(thumbnailUrl)));
+            } else {
+                holder.mNutrientImage.setImageURI(Uri.parse(thumbnailUrl));
+            }
         }
 
+        holder.setPosition(position);
         holder.mNutrientName.setText(nutrient.getName());
         holder.npk.setText(nutrient.getNpk());
         holder.ph.setText(String.valueOf(nutrient.getPh()));
@@ -65,13 +78,24 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
         return (this.nutrients != null) ? this.nutrients.size() : 0;
     }
 
-    public void setPlants(Collection<Nutrient> nutrients) {
-        this.nutrients = (List<Nutrient>) nutrients;
+    public void setNutrients(ArrayList<Nutrient> nutrients) {
+        this.nutrients = nutrients;
         this.notifyDataSetChanged();
+    }
+
+    /**
+     * Add nutrient to the nutrients list
+     * @param nutrient Nutrient Object
+     */
+    public void addNutrient(Nutrient nutrient){
+        this.nutrients.add(nutrient);
+        notifyDataSetChanged();
     }
 
     // inner class to hold a reference to each card_view of RecyclerView
     public class NutrientViewHolder extends RecyclerView.ViewHolder {
+
+        int position;
 
         @Bind(R.id.nutrient_image)
         SimpleDraweeView mNutrientImage;
@@ -88,6 +112,11 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
         public NutrientViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, itemView);
+            v.setOnClickListener(v1 -> mOnNutrientSelected.showNutrientDetails(nutrients.get(position)));
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
         }
     }
 }

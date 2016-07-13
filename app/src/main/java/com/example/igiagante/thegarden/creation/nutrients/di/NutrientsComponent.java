@@ -1,13 +1,14 @@
 package com.example.igiagante.thegarden.creation.nutrients.di;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
-import com.example.igiagante.thegarden.core.di.components.ActivityComponent;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientDetailFragment;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientListFragment;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientDetailPresenter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientPresenter;
+import com.example.igiagante.thegarden.creation.plants.di.components.GalleryComponent;
+import com.example.igiagante.thegarden.creation.plants.di.module.GalleryModule;
 
 import dagger.Component;
 
@@ -16,8 +17,8 @@ import dagger.Component;
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class,
-        modules = {ActivityModule.class, NutrientsModule.class})
-public interface NutrientsComponent extends ActivityComponent {
+        modules = {ActivityModule.class, NutrientsModule.class, GalleryModule.class})
+public interface NutrientsComponent extends GalleryComponent {
 
     void inject(NutrientListFragment nutrientListFragment);
     void inject(NutrientDetailFragment nutrientDetailFragment);

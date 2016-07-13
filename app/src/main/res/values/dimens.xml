@@ -161,7 +161,7 @@
     <dimen name="nutrient_detail_margin_Top">10dp</dimen>
 
     <dimen name="nutrient_detail_text_area_width">280dp</dimen>
-    <dimen name="nutrient_detail_text_area_height">100dp</dimen>
+    <dimen name="nutrient_detail_text_area_height">160dp</dimen>
 
 
     <!-- Land dimens -->

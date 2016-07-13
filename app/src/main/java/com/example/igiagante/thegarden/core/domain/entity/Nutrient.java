@@ -33,6 +33,9 @@ public class Nutrient implements Parcelable {
     @SerializedName("images")
     private List<Image> images = new ArrayList<>();
 
+    @SerializedName("resourcesIds")
+    private List<String> resourcesIds = new ArrayList<>();
+
     public String getId() {
         return id;
     }
@@ -81,6 +84,14 @@ public class Nutrient implements Parcelable {
         this.images = images;
     }
 
+    public List<String> getResourcesIds() {
+        return resourcesIds;
+    }
+
+    public void setResourcesIds(List<String> resourcesIds) {
+        this.resourcesIds = resourcesIds;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -94,6 +105,7 @@ public class Nutrient implements Parcelable {
         dest.writeString(npk);
         dest.writeString(description);
         dest.writeList(images);
+        dest.writeList(resourcesIds);
     }
 
     public static final Parcelable.Creator<Nutrient> CREATOR = new Parcelable.Creator<Nutrient>() {
@@ -113,5 +125,6 @@ public class Nutrient implements Parcelable {
         npk = in.readString();
         description = in.readString();
         in.readList(images, this.getClass().getClassLoader());
+        in.readList(resourcesIds, this.getClass().getClassLoader());
     }
 }

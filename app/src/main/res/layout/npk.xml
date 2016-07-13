@@ -19,13 +19,16 @@
             android:textSize="30sp" />
 
         <EditText
-            android:id="@+id/n_id"
+            android:id="@+id/nitrogen_id"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="4dp"
             android:background="@drawable/plant_description_background"
-            android:gravity="start" />
+            android:gravity="center"
+            android:padding="2dp"
+            android:inputType="number"
+            android:maxLength="2"/>
 
     </LinearLayout>
 
@@ -43,13 +46,16 @@
             android:textSize="30sp" />
 
         <EditText
-            android:id="@+id/p_id"
+            android:id="@+id/phosphorus_id"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="4dp"
             android:background="@drawable/plant_description_background"
-            android:gravity="start" />
+            android:gravity="center"
+            android:padding="2dp"
+            android:inputType="number"
+            android:maxLength="2"/>
 
     </LinearLayout>
 
@@ -67,13 +73,16 @@
             android:textSize="30sp" />
 
         <EditText
-            android:id="@+id/k_id"
+            android:id="@+id/potassium_id"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="4dp"
             android:background="@drawable/plant_description_background"
-            android:gravity="start" />
+            android:gravity="center"
+            android:padding="2dp"
+            android:inputType="number"
+            android:maxLength="2"/>
 
     </LinearLayout>
 

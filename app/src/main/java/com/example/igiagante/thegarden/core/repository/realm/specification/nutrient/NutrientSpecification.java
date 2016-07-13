@@ -14,12 +14,12 @@ public class NutrientSpecification implements RealmSpecification<NutrientRealm> 
 
     @Override
     public Observable<RealmResults<NutrientRealm>> toObservableRealmResults(Realm realm) {
-        return null;
+        return realm.where(NutrientRealm.class).findAll().asObservable();
     }
 
     @Override
     public RealmResults<NutrientRealm> toRealmResults(Realm realm) {
-        return null;
+        return realm.where(NutrientRealm.class).findAll();
     }
 
     @Override

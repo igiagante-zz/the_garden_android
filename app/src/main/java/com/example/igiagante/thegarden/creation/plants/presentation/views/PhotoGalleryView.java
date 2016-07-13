@@ -11,8 +11,8 @@ import java.util.Collection;
 public interface PhotoGalleryView extends IView {
 
     /**
-     * Add some images to the Builder plant.
+     * Load images.
      * @param images images collection
      */
-    void addImagesToBuilder(Collection<Image> images);
+    void loadImages(Collection<Image> images);
 }

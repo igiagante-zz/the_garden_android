@@ -15,15 +15,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
-import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
+import com.example.igiagante.thegarden.creation.plants.di.components.GalleryComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PhotoGalleryPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.PhotoGalleryView;
+import com.example.igiagante.thegarden.home.MainActivity;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 
 import java.io.File;
@@ -46,6 +47,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      */
     public static final int CAROUSEL_REQUEST_CODE = 23;
 
+    public static final String IMAGES_KEY = "IMAGES";
+
     @Bind(R.id.recycler_view_plant_photo_gallery)
     RecyclerView mGallery;
 
@@ -57,53 +60,59 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     /**
      * List of images which should share between the gallery and teh carousel
      */
-    private List<Image> mImages = new ArrayList<>();
+    private ArrayList<Image> mImages = new ArrayList<>();
 
     /**
      * List of files' paths from files which were added using the android's gallery
      */
     private List<String> imagesFilesPaths = new ArrayList<>();
 
-    /**
-     * List of resources ids which identify each image
-     */
-    private List<String> resourcesIds = new ArrayList<>();
+    public static PhotoGalleryFragment newInstance(ArrayList<Image> images) {
+        PhotoGalleryFragment myFragment = new PhotoGalleryFragment();
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(IMAGES_KEY, images);
+        myFragment.setArguments(args);
 
-        if(savedInstanceState != null) {
-            Plant plant = savedInstanceState.getParcelable(CreatePlantActivity.PLANT_KEY);
-            if(plant != null) {
-                mImages = plant.getImages();
-                loadResourcesIds();
-            }
-        }
+        return myFragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        this.getComponent(GalleryComponent.class).inject(this);
+
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.plant_gallery_fragment, container, false);
         ButterKnife.bind(this, containerView);
 
-        // ask to the activity if it has a plant for edition
-        if(mPlant != null) {
-            mImages = mPlant.getImages();
-            loadResourcesIds();
+        if(savedInstanceState != null) {
+            mImages = savedInstanceState.getParcelableArrayList(IMAGES_KEY);
+        }
+
+        // load images from instance
+        Bundle arguments = getArguments();
+        if(arguments != null) {
+            mImages = arguments.getParcelableArrayList(IMAGES_KEY);
+        }
+
+        if(mImages != null) {
+            loadResourcesIds(mImages);
         }
 
         mGallery.setHasFixedSize(true);
 
         //Two columns for portrait
         GridLayoutManager manager;
-        if(isLandScape()) {
+        if(isLandScape() && !(getActivity() instanceof NutrientDetailActivity)) {
             manager = new GridLayoutManager(getActivity(), 3);
         } else {
             manager = new GridLayoutManager(getActivity(), 2);
+        }
+
+        if(getActivity() instanceof NutrientDetailActivity) {
+            manager.setOrientation(RecyclerView.HORIZONTAL);
         }
 
         mGallery.setLayoutManager(manager);
@@ -118,18 +127,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Plant plant = new Plant();
-        plant.setImages(mImages);
-        outState.putParcelable(CreatePlantActivity.PLANT_KEY, plant);
-    }
-
-    /**
-     * Load the resources ids from each image in order to know which image was deleted, added or not.
-     */
-    private void loadResourcesIds() {
-        for(Image image : mImages) {
-            resourcesIds.add(image.getId());
-        }
+        outState.putParcelableArrayList(IMAGES_KEY, mImages);
     }
 
     /**
@@ -150,7 +148,9 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         mAdapter.deleteImage(positionSelected);
         this.mImages.remove(positionSelected);
         // double check in case some image was deleted at the carousel. So, the builder needs to be updated.
-        updateImagesFromBuilder(mImages, true);
+        if(getActivity() instanceof CreatePlantActivity) {
+            updateImagesFromBuilder(mImages, true);
+        }
     }
 
     @Override
@@ -181,12 +181,10 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
 
     @Override
     public void onShowImages(int pictureSelected) {
-        Plant plant = new Plant();
-        plant.setImages(mImages);
 
         Intent intent = new Intent(getActivity(), CarouselActivity.class);
         intent.putExtra(CarouselActivity.PICTURE_SELECTED_KEY, pictureSelected);
-        intent.putExtra(CreatePlantActivity.PLANT_KEY, plant);
+        intent.putParcelableArrayListExtra(IMAGES_KEY, mImages);
 
         this.startActivityForResult(intent, CAROUSEL_REQUEST_CODE);
     }
@@ -197,8 +195,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         if(requestCode == CAROUSEL_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
             if(data != null) {
 
-                Plant plant = data.getParcelableExtra(CreatePlantActivity.PLANT_KEY);
-                imagesFilesPaths = getImagesFilesPaths(plant.getImages());
+                ArrayList<Image> images = data.getParcelableArrayListExtra(IMAGES_KEY);
+                imagesFilesPaths = getImagesFilesPaths(images);
 
                 //update adapter gallery
                 mAdapter.setImagesPath(imagesFilesPaths);
@@ -206,35 +204,34 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
                 //update images from builder
                 ArrayList<Image> imagesFromFilesPaths = getImagesFromFilesPaths(imagesFilesPaths);
                 this.mImages = imagesFromFilesPaths;
-                updateImagesFromBuilder(imagesFromFilesPaths, true);
+
+                if(getActivity() instanceof CreatePlantActivity) {
+                    updateImagesFromBuilder(images, false);
+                }
             }
         }
     }
 
-    /**
-     * Add images to builder selected by the user.
-     */
-    public void addImagesToBuilder(Collection<Image> images) {
+    @Override
+    public void loadImages(Collection<Image> images) {
         this.mImages.addAll(images);
-        updateImagesFromBuilder(images, false);
+        if(getActivity() instanceof CreatePlantActivity) {
+            updateImagesFromBuilder(images, false);
+        }
         Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
+    }
+
+    public ArrayList<Image> getImages() {
+        return mImages;
+    }
+
+    public ArrayList<String> getResourcesIds(){
+        return (ArrayList<String>) resourcesIds;
     }
 
     @Override
     protected void move() {
         super.move();
-    }
-
-    /**
-     * Update images list from builder
-     * @param images list of images
-     * @param carousel indicates if the images come from the carousel
-     */
-    private void updateImagesFromBuilder(Collection<Image> images, boolean carousel) {
-        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
-        builder.setUpdatingPlant(updatingPlant);
-        builder.addImages((ArrayList<Image>) images, carousel);
-        builder.addResourcesIds(resourcesIds);
     }
 
     private ArrayList<Image> getImagesFromFilesPaths(List<String> paths) {

@@ -7,11 +7,11 @@ import android.support.v4.view.ViewPager;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.core.ui.CirclePageIndicator;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.CarouselAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CarouselFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +34,9 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
         Intent intent = getIntent();
         int position = intent.getIntExtra(PICTURE_SELECTED_KEY, 0);
-        Plant plant = intent.getParcelableExtra(CreatePlantActivity.PLANT_KEY);
+        ArrayList<Image> images = intent.getParcelableArrayListExtra(PhotoGalleryFragment.IMAGES_KEY);
 
-        if(plant != null) {
-            ArrayList<Image> images = (ArrayList<Image>) plant.getImages();
+        if(images != null) {
             urls = getImagesFilesPaths(images);
         }
 
@@ -75,10 +74,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
         Intent data = new Intent();
 
-        Plant plant = new Plant();
-        plant.setImages(createImageList());
-
-        data.putExtra(CreatePlantActivity.PLANT_KEY, plant);
+        data.putParcelableArrayListExtra(PhotoGalleryFragment.IMAGES_KEY, createImageList());
         setResult(Activity.RESULT_OK, data);
 
         finish();
