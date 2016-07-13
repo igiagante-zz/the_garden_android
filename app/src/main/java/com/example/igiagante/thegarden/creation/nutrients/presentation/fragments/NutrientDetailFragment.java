@@ -13,6 +13,7 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientDetailPresenter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientDetailView;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
@@ -34,43 +35,16 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
     @Inject
     NutrientDetailPresenter nutrientDetailPresenter;
 
-    @Bind(R.id.nutrient_deatail_recycle_view)
-    RecyclerView mGallery;
-
-    private GalleryAdapter mAdapter;
-
-    /**
-     * List of images which should share between the gallery and teh carousel
-     */
-    private List<Image> mImages = new ArrayList<>();
-
-    /**
-     * List of files' paths from files which were added using the android's gallery
-     */
-    private List<String> imagesFilesPaths = new ArrayList<>();
-
-    /**
-     * List of resources ids which identify each image
-     */
-    private List<String> resourcesIds = new ArrayList<>();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         /**
          * Get component in order to inject the presenter
          */
-       // this.getComponent(NutrientsComponent.class).inject(this);
+        this.getComponent(NutrientsComponent.class).inject(this);
 
         final View fragmentView = inflater.inflate(R.layout.plant_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
-
-        //Two columns for portrait
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
-        mGallery.setLayoutManager(manager);
-
-        this.mGallery.setLayoutManager(new LinearLayoutManager(context()));
 
         //load images nutrients
 

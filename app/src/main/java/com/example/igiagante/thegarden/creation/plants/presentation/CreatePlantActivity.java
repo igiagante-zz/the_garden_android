@@ -22,6 +22,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.core.presentation.FlowStepExecutor;
 import com.example.igiagante.thegarden.core.presentation.FlowStepResolver;
+import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.di.DaggerCreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.ViewPagerAdapter;

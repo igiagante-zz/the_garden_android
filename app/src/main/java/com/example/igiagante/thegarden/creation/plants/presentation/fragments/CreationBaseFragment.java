@@ -30,9 +30,11 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPlant = ((CreatePlantActivity)getActivity()).getPlant();
-        if(mPlant != null) {
-            updatingPlant = true;
+        if(getActivity() instanceof CreatePlantActivity) {
+            mPlant = ((CreatePlantActivity)getActivity()).getPlant();
+            if(mPlant != null) {
+                updatingPlant = true;
+            }
         }
     }
 

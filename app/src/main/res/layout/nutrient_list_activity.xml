@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <fragment
-        android:id="@+id/list_movies"
+        android:id="@+id/list_nutrients"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientListFragment" />

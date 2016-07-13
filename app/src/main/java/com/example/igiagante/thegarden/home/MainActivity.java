@@ -23,12 +23,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
 import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
@@ -116,9 +118,6 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         if (savedInstanceState != null) {
             gardens = savedInstanceState.getParcelableArrayList(GARDENS_KEY);
         }
-
-        // get the last active garden
-        //setActiveGarden(getIntent());
 
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));
@@ -223,6 +222,10 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
 
         fab = (FloatingActionButton) findViewById(R.id.fab_id);
         fab.setVisibility(View.INVISIBLE);
+
+        //nutrients
+        TextView nutrientsOption = (TextView) findViewById(R.id.nutrients_id);
+        nutrientsOption.setOnClickListener(v -> startActivity(new Intent(this, NutrientActivity.class)));
 
     }
 

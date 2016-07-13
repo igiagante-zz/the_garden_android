@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.creation.nutrients.presentation.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientView;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.adapters.NutrientsAdapter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientPresenter;
@@ -51,14 +53,16 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
          */
         this.getComponent(NutrientsComponent.class).inject(this);
 
-        final View fragmentView = inflater.inflate(R.layout.plant_list_fragment, container, false);
+        final View fragmentView = inflater.inflate(R.layout.nutrient_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
         this.recyclerViewNutrients.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewNutrients.setAdapter(nutrientsAdapter);
 
         //load nutrient list
-        this.nutrientPresenter.loadNutrients();
+        //this.nutrientPresenter.loadNutrients();
+
+        buttonAddNutrient.setOnClickListener(v -> startActivity(new Intent(getActivity(), NutrientDetailActivity.class)));
 
         return fragmentView;
     }

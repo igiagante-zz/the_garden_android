@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 12/7/16.
  */
-public class NutrientActivity extends BaseActivity implements HasComponent<NutrientsComponent> {
+public class NutrientDetailActivity extends BaseActivity  implements HasComponent<NutrientsComponent> {
 
     private NutrientsComponent nutrientsComponent;
 
@@ -21,7 +21,8 @@ public class NutrientActivity extends BaseActivity implements HasComponent<Nutri
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeInjector();
-        setContentView(R.layout.nutrient_list_activity);
+        setContentView(R.layout.nutrient_detail_activity);
+
     }
 
     private void initializeInjector() {

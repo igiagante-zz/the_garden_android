@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
 import com.example.igiagante.thegarden.creation.plants.di.CreatePlantComponent;
 import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
@@ -84,8 +85,6 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        this.getComponent(CreatePlantComponent.class).inject(this);
 
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.plant_gallery_fragment, container, false);

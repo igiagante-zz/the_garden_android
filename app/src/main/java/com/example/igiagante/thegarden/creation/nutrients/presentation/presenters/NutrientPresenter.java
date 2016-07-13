@@ -42,14 +42,6 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
         this.getNutrientsUseCase.execute(null, new NutrientsSubscriber());
     }
 
-    public void addNutrient(Nutrient nutrient) {
-        this.saveNutrientUseCase.execute(nutrient, new SaveNutrientSubscriber());
-    }
-
-    private void notifyIfNutrientWasPersistedOrUpdated(Nutrient nutrient) {
-        getView().notifyIfNutrientWasPersistedOrUpdated(nutrient);
-    }
-
     private void showNutrients(List<Nutrient> nutrients) {
         getView().loadNutrients(nutrients);
     }
@@ -65,20 +57,6 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
 
         @Override public void onNext(List<Nutrient> nutrients) {
             NutrientPresenter.this.showNutrients(nutrients);
-        }
-    }
-
-    private final class SaveNutrientSubscriber extends DefaultSubscriber<Nutrient> {
-
-        @Override public void onCompleted() {
-        }
-
-        @Override public void onError(Throwable e) {
-            Log.e(TAG, e.getMessage());
-        }
-
-        @Override public void onNext(Nutrient nutrient) {
-            NutrientPresenter.this.notifyIfNutrientWasPersistedOrUpdated(nutrient);
         }
     }
 }

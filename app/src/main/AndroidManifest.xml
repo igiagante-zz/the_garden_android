@@ -43,6 +43,16 @@
             android:label="@string/activity_carousel">
         </activity>
 
+        <activity
+            android:name=".creation.nutrients.presentation.NutrientActivity"
+            android:label="@string/activity_nutrients">
+        </activity>
+
+        <activity
+            android:name=".creation.nutrients.presentation.NutrientDetailActivity"
+            android:label="@string/activity_nutrient_detail">
+        </activity>
+
     </application>
 
 </manifest>

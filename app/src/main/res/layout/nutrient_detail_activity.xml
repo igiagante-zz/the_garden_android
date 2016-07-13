@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/nutrient_detail_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientDetailFragment" />
+
+    <fragment
+        android:id="@+id/nutrient_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment" />
+
+    <LinearLayout
+        android:id="@+id/layout_description_buttons_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/description_layout_buttons_margin_top"
+        android:layout_marginTop="@dimen/description_layout_buttons_margin_top"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/nutrient_save_button"
+            style="@style/save_button"
+            android:layout_width="@dimen/description_button_width"
+            android:layout_height="@dimen/description_button_height"
+            android:layout_marginEnd="@dimen/description_button_save_margin_end"
+            android:layout_weight="0.2"
+            android:text="@string/plant_save" />
+
+        <Button
+            android:id="@+id/nutrient_cancel_button"
+            style="@style/cancel_button"
+            android:layout_width="@dimen/description_button_width"
+            android:layout_height="@dimen/description_button_height"
+            android:layout_weight="0.2"
+            android:background="@drawable/button_cancel_background"
+            android:text="@string/plant_cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -31,6 +31,8 @@
     <!-- Plant Creation -->
 
     <string name="activity_carousel">Carousel</string>
+    <string name="activity_nutrients">Carousel</string>
+    <string name="activity_nutrient_detail">Carousel</string>
     <string name="activity_plant_data">Plant Info</string>
 
     <string name="activity_create_plant">Create a new plant</string>
