@@ -31,13 +31,14 @@ import rx.schedulers.Schedulers;
 /**
  * @author Ignacio Giagante, on 19/4/16.
  */
-public class RestApiPlantRepository implements Repository<Plant> {
+public class RestApiPlantRepository extends BaseRestApiRepository<Plant> implements Repository<Plant> {
 
     private final PlantRestAPI api;
     private Context mContext;
 
     @Inject
     public RestApiPlantRepository(Context context) {
+        super(context);
         this.mContext = context;
         api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
     }
@@ -130,7 +131,7 @@ public class RestApiPlantRepository implements Repository<Plant> {
     }
 
     /**
-     * Get {@link okhttp3.MultipartBody.Builder} for methods POST or PUT
+     * Get {@link okhttp3.MultipartBody.Builder} for method POST or PUT
      *
      * @param plant Plant to be added in form
      * @return builder
@@ -194,44 +195,5 @@ public class RestApiPlantRepository implements Repository<Plant> {
                 .addFormDataPart(PlantTable.HARVEST, String.valueOf(plant.getHarvest()))
                 .addFormDataPart(PlantTable.DESCRIPTION, String.valueOf(plant.getDescription()))
                 .addFormDataPart(PlantTable.GARDEN_ID, plant.getGardenId());
-    }
-
-    /**
-     * Add images to the request body which is a {@link okhttp3.MultipartBody.Builder}
-     *
-     * @param builder MultipartBody.Builder
-     * @param files   files to be added in builder
-     * @return builder
-     */
-    private MultipartBody.Builder addImagesToRequestBody(MultipartBody.Builder builder, ArrayList<File> files) {
-
-        for (int i = 0, size = files.size(); i < size; i++) {
-            String mediaType = "image/" + getMediaType(files.get(i));
-            RequestBody image = RequestBody.create(MediaType.parse(mediaType), files.get(i));
-            builder.addFormDataPart(files.get(i).getName(), files.get(i).getName(), image);
-        }
-
-        return builder;
-    }
-
-    /**
-     * Get media type from file
-     *
-     * @param file File to be processed
-     * @return type
-     */
-    private String getMediaType(File file) {
-
-        String type = null;
-        String[] chain = null;
-
-        if (file != null) {
-            chain = file.getAbsolutePath().split("\\.");
-        }
-
-        if (chain != null && chain.length > 0) {
-            type = chain[1];
-        }
-        return type;
     }
 }

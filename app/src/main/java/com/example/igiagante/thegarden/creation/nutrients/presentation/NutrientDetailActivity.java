@@ -1,12 +1,15 @@
 package com.example.igiagante.thegarden.creation.nutrients.presentation;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
@@ -18,9 +21,13 @@ import com.example.igiagante.thegarden.creation.nutrients.di.DaggerNutrientsComp
 import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.adapters.NutrientsAdapter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientDetailFragment;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientDetailPresenter;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientDetailView;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,7 +35,7 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 12/7/16.
  */
-public class NutrientDetailActivity extends BaseActivity implements HasComponent<NutrientsComponent> {
+public class NutrientDetailActivity extends BaseActivity implements HasComponent<NutrientsComponent>, NutrientDetailView {
 
     public static final String NUTRIENT_KEY = "NUTRIENT";
     private static final String FRAGMENT_NUTRIENT_DATA_TAG = "FRAGMENT_NUTRIENT_DATA";
@@ -43,6 +50,12 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
 
     @Bind(R.id.nutrient_cancel_button)
     Button mCancelButton;
+
+    @Bind(R.id.nutrient_detail_progress_bar)
+    ProgressBar mProgressBar;
+
+    @Inject
+    NutrientDetailPresenter nutrientDetailPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +87,8 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
         addFragment(R.id.nutrient_container_photo_gallery, galleryFragment, FRAGMENT_NUTRIENT_IMAGES_TAG);
 
         mSaveButton.setOnClickListener(v -> {
+            mProgressBar.setVisibility(View.VISIBLE);
             saveNutrient();
-            Intent intent = new Intent();
-            intent.putExtra(NUTRIENT_KEY, mNutrient);
-            setResult(Activity.RESULT_OK, intent);
-            finish();
         });
 
         mCancelButton.setOnClickListener(v -> {
@@ -95,6 +105,7 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
             mNutrient.setImages(photoGalleryFragment.getImages());
             mNutrient.setResourcesIds(photoGalleryFragment.getResourcesIds());
         }
+        nutrientDetailPresenter.addNutrient(mNutrient);
     }
 
     private void initializeInjector() {
@@ -107,5 +118,23 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
     @Override
     public NutrientsComponent getComponent() {
         return this.nutrientsComponent;
+    }
+
+    @Override
+    public void notifyIfNutrientWasPersistedOrUpdated(Nutrient nutrient) {
+        Intent intent = new Intent();
+        intent.putExtra(NUTRIENT_KEY, nutrient);
+        setResult(Activity.RESULT_OK, intent);
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public Context context() {
+        return null;
     }
 }

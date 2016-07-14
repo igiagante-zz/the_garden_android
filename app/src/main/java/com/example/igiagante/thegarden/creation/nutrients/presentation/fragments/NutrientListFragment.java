@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
@@ -45,6 +46,9 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
     @Bind(R.id.nutrients_add_new_nutrient_id)
     Button buttonAddNutrient;
 
+    @Bind(R.id.nutrient_list_progress_bar)
+    ProgressBar mProgressBar;
+
     private OnAddNutrientListener mOnAddNutrientListener;
 
     public interface OnAddNutrientListener {
@@ -68,6 +72,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
         this.recyclerViewNutrients.setAdapter(nutrientsAdapter);
 
         //load nutrient list
+        mProgressBar.setVisibility(View.VISIBLE);
         this.nutrientPresenter.loadNutrients();
 
         buttonAddNutrient.setOnClickListener(v -> mOnAddNutrientListener.startNutrientDetailActivity());
@@ -78,6 +83,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
     @Override
     public void loadNutrients(List<Nutrient> nutrients) {
         this.nutrientsAdapter.setNutrients((ArrayList<Nutrient>) nutrients);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override

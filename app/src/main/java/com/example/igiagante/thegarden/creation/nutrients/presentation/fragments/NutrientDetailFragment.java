@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
@@ -33,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 12/7/16.
  */
-public class NutrientDetailFragment extends BaseFragment implements NutrientDetailView {
+public class NutrientDetailFragment extends BaseFragment {
 
     private static final String NUTRIENT_DETAIL_KEY = "NUTRIENT_DETAIL";
 
@@ -117,12 +118,6 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        this.nutrientDetailPresenter.setView(new WeakReference<>(this));
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
@@ -156,18 +151,4 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
         return nitrogen + "-" + phosphorus + "-" + potassium;
     }
 
-    @Override
-    public void notifyIfNutrientWasPersistedOrUpdated(Nutrient nutrient) {
-
-    }
-
-    @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
-    public Context context() {
-        return null;
-    }
 }

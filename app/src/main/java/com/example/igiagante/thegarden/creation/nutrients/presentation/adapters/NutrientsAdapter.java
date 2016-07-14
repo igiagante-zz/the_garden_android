@@ -60,11 +60,7 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
 
         if (mainImage != null) {
             String thumbnailUrl = mainImage.getThumbnailUrl();
-            if(mainImage.getId() == null) {
-                holder.mNutrientImage.setImageURI(Uri.fromFile(new File(thumbnailUrl)));
-            } else {
-                holder.mNutrientImage.setImageURI(Uri.parse(thumbnailUrl));
-            }
+            holder.mNutrientImage.setImageURI(Uri.parse(thumbnailUrl));
         }
 
         holder.setPosition(position);
@@ -85,9 +81,10 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
 
     /**
      * Add nutrient to the nutrients list
+     *
      * @param nutrient Nutrient Object
      */
-    public void addNutrient(Nutrient nutrient){
+    public void addNutrient(Nutrient nutrient) {
         this.nutrients.add(nutrient);
         notifyDataSetChanged();
     }

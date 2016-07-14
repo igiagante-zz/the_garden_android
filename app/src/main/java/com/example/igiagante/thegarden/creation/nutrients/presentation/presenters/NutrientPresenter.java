@@ -53,6 +53,7 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
 
         @Override public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
 
         @Override public void onNext(List<Nutrient> nutrients) {
