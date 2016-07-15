@@ -32,13 +32,16 @@
             android:contentDescription="@string/garden_image"
             android:src="@drawable/ic_nutrients" />
 
-        <TextView
+        <Button
             android:id="@+id/nutrients_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:text="@string/nutrients"
             android:textSize="20sp"
-            android:typeface="sans" />
+            android:typeface="sans"
+            android:layout_marginStart="10dp"
+            android:padding="10dp"/>
 
     </LinearLayout>
 

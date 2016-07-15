@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/nutrient_detail_margin_Start"
+            android:layout_marginTop="@dimen/nutrient_detail_margin_Top"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/name_of_nutrient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edit_text_name_margin_top_land">
+
+                <EditText
+                    android:id="@+id/name_of_nutrient_id"
+                    style="@style/label"
+                    android:layout_width="@dimen/edit_text_width"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <com.example.igiagante.thegarden.core.ui.CountViewDecimal
+                android:id="@+id/nutrient_ph_id"
+                app:setValueDecimal="6.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/count_view_margin_start_land"
+                android:layout_marginEnd="@dimen/count_view_margin_end_land"
+                android:layout_marginTop="@dimen/count_view_margin_top_land" />
+
+            <include layout="@layout/npk" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/description_title_margin"
+            android:layout_marginStart="@dimen/nutrient_detail_margin_Start"
+            android:layout_marginTop="@dimen/description_title_margin"
+            android:text="How to use"
+            android:textSize="@dimen/description_text_size" />
+
+        <EditText
+            android:id="@+id/nutrient_description_id"
+            android:layout_marginStart="10dp"
+            android:layout_width="@dimen/description_text_area_land_width"
+            android:layout_height="@dimen/nutrient_detail_text_area_height"
+            android:layout_gravity="center"
+            android:background="@drawable/plant_description_background"
+            android:gravity="start"
+            android:padding="@dimen/description_text_area_padding" />
+
+    </LinearLayout>
+</ScrollView>

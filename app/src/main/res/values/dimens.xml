@@ -160,6 +160,8 @@
     <dimen name="nutrient_data_margin_start">20dp</dimen>
     <dimen name="nutrient_data_padding">3dp</dimen>
 
+    <dimen name="nutrient_data_content_width">180dp</dimen>
+
     <dimen name="nutrient_detail_margin_Start">20dp</dimen>
     <dimen name="nutrient_detail_margin_Top">10dp</dimen>
 
@@ -195,5 +197,30 @@
     <!-- land - attributes rectangles -->
     <dimen name="description_text_area_land_width">550dp</dimen>
     <dimen name="description_button_save_land_margin_end">35dp</dimen>
+
+    <!-- land - NUTRIENTS -->
+
+    <dimen name="nutrient_card_view_height_land">160dp</dimen>
+    <dimen name="nutrient_card_view_width_land">500dp</dimen>
+    <dimen name="nutrient_image_size_land">160dp</dimen>
+    <dimen name="nutrient_data_margin_start_land">40dp</dimen>
+    <dimen name="nutrient_data_padding_land">8dp</dimen>
+
+    <dimen name="nutrient_detail_margin_Start_land">20dp</dimen>
+    <dimen name="nutrient_detail_margin_Top_land">10dp</dimen>
+
+    <dimen name="nutrient_detail_text_area_width_land">280dp</dimen>
+    <dimen name="nutrient_detail_text_area_height_land">160dp</dimen>
+
+    <dimen name="card_nutrient_button_delete_size_land">70dp</dimen>
+    <dimen name="card_nutrient_button_delete_margin_start_land">50dp</dimen>
+    <dimen name="card_nutrient_button_delete_margin_top_land">10dp</dimen>
+
+    <dimen name="nutrient_data_content_text_size_land">30sp</dimen>
+
+    <dimen name="edit_text_name_margin_top_land">50dp</dimen>
+    <dimen name="count_view_margin_start_land">10dp</dimen>
+    <dimen name="count_view_margin_end_land">10dp</dimen>
+    <dimen name="count_view_margin_top_land">30dp</dimen>
 
 </resources>

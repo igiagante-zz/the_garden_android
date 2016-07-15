@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/nutrient_image"
+        android:layout_width="@dimen/nutrient_image_size"
+        android:layout_height="@dimen/nutrient_image_size"
+        android:layout_gravity="center"
+        android:background="@android:color/holo_orange_light"
+        android:scaleType="centerCrop"
+        app:placeholderImage="@drawable/no_image" />
+
+    <LinearLayout
+        android:layout_width="180dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/nutrient_data_margin_start">
+
+        <TextView
+            android:id="@+id/nutrient_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nutrient_name"
+            android:layout_margin="@dimen/nutrient_data_padding"/>
+
+        <TextView
+            android:id="@+id/nutrient_npk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nutrient_npk"
+            android:layout_margin="@dimen/nutrient_data_padding"/>
+
+        <TextView
+            android:id="@+id/nutrient_ph"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nutrient_ph"
+            android:layout_margin="@dimen/nutrient_data_padding"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/nutrient_delete_button_id"
+        android:layout_width="@dimen/card_nutrient_button_delete_size"
+        android:layout_height="@dimen/card_nutrient_button_delete_size"
+        android:layout_marginTop="@dimen/card_nutrient_button_delete_margin"
+        android:layout_marginEnd="@dimen/card_nutrient_button_delete_margin"
+        android:background="@drawable/delete_image"
+        />
+
+</LinearLayout>

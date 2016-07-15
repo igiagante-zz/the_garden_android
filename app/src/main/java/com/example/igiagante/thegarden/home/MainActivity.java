@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -224,9 +225,8 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
         fab.setVisibility(View.INVISIBLE);
 
         //nutrients
-        TextView nutrientsOption = (TextView) findViewById(R.id.nutrients_id);
+        Button nutrientsOption = (Button) findViewById(R.id.nutrients_id);
         nutrientsOption.setOnClickListener(v -> startActivity(new Intent(this, NutrientActivity.class)));
-
     }
 
     @Override

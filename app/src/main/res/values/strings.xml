@@ -142,8 +142,8 @@
     <string name="nutrient_detail_title">Nutrient Detail</string>
 
     <string name="nutrient_name">Flora </string>
-    <string name="nutrient_npk">NPK </string>
-    <string name="nutrient_ph">Ph </string>
+    <string name="nutrient_npk">NPK: %1$s</string>
+    <string name="nutrient_ph">Ph: %1$s</string>
 
     <!-- Delete Nutrient Dialog -->
     <string name="delete_nutrient_dialog_title">Delete Nutrient</string>

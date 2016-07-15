@@ -33,6 +33,8 @@ import butterknife.ButterKnife;
  */
 public class NutrientListFragment extends BaseFragment implements NutrientView, NutrientsAdapter.OnDeleteNutrient {
 
+    private static final String NUTRIENTS_KEY = "NUTRIENTS";
+
     @Inject
     NutrientPresenter nutrientPresenter;
 
@@ -48,6 +50,8 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
     ProgressBar mProgressBar;
 
     private OnAddNutrientListener mOnAddNutrientListener;
+
+    private ArrayList<Nutrient> mNutrients;
 
     public interface OnAddNutrientListener {
         void startNutrientDetailActivity();
@@ -71,7 +75,15 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
 
         //load nutrient list
         mProgressBar.setVisibility(View.VISIBLE);
-        this.nutrientPresenter.loadNutrients();
+        if(savedInstanceState != null) {
+            mNutrients = savedInstanceState.getParcelableArrayList(NUTRIENTS_KEY);
+            if(mNutrients != null) {
+                this.nutrientsAdapter.setNutrients(mNutrients);
+                mProgressBar.setVisibility(View.GONE);
+            }
+        } else {
+            this.nutrientPresenter.loadNutrients();
+        }
 
         buttonAddNutrient.setOnClickListener(v -> mOnAddNutrientListener.startNutrientDetailActivity());
 
@@ -79,8 +91,15 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(NUTRIENTS_KEY, mNutrients);
+    }
+
+    @Override
     public void loadNutrients(List<Nutrient> nutrients) {
-        this.nutrientsAdapter.setNutrients((ArrayList<Nutrient>) nutrients);
+        this.mNutrients = (ArrayList<Nutrient>)nutrients;
+        this.nutrientsAdapter.setNutrients(mNutrients);
         mProgressBar.setVisibility(View.GONE);
     }
 

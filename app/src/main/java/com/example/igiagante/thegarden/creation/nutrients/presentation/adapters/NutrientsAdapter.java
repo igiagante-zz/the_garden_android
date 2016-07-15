@@ -82,8 +82,8 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
 
         holder.setPosition(position);
         holder.mNutrientName.setText(nutrient.getName());
-        holder.npk.setText(nutrient.getNpk());
-        holder.ph.setText(String.valueOf(nutrient.getPh()));
+        holder.npk.setText(mContext.getString(R.string.nutrient_npk, nutrient.getNpk()));
+        holder.ph.setText(mContext.getString(R.string.nutrient_ph, String.valueOf(nutrient.getPh())));
 
         holder.mDeleteButton.setOnClickListener(v -> mOnDeleteNutrient.showDeleteNutrientDialog(holder.getAdapterPosition()));
     }
