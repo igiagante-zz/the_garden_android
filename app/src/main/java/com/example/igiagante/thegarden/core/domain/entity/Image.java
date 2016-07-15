@@ -115,6 +115,7 @@ public class Image implements Parcelable {
         dest.writeString(type);
         dest.writeInt(size);
         dest.writeInt(main ? 1 : 0);
+        dest.writeSerializable(file);
     }
 
     public static final Parcelable.Creator<Image> CREATOR = new Parcelable.Creator<Image>() {
@@ -136,6 +137,7 @@ public class Image implements Parcelable {
         type = in.readString();
         size = in.readInt();
         main = in.readInt() == 1;
+        file = (File) in.readSerializable();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.creation.nutrients.di;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.creation.nutrients.usecase.DeleteNutrientUseCase;
 import com.example.igiagante.thegarden.creation.nutrients.usecase.GetNutrientsUseCase;
 import com.example.igiagante.thegarden.creation.nutrients.usecase.SaveNutrientUseCase;
 
@@ -28,5 +29,12 @@ public class NutrientsModule {
     @Named("saveNutrient")
     UseCase provideSaveNutrientUseCase(SaveNutrientUseCase saveNutrientUseCase) {
         return saveNutrientUseCase;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("deleteNutrient")
+    UseCase provideDeleteNutrientUseCase(DeleteNutrientUseCase deleteNutrientUseCase) {
+        return deleteNutrientUseCase;
     }
 }

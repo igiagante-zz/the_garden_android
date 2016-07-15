@@ -27,7 +27,7 @@ public class Nutrient implements Parcelable {
     @SerializedName("npk")
     private String npk;
 
-    @SerializedName("name")
+    @SerializedName("description")
     private String description;
 
     @SerializedName("images")

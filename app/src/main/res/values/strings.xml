@@ -145,4 +145,8 @@
     <string name="nutrient_npk">NPK </string>
     <string name="nutrient_ph">Ph </string>
 
+    <!-- Delete Nutrient Dialog -->
+    <string name="delete_nutrient_dialog_title">Delete Nutrient</string>
+    <string name="delete_nutrient_dialog_content">Are you sure you want to delete this nutrient?</string>
+
 </resources>

@@ -1,30 +1,16 @@
 package com.example.igiagante.thegarden.creation.nutrients.presentation.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
 import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientDetailPresenter;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientDetailView;
-import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -37,9 +23,6 @@ import butterknife.ButterKnife;
 public class NutrientDetailFragment extends BaseFragment {
 
     private static final String NUTRIENT_DETAIL_KEY = "NUTRIENT_DETAIL";
-
-    @Inject
-    NutrientDetailPresenter nutrientDetailPresenter;
 
     @Bind(R.id.name_of_nutrient_id)
     EditText name;
@@ -74,10 +57,6 @@ public class NutrientDetailFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        /**
-         * Get component in order to inject the presenter
-         */
-        this.getComponent(NutrientsComponent.class).inject(this);
 
         final View fragmentView = inflater.inflate(R.layout.nutrient_detail_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
@@ -123,20 +102,16 @@ public class NutrientDetailFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        this.nutrientDetailPresenter.destroy();
-    }
-
     public Nutrient getNutrient() {
         saveNutrientData();
         return mNutrient;
     }
 
     private void saveNutrientData() {
-        this.mNutrient = new Nutrient();
-        mNutrient.setName(name.getText().toString());
+        if(this.mNutrient == null) {
+            this.mNutrient = new Nutrient();
+        }
+        mNutrient.setName(name.getText().toString().trim());
         mNutrient.setPh(ph.getEditValue());
         mNutrient.setNpk(getNPK());
         mNutrient.setDescription(description.getText().toString());

@@ -3,9 +3,9 @@ package com.example.igiagante.thegarden.creation.nutrients.di;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientDetailFragment;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientListFragment;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientDetailPresenter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientPresenter;
 import com.example.igiagante.thegarden.creation.plants.di.components.GalleryComponent;
 import com.example.igiagante.thegarden.creation.plants.di.module.GalleryModule;
@@ -22,8 +22,8 @@ public interface NutrientsComponent extends GalleryComponent {
 
     void inject(NutrientListFragment nutrientListFragment);
     void inject(NutrientDetailFragment nutrientDetailFragment);
+    void inject(NutrientDetailActivity nutrientDetailActivity);
 
     NutrientPresenter nutrientPresenter();
 
-    NutrientDetailPresenter nutrientDetailPresenter();
 }

@@ -11,4 +11,8 @@ import java.util.List;
 public interface NutrientView extends IView {
 
     void loadNutrients(List<Nutrient> nutrients);
+
+    void notifyIfNutrientWasDeleted();
+
+    void notifyIfNutrientWasPersistedOrUpdated(Nutrient nutrient);
 }

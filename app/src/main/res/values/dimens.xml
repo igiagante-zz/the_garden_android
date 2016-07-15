@@ -53,6 +53,9 @@
     <dimen name="plant_data_margin_start">15dp</dimen>
     <dimen name="plant_data_text_size">18sp</dimen>
 
+    <dimen name="card_plant_data_height">350dp</dimen>
+    <dimen name="card_plant_button_delete_size">30dp</dimen>
+    <dimen name="card_plant_button_delete_margin">12dp</dimen>
 
     <!-- Plant Creation -->
     <dimen name="linearlayout_margin_bottom">30dp</dimen>
@@ -163,6 +166,8 @@
     <dimen name="nutrient_detail_text_area_width">280dp</dimen>
     <dimen name="nutrient_detail_text_area_height">160dp</dimen>
 
+    <dimen name="card_nutrient_button_delete_size">30dp</dimen>
+    <dimen name="card_nutrient_button_delete_margin">12dp</dimen>
 
     <!-- Land dimens -->
 

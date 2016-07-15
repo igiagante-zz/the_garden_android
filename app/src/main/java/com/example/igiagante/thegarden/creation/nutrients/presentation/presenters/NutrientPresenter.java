@@ -21,16 +21,19 @@ import javax.inject.Named;
 @PerActivity
 public class NutrientPresenter extends AbstractPresenter<NutrientView> {
 
-    private final static String TAG = GardenPresenter.class.getSimpleName();
+    private final static String TAG = NutrientPresenter.class.getSimpleName();
 
     private final UseCase getNutrientsUseCase;
+    private final UseCase deleteNutrientUseCase;
     private final UseCase saveNutrientUseCase;
 
     @Inject
     public NutrientPresenter(@Named("getNutrients") UseCase getNutrientsUseCase,
+                             @Named("deleteNutrient") UseCase deleteNutrientUseCase,
                              @Named("saveNutrient") UseCase saveNutrientUseCase) {
         this.getNutrientsUseCase = getNutrientsUseCase;
         this.saveNutrientUseCase = saveNutrientUseCase;
+        this.deleteNutrientUseCase = deleteNutrientUseCase;
     }
 
     public void destroy() {
@@ -42,8 +45,24 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
         this.getNutrientsUseCase.execute(null, new NutrientsSubscriber());
     }
 
+    public void deleteNutrient(String nutrientId) {
+        this.deleteNutrientUseCase.execute(nutrientId, new DeleteNutrientSubscriber());
+    }
+
+    public void saveNutrient(Nutrient nutrient) {
+        this.saveNutrientUseCase.execute(nutrient, new SaveNutrientSubscriber());
+    }
+
     private void showNutrients(List<Nutrient> nutrients) {
         getView().loadNutrients(nutrients);
+    }
+
+    private void notifyIfNutrientWasDeleted(Integer result) {
+        getView().notifyIfNutrientWasDeleted();
+    }
+
+    private void notifyIfNutrientWasPersistedOrUpdated(Nutrient nutrient) {
+        getView().notifyIfNutrientWasPersistedOrUpdated(nutrient);
     }
 
     private final class NutrientsSubscriber extends DefaultSubscriber<List<Nutrient>> {
@@ -58,6 +77,36 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
 
         @Override public void onNext(List<Nutrient> nutrients) {
             NutrientPresenter.this.showNutrients(nutrients);
+        }
+    }
+
+    private final class DeleteNutrientSubscriber extends DefaultSubscriber<Integer> {
+
+        @Override public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        @Override public void onNext(Integer result) {
+            NutrientPresenter.this.notifyIfNutrientWasDeleted(result);
+        }
+    }
+
+    private final class SaveNutrientSubscriber extends DefaultSubscriber<Nutrient> {
+
+        @Override public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        @Override public void onNext(Nutrient nutrient) {
+            NutrientPresenter.this.notifyIfNutrientWasPersistedOrUpdated(nutrient);
         }
     }
 }

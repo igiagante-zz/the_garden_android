@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -214,7 +215,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
 
     @Override
     public void loadImages(Collection<Image> images) {
-        this.mImages.addAll(images);
+        this.mImages.addAll(addFilesToImages(images));
         if(getActivity() instanceof CreatePlantActivity) {
             updateImagesFromBuilder(images, false);
         }
@@ -223,6 +224,18 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
 
     public ArrayList<Image> getImages() {
         return mImages;
+    }
+
+    /**
+     * Create file using file's paths
+     * @param images List of images
+     * @return List of images with its file
+     */
+    private Collection<Image> addFilesToImages(Collection<Image> images) {
+        for(Image image : images) {
+            image.setFile(new File(image.getUrl()));
+        }
+        return images;
     }
 
     public ArrayList<String> getResourcesIds(){

@@ -33,15 +33,14 @@ public class BaseRestApiRepository<T> {
     /**
      * Go to the api and then continue with the DB
      * @param apiResult after call api
-     * @param item the item to be persisted or updated
      * @param repository DB
-     * @param update indicate if the transaction is about an updating
+     * @param update indicate if the transaction is about `updating`
      */
     protected T execute(Observable<T> apiResult, Class repository, boolean update) {
 
         // get Data From api
         List<T> listOne = new ArrayList<>();
-        apiResult.subscribeOn(Schedulers.io()).toBlocking().subscribe(garden1 -> listOne.add(garden1));
+        apiResult.subscribeOn(Schedulers.io()).toBlocking().subscribe(result -> listOne.add(result));
 
         // update the garden into database
         Repository dataBase = null;
@@ -72,7 +71,7 @@ public class BaseRestApiRepository<T> {
         }
 
         List<T> list = new ArrayList<>();
-        dbResult.toBlocking().subscribe(gardenId -> list.add(gardenId));
+        dbResult.toBlocking().subscribe(model -> list.add(model));
 
         return list.get(0);
     }

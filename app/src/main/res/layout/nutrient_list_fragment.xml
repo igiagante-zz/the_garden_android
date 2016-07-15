@@ -16,10 +16,17 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
 
-    <Button
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/nutrients_add_new_nutrient_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Nutrient"/>
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_add"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        />
 
 </RelativeLayout>

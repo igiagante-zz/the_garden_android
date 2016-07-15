@@ -36,10 +36,10 @@
 
             <Button
                 android:id="@+id/plant_delete_button_id"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_width="@dimen/card_plant_button_delete_size"
+                android:layout_height="@dimen/card_plant_button_delete_size"
+                android:layout_marginEnd="@dimen/card_plant_button_delete_margin"
+                android:layout_marginTop="@dimen/card_plant_button_delete_margin"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/delete_image"
                 />
@@ -48,7 +48,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="@dimen/card_plant_data_height"
             android:layout_weight="0.5"
             android:background="@color/plant_data_card">
 

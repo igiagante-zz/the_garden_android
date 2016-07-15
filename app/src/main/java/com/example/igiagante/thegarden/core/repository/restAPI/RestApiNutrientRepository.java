@@ -11,6 +11,7 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
+import com.example.igiagante.thegarden.core.repository.realm.NutrientRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.NutrientTable;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.restAPI.service.NutrientRestApi;
@@ -72,9 +73,9 @@ public class RestApiNutrientRepository extends BaseRestApiRepository<Nutrient> i
             apiResult = api.createNutrient(builder.build()).asObservable();
         }
 
-        Nutrient result = execute(apiResult, GardenRealmRepository.class, update);
+        Nutrient result = execute(apiResult, NutrientRealmRepository.class, update);
 
-        return update ? Observable.just(result) : Observable.just(result.getId());
+        return Observable.just(result);
     }
 
     @Override

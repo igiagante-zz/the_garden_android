@@ -1,25 +1,23 @@
 package com.example.igiagante.thegarden.creation.nutrients.presentation.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientView;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.adapters.NutrientsAdapter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientPresenter;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 12/7/16.
  */
-public class NutrientListFragment extends BaseFragment implements NutrientView {
+public class NutrientListFragment extends BaseFragment implements NutrientView, NutrientsAdapter.OnDeleteNutrient {
 
     @Inject
     NutrientPresenter nutrientPresenter;
@@ -44,7 +42,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
     RecyclerView recyclerViewNutrients;
 
     @Bind(R.id.nutrients_add_new_nutrient_id)
-    Button buttonAddNutrient;
+    FloatingActionButton buttonAddNutrient;
 
     @Bind(R.id.nutrient_list_progress_bar)
     ProgressBar mProgressBar;
@@ -66,7 +64,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
         final View fragmentView = inflater.inflate(R.layout.nutrient_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
-        nutrientsAdapter = new NutrientsAdapter(getContext(), (NutrientsAdapter.OnNutrientSelected) getActivity());
+        nutrientsAdapter = new NutrientsAdapter(getContext(), (NutrientsAdapter.OnNutrientSelected) getActivity(), this);
 
         this.recyclerViewNutrients.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewNutrients.setAdapter(nutrientsAdapter);
@@ -114,6 +112,37 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
     }
 
     @Override
+    public void showDeleteNutrientDialog(int position) {
+        new AlertDialog.Builder(getActivity())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.delete_nutrient_dialog_title)
+                .setMessage(R.string.delete_nutrient_dialog_content)
+                .setPositiveButton("Yes", (dialog, which) -> nutrientsAdapter.deleteNutrient(position))
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    @Override
+    public void deleteNutrient(String nutrientId) {
+        this.nutrientPresenter.deleteNutrient(nutrientId);
+    }
+
+    @Override
+    public void notifyIfNutrientWasDeleted() {
+        this.nutrientsAdapter.removeNutrient();
+    }
+
+    @Override
+    public void notifyIfNutrientWasPersistedOrUpdated(Nutrient nutrient) {
+        int position = nutrientsAdapter.existNutrient(nutrient.getId());
+        if(position != -1) {
+            this.nutrientsAdapter.updateNutrient(nutrient, position);
+        } else {
+            this.nutrientsAdapter.addNutrient(nutrient);
+        }
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -123,7 +152,11 @@ public class NutrientListFragment extends BaseFragment implements NutrientView {
         }
     }
 
+    /**
+     * Add nutrient
+     * @param nutrient
+     */
     public void addNutrient(Nutrient nutrient) {
-        this.nutrientsAdapter.addNutrient(nutrient);
+        this.nutrientPresenter.saveNutrient(nutrient);
     }
 }
