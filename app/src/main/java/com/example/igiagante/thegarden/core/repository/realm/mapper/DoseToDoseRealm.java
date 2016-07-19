@@ -42,7 +42,7 @@ public class DoseToDoseRealm implements Mapper<Dose, DoseRealm> {
         // nutrients realm list
         RealmList<NutrientRealm> nutrientRealms = new RealmList<>();
 
-        // add images
+        // add nutrients
         if (dose.getNutrients() != null) {
             for (Nutrient nutrient : dose.getNutrients()) {
                 NutrientRealm nutrientRealm = realm.where(NutrientRealm.class).equalTo(Table.ID, nutrient.getId()).findFirst();

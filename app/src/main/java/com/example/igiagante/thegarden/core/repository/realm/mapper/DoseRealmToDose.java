@@ -29,6 +29,7 @@ public class DoseRealmToDose implements Mapper<DoseRealm, Dose> {
     @Override
     public Dose copy(DoseRealm doseRealm, Dose dose) {
         dose.setWater(doseRealm.getWater());
+        dose.setPhDose(doseRealm.getPhDose());
         dose.setPh(doseRealm.getPh());
         dose.setEc(doseRealm.getEc());
         dose.setEditable(doseRealm.isEditable());

@@ -149,4 +149,11 @@
     <string name="delete_nutrient_dialog_title">Delete Nutrient</string>
     <string name="delete_nutrient_dialog_content">Are you sure you want to delete this nutrient?</string>
 
+    <!-- IRRIGATIONS-->
+
+    <string name="dose_water">Water: %1$s</string>
+    <string name="dose_ph">Ph: %1$s</string>
+    <string name="dose_ec">Ec: %1$s</string>
+    <string name="dose_nutrients">N: %1$s</string>
+
 </resources>
