@@ -23,11 +23,11 @@ public class Irrigation implements Parcelable {
     @SerializedName("gardenId")
     private String gardenId;
 
-    @SerializedName("doseId")
-    private String doseId;
-
     @SerializedName("quantity")
     private float quantity;
+
+    @SerializedName("dose")
+    private Dose dose;
 
     public String getId() {
         return id;
@@ -53,20 +53,20 @@ public class Irrigation implements Parcelable {
         this.gardenId = gardenId;
     }
 
-    public String getDoseId() {
-        return doseId;
-    }
-
-    public void setDoseId(String doseId) {
-        this.doseId = doseId;
-    }
-
     public float getQuantity() {
         return quantity;
     }
 
     public void setQuantity(float quantity) {
         this.quantity = quantity;
+    }
+
+    public Dose getDose() {
+        return dose;
+    }
+
+    public void setDose(Dose dose) {
+        this.dose = dose;
     }
 
     @Override
@@ -79,8 +79,8 @@ public class Irrigation implements Parcelable {
         dest.writeString(id);
         dest.writeSerializable(irrigationDate);
         dest.writeString(gardenId);
-        dest.writeString(doseId);
         dest.writeFloat(quantity);
+        dest.writeParcelable(dose, 0);
     }
 
     public static final Parcelable.Creator<Irrigation> CREATOR = new Parcelable.Creator<Irrigation>() {
@@ -97,7 +97,7 @@ public class Irrigation implements Parcelable {
         id = in.readString();
         irrigationDate = (Date) in.readSerializable();
         gardenId = in.readString();
-        doseId = in.readString();
+        dose = in.readParcelable(Dose.class.getClassLoader());
         quantity = in.readFloat();
     }
 }

@@ -9,6 +9,12 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.Irrigati
  */
 public class IrrigationRealmToIrrigation implements Mapper<IrrigationRealm, Irrigation> {
 
+    private final DoseRealmToDose toDose;
+
+    public IrrigationRealmToIrrigation() {
+        this.toDose = new DoseRealmToDose();
+    }
+
     @Override
     public Irrigation map(IrrigationRealm irrigationRealm) {
         Irrigation irrigation = new Irrigation();
@@ -19,10 +25,10 @@ public class IrrigationRealmToIrrigation implements Mapper<IrrigationRealm, Irri
     @Override
     public Irrigation copy(IrrigationRealm irrigationRealm, Irrigation irrigation) {
 
-        irrigation.setDoseId(irrigationRealm.getDoseId());
         irrigation.setGardenId(irrigationRealm.getGardenId());
         irrigation.setIrrigationDate(irrigationRealm.getIrrigationDate());
         irrigation.setQuantity(irrigationRealm.getQuantity());
+        irrigation.setDose(toDose.map(irrigationRealm.getDose()));
 
         return irrigation;
     }

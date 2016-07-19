@@ -37,6 +37,7 @@ public class NutrientToNutrientRealm implements Mapper<Nutrient, NutrientRealm> 
         nutrientRealm.setPh(nutrient.getPh());
         nutrientRealm.setNpk(nutrient.getNpk());
         nutrientRealm.setDescription(nutrient.getDescription());
+        nutrientRealm.setQuantityUsed(nutrient.getQuantityUsed());
 
         // images realm list
         RealmList<ImageRealm> imagesRealm = new RealmList<>();

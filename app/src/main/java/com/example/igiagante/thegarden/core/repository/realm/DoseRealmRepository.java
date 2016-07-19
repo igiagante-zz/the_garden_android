@@ -12,7 +12,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.DoseRealmToD
 import com.example.igiagante.thegarden.core.repository.realm.mapper.DoseToDoseRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
-import com.example.igiagante.thegarden.core.repository.realm.specification.DoseByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.irrigations.DoseByIdSpecification;
 
 import java.util.Collection;
 import java.util.List;
@@ -112,7 +112,7 @@ public class DoseRealmRepository implements Repository<Dose> {
 
         realm.close();
 
-        // if plantRealm.isValid() is false, it is because the realm object was deleted
+        // if doseRealm.isValid() is false, it is because the realm object was deleted
         return Observable.just(doseRealm.isValid() ? -1 : 1);
     }
 

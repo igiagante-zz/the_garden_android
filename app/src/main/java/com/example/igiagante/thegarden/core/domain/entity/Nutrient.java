@@ -30,6 +30,9 @@ public class Nutrient implements Parcelable {
     @SerializedName("description")
     private String description;
 
+    @SerializedName("quantityUsed")
+    private float quantityUsed;
+
     @SerializedName("images")
     private List<Image> images = new ArrayList<>();
 
@@ -76,6 +79,14 @@ public class Nutrient implements Parcelable {
         this.description = description;
     }
 
+    public float getQuantityUsed() {
+        return quantityUsed;
+    }
+
+    public void setQuantityUsed(float quantityUsed) {
+        this.quantityUsed = quantityUsed;
+    }
+
     public List<Image> getImages() {
         return images;
     }
@@ -104,6 +115,7 @@ public class Nutrient implements Parcelable {
         dest.writeFloat(ph);
         dest.writeString(npk);
         dest.writeString(description);
+        dest.writeFloat(quantityUsed);
         dest.writeList(images);
         dest.writeList(resourcesIds);
     }
@@ -124,6 +136,7 @@ public class Nutrient implements Parcelable {
         ph = in.readFloat();
         npk = in.readString();
         description = in.readString();
+        quantityUsed = in.readFloat();
         in.readList(images, this.getClass().getClassLoader());
         in.readList(resourcesIds, this.getClass().getClassLoader());
     }

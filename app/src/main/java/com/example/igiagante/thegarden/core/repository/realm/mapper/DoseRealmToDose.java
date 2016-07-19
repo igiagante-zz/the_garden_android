@@ -36,7 +36,7 @@ public class DoseRealmToDose implements Mapper<DoseRealm, Dose> {
 
         ArrayList<Nutrient> nutrients = new ArrayList<>();
 
-        // add images
+        // add nutrients
         if(doseRealm.getNutrients() != null) {
             for (NutrientRealm nutrientRealm : doseRealm.getNutrients()) {
                 nutrients.add(toNutrient.map(nutrientRealm));

@@ -20,8 +20,7 @@ public class IrrigationRealm extends RealmObject {
     @Required
     private String gardenId;
 
-    @Required
-    private String doseId;
+    private DoseRealm dose;
 
     private float quantity;
 
@@ -49,12 +48,12 @@ public class IrrigationRealm extends RealmObject {
         this.gardenId = gardenId;
     }
 
-    public String getDoseId() {
-        return doseId;
+    public DoseRealm getDose() {
+        return dose;
     }
 
-    public void setDoseId(String doseId) {
-        this.doseId = doseId;
+    public void setDose(DoseRealm dose) {
+        this.dose = dose;
     }
 
     public float getQuantity() {

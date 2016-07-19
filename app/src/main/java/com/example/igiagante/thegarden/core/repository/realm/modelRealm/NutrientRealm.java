@@ -22,6 +22,8 @@ public class NutrientRealm extends RealmObject {
 
     private String description;
 
+    private float quantityUsed;
+
     private RealmList<ImageRealm> images;
 
     public String getId() {
@@ -62,6 +64,14 @@ public class NutrientRealm extends RealmObject {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public float getQuantityUsed() {
+        return quantityUsed;
+    }
+
+    public void setQuantityUsed(float quantityUsed) {
+        this.quantityUsed = quantityUsed;
     }
 
     public RealmList<ImageRealm> getImages() {
