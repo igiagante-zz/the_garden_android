@@ -51,12 +51,6 @@ public interface Repository<T> {
      */
     Observable<Integer> remove(String id);
 
-    /**
-     * Return an observable with the integer, which indicates the number of deleted resources.
-     * @param specification {@link Specification}
-     * @return Observable<Integer>
-     */
-    Observable<Integer> remove(Specification specification);
 
     void removeAll();
 

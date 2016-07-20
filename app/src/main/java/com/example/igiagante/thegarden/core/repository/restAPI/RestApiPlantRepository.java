@@ -116,11 +116,6 @@ public class RestApiPlantRepository extends BaseRestApiRepository<Plant> impleme
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
-        return Observable.just(0);
-    }
-
-    @Override
     public void removeAll() {
 
     }

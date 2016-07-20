@@ -34,9 +34,4 @@ public class NutrientByIdSpecification  implements RealmSpecification {
     public RealmResults<NutrientRealm> toRealmResults(@NonNull Realm realm) {
         return null;
     }
-
-    @Override
-    public RealmObject toObjectRealm(Realm realm) {
-        return null;
-    }
 }

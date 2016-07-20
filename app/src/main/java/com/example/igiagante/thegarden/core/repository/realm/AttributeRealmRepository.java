@@ -11,7 +11,9 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeRealmToAttribute;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeToAttributeRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.attribute.AttributeByIdSpecification;
 
 import java.util.ArrayList;
@@ -112,21 +114,6 @@ public class AttributeRealmRepository implements Repository<Attribute> {
         realm.close();
 
         // if attributeRealm.isValid() is false, it is because the realm object was deleted
-        return Observable.just(attributeRealm.isValid() ? 0 : 1);
-    }
-
-    @Override
-    public Observable<Integer> remove(Specification specification) {
-        realm = Realm.getInstance(realmConfiguration);
-
-        final RealmSpecification realmSpecification = (RealmSpecification) specification;
-        final AttributeRealm attributeRealm = (AttributeRealm) realmSpecification.toObjectRealm(realm);
-
-        realm.executeTransaction(realmParam -> attributeRealm.deleteFromRealm());
-
-        realm.close();
-
-        // if attributeRealm.isValid() is false, the realm object was deleted
         return Observable.just(attributeRealm.isValid() ? 0 : 1);
     }
 

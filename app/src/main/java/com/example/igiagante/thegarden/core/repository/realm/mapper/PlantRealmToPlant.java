@@ -16,6 +16,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRea
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import java.util.ArrayList;
 
@@ -87,7 +88,7 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
 
                 // get attribute using attributeId from AttributePerPlantRealm
                 AttributeRealm attributeRealm = realm.where(AttributeRealm.class)
-                        .equalTo(PlantTable.Attribute.ID,
+                        .equalTo(Table.ID,
                                 attributePerPlantRealm.getAttributeId()).findFirst();
                 // TODO - It should not execute a transaction inside a Mapper
                 realm.executeTransaction(realmParam ->

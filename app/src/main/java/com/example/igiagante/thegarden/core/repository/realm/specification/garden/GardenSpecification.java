@@ -23,9 +23,4 @@ public class GardenSpecification implements RealmSpecification<GardenRealm> {
     public RealmResults<GardenRealm> toRealmResults(@NonNull Realm realm) {
         return realm.where(GardenRealm.class).findAll();
     }
-
-    @Override
-    public GardenRealm toObjectRealm(Realm realm) {
-        return null;
-    }
 }

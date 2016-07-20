@@ -21,9 +21,4 @@ public class NutrientSpecification implements RealmSpecification<NutrientRealm> 
     public RealmResults<NutrientRealm> toRealmResults(Realm realm) {
         return realm.where(NutrientRealm.class).findAll();
     }
-
-    @Override
-    public NutrientRealm toObjectRealm(Realm realm) {
-        return null;
-    }
 }

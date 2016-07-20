@@ -52,11 +52,6 @@ public class RestApiPlagueRepository implements Repository<Plague> {
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
-        return null;
-    }
-
-    @Override
     public void removeAll() {
 
     }

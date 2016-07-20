@@ -85,11 +85,6 @@ public class RestApiNutrientRepository extends BaseRestApiRepository<Nutrient> i
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
-        return null;
-    }
-
-    @Override
     public void removeAll() {
 
     }

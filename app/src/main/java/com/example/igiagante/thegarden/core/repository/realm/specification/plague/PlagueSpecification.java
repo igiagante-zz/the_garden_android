@@ -23,9 +23,4 @@ public class PlagueSpecification implements RealmSpecification<PlagueRealm> {
     public RealmResults<PlagueRealm> toRealmResults(@NonNull Realm realm) {
         return realm.where(PlagueRealm.class).findAll();
     }
-
-    @Override
-    public PlagueRealm toObjectRealm(Realm realm) {
-        return null;
-    }
 }

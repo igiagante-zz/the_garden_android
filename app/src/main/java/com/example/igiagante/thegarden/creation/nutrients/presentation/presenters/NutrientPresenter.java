@@ -38,6 +38,8 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
 
     public void destroy() {
         this.getNutrientsUseCase.unsubscribe();
+        this.saveNutrientUseCase.unsubscribe();
+        this.deleteNutrientUseCase.unsubscribe();
         this.view = null;
     }
 

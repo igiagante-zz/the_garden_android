@@ -126,11 +126,6 @@ public class GardenRealmRepository implements Repository<Garden> {
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
-        return null;
-    }
-
-    @Override
     public void removeAll() {
         // Delete all
         realm.beginTransaction();

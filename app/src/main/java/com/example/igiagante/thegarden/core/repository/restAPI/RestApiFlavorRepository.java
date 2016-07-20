@@ -56,11 +56,6 @@ public class RestApiFlavorRepository implements Repository<Flavor> {
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
-        return null;
-    }
-
-    @Override
     public void removeAll() {
 
     }

@@ -27,6 +27,7 @@ public class NutrientActivity extends BaseActivity implements HasComponent<Nutri
     public static final int REQUEST_CODE_NUTRIENT_DETAILS = 33;
 
     private static final String FRAGMENT_NUTRIENT_LIST_TAG = "FRAGMENT_NUTRIENT_LIST";
+
     private NutrientsComponent nutrientsComponent;
 
     private NutrientListFragment mNutrientListFragment;

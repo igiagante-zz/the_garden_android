@@ -23,9 +23,4 @@ public class AttributeSpecification  implements RealmSpecification<AttributeReal
     public RealmResults<AttributeRealm> toRealmResults(@NonNull Realm realm) {
         return realm.where(AttributeRealm.class).findAll();
     }
-
-    @Override
-    public AttributeRealm toObjectRealm(Realm realm) {
-        return null;
-    }
 }

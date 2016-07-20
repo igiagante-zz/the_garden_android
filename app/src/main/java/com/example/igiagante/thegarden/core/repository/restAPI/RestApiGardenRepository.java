@@ -74,11 +74,6 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
-        return null;
-    }
-
-    @Override
     public void removeAll() {
 
     }

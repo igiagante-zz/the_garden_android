@@ -30,9 +30,4 @@ public class NutrientByNameSpecification implements RealmSpecification<NutrientR
     public RealmResults<NutrientRealm> toRealmResults(Realm realm) {
         return null;
     }
-
-    @Override
-    public NutrientRealm toObjectRealm(Realm realm) {
-        return null;
-    }
 }

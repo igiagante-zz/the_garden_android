@@ -24,9 +24,4 @@ public class ImageSpecification implements RealmSpecification {
     public RealmResults<ImageRealm> toRealmResults(@NonNull Realm realm) {
         return realm.where(ImageRealm.class).findAll();
     }
-
-    @Override
-    public RealmObject toObjectRealm(Realm realm) {
-        return null;
-    }
 }

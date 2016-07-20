@@ -37,6 +37,9 @@ public class Dose implements Parcelable {
     @SerializedName("nutrient")
     private List<Nutrient> nutrients = new ArrayList<>();
 
+    @SerializedName("nutrientsIds")
+    private List<String> nutrientsIds = new ArrayList<>();
+
     public String getId() {
         return id;
     }
@@ -93,6 +96,14 @@ public class Dose implements Parcelable {
         this.nutrients = nutrients;
     }
 
+    public List<String> getNutrientsIds() {
+        return nutrientsIds;
+    }
+
+    public void setNutrientsIds(List<String> nutrientsIds) {
+        this.nutrientsIds = nutrientsIds;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -107,6 +118,7 @@ public class Dose implements Parcelable {
         dest.writeFloat(ph);
         dest.writeInt(editable ? 1 : 0);
         dest.writeList(nutrients);
+        dest.writeList(nutrientsIds);
     }
 
     public static final Parcelable.Creator<Dose> CREATOR = new Parcelable.Creator<Dose>() {
@@ -127,5 +139,6 @@ public class Dose implements Parcelable {
         ph = in.readFloat();
         editable = in.readInt() == 1;
         in.readList(nutrients, this.getClass().getClassLoader());
+        in.readList(nutrientsIds, this.getClass().getClassLoader());
     }
 }

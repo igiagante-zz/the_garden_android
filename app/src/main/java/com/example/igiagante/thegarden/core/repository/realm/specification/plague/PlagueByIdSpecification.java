@@ -2,10 +2,9 @@ package com.example.igiagante.thegarden.core.repository.realm.specification.plag
 
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
 
@@ -23,17 +22,12 @@ public class PlagueByIdSpecification implements RealmSpecification {
     @Override
     public Observable<RealmResults<PlagueRealm>> toObservableRealmResults(Realm realm) {
         return realm.where(PlagueRealm.class)
-                .equalTo(PlantTable.Plague.ID, id)
+                .equalTo(Table.ID, id)
                 .findAll().asObservable();
     }
 
     @Override
     public RealmResults toRealmResults(Realm realm) {
-        return null;
-    }
-
-    @Override
-    public RealmObject toObjectRealm(Realm realm) {
         return null;
     }
 }

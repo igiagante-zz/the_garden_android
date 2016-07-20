@@ -106,11 +106,6 @@ public class PlagueRealmRepository implements Repository<Plague> {
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
-        return null;
-    }
-
-    @Override
     public void removeAll() {
         // Delete all
         realm.beginTransaction();

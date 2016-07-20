@@ -55,11 +55,6 @@ public class RestApiAttributeRepository implements Repository<Attribute> {
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
-        return null;
-    }
-
-    @Override
     public void removeAll() {
 
     }

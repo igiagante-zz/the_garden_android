@@ -165,22 +165,6 @@ public class PlantRealmRepository implements Repository<Plant> {
     }
 
     @Override
-    public Observable<Integer> remove(@NonNull final Specification specification) {
-
-        realm = Realm.getInstance(realmConfiguration);
-
-        final RealmSpecification realmSpecification = (RealmSpecification) specification;
-        final PlantRealm plantRealm = (PlantRealm) realmSpecification.toObjectRealm(realm);
-
-        realm.executeTransaction(realmParam -> plantRealm.deleteFromRealm());
-
-        realm.close();
-
-        // if plantRealm.isValid() is false, the realm object was deleted
-        return Observable.just(plantRealm.isValid() ? 0 : 1);
-    }
-
-    @Override
     public void removeAll() {
         // Delete all
         realm.beginTransaction();

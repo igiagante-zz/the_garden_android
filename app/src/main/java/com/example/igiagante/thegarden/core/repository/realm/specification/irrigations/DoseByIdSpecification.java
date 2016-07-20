@@ -33,9 +33,4 @@ public class DoseByIdSpecification implements RealmSpecification {
     public RealmResults<DoseRealm> toRealmResults(@NonNull Realm realm) {
         return null;
     }
-
-    @Override
-    public RealmObject toObjectRealm(Realm realm) {
-        return null;
-    }
 }

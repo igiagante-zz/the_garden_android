@@ -2,10 +2,9 @@ package com.example.igiagante.thegarden.core.repository.realm.specification.attr
 
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
 
@@ -23,7 +22,7 @@ public class AttributeByIdSpecification implements RealmSpecification {
     @Override
     public Observable<RealmResults<AttributeRealm>> toObservableRealmResults(Realm realm) {
         return realm.where(AttributeRealm.class)
-                .equalTo(PlantTable.Attribute.ID, id)
+                .equalTo(Table.ID, id)
                 .findAll().asObservable();
     }
 
@@ -32,8 +31,4 @@ public class AttributeByIdSpecification implements RealmSpecification {
         return null;
     }
 
-    @Override
-    public RealmObject toObjectRealm(Realm realm) {
-        return null;
-    }
 }

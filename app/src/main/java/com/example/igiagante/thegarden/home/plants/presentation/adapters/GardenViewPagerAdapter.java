@@ -8,14 +8,10 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Garden;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.charts.presentation.ChartsFragment;
-import com.example.igiagante.thegarden.home.irrigations.presentation.IrrigationsFragment;
+import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
-
-import java.util.ArrayList;
 
 /**
  * @author Ignacio Giagante, on 6/7/16.

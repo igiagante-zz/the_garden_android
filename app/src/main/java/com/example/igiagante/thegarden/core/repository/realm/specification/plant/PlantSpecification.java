@@ -23,9 +23,4 @@ public class PlantSpecification implements RealmSpecification<PlantRealm> {
     public RealmResults<PlantRealm> toRealmResults(@NonNull Realm realm) {
         return realm.where(PlantRealm.class).findAll();
     }
-
-    @Override
-    public PlantRealm toObjectRealm(Realm realm) {
-        return null;
-    }
 }

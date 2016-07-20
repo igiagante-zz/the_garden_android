@@ -33,14 +33,7 @@ public interface PlantTable extends Table {
         String MAIN = "main";
     }
 
-    interface Flavor {
-        String ID = "id";
-        String NAME = "name";
-    }
-
     interface Attribute {
-        String ID = "id";
-        String NAME = "name";
         String TYPE = "type";
     }
 
@@ -50,8 +43,6 @@ public interface PlantTable extends Table {
     }
 
     interface Plague {
-        String ID = "id";
-        String NAME = "name";
         String IMAGE_URL = "imageUrl";
     }
 }

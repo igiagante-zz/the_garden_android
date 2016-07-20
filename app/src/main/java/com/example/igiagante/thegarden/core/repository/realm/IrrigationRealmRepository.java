@@ -117,11 +117,6 @@ public class IrrigationRealmRepository implements Repository<Irrigation> {
     }
 
     @Override
-    public Observable<Integer> remove(Specification specification) {
-        return null;
-    }
-
-    @Override
     public void removeAll() {
         //Delete all
         realm.beginTransaction();

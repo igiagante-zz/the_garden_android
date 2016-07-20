@@ -32,9 +32,4 @@ public class GardenByNameSpecification implements RealmSpecification<GardenRealm
     public RealmResults<GardenRealm> toRealmResults(@NonNull Realm realm) {
         return null;
     }
-
-    @Override
-    public GardenRealm toObjectRealm(Realm realm) {
-        return null;
-    }
 }

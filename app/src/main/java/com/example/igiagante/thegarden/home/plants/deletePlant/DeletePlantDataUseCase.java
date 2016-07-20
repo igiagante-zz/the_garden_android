@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.home.plants.delete_plant;
+package com.example.igiagante.thegarden.home.plants.deletePlant;
 
 import android.support.annotation.NonNull;
 

@@ -23,9 +23,4 @@ public class IrrigationSpecification  implements RealmSpecification<IrrigationRe
     public RealmResults<IrrigationRealm> toRealmResults(@NonNull Realm realm) {
         return realm.where(IrrigationRealm.class).findAll();
     }
-
-    @Override
-    public IrrigationRealm toObjectRealm(Realm realm) {
-        return null;
-    }
 }

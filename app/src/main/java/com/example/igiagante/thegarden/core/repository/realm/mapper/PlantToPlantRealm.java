@@ -14,6 +14,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRea
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -93,7 +94,7 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         // add flavors
         if (plant.getFlavors() != null) {
             for (Flavor flavor : plant.getFlavors()) {
-                FlavorRealm flavorRealm = realm.where(FlavorRealm.class).equalTo(PlantTable.Flavor.ID, flavor.getId()).findFirst();
+                FlavorRealm flavorRealm = realm.where(FlavorRealm.class).equalTo(Table.ID, flavor.getId()).findFirst();
                 if (flavorRealm == null) {
                     // create flavor realm object and set id
                     flavorRealm = realm.createObject(FlavorRealm.class);
@@ -128,7 +129,7 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
         // add plagues
         if (plant.getPlagues() != null) {
             for (Plague plague : plant.getPlagues()) {
-                PlagueRealm plagueRealm = realm.where(PlagueRealm.class).equalTo(PlantTable.Plague.ID, plague.getId()).findFirst();
+                PlagueRealm plagueRealm = realm.where(PlagueRealm.class).equalTo(Table.ID, plague.getId()).findFirst();
                 plaguesRealm.add(plagueRealm);
             }
         }
