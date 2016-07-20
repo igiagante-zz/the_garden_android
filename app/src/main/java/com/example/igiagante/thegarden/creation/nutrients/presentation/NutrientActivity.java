@@ -74,10 +74,10 @@ public class NutrientActivity extends BaseActivity implements HasComponent<Nutri
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == REQUEST_CODE_NUTRIENT_DETAILS && resultCode == Activity.RESULT_OK) {
-            if(data != null) {
+        if (requestCode == REQUEST_CODE_NUTRIENT_DETAILS && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
                 Nutrient nutrient = data.getParcelableExtra(NutrientDetailActivity.NUTRIENT_KEY);
-                if(mNutrientListFragment != null) {
+                if (mNutrientListFragment != null) {
                     mNutrientListFragment.addNutrient(nutrient);
                 }
             }

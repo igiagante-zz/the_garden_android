@@ -1,6 +1,5 @@
 package com.example.igiagante.thegarden.creation.nutrients.presentation.view;
 
-import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 
 /**
@@ -8,5 +7,5 @@ import com.example.igiagante.thegarden.core.presentation.mvp.IView;
  */
 public interface NutrientDetailView extends IView {
 
-    void notifyIfNutrientWasPersistedOrUpdated(Nutrient nutrient);
+    void notifyIfNutrientExist(boolean exist);
 }

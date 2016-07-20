@@ -32,7 +32,8 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 12/7/16.
  */
-public class NutrientDetailActivity extends BaseActivity implements HasComponent<NutrientsComponent> {
+public class NutrientDetailActivity extends BaseActivity implements HasComponent<NutrientsComponent>,
+        NutrientDetailFragment.OnButtonAvailable {
 
     public static final String NUTRIENT_KEY = "NUTRIENT";
     private static final String FRAGMENT_NUTRIENT_DATA_TAG = "FRAGMENT_NUTRIENT_DATA";
@@ -81,6 +82,7 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
         addFragment(R.id.nutrient_container_data, dataFragment, FRAGMENT_NUTRIENT_DATA_TAG);
         addFragment(R.id.nutrient_container_photo_gallery, galleryFragment, FRAGMENT_NUTRIENT_IMAGES_TAG);
 
+        mSaveButton.setEnabled(false);
         mSaveButton.setOnClickListener(v -> {
             mProgressBar.setVisibility(View.VISIBLE);
             saveNutrient();
@@ -101,6 +103,11 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
             mNutrient.setResourcesIds(photoGalleryFragment.getResourcesIds());
         }
         persistNutrient(mNutrient);
+    }
+
+    @Override
+    public void activeButton(boolean active) {
+        mSaveButton.setEnabled(active);
     }
 
     @Override

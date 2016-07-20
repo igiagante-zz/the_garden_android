@@ -13,6 +13,8 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.NutrientToNu
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientByNameSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByNameSpecification;
 
 import java.util.Collection;
 import java.util.List;
@@ -53,7 +55,7 @@ public class NutrientRealmRepository implements Repository<Nutrient> {
 
     @Override
     public Observable<Nutrient> getByName(String name) {
-        return null;
+        return query(new NutrientByNameSpecification(name)).flatMap(Observable::from);
     }
 
     @Override

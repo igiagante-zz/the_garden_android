@@ -1,6 +1,10 @@
 package com.example.igiagante.thegarden.creation.nutrients.presentation.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,11 @@ import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
 import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientDetailPresenter;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientPresenter;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientDetailView;
+
+import java.lang.ref.WeakReference;
 
 import javax.inject.Inject;
 
@@ -20,12 +29,12 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 12/7/16.
  */
-public class NutrientDetailFragment extends BaseFragment {
+public class NutrientDetailFragment extends BaseFragment implements NutrientDetailView, TextWatcher {
 
     private static final String NUTRIENT_DETAIL_KEY = "NUTRIENT_DETAIL";
 
     @Bind(R.id.name_of_nutrient_id)
-    EditText name;
+    EditText nameOfNutrient;
 
     @Bind(R.id.nutrient_ph_id)
     CountViewDecimal ph;
@@ -44,6 +53,15 @@ public class NutrientDetailFragment extends BaseFragment {
 
     private Nutrient mNutrient;
 
+    @Inject
+    NutrientDetailPresenter nutrientDetailPresenter;
+
+    private OnButtonAvailable mOnButtonAvailable;
+
+    public interface OnButtonAvailable {
+        void activeButton(boolean active);
+    }
+
     public static NutrientDetailFragment newInstance(Nutrient nutrient) {
         NutrientDetailFragment myFragment = new NutrientDetailFragment();
 
@@ -58,6 +76,11 @@ public class NutrientDetailFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        /**
+         * Get component in order to inject the presenter
+         */
+        this.getComponent(NutrientsComponent.class).inject(this);
+
         final View fragmentView = inflater.inflate(R.layout.nutrient_detail_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
@@ -71,7 +94,7 @@ public class NutrientDetailFragment extends BaseFragment {
             mNutrient = arguments.getParcelable(NUTRIENT_DETAIL_KEY);
 
             if (mNutrient != null) {
-                name.setText(mNutrient.getName());
+                nameOfNutrient.setText(mNutrient.getName());
                 ph.setEditValue(mNutrient.getPh());
 
                 String[] npk = mNutrient.getNpk().split("-");
@@ -87,6 +110,8 @@ public class NutrientDetailFragment extends BaseFragment {
             }
         }
 
+        nameOfNutrient.addTextChangedListener(this);
+
         return fragmentView;
     }
 
@@ -97,9 +122,69 @@ public class NutrientDetailFragment extends BaseFragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.nutrientDetailPresenter.setView(new WeakReference<>(this));
+    }
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        this.nutrientDetailPresenter.destroy();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if(!TextUtils.isEmpty(s.toString())) {
+            nutrientDetailPresenter.existNutrient(s.toString().trim());
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void notifyIfNutrientExist(boolean exist) {
+        if(exist) {
+            nameOfNutrient.setError(getString(R.string.name_of_the_nutrient_already_exist));
+            mOnButtonAvailable.activeButton(false);
+        } else {
+            mOnButtonAvailable.activeButton(true);
+        }
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public Context context() {
+        return null;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mOnButtonAvailable = (OnButtonAvailable) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement OnButtonAvailable");
+        }
     }
 
     public Nutrient getNutrient() {
@@ -111,7 +196,7 @@ public class NutrientDetailFragment extends BaseFragment {
         if(this.mNutrient == null) {
             this.mNutrient = new Nutrient();
         }
-        mNutrient.setName(name.getText().toString().trim());
+        mNutrient.setName(nameOfNutrient.getText().toString().trim());
         mNutrient.setPh(ph.getEditValue());
         mNutrient.setNpk(getNPK());
         mNutrient.setDescription(description.getText().toString());
