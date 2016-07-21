@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
@@ -77,6 +78,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = this.layoutInflater.inflate(R.layout.row_header_nutrients_expandable_list, null);
         }
+
+        ImageView indicator = (ImageView) convertView.findViewById(R.id.arrow_indicator_id);
+
+        if (isExpanded) {
+            indicator.setImageResource(R.drawable.indicator_arrow_up);
+        } else {
+            indicator.setImageResource(R.drawable.indicator_arrow_bottom);
+        }
+
         return convertView;
     }
 

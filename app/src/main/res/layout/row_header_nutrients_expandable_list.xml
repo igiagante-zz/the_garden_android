@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
@@ -9,12 +10,20 @@
         android:src="@drawable/ic_nutrients"/>
 
     <TextView
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="20dp"
-        android:textSize="20sp"
+        android:layout_marginTop="@dimen/elv_row_header_title_margin_top"
+        android:layout_marginStart="@dimen/elv_row_header_title_margin_start"
+        android:textSize="@dimen/elv_row_header_title_text_size"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nutrients"/>
+
+    <ImageView
+        android:id="@+id/arrow_indicator_id"
+        android:layout_width="@dimen/elv_indicator_image_width"
+        android:layout_height="@dimen/elv_indicator_image_height"
+        android:src="@drawable/indicator_arrow_bottom"
+        android:layout_marginTop="@dimen/elv_indicator_image_margin_top"
+        android:layout_marginStart="@dimen/elv_indicator_image_margin_start" />
 
 </LinearLayout>

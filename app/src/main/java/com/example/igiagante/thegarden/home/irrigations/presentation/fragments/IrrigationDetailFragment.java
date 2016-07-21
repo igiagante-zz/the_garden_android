@@ -117,6 +117,6 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
     @Override
     public Context context() {
-        return null;
+        return getActivity().getApplicationContext();
     }
 }

@@ -13,7 +13,7 @@
 
     <!-- Counter view dimens -->
     <dimen name="counter_padding_buttons">5dp</dimen>
-    <dimen name="counter_button_width">22dp</dimen>
-    <dimen name="counter_button_height">18dp</dimen>
+    <dimen name="counter_button_width">24dp</dimen>
+    <dimen name="counter_button_height">20dp</dimen>
 
 </resources>
