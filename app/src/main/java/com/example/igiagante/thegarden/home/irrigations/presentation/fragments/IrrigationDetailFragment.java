@@ -1,25 +1,30 @@
 package com.example.igiagante.thegarden.home.irrigations.presentation.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
-import com.example.igiagante.thegarden.creation.nutrients.di.NutrientComponent;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientDetailPresenter;
 import com.example.igiagante.thegarden.home.irrigations.di.IrrigationComponent;
 import com.example.igiagante.thegarden.home.irrigations.presentation.adapters.ExpandableListAdapter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.presenters.IrrigationDetailPresenter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.view.IrrigationDetailView;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -29,18 +34,28 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 21/7/16.
  */
-public class IrrigationDetailFragment extends BaseFragment implements IrrigationDetailView {
+public class IrrigationDetailFragment extends BaseFragment implements IrrigationDetailView, View.OnClickListener {
 
     private static final String IRRIGATION_DETAIL_KEY = "NUTRIENT_DETAIL";
 
     private Irrigation mIrrigation;
     private ExpandableListAdapter expandableListAdapter;
+    private DatePickerDialog mIrrigationDatePickerDialog;
 
     @Inject
     IrrigationDetailPresenter irrigationDetailPresenter;
 
     @Bind(R.id.irrigation_expandable_list_id)
     ExpandableListView mExpandableListView;
+
+    @Bind(R.id.irrigation_date_id)
+    EditText mIrrigationDate;
+
+    @Bind(R.id.irrigation_save_button)
+    Button mSaveButton;
+
+    @Bind(R.id.irrigation_cancel_button)
+    Button mCancelButton;
 
     public static IrrigationDetailFragment newInstance(Irrigation irrigation) {
         IrrigationDetailFragment myFragment = new IrrigationDetailFragment();
@@ -77,10 +92,38 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         expandableListAdapter = new ExpandableListAdapter(getContext());
         mExpandableListView.setAdapter(expandableListAdapter);
 
+        setDateTimeField();
+
         //Load nutrients
         irrigationDetailPresenter.getNutrients();
 
         return fragmentView;
+    }
+
+    private void setDateTimeField() {
+
+        mIrrigationDate.setOnClickListener(this);
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+
+        Calendar newCalendar = Calendar.getInstance();
+        mIrrigationDatePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                mIrrigationDate.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == mIrrigationDate) {
+            mIrrigationDatePickerDialog.show();
+        }
     }
 
     @Override

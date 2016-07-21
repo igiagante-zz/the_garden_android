@@ -1,13 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <ExpandableListView
         android:id="@+id/irrigation_expandable_list_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/elv_margin"
-        android:groupIndicator="@null"/>
+        android:groupIndicator="@null" />
+
+    <include layout="@layout/irrigation_data" />
+
+    <LinearLayout
+        android:id="@+id/irrigation_data_buttons_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/description_layout_buttons_margin"
+        android:layout_marginTop="@dimen/irrigation_data_layout_buttons_margin_top"
+        android:gravity="center|bottom"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/irrigation_save_button"
+            style="@style/save_button"
+            android:layout_width="@dimen/description_button_width"
+            android:layout_height="@dimen/description_button_height"
+            android:layout_marginEnd="@dimen/description_button_save_margin_end"
+            android:layout_weight="0.2"
+            android:text="@string/plant_save" />
+
+        <Button
+            android:id="@+id/irrigation_cancel_button"
+            style="@style/cancel_button"
+            android:layout_width="@dimen/description_button_width"
+            android:layout_height="@dimen/description_button_height"
+            android:layout_weight="0.2"
+            android:background="@drawable/button_cancel_background"
+            android:text="@string/plant_cancel" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/elv_row_counter_margin_top"
         android:layout_marginStart="@dimen/elv_row_counter_margin_start"
-        app:setCount="7"
+        app:setCount="0"
         android:gravity="end"/>
 
 </LinearLayout>

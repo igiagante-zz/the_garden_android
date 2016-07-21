@@ -69,8 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/description_layout_buttons_margin_top"
-            android:layout_marginBottom="@dimen/description_layout_buttons_margin_top"
+            android:layout_marginTop="@dimen/description_layout_buttons_margin"
+            android:layout_marginBottom="@dimen/description_layout_buttons_margin"
             android:weightSum="1"
             android:gravity="center"
             >

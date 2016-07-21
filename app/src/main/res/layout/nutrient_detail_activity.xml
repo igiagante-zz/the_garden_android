@@ -61,8 +61,8 @@
                 android:id="@+id/layout_description_buttons_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/description_layout_buttons_margin_top"
-                android:layout_marginTop="@dimen/description_layout_buttons_margin_top"
+                android:layout_marginBottom="@dimen/description_layout_buttons_margin"
+                android:layout_marginTop="@dimen/description_layout_buttons_margin"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="1">
