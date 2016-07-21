@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
@@ -33,18 +32,18 @@ import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.home.plants.di.DaggerPlantComponent;
-import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
+import com.example.igiagante.thegarden.home.di.DaggerMainComponent;
+import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
-import com.example.igiagante.thegarden.home.plants.presentation.adapters.GardenViewPagerAdapter;
-import com.example.igiagante.thegarden.home.plants.presentation.adapters.NavigationGardenAdapter;
+import com.example.igiagante.thegarden.home.gardens.presentation.adapters.GardenViewPagerAdapter;
+import com.example.igiagante.thegarden.home.gardens.presentation.adapters.NavigationGardenAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
-import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateButtonAddGarden;
-import com.example.igiagante.thegarden.home.plants.presentation.delegates.AdapterDelegateGarden;
-import com.example.igiagante.thegarden.home.plants.presentation.presenters.GardenPresenter;
-import com.example.igiagante.thegarden.home.plants.presentation.view.GardenView;
-import com.example.igiagante.thegarden.home.plants.presentation.viewTypes.ViewTypeGarden;
+import com.example.igiagante.thegarden.home.gardens.presentation.delegates.AdapterDelegateButtonAddGarden;
+import com.example.igiagante.thegarden.home.gardens.presentation.delegates.AdapterDelegateGarden;
+import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
+import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
+import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 18/4/16.
  */
-public class MainActivity extends BaseActivity implements HasComponent<PlantComponent>,
+public class MainActivity extends BaseActivity implements HasComponent<MainComponent>,
         PlantsAdapter.OnEditPlant,
         GardenView,
         AdapterDelegateButtonAddGarden.OnGardenDialog,
@@ -74,7 +73,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private PlantComponent plantComponent;
+    private MainComponent mainComponent;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private GardenViewPagerAdapter mAdapter;
@@ -392,8 +391,8 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     }
 
     @Override
-    public PlantComponent getComponent() {
-        return plantComponent;
+    public MainComponent getComponent() {
+        return mainComponent;
     }
 
     @Override
@@ -405,7 +404,7 @@ public class MainActivity extends BaseActivity implements HasComponent<PlantComp
     }
 
     private void initializeInjector() {
-        this.plantComponent = DaggerPlantComponent.builder()
+        this.mainComponent = DaggerMainComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .build();

@@ -153,8 +153,8 @@
 
     <!-- IRRIGATIONS-->
 
-    <string name="activity_irrigation">Carousel</string>
-    <string name="activity_irrigation_detail">Carousel</string>
+    <string name="activity_irrigation">Irrigation</string>
+    <string name="activity_irrigation_detail">Irrigation Detail</string>
 
     <string name="irrigation_list_title">Irrigations</string>
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="30dp"
+    android:padding="10dp">
+
+    <CheckBox
+        android:id="@+id/expandable_list_item_checkbox_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:button="@drawable/checkbox_button_selected"/>
+
+    <TextView
+        android:id="@+id/expandable_list_name_of_nutrient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delta"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"/>
+
+    <com.example.igiagante.thegarden.core.ui.CounterView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="80dp"
+        app:setCount="7"
+        android:layout_gravity="right"/>
+
+</LinearLayout>

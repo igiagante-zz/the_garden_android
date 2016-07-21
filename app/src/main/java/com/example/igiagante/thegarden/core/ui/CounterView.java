@@ -2,52 +2,49 @@ package com.example.igiagante.thegarden.core.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 
-import java.text.DecimalFormat;
-
 /**
- * @author igiagante on 6/5/16.
+ * @author Ignacio Giagante, on 21/7/16.
  */
-public class CountView extends LinearLayout {
+public class CounterView extends LinearLayout {
 
-    protected Context mContext;
+    private Context mContext;
 
-    protected int mDefaultValue;
-    protected EditText mEditValue;
+    private int mDefaultValue;
+    private TextView mTextViewValue;
 
-    public CountView(Context context) {
+    public CounterView(Context context) {
         super(context);
-        inflate(getContext(), R.layout.count_view, this);
+        inflate(getContext(), R.layout.counter_view, this);
         init(context);
     }
 
-    public CountView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CounterView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(getContext(), R.layout.count_view, this);
+        inflate(getContext(), R.layout.counter_view, this);
         init(context);
     }
 
-    public CountView(Context context, AttributeSet attrs) {
+    public CounterView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
-                R.styleable.CountView,
+                R.styleable.CounterView,
                 0, 0);
 
         try {
-            mDefaultValue = a.getInteger(R.styleable.CountView_setValue, 10);
+            mDefaultValue = a.getInteger(R.styleable.CounterView_setCount, 10);
         } finally {
             a.recycle();
         }
@@ -56,18 +53,18 @@ public class CountView extends LinearLayout {
         setSaveEnabled(true);
     }
 
-    protected void init(Context context) {
+    private void init(Context context) {
 
         mContext = context;
 
-        inflate(mContext, R.layout.count_view, this);
-        mEditValue = (EditText) findViewById(R.id.count_input);
-        mEditValue.setText(String.valueOf(mDefaultValue));
+        inflate(mContext, R.layout.counter_view, this);
+        mTextViewValue = (TextView) findViewById(R.id.counter_input_id);
+        mTextViewValue.setText(String.valueOf(mDefaultValue));
 
-        Button mButtonUp = (Button) findViewById(R.id.count_button_up);
+        Button mButtonUp = (Button) findViewById(R.id.counter_button_up_id);
         mButtonUp.setOnClickListener(view -> incrementValue());
 
-        Button mButtonDown = (Button) findViewById(R.id.count_button_down);
+        Button mButtonDown = (Button) findViewById(R.id.counter_button_down_id);
         mButtonDown.setOnClickListener(view -> decrementValue());
     }
 
@@ -76,8 +73,8 @@ public class CountView extends LinearLayout {
      * @param value value
      */
     public void setEditValue(int value) {
-        if(mEditValue != null) {
-            mEditValue.setText(String.valueOf(value));
+        if(mTextViewValue != null) {
+            mTextViewValue.setText(String.valueOf(value));
         }
     }
 
@@ -86,7 +83,7 @@ public class CountView extends LinearLayout {
      */
     public int getEditValue() {
         int count = 0;
-        String value = mEditValue.getText().toString();
+        String value = mTextViewValue.getText().toString();
         if(!TextUtils.isEmpty(value)) {
             count = Integer.parseInt(value);
         }
@@ -97,7 +94,7 @@ public class CountView extends LinearLayout {
      * Increment value from edit text
      */
     private void incrementValue() {
-        if(mEditValue != null) {
+        if(mTextViewValue != null) {
             int value = getEditValue();
             value += 1;
             setEditValue(value);
@@ -108,7 +105,7 @@ public class CountView extends LinearLayout {
      * Decrement value from edit text
      */
     private void decrementValue() {
-        if(mEditValue != null) {
+        if(mTextViewValue != null) {
             int value = getEditValue();
             value -= 1;
             setEditValue(value);
@@ -181,3 +178,4 @@ public class CountView extends LinearLayout {
         };
     }
 }
+

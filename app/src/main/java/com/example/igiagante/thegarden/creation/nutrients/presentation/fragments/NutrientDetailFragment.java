@@ -14,9 +14,8 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
-import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
+import com.example.igiagante.thegarden.creation.nutrients.di.NutrientComponent;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientDetailPresenter;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientPresenter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientDetailView;
 
 import java.lang.ref.WeakReference;
@@ -79,7 +78,7 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
         /**
          * Get component in order to inject the presenter
          */
-        this.getComponent(NutrientsComponent.class).inject(this);
+        this.getComponent(NutrientComponent.class).inject(this);
 
         final View fragmentView = inflater.inflate(R.layout.nutrient_detail_fragment, container, false);
         ButterKnife.bind(this, fragmentView);

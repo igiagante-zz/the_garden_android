@@ -54,11 +54,6 @@
         </activity>
 
         <activity
-            android:name=".home.irrigations.IrrigationActivity"
-            android:label="@string/activity_irrigation">
-        </activity>
-
-        <activity
             android:name=".home.irrigations.IrrigationDetailActivity"
             android:label="@string/activity_irrigation_detail">
         </activity>

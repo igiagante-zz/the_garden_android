@@ -3,7 +3,6 @@ package com.example.igiagante.thegarden.creation.nutrients.presentation;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
@@ -11,24 +10,22 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
-import com.example.igiagante.thegarden.creation.nutrients.di.DaggerNutrientsComponent;
-import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
+import com.example.igiagante.thegarden.creation.nutrients.di.DaggerNutrientComponent;
+import com.example.igiagante.thegarden.creation.nutrients.di.NutrientComponent;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.adapters.NutrientsAdapter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientListFragment;
-
-import butterknife.ButterKnife;
 
 /**
  * @author Ignacio Giagante, on 12/7/16.
  */
-public class NutrientActivity extends BaseActivity implements HasComponent<NutrientsComponent>,
+public class NutrientActivity extends BaseActivity implements HasComponent<NutrientComponent>,
         NutrientsAdapter.OnNutrientSelected, NutrientListFragment.OnAddNutrientListener {
 
     public static final int REQUEST_CODE_NUTRIENT_DETAILS = 33;
 
     private static final String FRAGMENT_NUTRIENT_LIST_TAG = "FRAGMENT_NUTRIENT_LIST";
 
-    private NutrientsComponent nutrientsComponent;
+    private NutrientComponent nutrientComponent;
 
     private NutrientListFragment mNutrientListFragment;
 
@@ -49,15 +46,15 @@ public class NutrientActivity extends BaseActivity implements HasComponent<Nutri
     }
 
     private void initializeInjector() {
-        this.nutrientsComponent = DaggerNutrientsComponent.builder()
+        this.nutrientComponent = DaggerNutrientComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .build();
     }
 
     @Override
-    public NutrientsComponent getComponent() {
-        return this.nutrientsComponent;
+    public NutrientComponent getComponent() {
+        return this.nutrientComponent;
     }
 
     @Override

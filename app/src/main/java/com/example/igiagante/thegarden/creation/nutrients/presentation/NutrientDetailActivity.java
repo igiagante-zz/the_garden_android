@@ -1,7 +1,6 @@
 package com.example.igiagante.thegarden.creation.nutrients.presentation;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,15 +15,12 @@ import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
-import com.example.igiagante.thegarden.creation.nutrients.di.DaggerNutrientsComponent;
-import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
+import com.example.igiagante.thegarden.creation.nutrients.di.DaggerNutrientComponent;
+import com.example.igiagante.thegarden.creation.nutrients.di.NutrientComponent;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientDetailFragment;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientDetailView;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.PhotoGalleryFragment;
 
 import java.util.ArrayList;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,14 +28,14 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 12/7/16.
  */
-public class NutrientDetailActivity extends BaseActivity implements HasComponent<NutrientsComponent>,
+public class NutrientDetailActivity extends BaseActivity implements HasComponent<NutrientComponent>,
         NutrientDetailFragment.OnButtonAvailable {
 
     public static final String NUTRIENT_KEY = "NUTRIENT";
     private static final String FRAGMENT_NUTRIENT_DATA_TAG = "FRAGMENT_NUTRIENT_DATA";
     private static final String FRAGMENT_NUTRIENT_IMAGES_TAG = "FRAGMENT_NUTRIENT_IMAGES_KEY";
 
-    private NutrientsComponent nutrientsComponent;
+    private NutrientComponent nutrientComponent;
 
     private Nutrient mNutrient;
 
@@ -111,12 +107,12 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
     }
 
     @Override
-    public NutrientsComponent getComponent() {
-        return this.nutrientsComponent;
+    public NutrientComponent getComponent() {
+        return this.nutrientComponent;
     }
 
     private void initializeInjector() {
-        this.nutrientsComponent = DaggerNutrientsComponent.builder()
+        this.nutrientComponent = DaggerNutrientComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .build();

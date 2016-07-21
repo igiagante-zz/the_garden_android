@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
-import com.example.igiagante.thegarden.creation.nutrients.di.NutrientsComponent;
+import com.example.igiagante.thegarden.creation.nutrients.di.NutrientComponent;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.adapters.NutrientsAdapter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientPresenter;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientView;
@@ -63,7 +63,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
         /**
          * Get component in order to inject the presenter
          */
-        this.getComponent(NutrientsComponent.class).inject(this);
+        this.getComponent(NutrientComponent.class).inject(this);
 
         final View fragmentView = inflater.inflate(R.layout.nutrient_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);

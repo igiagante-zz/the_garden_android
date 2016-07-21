@@ -3,7 +3,7 @@ package com.example.igiagante.thegarden.creation.plants.di.components;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
-import com.example.igiagante.thegarden.core.repository.di.modules.FlavorModule;
+import com.example.igiagante.thegarden.core.repository.di.modules.FlavorRepositoryModule;
 import com.example.igiagante.thegarden.creation.plants.di.module.CreatePlantModule;
 import com.example.igiagante.thegarden.creation.plants.di.module.GalleryModule;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
@@ -22,7 +22,7 @@ import dagger.Component;
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class,
-        modules = {ActivityModule.class, CreatePlantModule.class, FlavorModule.class, GalleryModule.class})
+        modules = {ActivityModule.class, CreatePlantModule.class, FlavorRepositoryModule.class, GalleryModule.class})
 public interface CreatePlantComponent extends GalleryComponent {
 
     // Fragments

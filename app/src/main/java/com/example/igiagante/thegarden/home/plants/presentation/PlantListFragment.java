@@ -16,8 +16,8 @@ import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.MainActivity;
-import com.example.igiagante.thegarden.home.plants.di.PlantComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.presenters.PlantListPresenter;
@@ -73,7 +73,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         /**
          * Get component in order to inject the presenter
          */
-        this.getComponent(PlantComponent.class).inject(this);
+        this.getComponent(MainComponent.class).inject(this);
 
         final View fragmentView = inflater.inflate(R.layout.plant_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);

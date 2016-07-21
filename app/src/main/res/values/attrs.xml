@@ -7,4 +7,8 @@
     <declare-styleable name="CountViewDecimal">
         <attr name="setValueDecimal" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="CounterView">
+        <attr name="setCount" format="integer" />
+    </declare-styleable>
 </resources>

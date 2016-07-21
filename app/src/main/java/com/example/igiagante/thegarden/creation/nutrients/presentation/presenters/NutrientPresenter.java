@@ -8,7 +8,6 @@ import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientView;
-import com.example.igiagante.thegarden.home.plants.presentation.presenters.GardenPresenter;
 
 import java.util.List;
 
