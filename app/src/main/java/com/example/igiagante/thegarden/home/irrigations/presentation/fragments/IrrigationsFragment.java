@@ -1,8 +1,11 @@
 package com.example.igiagante.thegarden.home.irrigations.presentation.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +14,10 @@ import android.widget.Button;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.adapters.NutrientsAdapter;
 import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity;
+import com.example.igiagante.thegarden.home.irrigations.presentation.adapters.IrrigationsAdapter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.presenters.IrrigationPresenter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.view.IrrigationView;
 
@@ -29,8 +34,15 @@ import butterknife.ButterKnife;
  */
 public class IrrigationsFragment extends BaseFragment implements IrrigationView {
 
+    public static final int REQUEST_CODE_IRRIGATION_DETAIL = 334;
+
     @Inject
     IrrigationPresenter irrigationPresenter;
+
+    private IrrigationsAdapter irrigationsAdapter;
+
+    @Bind(R.id.irrigations_recycle_view_id)
+    RecyclerView recyclerViewIrrigations;
 
     @Bind(R.id.add_new_irrigation_id)
     Button buttonAddNutrient;
@@ -52,10 +64,30 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView 
         final View fragmentView = inflater.inflate(R.layout.irrigations_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
-        buttonAddNutrient.setOnClickListener(v ->
-                getActivity().startActivity(new Intent(getContext(), IrrigationDetailActivity.class)));
+        irrigationsAdapter = new IrrigationsAdapter(getContext());
+        this.recyclerViewIrrigations.setLayoutManager(new LinearLayoutManager(context()));
+        this.recyclerViewIrrigations.setAdapter(irrigationsAdapter);
+
+        buttonAddNutrient.setOnClickListener(v -> startIrrigationDetailActivity());
 
         return fragmentView;
+    }
+
+    private void startIrrigationDetailActivity() {
+        IrrigationsFragment.this.startActivityForResult(new Intent(getContext(), IrrigationDetailActivity.class)
+                , REQUEST_CODE_IRRIGATION_DETAIL);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK){
+            Irrigation irrigation = data.getParcelableExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY);
+            if(irrigation != null){
+                this.irrigationsAdapter.addIrrigation(irrigation);
+            }
+        }
     }
 
     @Override

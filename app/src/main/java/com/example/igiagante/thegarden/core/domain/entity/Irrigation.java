@@ -97,7 +97,7 @@ public class Irrigation implements Parcelable {
         id = in.readString();
         irrigationDate = (Date) in.readSerializable();
         gardenId = in.readString();
-        dose = in.readParcelable(Dose.class.getClassLoader());
         quantity = in.readFloat();
+        dose = in.readParcelable(Dose.class.getClassLoader());
     }
 }

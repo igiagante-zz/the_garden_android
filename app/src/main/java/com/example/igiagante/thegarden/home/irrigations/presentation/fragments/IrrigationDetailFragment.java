@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.home.irrigations.presentation.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,15 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Dose;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.core.ui.CountView;
+import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
 import com.example.igiagante.thegarden.home.irrigations.di.IrrigationComponent;
 import com.example.igiagante.thegarden.home.irrigations.presentation.adapters.ExpandableListAdapter;
+import com.example.igiagante.thegarden.home.irrigations.presentation.holders.NutrientHolder;
 import com.example.igiagante.thegarden.home.irrigations.presentation.presenters.IrrigationDetailPresenter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.view.IrrigationDetailView;
 
@@ -36,7 +41,7 @@ import butterknife.ButterKnife;
  */
 public class IrrigationDetailFragment extends BaseFragment implements IrrigationDetailView, View.OnClickListener {
 
-    private static final String IRRIGATION_DETAIL_KEY = "NUTRIENT_DETAIL";
+    public static final String IRRIGATION_DETAIL_KEY = "IRRIGATION_DETAIL";
 
     private Irrigation mIrrigation;
     private ExpandableListAdapter expandableListAdapter;
@@ -50,6 +55,36 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
     @Bind(R.id.irrigation_date_id)
     EditText mIrrigationDate;
+
+    /**
+     * How much dose should be irrigate in each plant
+     */
+    @Bind(R.id.irrigation_quantity_id)
+    CountView quantity;
+
+    /**
+     * How much ph should be used in the dose
+     */
+    @Bind(R.id.irrigation_ph_dose_id)
+    CountView phDose;
+
+    /**
+     * How much water should be used in the dose
+     */
+    @Bind(R.id.irrigation_water_id)
+    CountView water;
+
+    /**
+     * Level of ph after reading
+     */
+    @Bind(R.id.irrigation_ph_id)
+    CountViewDecimal ph;
+
+    /**
+     * Level of ec after reading
+     */
+    @Bind(R.id.irrigation_ec_id)
+    CountViewDecimal ec;
 
     @Bind(R.id.irrigation_save_button)
     Button mSaveButton;
@@ -97,7 +132,40 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         //Load nutrients
         irrigationDetailPresenter.getNutrients();
 
+        mSaveButton.setOnClickListener(v -> {
+            Irrigation irrigation = saveIrrigation();
+            Intent intent = new Intent();
+            intent.putExtra(IRRIGATION_DETAIL_KEY, irrigation);
+            getActivity().setResult(getActivity().RESULT_OK, intent);
+            getActivity().finish();
+        });
+
+        mCancelButton.setOnClickListener(v -> {
+            getActivity().setResult(getActivity().RESULT_CANCELED);
+            getActivity().finish();
+        });
+
         return fragmentView;
+    }
+
+    /**
+     * Build irrigation object
+     * @return irrigation
+     */
+    private Irrigation saveIrrigation(){
+        Irrigation irrigation = new Irrigation();
+        irrigation.setQuantity(quantity.getEditValue());
+
+        Dose dose = new Dose();
+        dose.setWater(water.getEditValue());
+        dose.setPh(ph.getEditValue());
+        dose.setEc(ec.getEditValue());
+        dose.setPhDose(phDose.getEditValue());
+
+        dose.setNutrients(expandableListAdapter.getNutrientsSelected());
+
+        irrigation.setDose(dose);
+        return irrigation;
     }
 
     private void setDateTimeField() {
@@ -116,7 +184,6 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
     }
 
     @Override
@@ -149,7 +216,7 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
     }
 
     @Override
-    public void loadNutrients(List<Nutrient> nutrients) {
+    public void loadNutrients(List<NutrientHolder> nutrients) {
         this.expandableListAdapter.setNutrients(nutrients);
     }
 

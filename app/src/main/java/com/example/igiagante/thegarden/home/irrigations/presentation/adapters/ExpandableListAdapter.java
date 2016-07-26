@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
+import com.example.igiagante.thegarden.core.ui.CountViewListener;
+import com.example.igiagante.thegarden.core.ui.CounterView;
+import com.example.igiagante.thegarden.home.irrigations.presentation.holders.NutrientHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +22,9 @@ import java.util.List;
 /**
  * @author Ignacio Giagante, on 21/7/16.
  */
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class ExpandableListAdapter extends BaseExpandableListAdapter implements CountViewListener {
 
-    private List<Nutrient> mNutrients;
+    private List<NutrientHolder> mNutrients;
     private Context mContext;
     private LayoutInflater layoutInflater;
 
@@ -32,7 +35,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setNutrients(List<Nutrient> nutrients) {
+    public void setNutrients(List<NutrientHolder> nutrients) {
         this.mNutrients = new ArrayList<>(nutrients);
         notifyDataSetChanged();
     }
@@ -93,7 +96,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final Nutrient nutrient = (Nutrient) getChild(groupPosition, childPosition);
+        final NutrientHolder nutrient = (NutrientHolder) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             convertView = this.layoutInflater.inflate(R.layout.row_nutrients_expandable_list, null);
@@ -105,18 +108,43 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.expandable_list_item_checkbox_id);
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked) {
+                        nutrient.setSelected(true);
                         checkBox.setButtonDrawable(R.drawable.checkbox_button_selected);
                     } else {
+                        nutrient.setSelected(false);
                         checkBox.setButtonDrawable(R.drawable.checkbox_button_unselected);
                     }
                 }
         );
 
+        CounterView quantity = (CounterView) convertView.findViewById(R.id.expandable_list_quantity);
+        quantity.setCountViewListener(this);
+
         return convertView;
+    }
+
+    @Override
+    public void onCountViewChanged(float value, int childPosition) {
+
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    /**
+     * Get selected nutrients in order to be used in the dose
+     * @return nutrients
+     */
+    public ArrayList<Nutrient> getNutrientsSelected() {
+        ArrayList<Nutrient> nutrients = new ArrayList<>();
+
+        for (NutrientHolder nutrientHolder : mNutrients) {
+            if(nutrientHolder.isSelected()) {
+                nutrients.add(nutrientHolder.getModel());
+            }
+        }
+        return nutrients;
     }
 }

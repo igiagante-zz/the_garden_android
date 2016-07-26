@@ -10,6 +10,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/dose_water_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dose_irrigation_text_margin_Start"
@@ -17,6 +18,7 @@
             android:text="@string/dose_water"/>
 
         <TextView
+            android:id="@+id/dose_ph_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dose_irrigation_text_margin_Start"
@@ -24,6 +26,7 @@
             android:text="@string/dose_ph"/>
 
         <TextView
+            android:id="@+id/dose_ec_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dose_irrigation_text_margin_Start"

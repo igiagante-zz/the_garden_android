@@ -23,6 +23,8 @@ public class CounterView extends LinearLayout {
     private int mDefaultValue;
     private TextView mTextViewValue;
 
+    private CountViewListener mCountViewListener;
+
     public CounterView(Context context) {
         super(context);
         inflate(getContext(), R.layout.counter_view, this);
@@ -140,6 +142,10 @@ public class CounterView extends LinearLayout {
     @Override
     protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container) {
         dispatchThawSelfOnly(container);
+    }
+
+    public void setCountViewListener(CountViewListener mCountViewListener) {
+        this.mCountViewListener = mCountViewListener;
     }
 
     static class SavedState extends BaseSavedState {

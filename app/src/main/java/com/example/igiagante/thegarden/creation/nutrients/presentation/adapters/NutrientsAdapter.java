@@ -30,8 +30,6 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
     private LayoutInflater layoutInflater;
     private ArrayList<Nutrient> nutrients;
 
-    private ArrayList<Nutrient> nutrientsTemp;
-
     private OnNutrientSelected mOnNutrientSelected;
     private OnDeleteNutrient mOnDeleteNutrient;
 
@@ -47,7 +45,6 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
 
     public interface OnDeleteNutrient {
         void showDeleteNutrientDialog(int position);
-
         void deleteNutrient(String nutrientId);
     }
 

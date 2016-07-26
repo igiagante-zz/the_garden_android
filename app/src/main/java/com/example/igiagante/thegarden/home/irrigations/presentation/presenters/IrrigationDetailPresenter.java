@@ -8,8 +8,10 @@ import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.home.irrigations.presentation.holders.NutrientHolder;
 import com.example.igiagante.thegarden.home.irrigations.presentation.view.IrrigationDetailView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,7 +49,7 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
         this.getNutrientsUseCase.execute(null, new NutrientsSubscriber());
     }
 
-    private void loadNutrients(List<Nutrient> nutrients){
+    private void loadNutrients(List<NutrientHolder> nutrients){
         getView().loadNutrients(nutrients);
     }
 
@@ -81,7 +83,17 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
         }
 
         @Override public void onNext(List<Nutrient> nutrients) {
-            IrrigationDetailPresenter.this.loadNutrients(nutrients);
+            IrrigationDetailPresenter.this.loadNutrients(createNutrientHolderList(nutrients));
         }
+    }
+
+    private ArrayList<NutrientHolder> createNutrientHolderList(List<Nutrient> nutrients) {
+        ArrayList<NutrientHolder> nutrientHolders = new ArrayList<>();
+        for (Nutrient nutrient : nutrients) {
+            NutrientHolder nutrientHolder = new NutrientHolder();
+            nutrientHolder.setModel(nutrient);
+            nutrientHolders.add(nutrientHolder);
+        }
+        return nutrientHolders;
     }
 }

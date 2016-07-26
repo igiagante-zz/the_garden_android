@@ -28,6 +28,7 @@
         android:textSize="@dimen/elv_row_text_size"/>
 
     <com.example.igiagante.thegarden.core.ui.CounterView
+        android:id="@+id/expandable_list_quantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/elv_row_counter_margin_top"

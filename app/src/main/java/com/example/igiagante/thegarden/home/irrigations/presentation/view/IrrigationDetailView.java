@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.home.irrigations.presentation.view;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
+import com.example.igiagante.thegarden.home.irrigations.presentation.holders.NutrientHolder;
 
 import java.util.List;
 
@@ -13,5 +14,9 @@ public interface IrrigationDetailView extends IView {
 
     void notifyIfIrrigationWasPersistedOrUpdated(Irrigation irrigation);
 
-    void loadNutrients(List<Nutrient> nutrients);
+    /**
+     * Load nutrients which will be used in the irrigations
+     * @param nutrients List of nutrients
+     */
+    void loadNutrients(List<NutrientHolder> nutrients);
 }
