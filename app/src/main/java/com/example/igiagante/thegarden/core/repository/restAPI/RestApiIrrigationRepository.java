@@ -17,7 +17,9 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.P
 import com.example.igiagante.thegarden.core.repository.restAPI.service.IrrigationRestApi;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.MultipartBody;
 import rx.Observable;
@@ -98,7 +100,7 @@ public class RestApiIrrigationRepository  extends BaseRestApiRepository<Irrigati
      * @param irrigation   Irrigation
      * @return builder
      */
-    private MultipartBody.Builder getRequestBody( @NonNull final Irrigation irrigation) {
+    private MultipartBody.Builder getRequestBody(@NonNull final Irrigation irrigation) {
 
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
@@ -108,12 +110,14 @@ public class RestApiIrrigationRepository  extends BaseRestApiRepository<Irrigati
             builder.addFormDataPart(IrrigationTable.DOSE, dose);
         }
 
-        List<String> nutrientsIds = irrigation.getDose().getNutrientsIds();
-        if (nutrientsIds != null && !nutrientsIds.isEmpty()) {
-            builder.addFormDataPart(IrrigationTable.NUTRIENTS_IDS, new Gson().toJson(nutrientsIds));
+        String date = "";
+        if(irrigation.getDose() != null) {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+            date = dateFormatter.format(irrigation.getIrrigationDate());
         }
 
         return builder.addFormDataPart(IrrigationTable.GARDEN_ID, irrigation.getGardenId())
-                .addFormDataPart(IrrigationTable.QUANTITY, String.valueOf(irrigation.getQuantity()));
+                .addFormDataPart(IrrigationTable.QUANTITY, String.valueOf(irrigation.getQuantity()))
+                .addFormDataPart(IrrigationTable.IRRIGATION_DATE, date);
     }
 }

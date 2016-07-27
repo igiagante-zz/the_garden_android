@@ -61,13 +61,25 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
         setDataFromModel(gardenHolder);
     }
 
+    // TODO - Refactor
     private void setDataFromModel(GardenHolder gardenHolder) {
+
+        this.gardenHolder = gardenHolder;
+
         PlantListFragment plantListFragment = (PlantListFragment) registeredFragments.get(0);
+
         if(plantListFragment == null) {
             plantListFragment = PlantListFragment.newInstance(gardenHolder.getModel());
             registeredFragments.put(0, plantListFragment);
         }
         plantListFragment.setGarden(gardenHolder);
+
+        IrrigationsFragment irrigationsFragment = (IrrigationsFragment) registeredFragments.get(1);
+        if(irrigationsFragment == null) {
+            irrigationsFragment = IrrigationsFragment.newInstance(gardenHolder.getModel());
+            registeredFragments.put(1, irrigationsFragment);
+        }
+        irrigationsFragment.setGarden(gardenHolder);
     }
 
     private String getTitleByPosition(int position) {

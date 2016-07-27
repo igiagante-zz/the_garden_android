@@ -32,7 +32,7 @@ public class Garden implements Parcelable {
     private List<Plant> plants = new ArrayList<>();
 
     @SerializedName("irrigations")
-    private List<Plant> irrigations = new ArrayList<>();
+    private List<Irrigation> irrigations = new ArrayList<>();
 
     public Garden(String id, String name) {
         this.id = id;
@@ -79,11 +79,11 @@ public class Garden implements Parcelable {
         this.plants = plants;
     }
 
-    public List<Plant> getIrrigations() {
+    public List<Irrigation> getIrrigations() {
         return irrigations;
     }
 
-    public void setIrrigations(List<Plant> irrigations) {
+    public void setIrrigations(List<Irrigation> irrigations) {
         this.irrigations = irrigations;
     }
 

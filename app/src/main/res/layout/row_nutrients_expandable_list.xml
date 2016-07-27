@@ -12,10 +12,9 @@
 
     <CheckBox
         android:id="@+id/expandable_list_item_checkbox_id"
-        android:layout_width="@dimen/elv_row_check_box_size"
-        android:layout_height="@dimen/elv_row_check_box_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/elv_row_check_box_margin_top"
-        android:checked="true"
         android:button="@drawable/checkbox_state"/>
 
     <TextView

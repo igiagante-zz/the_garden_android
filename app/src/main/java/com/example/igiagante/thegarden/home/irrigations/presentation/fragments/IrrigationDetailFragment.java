@@ -28,6 +28,7 @@ import com.example.igiagante.thegarden.home.irrigations.presentation.view.Irriga
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,7 +67,7 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
      * How much ph should be used in the dose
      */
     @Bind(R.id.irrigation_ph_dose_id)
-    CountView phDose;
+    CountViewDecimal phDose;
 
     /**
      * How much water should be used in the dose
@@ -91,6 +92,8 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
     @Bind(R.id.irrigation_cancel_button)
     Button mCancelButton;
+
+    private String mGardenId;
 
     public static IrrigationDetailFragment newInstance(Irrigation irrigation) {
         IrrigationDetailFragment myFragment = new IrrigationDetailFragment();
@@ -134,10 +137,7 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
         mSaveButton.setOnClickListener(v -> {
             Irrigation irrigation = saveIrrigation();
-            Intent intent = new Intent();
-            intent.putExtra(IRRIGATION_DETAIL_KEY, irrigation);
-            getActivity().setResult(getActivity().RESULT_OK, intent);
-            getActivity().finish();
+            this.irrigationDetailPresenter.saveIrrigation(irrigation);
         });
 
         mCancelButton.setOnClickListener(v -> {
@@ -153,8 +153,11 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
      * @return irrigation
      */
     private Irrigation saveIrrigation(){
+
         Irrigation irrigation = new Irrigation();
         irrigation.setQuantity(quantity.getEditValue());
+        irrigation.setIrrigationDate(new Date());
+        irrigation.setGardenId(mGardenId);
 
         Dose dose = new Dose();
         dose.setWater(water.getEditValue());
@@ -165,6 +168,7 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         dose.setNutrients(expandableListAdapter.getNutrientsSelected());
 
         irrigation.setDose(dose);
+
         return irrigation;
     }
 
@@ -172,7 +176,8 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
         mIrrigationDate.setOnClickListener(this);
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
+        mIrrigationDate.setText(dateFormatter.format(new Date()));
 
         Calendar newCalendar = Calendar.getInstance();
         mIrrigationDatePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
@@ -184,6 +189,14 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    /**
+     * Set garden id which will be added to the irrigation
+     * @param gardenId
+     */
+    public void setGardenId(String gardenId){
+        this.mGardenId = gardenId;
     }
 
     @Override
@@ -212,7 +225,10 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
     @Override
     public void notifyIfIrrigationWasPersistedOrUpdated(Irrigation irrigation) {
-
+        Intent intent = new Intent();
+        intent.putExtra(IRRIGATION_DETAIL_KEY, irrigation);
+        getActivity().setResult(getActivity().RESULT_OK, intent);
+        getActivity().finish();
     }
 
     @Override

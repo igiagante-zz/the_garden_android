@@ -5,10 +5,12 @@ import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.IrrigationRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 
 import java.util.ArrayList;
@@ -21,9 +23,13 @@ import io.realm.Realm;
 public class GardenRealmToGarden implements Mapper<GardenRealm, Garden> {
 
     private final PlantRealmToPlant toPlant;
+    private final IrrigationRealmToIrrigation toIrrigation;
+    private final DoseRealmToDose toDose;
 
     public GardenRealmToGarden(@NonNull Context context) {
         this.toPlant = new PlantRealmToPlant(context);
+        this.toIrrigation = new IrrigationRealmToIrrigation();
+        this.toDose = new DoseRealmToDose();
     }
 
     @Override
@@ -49,7 +55,18 @@ public class GardenRealmToGarden implements Mapper<GardenRealm, Garden> {
             }
         }
 
-        garden.setPlants(plants);
+        ArrayList<Irrigation> irrigations = new ArrayList<>();
+
+        // add irrigations
+        if(gardenRealm.getIrrigations() != null) {
+            for (IrrigationRealm irrigationRealm : gardenRealm.getIrrigations()) {
+                Irrigation irrigation = toIrrigation.map(irrigationRealm);
+                irrigation.setDose(toDose.map(irrigationRealm.getDose()));
+                irrigations.add(irrigation);
+            }
+        }
+
+        garden.setIrrigations(irrigations);
 
         return garden;
     }

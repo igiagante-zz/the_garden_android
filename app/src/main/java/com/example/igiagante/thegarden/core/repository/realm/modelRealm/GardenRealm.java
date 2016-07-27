@@ -24,6 +24,8 @@ public class GardenRealm extends RealmObject {
 
     private RealmList<PlantRealm> plants;
 
+    private RealmList<IrrigationRealm> irrigations;
+
     public String getId() {
         return id;
     }
@@ -62,5 +64,13 @@ public class GardenRealm extends RealmObject {
 
     public void setPlants(RealmList<PlantRealm> plants) {
         this.plants = plants;
+    }
+
+    public RealmList<IrrigationRealm> getIrrigations() {
+        return irrigations;
+    }
+
+    public void setIrrigations(RealmList<IrrigationRealm> irrigations) {
+        this.irrigations = irrigations;
     }
 }

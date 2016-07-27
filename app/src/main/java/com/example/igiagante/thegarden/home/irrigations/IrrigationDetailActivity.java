@@ -13,6 +13,7 @@ import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments
 import com.example.igiagante.thegarden.home.irrigations.di.DaggerIrrigationComponent;
 import com.example.igiagante.thegarden.home.irrigations.di.IrrigationComponent;
 import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationDetailFragment;
+import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationsFragment;
 
 import butterknife.ButterKnife;
 
@@ -50,6 +51,9 @@ public class IrrigationDetailActivity extends BaseActivity implements HasCompone
         } else {
             irrigationFragment = new IrrigationDetailFragment();
         }
+
+        String gardenId = getIntent().getStringExtra(IrrigationsFragment.GARDEN_ID_KEY);
+        ((IrrigationDetailFragment)irrigationFragment).setGardenId(gardenId);
 
         addFragment(R.id.irrigation_container_data, irrigationFragment);
 

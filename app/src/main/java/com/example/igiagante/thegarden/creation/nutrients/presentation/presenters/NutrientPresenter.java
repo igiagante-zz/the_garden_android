@@ -3,8 +3,10 @@ package com.example.igiagante.thegarden.creation.nutrients.presentation.presente
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
+import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
+import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.view.NutrientView;
@@ -51,6 +53,7 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
     }
 
     public void saveNutrient(Nutrient nutrient) {
+        removeDomainFromImages(nutrient);
         this.saveNutrientUseCase.execute(nutrient, new SaveNutrientSubscriber());
     }
 
@@ -108,6 +111,19 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
 
         @Override public void onNext(Nutrient nutrient) {
             NutrientPresenter.this.notifyIfNutrientWasPersistedOrUpdated(nutrient);
+        }
+    }
+
+    private void removeDomainFromImages(Nutrient nutrient) {
+        for(Image image : nutrient.getImages()){
+            if(image.getUrl() != null && image.getUrl().contains("http")){
+                String [] parts = image.getUrl().split(Settings.DOMAIN);
+                image.setUrl(parts[1]);
+            }
+            if(image.getThumbnailUrl() != null && image.getThumbnailUrl().contains("http")){
+                String [] parts = image.getThumbnailUrl().split(Settings.DOMAIN);
+                image.setThumbnailUrl(parts[1]);
+            }
         }
     }
 }

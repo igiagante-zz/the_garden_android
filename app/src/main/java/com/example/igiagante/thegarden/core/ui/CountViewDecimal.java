@@ -75,7 +75,7 @@ public class CountViewDecimal  extends LinearLayout {
      * @param value value
      */
     public void setEditValue(float value) {
-        if(mEditValue != null) {
+        if(mEditValue != null && value >= 0) {
             mEditValue.setText(formatFloat(value));
         }
     }

@@ -31,10 +31,7 @@ public class Dose implements Parcelable {
     @SerializedName("ph")
     private float ph;
 
-    @SerializedName("editable")
-    private boolean editable;
-
-    @SerializedName("nutrient")
+    @SerializedName("nutrients")
     private List<Nutrient> nutrients = new ArrayList<>();
 
     @SerializedName("nutrientsIds")
@@ -80,14 +77,6 @@ public class Dose implements Parcelable {
         this.ph = ph;
     }
 
-    public boolean isEditable() {
-        return editable;
-    }
-
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-
     public List<Nutrient> getNutrients() {
         return nutrients;
     }
@@ -116,7 +105,6 @@ public class Dose implements Parcelable {
         dest.writeFloat(phDose);
         dest.writeFloat(ec);
         dest.writeFloat(ph);
-        dest.writeInt(editable ? 1 : 0);
         dest.writeList(nutrients);
         dest.writeList(nutrientsIds);
     }
@@ -137,7 +125,6 @@ public class Dose implements Parcelable {
         phDose = in.readFloat();
         ec = in.readFloat();
         ph = in.readFloat();
-        editable = in.readInt() == 1;
         in.readList(nutrients, this.getClass().getClassLoader());
         in.readList(nutrientsIds, this.getClass().getClassLoader());
     }

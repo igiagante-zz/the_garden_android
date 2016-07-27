@@ -86,6 +86,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
         holder.mPlantName.setText(plantHolder.getName());
         String seedDateLabel = mContext.getString(R.string.seedDate);
+        // TODO - check this. Sth the model is null
         holder.mSeedDate.setText(seedDateLabel + ": " + plantHolder.getSeedDate());
         String genotypeLabel = mContext.getString(R.string.genotype);
         holder.mGenotype.setText(genotypeLabel + ": " + plantHolder.getGenotype());

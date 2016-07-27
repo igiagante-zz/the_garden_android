@@ -5,5 +5,5 @@ package com.example.igiagante.thegarden.core.ui;
  */
 public interface CountViewListener {
 
-    void onCountViewChanged(float value, int childPosition);
+    void onCountViewChanged(float value);
 }

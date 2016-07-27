@@ -174,7 +174,7 @@
     <!-- IRRIGATIONS -->
 
     <dimen name="dose_irrigation_text_margin_Start">10dp</dimen>
-    <dimen name="dose_irrigation_text_size">20sp</dimen>
+    <dimen name="dose_irrigation_text_size">18sp</dimen>
     <dimen name="dose_list_of_nutrients_margin_top">5dp</dimen>
 
     <!-- expandable list view -->

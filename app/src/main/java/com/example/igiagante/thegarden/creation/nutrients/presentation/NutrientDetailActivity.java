@@ -78,7 +78,6 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
         addFragment(R.id.nutrient_container_data, dataFragment, FRAGMENT_NUTRIENT_DATA_TAG);
         addFragment(R.id.nutrient_container_photo_gallery, galleryFragment, FRAGMENT_NUTRIENT_IMAGES_TAG);
 
-        mSaveButton.setEnabled(false);
         mSaveButton.setOnClickListener(v -> {
             mProgressBar.setVisibility(View.VISIBLE);
             saveNutrient();

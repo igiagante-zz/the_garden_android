@@ -37,7 +37,6 @@ public class DoseToDoseRealm implements Mapper<Dose, DoseRealm> {
         doseRealm.setPh(dose.getPh());
         doseRealm.setEc(dose.getEc());
         doseRealm.setPhDose(dose.getPhDose());
-        doseRealm.setEditable(dose.isEditable());
 
         // nutrients realm list
         RealmList<NutrientRealm> nutrientRealms = new RealmList<>();

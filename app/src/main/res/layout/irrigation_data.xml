@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/irrigation_data_margin"
-            app:setValue="9"/>
+            app:setValue="500"
+            />
 
     </LinearLayout>
 
@@ -35,19 +36,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/irrigation_data_margin_top">
 
+        <com.example.igiagante.thegarden.core.ui.CountViewDecimal
+            android:id="@+id/irrigation_ph_dose_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/irrigation_data_inner_margin_start"
+            app:setValueDecimal="3.5"/>
+
         <com.example.igiagante.thegarden.core.ui.CountView
             android:id="@+id/irrigation_water_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/irrigation_data_inner_margin_start"
-            app:setValue="9"/>
-
-        <com.example.igiagante.thegarden.core.ui.CountView
-            android:id="@+id/irrigation_ph_dose_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/irrigation_data_margin"
-            app:setValue="9"/>
+            app:setValue="3"/>
 
     </LinearLayout>
 

@@ -12,16 +12,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.adapters.NutrientsAdapter;
+import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity;
 import com.example.igiagante.thegarden.home.irrigations.presentation.adapters.IrrigationsAdapter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.presenters.IrrigationPresenter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.view.IrrigationView;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +39,8 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView 
 
     public static final int REQUEST_CODE_IRRIGATION_DETAIL = 334;
 
+    public static final String GARDEN_ID_KEY = "GARDEN_ID";
+
     @Inject
     IrrigationPresenter irrigationPresenter;
 
@@ -46,6 +51,20 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView 
 
     @Bind(R.id.add_new_irrigation_id)
     Button buttonAddNutrient;
+
+    private GardenHolder mGarden;
+
+    private ArrayList<Irrigation> mIrrigations = new ArrayList<>();
+
+    public static IrrigationsFragment newInstance(Garden garden) {
+        IrrigationsFragment myFragment = new IrrigationsFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable(MainActivity.GARDEN_KEY, garden);
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,14 +87,24 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView 
         this.recyclerViewIrrigations.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewIrrigations.setAdapter(irrigationsAdapter);
 
+        Bundle args = getArguments();
+        if(args != null) {
+            mGarden = args.getParcelable(MainActivity.GARDEN_KEY);
+            if(mGarden != null) {
+                mIrrigations = (ArrayList<Irrigation>) mGarden.getModel().getIrrigations();
+                irrigationsAdapter.setIrrigations(mIrrigations);
+            }
+        }
+
         buttonAddNutrient.setOnClickListener(v -> startIrrigationDetailActivity());
 
         return fragmentView;
     }
 
     private void startIrrigationDetailActivity() {
-        IrrigationsFragment.this.startActivityForResult(new Intent(getContext(), IrrigationDetailActivity.class)
-                , REQUEST_CODE_IRRIGATION_DETAIL);
+        Intent intent = new Intent(getContext(), IrrigationDetailActivity.class);
+        intent.putExtra(GARDEN_ID_KEY, mGarden.getGardenId());
+        IrrigationsFragment.this.startActivityForResult(intent, REQUEST_CODE_IRRIGATION_DETAIL);
     }
 
     @Override
@@ -106,9 +135,15 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView 
         this.irrigationPresenter.destroy();
     }
 
+    public void setGarden(GardenHolder mGarden) {
+        this.mGarden = mGarden;
+        ArrayList<Irrigation> irrigations = (ArrayList<Irrigation>) this.mGarden.getModel().getIrrigations();
+        this.irrigationsAdapter.setIrrigations(irrigations);
+    }
+
     @Override
     public void loadIrrigations(List<Irrigation> irrigations) {
-
+        this.irrigationsAdapter.setIrrigations((ArrayList<Irrigation>) irrigations);
     }
 
     @Override

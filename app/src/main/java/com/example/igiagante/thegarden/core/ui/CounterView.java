@@ -75,8 +75,9 @@ public class CounterView extends LinearLayout {
      * @param value value
      */
     public void setEditValue(int value) {
-        if(mTextViewValue != null) {
+        if(mTextViewValue != null && value >= 0) {
             mTextViewValue.setText(String.valueOf(value));
+            mCountViewListener.onCountViewChanged(value);
         }
     }
 

@@ -45,7 +45,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
     public void onBindViewHolder(IrrigationViewHolder holder, int position) {
         Irrigation irrigation = irrigations.get(position);
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
 
         if(irrigation != null) {
             holder.water.setText(mContext.getString(R.string.dose_water, irrigation.getDose().getWater()));
@@ -58,17 +58,34 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
                 holder.date.setText(dateFormatter.format(date));
             }
 
-            holder.quantity.setText(String.valueOf(irrigation.getQuantity()));
+            String quantity = mContext.getString(R.string.irrigation_water, getQuantity(irrigation.getQuantity()));
+            holder.quantity.setText(quantity);
 
             StringBuilder builder = new StringBuilder();
 
             for(Nutrient nutrient : irrigation.getDose().getNutrients()) {
                 String name = nutrient.getName();
                 float quantityUsed = nutrient.getQuantityUsed();
-                builder.append(name + " " + String.valueOf(quantityUsed));
+                builder.append(name + " " + getQuantity(quantityUsed));
+                builder.append("   ");
             }
-            holder.nutrients.setText(builder.toString());
+            String nutrients = mContext.getString(R.string.dose_nutrients, builder.toString());
+            holder.nutrients.setText(nutrients);
         }
+    }
+
+    /**
+     * Retrieve integer part in case there are not any decimal
+     * @param quantity how much water is going to receive each plant
+     * @return quantity
+     */
+    private String getQuantity(float quantity) {
+        String tempQuantity = String.valueOf(quantity);
+        String [] parts = tempQuantity.split("\\.");
+        if(parts[1] != null && Integer.parseInt(parts[1]) == 0){
+            tempQuantity = parts[0];
+        }
+        return tempQuantity;
     }
 
     @Override

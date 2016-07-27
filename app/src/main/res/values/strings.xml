@@ -163,4 +163,6 @@
     <string name="dose_ec">Ec: %1$s</string>
     <string name="dose_nutrients">N: %1$s</string>
 
+    <string name="irrigation_water">%1$s mL</string>
+
 </resources>

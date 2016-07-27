@@ -11,8 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
-import com.example.igiagante.thegarden.core.ui.CountViewListener;
+import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.ui.CounterView;
 import com.example.igiagante.thegarden.home.irrigations.presentation.holders.NutrientHolder;
 
@@ -22,7 +23,7 @@ import java.util.List;
 /**
  * @author Ignacio Giagante, on 21/7/16.
  */
-public class ExpandableListAdapter extends BaseExpandableListAdapter implements CountViewListener {
+public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private List<NutrientHolder> mNutrients;
     private Context mContext;
@@ -109,23 +110,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked) {
                         nutrient.setSelected(true);
-                        checkBox.setButtonDrawable(R.drawable.checkbox_button_selected);
                     } else {
                         nutrient.setSelected(false);
-                        checkBox.setButtonDrawable(R.drawable.checkbox_button_unselected);
                     }
                 }
         );
 
         CounterView quantity = (CounterView) convertView.findViewById(R.id.expandable_list_quantity);
-        quantity.setCountViewListener(this);
+        quantity.setCountViewListener(value -> nutrient.setQuantity(value));
 
         return convertView;
-    }
-
-    @Override
-    public void onCountViewChanged(float value, int childPosition) {
-
     }
 
     @Override
@@ -142,7 +136,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
 
         for (NutrientHolder nutrientHolder : mNutrients) {
             if(nutrientHolder.isSelected()) {
-                nutrients.add(nutrientHolder.getModel());
+                Nutrient nutrient = nutrientHolder.getModel();
+                nutrients.add(nutrient);
             }
         }
         return nutrients;
