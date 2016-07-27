@@ -109,8 +109,9 @@
     <string name="plant_description">Description</string>
     <string name="plant_how_many">How many plants do you want to create?</string>
 
-    <string name="plant_save">Save</string>
-    <string name="plant_cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
 
     <!-- Cancel Button Dialog -->
 
@@ -164,5 +165,10 @@
     <string name="dose_nutrients">N: %1$s</string>
 
     <string name="irrigation_water">%1$s mL</string>
+
+    <!-- Delete Irrigation Dialog -->
+    <string name="delete_irrigation_dialog_title">Delete Irrigation</string>
+    <string name="delete_irrigation_dialog_content">Are you sure you want to delete this irrigation?</string>
+
 
 </resources>

@@ -79,7 +79,7 @@
                 android:id="@+id/plant_save_button"
                 android:layout_width="@dimen/description_button_width"
                 android:layout_height="@dimen/description_button_height"
-                android:text="@string/plant_save"
+                android:text="@string/save"
                 android:layout_weight="0.2"
                 style="@style/save_button"
                 android:layout_marginEnd="@dimen/description_button_save_land_margin_end"/>
@@ -88,7 +88,7 @@
                 android:id="@+id/plant_cancel_button"
                 android:layout_width="@dimen/description_button_width"
                 android:layout_height="@dimen/description_button_height"
-                android:text="@string/plant_cancel"
+                android:text="@string/cancel"
                 android:layout_weight="0.2"
                 style="@style/cancel_button"
                 android:background="@drawable/button_cancel_background"/>

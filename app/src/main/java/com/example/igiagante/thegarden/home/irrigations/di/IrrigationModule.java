@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.home.irrigations.di;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.home.irrigations.usecase.DeleteIrrigationUseCase;
 import com.example.igiagante.thegarden.home.irrigations.usecase.GetIrrigationsUseCase;
 import com.example.igiagante.thegarden.home.irrigations.usecase.SaveIrrigationUseCase;
 
@@ -28,5 +29,12 @@ public class IrrigationModule {
     @Named("saveIrrigation")
     UseCase provideSaveIrrigationUseCase(SaveIrrigationUseCase saveIrrigationUseCase) {
         return saveIrrigationUseCase;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("deleteIrrigation")
+    UseCase provideDeleteIrrigationUseCase(DeleteIrrigationUseCase deleteIrrigationUseCase) {
+        return deleteIrrigationUseCase;
     }
 }

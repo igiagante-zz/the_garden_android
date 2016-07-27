@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.home.irrigations.presentation.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity;
@@ -35,7 +37,9 @@ import butterknife.ButterKnife;
 /**
  * @author igiagante on 5/5/16.
  */
-public class IrrigationsFragment extends BaseFragment implements IrrigationView {
+public class IrrigationsFragment extends BaseFragment implements IrrigationView,
+        IrrigationsAdapter.OnIrrigationSelected,
+        IrrigationsAdapter.OnDeleteIrrigation {
 
     public static final int REQUEST_CODE_IRRIGATION_DETAIL = 334;
 
@@ -83,7 +87,7 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView 
         final View fragmentView = inflater.inflate(R.layout.irrigations_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
-        irrigationsAdapter = new IrrigationsAdapter(getContext());
+        irrigationsAdapter = new IrrigationsAdapter(getContext(), this, this);
         this.recyclerViewIrrigations.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewIrrigations.setAdapter(irrigationsAdapter);
 
@@ -96,15 +100,42 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView 
             }
         }
 
-        buttonAddNutrient.setOnClickListener(v -> startIrrigationDetailActivity());
+        buttonAddNutrient.setOnClickListener(v -> startIrrigationDetailActivity(null));
 
         return fragmentView;
     }
 
-    private void startIrrigationDetailActivity() {
+    private void startIrrigationDetailActivity(Irrigation irrigation) {
         Intent intent = new Intent(getContext(), IrrigationDetailActivity.class);
         intent.putExtra(GARDEN_ID_KEY, mGarden.getGardenId());
+        intent.putExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY, irrigation);
         IrrigationsFragment.this.startActivityForResult(intent, REQUEST_CODE_IRRIGATION_DETAIL);
+    }
+
+    @Override
+    public void showDeleteIrrigationDialog(int position) {
+        new AlertDialog.Builder(getActivity())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.delete_irrigation_dialog_title)
+                .setMessage(R.string.delete_irrigation_dialog_content)
+                .setPositiveButton("Yes", (dialog, which) -> irrigationsAdapter.deleteIrrigation(position))
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    @Override
+    public void deleteIrrigation(String irrigationId) {
+        this.irrigationPresenter.deleteIrrigation(irrigationId);
+    }
+
+    @Override
+    public void notifyIfIrrigationWasDeleted() {
+        this.irrigationsAdapter.removeIrrigation();
+    }
+
+    @Override
+    public void showIrrigationDetails(Irrigation irrigation) {
+        startIrrigationDetailActivity(irrigation);
     }
 
     @Override

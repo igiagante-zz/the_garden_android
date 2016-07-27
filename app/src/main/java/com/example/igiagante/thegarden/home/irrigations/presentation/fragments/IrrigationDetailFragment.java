@@ -95,6 +95,8 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
     private String mGardenId;
 
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
+
     public static IrrigationDetailFragment newInstance(Irrigation irrigation) {
         IrrigationDetailFragment myFragment = new IrrigationDetailFragment();
 
@@ -125,6 +127,9 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
         if (arguments != null) {
             mIrrigation = arguments.getParcelable(IRRIGATION_DETAIL_KEY);
+            if(mIrrigation != null) {
+                loadData(mIrrigation);
+            }
         }
 
         expandableListAdapter = new ExpandableListAdapter(getContext());
@@ -146,6 +151,22 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         });
 
         return fragmentView;
+    }
+
+    private void loadData(Irrigation irrigation) {
+
+        mIrrigationDate.setText(dateFormatter.format(irrigation.getIrrigationDate()));
+        quantity.setEditValue((int)irrigation.getQuantity());
+
+        phDose.setEditValue(irrigation.getDose().getPhDose());
+        water.setEditValue((int)irrigation.getDose().getWater());
+        ph.setEditValue(irrigation.getDose().getPh());
+        ec.setEditValue(irrigation.getDose().getEc());
+
+        phDose.setEnabled(false);
+        water.setEnabled(false);
+        ph.setEnabled(false);
+        ec.setEnabled(false);
     }
 
     /**
@@ -176,7 +197,6 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
         mIrrigationDate.setOnClickListener(this);
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
         mIrrigationDate.setText(dateFormatter.format(new Date()));
 
         Calendar newCalendar = Calendar.getInstance();

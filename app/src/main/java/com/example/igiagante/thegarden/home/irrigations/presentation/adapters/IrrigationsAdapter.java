@@ -24,15 +24,30 @@ import butterknife.ButterKnife;
  */
 public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.IrrigationViewHolder> {
 
-
     private Context mContext;
     private LayoutInflater layoutInflater;
     private ArrayList<Irrigation> irrigations;
 
-    public IrrigationsAdapter(Context context) {
+    private OnIrrigationSelected mOnIrrigationSelected;
+    private OnDeleteIrrigation mOnDeleteIrrigation;
+
+    private int irrigationDeletedPosition;
+
+    public interface OnIrrigationSelected {
+        void showIrrigationDetails(Irrigation irrigation);
+    }
+
+    public interface OnDeleteIrrigation {
+        void showDeleteIrrigationDialog(int position);
+        void deleteIrrigation(String irrigationId);
+    }
+
+    public IrrigationsAdapter(Context context, OnIrrigationSelected OnIrrigationSelected, OnDeleteIrrigation OnDeleteIrrigation) {
         this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.irrigations = new ArrayList<>();
+        this.mOnIrrigationSelected = OnIrrigationSelected;
+        this.mOnDeleteIrrigation = OnDeleteIrrigation;
     }
 
     @Override
@@ -112,6 +127,25 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
         notifyDataSetChanged();
     }
 
+    /**
+     * Inform that an irrigation should be deleted
+     * @param position
+     */
+    public void deleteIrrigation(int position){
+        this.irrigationDeletedPosition = position;
+        this.mOnDeleteIrrigation.deleteIrrigation(this.irrigations.get(position).getId());
+    }
+
+    /**
+     * An irrigation was deleted, so it should be removed from the list
+     */
+    public void removeIrrigation(){
+        if (!irrigations.isEmpty()) {
+            this.irrigations.remove(irrigationDeletedPosition);
+            this.notifyItemRemoved(irrigationDeletedPosition);
+        }
+    }
+
     // inner class to hold a reference to each card_view of RecyclerView
     public class IrrigationViewHolder extends RecyclerView.ViewHolder {
 
@@ -138,6 +172,8 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
         public IrrigationViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, itemView);
+
+            v.setOnClickListener(v1 -> mOnIrrigationSelected.showIrrigationDetails(irrigations.get(position)));
         }
 
         public void setPosition(int position) {

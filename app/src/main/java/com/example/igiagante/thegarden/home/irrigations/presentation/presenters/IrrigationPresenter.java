@@ -23,14 +23,18 @@ public class IrrigationPresenter extends AbstractPresenter<IrrigationView> {
     private final static String TAG = IrrigationPresenter.class.getSimpleName();
 
     private final UseCase getIrrigationsUseCase;
+    private final UseCase deleteIrrigationUseCase;
 
     @Inject
-    public IrrigationPresenter(@Named("getIrrigations") UseCase getIrrigationsUseCase) {
+    public IrrigationPresenter(@Named("getIrrigations") UseCase getIrrigationsUseCase,
+                               @Named("deleteIrrigation") UseCase deleteIrrigationUseCase) {
         this.getIrrigationsUseCase = getIrrigationsUseCase;
+        this.deleteIrrigationUseCase = deleteIrrigationUseCase;
     }
 
     public void destroy() {
         this.getIrrigationsUseCase.unsubscribe();
+        this.deleteIrrigationUseCase.unsubscribe();
         this.view = null;
     }
 
@@ -38,8 +42,16 @@ public class IrrigationPresenter extends AbstractPresenter<IrrigationView> {
         this.getIrrigationsUseCase.execute(null, new IrrigationsSubscriber());
     }
 
+    public void deleteIrrigation(String irrigationId) {
+        this.deleteIrrigationUseCase.execute(irrigationId, new DeleteIrrigationSubscriber());
+    }
+
     private void showIrrigations(List<Irrigation> irrigations) {
         getView().loadIrrigations(irrigations);
+    }
+
+    private void notifyIfIrrigationWasDeleted(Integer result) {
+        getView().notifyIfIrrigatinoWasDeleted();
     }
 
     private final class IrrigationsSubscriber extends DefaultSubscriber<List<Irrigation>> {
@@ -54,6 +66,21 @@ public class IrrigationPresenter extends AbstractPresenter<IrrigationView> {
 
         @Override public void onNext(List<Irrigation> irrigations) {
             IrrigationPresenter.this.showIrrigations(irrigations);
+        }
+    }
+
+    private final class DeleteIrrigationSubscriber extends DefaultSubscriber<Integer> {
+
+        @Override public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        @Override public void onNext(Integer result) {
+            IrrigationPresenter.this.notifyIfIrrigationWasDeleted(result);
         }
     }
 }
