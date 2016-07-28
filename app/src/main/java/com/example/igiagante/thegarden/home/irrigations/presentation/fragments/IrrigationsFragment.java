@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -50,11 +52,14 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView,
 
     private IrrigationsAdapter irrigationsAdapter;
 
+    @Bind(R.id.irrigation_list_progress_bar)
+    ProgressBar mProgressBar;
+
     @Bind(R.id.irrigations_recycle_view_id)
     RecyclerView recyclerViewIrrigations;
 
-    @Bind(R.id.add_new_irrigation_id)
-    Button buttonAddNutrient;
+    @Bind(R.id.irrigations_add_new_irrigation_id)
+    FloatingActionButton buttonAddNutrient;
 
     private GardenHolder mGarden;
 
@@ -97,6 +102,7 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView,
             if(mGarden != null) {
                 mIrrigations = (ArrayList<Irrigation>) mGarden.getModel().getIrrigations();
                 irrigationsAdapter.setIrrigations(mIrrigations);
+                mProgressBar.setVisibility(View.GONE);
             }
         }
 
@@ -170,11 +176,7 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView,
         this.mGarden = mGarden;
         ArrayList<Irrigation> irrigations = (ArrayList<Irrigation>) this.mGarden.getModel().getIrrigations();
         this.irrigationsAdapter.setIrrigations(irrigations);
-    }
-
-    @Override
-    public void loadIrrigations(List<Irrigation> irrigations) {
-        this.irrigationsAdapter.setIrrigations((ArrayList<Irrigation>) irrigations);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override

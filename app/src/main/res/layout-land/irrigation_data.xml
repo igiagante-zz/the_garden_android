@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/irrigation_data_margin">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/irrigation_data_margin_top_land">
+
+        <EditText
+            android:id="@+id/irrigation_date_id"
+            android:layout_width="@dimen/irrigation_data_date_margin_width"
+            android:layout_height="wrap_content"
+            android:hint="Date"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/irrigation_data_inner_margin_start"
+            android:layout_marginTop="@dimen/irrigation_data_date_margin_top"/>
+
+        <com.example.igiagante.thegarden.core.ui.CountView
+            android:id="@+id/irrigation_quantity_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/irrigation_data_margin_land"
+            app:setValue="500"
+            />
+
+        <com.example.igiagante.thegarden.core.ui.CountViewDecimal
+            android:id="@+id/irrigation_ph_dose_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/irrigation_data_inner_margin_start_land"
+            app:setValueDecimal="3.5"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/irrigation_data_margin_top_land">
+
+        <com.example.igiagante.thegarden.core.ui.CountView
+            android:id="@+id/irrigation_water_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/irrigation_data_margin"
+            app:setValue="3"/>
+
+        <com.example.igiagante.thegarden.core.ui.CountViewDecimal
+            android:id="@+id/irrigation_ph_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/irrigation_data_inner_margin_start_land"
+            app:setValueDecimal="6.5"/>
+
+        <com.example.igiagante.thegarden.core.ui.CountViewDecimal
+            android:id="@+id/irrigation_ec_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/irrigation_data_inner_margin_start_land"
+            app:setValueDecimal="0.8"/>
+
+    </LinearLayout>
+
+</LinearLayout>

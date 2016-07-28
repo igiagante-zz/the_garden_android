@@ -10,7 +10,5 @@ import java.util.List;
  */
 public interface IrrigationView extends IView {
 
-    void loadIrrigations(List<Irrigation> irrigations);
-
     void notifyIfIrrigationWasDeleted();
 }

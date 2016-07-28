@@ -169,13 +169,19 @@
     <dimen name="nutrient_detail_text_area_height">160dp</dimen>
 
     <dimen name="card_nutrient_button_delete_size">30dp</dimen>
-    <dimen name="card_nutrient_button_delete_margin">12dp</dimen>
+    <dimen name="card_nutrient_button_delete_margin_top">8dp</dimen>
+    <dimen name="card_nutrient_button_delete_margin_end">12dp</dimen>
 
     <!-- IRRIGATIONS -->
+
+    <dimen name="card_view_irrigation_height">90dp</dimen>
 
     <dimen name="dose_irrigation_text_margin_Start">10dp</dimen>
     <dimen name="dose_irrigation_text_size">18sp</dimen>
     <dimen name="dose_list_of_nutrients_margin_top">5dp</dimen>
+
+    <dimen name="irrigation_date_text_size">18sp</dimen>
+    <dimen name="irrigation_date_margin_top">15dp</dimen>
 
     <!-- expandable list view -->
     <dimen name="elv_margin">15dp</dimen>
@@ -211,6 +217,11 @@
     <dimen name="irrigation_data_date_margin_width">130dp</dimen>
 
     <dimen name="irrigation_data_layout_buttons_margin_top">60dp</dimen>
+
+    <dimen name="irrigation_button_delete_size">24dp</dimen>
+    <dimen name="irrigation_button_delete_margin_top">2dp</dimen>
+    <dimen name="irrigation_button_delete_margin_start">5dp</dimen>
+    <dimen name="irrigation_button_delete_margin_end">25dp</dimen>
 
     <!-- Land dimens -->
 
@@ -263,5 +274,22 @@
     <dimen name="count_view_margin_start_land">10dp</dimen>
     <dimen name="count_view_margin_end_land">10dp</dimen>
     <dimen name="count_view_margin_top_land">30dp</dimen>
+
+    <!-- land - IRRIGATIONS -->
+
+    <dimen name="card_view_irrigation_height_land">110dp</dimen>
+
+    <dimen name="dose_irrigation_text_margin_start_land">14dp</dimen>
+    <dimen name="dose_irrigation_text_size_land">26sp</dimen>
+    <dimen name="dose_list_of_nutrients_margin_top_land">10dp</dimen>
+
+    <dimen name="irrigation_button_delete_size_land">35dp</dimen>
+    <dimen name="irrigation_button_delete_margin_top_land">7dp</dimen>
+    <dimen name="irrigation_button_delete_margin_end_land">20dp</dimen>
+
+    <!-- irrigation data layout -->
+    <dimen name="irrigation_data_margin_land">30dp</dimen>
+    <dimen name="irrigation_data_margin_top_land">50dp</dimen>
+    <dimen name="irrigation_data_inner_margin_start_land">40dp</dimen>
 
 </resources>

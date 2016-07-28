@@ -24,6 +24,8 @@ public class IrrigationDetailActivity extends BaseActivity implements HasCompone
 
     public static final String IRRIGATION_KEY = "IRRIGATION";
 
+    private static final String FRAGMENT_IRRIGATION_DATA_TAG = "FRAGMENT_IRRIGATION_DATA";
+
     private IrrigationComponent irrigationComponent;
 
     private Irrigation mIrrigation;
@@ -55,8 +57,7 @@ public class IrrigationDetailActivity extends BaseActivity implements HasCompone
         String gardenId = getIntent().getStringExtra(IrrigationsFragment.GARDEN_ID_KEY);
         ((IrrigationDetailFragment)irrigationFragment).setGardenId(gardenId);
 
-        addFragment(R.id.irrigation_container_data, irrigationFragment);
-
+        addFragment(R.id.irrigation_container_data, irrigationFragment, FRAGMENT_IRRIGATION_DATA_TAG);
     }
 
     @Override

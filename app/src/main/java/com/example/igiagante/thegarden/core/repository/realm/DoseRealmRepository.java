@@ -74,7 +74,6 @@ public class DoseRealmRepository implements Repository<Dose> {
         realm.executeTransaction(realmParam -> {
             for (Dose dose : doses) {
                 realmParam.copyToRealmOrUpdate(toDoseRealm.map(dose));
-
             }
         });
 

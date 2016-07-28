@@ -80,7 +80,6 @@ public class DoseRealmRepositoryTest extends AndroidTestCase {
         dose.setPhDose(phDose);
         dose.setPh(ph);
         dose.setEc(ec);
-        dose.setEditable(editable);
 
         ArrayList<Nutrient> nutrients = new ArrayList<>();
 

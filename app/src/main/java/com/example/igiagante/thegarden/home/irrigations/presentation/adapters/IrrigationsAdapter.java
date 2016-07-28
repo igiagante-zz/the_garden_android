@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
@@ -26,7 +27,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
     private Context mContext;
     private LayoutInflater layoutInflater;
-    private ArrayList<Irrigation> irrigations;
+    private ArrayList<Irrigation> irrigations = new ArrayList<>();
 
     private OnIrrigationSelected mOnIrrigationSelected;
     private OnDeleteIrrigation mOnDeleteIrrigation;
@@ -87,6 +88,9 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
             String nutrients = mContext.getString(R.string.dose_nutrients, builder.toString());
             holder.nutrients.setText(nutrients);
         }
+
+        holder.mDeleteButton.setOnClickListener(v -> mOnDeleteIrrigation.showDeleteIrrigationDialog(holder.getAdapterPosition()));
+
     }
 
     /**
@@ -113,8 +117,10 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
      * @param irrigations List of irrigations
      */
     public void setIrrigations(ArrayList<Irrigation> irrigations) {
-        this.irrigations = new ArrayList<>(irrigations);
-        this.notifyItemRangeInserted(0, irrigations.size() - 1);
+        if(!irrigations.isEmpty()) {
+            this.irrigations = new ArrayList<>(irrigations);
+            this.notifyItemRangeInserted(0, irrigations.size() - 1);
+        }
     }
 
     /**
@@ -168,6 +174,9 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
         @Bind(R.id.dose_list_of_nutrients)
         TextView nutrients;
+
+        @Bind(R.id.irrigation_delete_button_id)
+        Button mDeleteButton;
 
         public IrrigationViewHolder(View v) {
             super(v);

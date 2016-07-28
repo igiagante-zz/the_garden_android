@@ -225,7 +225,10 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         //nutrients
         Button nutrientsOption = (Button) findViewById(R.id.nutrients_id);
-        nutrientsOption.setOnClickListener(v -> startActivity(new Intent(this, NutrientActivity.class)));
+        nutrientsOption.setOnClickListener(v -> {
+            this.drawerLayout.closeDrawers();
+            startActivity(new Intent(this, NutrientActivity.class));
+        });
     }
 
     @Override
@@ -242,8 +245,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Override
     public void loadGarden(GardenHolder gardenHolder) {
-        drawerLayout.closeDrawers();
-        mAdapter.setGardenHolder(gardenHolder);
+        this.drawerLayout.closeDrawers();
+        this.mAdapter.setGardenHolder(gardenHolder);
     }
 
     @Override

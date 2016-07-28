@@ -18,4 +18,6 @@ public abstract class DataHolder<T> implements Parcelable {
     public void setModel(T model) {
         this.model = model;
     }
+
+
 }

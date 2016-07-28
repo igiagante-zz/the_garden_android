@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private List<NutrientHolder> mNutrients;
+    private List<NutrientHolder> mNutrients = new ArrayList<>();
     private Context mContext;
     private LayoutInflater layoutInflater;
 
@@ -37,8 +37,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public void setNutrients(List<NutrientHolder> nutrients) {
-        this.mNutrients = new ArrayList<>(nutrients);
-        notifyDataSetChanged();
+        if(!nutrients.isEmpty()) {
+            this.mNutrients = new ArrayList<>(nutrients);
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -107,6 +109,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         nameOfNutrient.setText(nutrient.getName());
 
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.expandable_list_item_checkbox_id);
+
+        if(nutrient.isSelected()) {
+            checkBox.setChecked(true);
+        }
+
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked) {
                         nutrient.setSelected(true);
@@ -118,6 +125,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         CounterView quantity = (CounterView) convertView.findViewById(R.id.expandable_list_quantity);
         quantity.setCountViewListener(value -> nutrient.setQuantity(value));
+        quantity.setEditValue((int)nutrient.getModel().getQuantityUsed());
 
         return convertView;
     }

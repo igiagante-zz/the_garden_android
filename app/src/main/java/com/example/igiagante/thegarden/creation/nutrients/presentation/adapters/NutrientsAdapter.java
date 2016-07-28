@@ -68,8 +68,6 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
 
         List<Image> images = nutrient.getImages();
         if (!images.isEmpty()) {
-            // TODO - Refactor -> remove addDomain
-            addDomain(images);
             Image mainImage = images.get(0);
             if (mainImage != null) {
                 String thumbnailUrl = mainImage.getThumbnailUrl();
@@ -83,16 +81,6 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
         holder.ph.setText(mContext.getString(R.string.nutrient_ph, String.valueOf(nutrient.getPh())));
 
         holder.mDeleteButton.setOnClickListener(v -> mOnDeleteNutrient.showDeleteNutrientDialog(holder.getAdapterPosition()));
-    }
-
-    private List<Image> addDomain(List<Image> images) {
-        for (Image image : images) {
-            if (!image.getUrl().contains("http")) {
-                image.setUrl(Settings.DOMAIN + image.getUrl());
-                image.setThumbnailUrl(Settings.DOMAIN + image.getThumbnailUrl());
-            }
-        }
-        return images;
     }
 
     @Override
@@ -164,7 +152,7 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
         nutrientFromList.setPh(nutrient.getPh());
         nutrientFromList.setNpk(nutrient.getNpk());
         nutrientFromList.setDescription(nutrient.getDescription());
-        nutrientFromList.setImages(addDomain(nutrient.getImages()));
+        nutrientFromList.setImages(nutrient.getImages());
         nutrientFromList.setResourcesIds(nutrient.getResourcesIds());
         notifyItemChanged(nutrientPosition);
     }

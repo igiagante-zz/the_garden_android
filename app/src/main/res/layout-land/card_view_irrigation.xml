@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/card_view_irrigation_height"
+    android:layout_height="@dimen/card_view_irrigation_height_land"
     android:layout_marginTop="@dimen/card_plant_margin"
     android:layout_marginStart="@dimen/card_plant_margin"
     android:layout_marginEnd="@dimen/card_plant_margin"
@@ -22,57 +22,47 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:layout_weight="0.28"/>
+            android:layout_weight="0.35"/>
 
         <View
             android:layout_width="1dp"
-            android:layout_height="70dp"
+            android:layout_height="80dp"
             android:background="@android:color/darker_gray"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="15dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="0.7"
-            android:layout_marginStart="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="5dp">
+            android:layout_weight="0.65"
+            android:layout_marginStart="20dp">
 
             <TextView
                 android:id="@+id/card_view_irrigation_date_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/irrigation_date_margin_top"
-                android:textSize="@dimen/irrigation_date_text_size"
+                android:layout_marginTop="@dimen/dose_irrigation_text_margin_start_land"
+                android:textSize="@dimen/dose_irrigation_text_size_land"
                 android:text="19 Jul"/>
-
-            <Button
-                android:id="@+id/irrigation_delete_button_id"
-                android:layout_width="@dimen/irrigation_button_delete_size"
-                android:layout_height="@dimen/irrigation_button_delete_size"
-                android:layout_marginTop="@dimen/irrigation_button_delete_margin_top"
-                android:layout_marginStart="@dimen/irrigation_button_delete_margin_start"
-                android:layout_marginEnd="@dimen/irrigation_button_delete_margin_end"
-                android:background="@drawable/delete_image"
-                />
-
-            </LinearLayout>
-
 
             <TextView
                 android:id="@+id/card_view_irrigation_quantity_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/irrigation_date_margin_top"
-                android:textSize="@dimen/irrigation_date_text_size"
+                android:layout_marginTop="@dimen/dose_irrigation_text_margin_start_land"
+                android:textSize="@dimen/dose_irrigation_text_size_land"
                 android:text="@string/irrigation_water"/>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/irrigation_delete_button_id"
+            android:layout_width="@dimen/irrigation_button_delete_size_land"
+            android:layout_height="@dimen/irrigation_button_delete_size_land"
+            android:layout_marginTop="@dimen/irrigation_button_delete_margin_top_land"
+            android:layout_marginEnd="@dimen/irrigation_button_delete_margin_end_land"
+            android:background="@drawable/delete_image"
+            />
 
     </LinearLayout>
 

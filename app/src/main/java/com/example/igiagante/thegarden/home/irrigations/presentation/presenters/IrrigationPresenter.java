@@ -38,35 +38,13 @@ public class IrrigationPresenter extends AbstractPresenter<IrrigationView> {
         this.view = null;
     }
 
-    public void getIrrigations(){
-        this.getIrrigationsUseCase.execute(null, new IrrigationsSubscriber());
-    }
-
     public void deleteIrrigation(String irrigationId) {
         this.deleteIrrigationUseCase.execute(irrigationId, new DeleteIrrigationSubscriber());
     }
 
-    private void showIrrigations(List<Irrigation> irrigations) {
-        getView().loadIrrigations(irrigations);
-    }
 
     private void notifyIfIrrigationWasDeleted(Integer result) {
-        getView().notifyIfIrrigatinoWasDeleted();
-    }
-
-    private final class IrrigationsSubscriber extends DefaultSubscriber<List<Irrigation>> {
-
-        @Override public void onCompleted() {
-        }
-
-        @Override public void onError(Throwable e) {
-            Log.e(TAG, e.getMessage());
-            e.printStackTrace();
-        }
-
-        @Override public void onNext(List<Irrigation> irrigations) {
-            IrrigationPresenter.this.showIrrigations(irrigations);
-        }
+        getView().notifyIfIrrigationWasDeleted();
     }
 
     private final class DeleteIrrigationSubscriber extends DefaultSubscriber<Integer> {

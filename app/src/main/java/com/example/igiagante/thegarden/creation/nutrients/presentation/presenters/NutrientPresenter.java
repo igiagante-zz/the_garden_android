@@ -110,7 +110,19 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
         }
 
         @Override public void onNext(Nutrient nutrient) {
+            addDomainToImages(nutrient);
             NutrientPresenter.this.notifyIfNutrientWasPersistedOrUpdated(nutrient);
+        }
+    }
+
+    private void addDomainToImages(Nutrient nutrient){
+        for(Image image : nutrient.getImages()){
+            if(image.getUrl() != null && !image.getUrl().contains("http")){
+                image.setUrl(Settings.DOMAIN + image.getUrl());
+            }
+            if(image.getThumbnailUrl() != null && !image.getThumbnailUrl().contains("http")){
+                image.setThumbnailUrl(Settings.DOMAIN + image.getThumbnailUrl());
+            }
         }
     }
 

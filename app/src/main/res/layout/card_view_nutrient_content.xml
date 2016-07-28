@@ -47,8 +47,8 @@
         android:id="@+id/nutrient_delete_button_id"
         android:layout_width="@dimen/card_nutrient_button_delete_size"
         android:layout_height="@dimen/card_nutrient_button_delete_size"
-        android:layout_marginTop="@dimen/card_nutrient_button_delete_margin"
-        android:layout_marginEnd="@dimen/card_nutrient_button_delete_margin"
+        android:layout_marginTop="@dimen/card_nutrient_button_delete_margin_top"
+        android:layout_marginEnd="@dimen/card_nutrient_button_delete_margin_end"
         android:background="@drawable/delete_image"
         />
 

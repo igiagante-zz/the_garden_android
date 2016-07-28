@@ -47,6 +47,10 @@ public class NutrientHolder extends DataHolder<Nutrient> {
         return getModel().getName();
     }
 
+    public float getQuantity() {
+        return getModel().getQuantityUsed();
+    }
+
     public boolean isSelected() {
         return selected;
     }

@@ -16,7 +16,6 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/nutrients_add_new_nutrient_id"
         android:layout_width="60dp"

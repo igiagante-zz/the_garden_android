@@ -27,6 +27,7 @@ import com.example.igiagante.thegarden.home.irrigations.presentation.view.Irriga
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -97,6 +98,8 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
 
+    private List<NutrientHolder> mNutrients;
+
     public static IrrigationDetailFragment newInstance(Irrigation irrigation) {
         IrrigationDetailFragment myFragment = new IrrigationDetailFragment();
 
@@ -119,26 +122,29 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         final View fragmentView = inflater.inflate(R.layout.irrigation_detail_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
+        expandableListAdapter = new ExpandableListAdapter(getContext());
+        mExpandableListView.setAdapter(expandableListAdapter);
+
         if (savedInstanceState != null) {
             mIrrigation = savedInstanceState.getParcelable(IRRIGATION_DETAIL_KEY);
         }
 
         Bundle arguments = getArguments();
-
         if (arguments != null) {
             mIrrigation = arguments.getParcelable(IRRIGATION_DETAIL_KEY);
-            if(mIrrigation != null) {
-                loadData(mIrrigation);
-            }
         }
 
-        expandableListAdapter = new ExpandableListAdapter(getContext());
-        mExpandableListView.setAdapter(expandableListAdapter);
+        Intent intent = getActivity().getIntent();
+        mIrrigation = intent.getParcelableExtra(IRRIGATION_DETAIL_KEY);
+
+        if (mIrrigation != null) {
+            loadData(mIrrigation);
+        } else {
+            //Load nutrients
+            irrigationDetailPresenter.getNutrients();
+        }
 
         setDateTimeField();
-
-        //Load nutrients
-        irrigationDetailPresenter.getNutrients();
 
         mSaveButton.setOnClickListener(v -> {
             Irrigation irrigation = saveIrrigation();
@@ -153,13 +159,27 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         return fragmentView;
     }
 
+    @Override
+    public void loadNutrients(List<NutrientHolder> nutrients) {
+        this.mNutrients = new ArrayList<>(nutrients);
+        this.expandableListAdapter.setNutrients(nutrients);
+    }
+
+    @Override
+    public void notifyIfIrrigationWasPersistedOrUpdated(Irrigation irrigation) {
+        Intent intent = new Intent();
+        intent.putExtra(IRRIGATION_DETAIL_KEY, irrigation);
+        getActivity().setResult(getActivity().RESULT_OK, intent);
+        getActivity().finish();
+    }
+
     private void loadData(Irrigation irrigation) {
 
         mIrrigationDate.setText(dateFormatter.format(irrigation.getIrrigationDate()));
-        quantity.setEditValue((int)irrigation.getQuantity());
+        quantity.setEditValue((int) irrigation.getQuantity());
 
         phDose.setEditValue(irrigation.getDose().getPhDose());
-        water.setEditValue((int)irrigation.getDose().getWater());
+        water.setEditValue((int) irrigation.getDose().getWater());
         ph.setEditValue(irrigation.getDose().getPh());
         ec.setEditValue(irrigation.getDose().getEc());
 
@@ -167,13 +187,27 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         water.setEnabled(false);
         ph.setEnabled(false);
         ec.setEnabled(false);
+
+        ArrayList<NutrientHolder> nutrientHolders = irrigationDetailPresenter
+                .createNutrientHolderList(irrigation.getDose().getNutrients());
+
+        this.mNutrients = new ArrayList<>(nutrientHolders);
+        setNutrientsSelected();
+    }
+
+    private void setNutrientsSelected(){
+        for(NutrientHolder nutrientHolder : mNutrients){
+            nutrientHolder.setSelected(true);
+        }
+        this.expandableListAdapter.setNutrients(mNutrients);
     }
 
     /**
      * Build irrigation object
+     *
      * @return irrigation
      */
-    private Irrigation saveIrrigation(){
+    private Irrigation saveIrrigation() {
 
         Irrigation irrigation = new Irrigation();
         irrigation.setQuantity(quantity.getEditValue());
@@ -208,20 +242,21 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
                 mIrrigationDate.setText(dateFormatter.format(newDate.getTime()));
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
     /**
      * Set garden id which will be added to the irrigation
+     *
      * @param gardenId
      */
-    public void setGardenId(String gardenId){
+    public void setGardenId(String gardenId) {
         this.mGardenId = gardenId;
     }
 
     @Override
     public void onClick(View v) {
-        if(v == mIrrigationDate) {
+        if (v == mIrrigationDate) {
             mIrrigationDatePickerDialog.show();
         }
     }
@@ -232,7 +267,8 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         this.irrigationDetailPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.irrigationDetailPresenter.destroy();
     }
@@ -241,19 +277,6 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void notifyIfIrrigationWasPersistedOrUpdated(Irrigation irrigation) {
-        Intent intent = new Intent();
-        intent.putExtra(IRRIGATION_DETAIL_KEY, irrigation);
-        getActivity().setResult(getActivity().RESULT_OK, intent);
-        getActivity().finish();
-    }
-
-    @Override
-    public void loadNutrients(List<NutrientHolder> nutrients) {
-        this.expandableListAdapter.setNutrients(nutrients);
     }
 
     @Override

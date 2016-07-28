@@ -3,9 +3,11 @@ package com.example.igiagante.thegarden.home.irrigations.presentation.presenters
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
+import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
+import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.home.irrigations.presentation.holders.NutrientHolder;
@@ -42,6 +44,7 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
     }
 
     public void saveIrrigation(Irrigation irrigation){
+        removeDomainFromNutrientsImages(irrigation.getDose().getNutrients());
         this.saveIrrigationUseCase.execute(irrigation, new SaveIrrigationSubscriber());
     }
 
@@ -87,7 +90,7 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
         }
     }
 
-    private ArrayList<NutrientHolder> createNutrientHolderList(List<Nutrient> nutrients) {
+    public ArrayList<NutrientHolder> createNutrientHolderList(List<Nutrient> nutrients) {
         ArrayList<NutrientHolder> nutrientHolders = new ArrayList<>();
         for (Nutrient nutrient : nutrients) {
             NutrientHolder nutrientHolder = new NutrientHolder();
@@ -95,5 +98,24 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
             nutrientHolders.add(nutrientHolder);
         }
         return nutrientHolders;
+    }
+
+    private void removeDomainFromNutrientsImages(List<Nutrient> nutrients) {
+        for(Nutrient nutrient : nutrients) {
+            removeDomainFromImages(nutrient);
+        }
+    }
+
+    private void removeDomainFromImages(Nutrient nutrient) {
+        for(Image image : nutrient.getImages()){
+            if(image.getUrl() != null && image.getUrl().contains("http")){
+                String [] parts = image.getUrl().split(Settings.DOMAIN);
+                image.setUrl(parts[1]);
+            }
+            if(image.getThumbnailUrl() != null && image.getThumbnailUrl().contains("http")){
+                String [] parts = image.getThumbnailUrl().split(Settings.DOMAIN);
+                image.setThumbnailUrl(parts[1]);
+            }
+        }
     }
 }

@@ -55,7 +55,8 @@
 
         <activity
             android:name=".home.irrigations.IrrigationDetailActivity"
-            android:label="@string/activity_irrigation_detail">
+            android:label="@string/activity_irrigation_detail"
+            android:screenOrientation="portrait">
         </activity>
 
     </application>
