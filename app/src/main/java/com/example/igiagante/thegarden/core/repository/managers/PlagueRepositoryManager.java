@@ -7,7 +7,6 @@ import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.PlagueRealmRepository;
-import com.example.igiagante.thegarden.core.repository.restAPI.RestApiPlagueRepository;
 
 import javax.inject.Inject;
 

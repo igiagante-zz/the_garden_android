@@ -1,17 +1,22 @@
-package com.example.igiagante.thegarden.core.repository.restAPI;
+package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.repository.Repository;
-import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
+import com.example.igiagante.thegarden.core.repository.restAPI.BaseRestApi;
+import com.example.igiagante.thegarden.core.repository.restAPI.di.DaggerSessionComponent;
+import com.example.igiagante.thegarden.core.repository.restAPI.di.SessionComponent;
+import com.example.igiagante.thegarden.home.di.DaggerMainComponent;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -22,7 +27,7 @@ import rx.schedulers.Schedulers;
 /**
  * @author Ignacio Giagante, on 3/7/16.
  */
-public class BaseRestApiRepository<T> {
+public class BaseRestApiRepository<T> extends BaseRestApi{
 
     private static final String TAG = BaseRestApiRepository.class.getSimpleName();
 

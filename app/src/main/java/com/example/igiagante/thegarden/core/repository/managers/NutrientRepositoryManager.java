@@ -8,7 +8,7 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.NutrientRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientByNameSpecification;
-import com.example.igiagante.thegarden.core.repository.restAPI.RestApiNutrientRepository;
+import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiNutrientRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.core.repository.restAPI;
+package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
-import com.example.igiagante.thegarden.core.repository.restAPI.service.PlantRestAPI;
+import com.example.igiagante.thegarden.core.repository.restAPI.services.PlantRestAPI;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -20,11 +20,8 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -40,7 +37,7 @@ public class RestApiPlantRepository extends BaseRestApiRepository<Plant> impleme
     public RestApiPlantRepository(Context context) {
         super(context);
         this.mContext = context;
-        api = ServiceFactory.createRetrofitService(PlantRestAPI.class);
+        api = ServiceFactory.createRetrofitService(PlantRestAPI.class, session.getToken());
     }
 
     @Override

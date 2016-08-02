@@ -5,7 +5,6 @@ import android.content.Context;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
-import com.example.igiagante.thegarden.core.repository.restAPI.RestApiFlavorRepository;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDao;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDaoRepository;
 

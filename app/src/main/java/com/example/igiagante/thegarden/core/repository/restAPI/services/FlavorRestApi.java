@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.core.repository.restAPI.service;
+package com.example.igiagante.thegarden.core.repository.restAPI.services;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 

@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.core.repository.restAPI;
+package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import android.content.Context;
 
@@ -7,12 +7,10 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
-import com.example.igiagante.thegarden.core.repository.restAPI.service.GardenRestApi;
+import com.example.igiagante.thegarden.core.repository.restAPI.services.GardenRestApi;
 
 import java.util.List;
 
-import okhttp3.MultipartBody;
 import rx.Observable;
 
 /**
@@ -24,7 +22,7 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
 
     public RestApiGardenRepository(Context context) {
         super(context);
-        api = ServiceFactory.createRetrofitService(GardenRestApi.class);
+        api = ServiceFactory.createRetrofitService(GardenRestApi.class, session.getToken());
     }
 
     @Override

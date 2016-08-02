@@ -1,11 +1,10 @@
-package com.example.igiagante.thegarden.core.repository.restAPI.service;
+package com.example.igiagante.thegarden.core.repository.restAPI.services;
 
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.repository.network.Message;
 
 import java.util.List;
 
-import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

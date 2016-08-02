@@ -1,10 +1,10 @@
-package com.example.igiagante.thegarden.core.repository.restAPI;
+package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
-import com.example.igiagante.thegarden.core.repository.restAPI.service.PlagueRestApi;
+import com.example.igiagante.thegarden.core.repository.restAPI.services.PlagueRestApi;
 
 import java.util.List;
 

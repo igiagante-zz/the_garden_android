@@ -6,24 +6,36 @@ import java.util.Map;
 import javax.inject.Inject;
 
 /**
- * Created by igiagante on 26/4/16.
+ * @author Ignacio Giagante, on 26/4/16.
  */
-
 
 public class HttpStatus {
 
+    private static final int OK_KEY = 200;
+
+    private static final int BAD_AUTHENTICATION_KEY = 401;
+    private static final int FORBIDDEN_KEY = 403;
     private static final int NOT_FOUND_KEY = 404;
+
     private static final int INTERNAL_SERVER_ERROR_KEY = 505;
 
-    private static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
+    private static final String OK = "OK";
+
+    private static final String BAD_AUTHENTICATION = "BAD_AUTHENTICATION";
+    private static final String FORBIDDEN = "FORBIDDEN";
     private static final String NOT_FOUND = "NOT_FOUND";
+
+    private static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
+
 
     private final Map<Integer, String> httpCodeMap = new HashMap<>();
 
-    @Inject
     public HttpStatus() {
-        httpCodeMap.put(INTERNAL_SERVER_ERROR_KEY, INTERNAL_SERVER_ERROR);
+        httpCodeMap.put(OK_KEY, OK);
+        httpCodeMap.put(BAD_AUTHENTICATION_KEY, BAD_AUTHENTICATION);
+        httpCodeMap.put(FORBIDDEN_KEY, FORBIDDEN);
         httpCodeMap.put(NOT_FOUND_KEY, NOT_FOUND);
+        httpCodeMap.put(INTERNAL_SERVER_ERROR_KEY, INTERNAL_SERVER_ERROR);
     }
 
     public String getHttpStatusValue(int code) {

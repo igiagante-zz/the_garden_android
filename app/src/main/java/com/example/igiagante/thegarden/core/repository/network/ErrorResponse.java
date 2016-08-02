@@ -1,7 +1,7 @@
 package com.example.igiagante.thegarden.core.repository.network;
 
 /**
- * Created by igiagante on 22/4/16.
+ * @author Ignacio Giagante, on 22/4/16.
  */
 
 public class ErrorResponse {

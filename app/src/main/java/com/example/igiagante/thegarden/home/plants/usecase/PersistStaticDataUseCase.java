@@ -13,9 +13,9 @@ import com.example.igiagante.thegarden.core.repository.realm.AttributeRealmRepos
 import com.example.igiagante.thegarden.core.repository.realm.PlagueRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.specification.attribute.AttributeSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.plague.PlagueSpecification;
-import com.example.igiagante.thegarden.core.repository.restAPI.RestApiAttributeRepository;
-import com.example.igiagante.thegarden.core.repository.restAPI.RestApiFlavorRepository;
-import com.example.igiagante.thegarden.core.repository.restAPI.RestApiPlagueRepository;
+import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiAttributeRepository;
+import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiFlavorRepository;
+import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiPlagueRepository;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDao;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 

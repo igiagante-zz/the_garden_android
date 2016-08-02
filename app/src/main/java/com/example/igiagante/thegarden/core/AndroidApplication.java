@@ -36,7 +36,6 @@ public class AndroidApplication extends Application {
 
         // update database
         persistStaticDataUseCase.execute(null, new ApplicationSubscriber());
-
     }
 
     private void initializeInjector() {

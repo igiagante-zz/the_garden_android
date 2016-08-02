@@ -1,16 +1,13 @@
-package com.example.igiagante.thegarden.core.repository.restAPI;
+package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
-import com.example.igiagante.thegarden.core.repository.restAPI.service.AttributeRestApi;
+import com.example.igiagante.thegarden.core.repository.restAPI.services.AttributeRestApi;
 
-import java.util.Collection;
 import java.util.List;
 
-import io.realm.Realm;
 import rx.Observable;
 
 /**
@@ -21,6 +18,7 @@ public class RestApiAttributeRepository implements Repository<Attribute> {
     private final AttributeRestApi api;
 
     public RestApiAttributeRepository() {
+
         this.api = ServiceFactory.createRetrofitService(AttributeRestApi.class);
     }
 

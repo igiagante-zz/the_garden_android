@@ -16,15 +16,20 @@
 
         <provider
             android:authorities="com.igiagante.provider.flavors"
-            android:name=".core.repository.sqlite.FlavorProvider" />
+            android:name=".core.repository.sqlite.FlavorProvider"/>
 
         <activity
-            android:name=".home.MainActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".home.MainActivity"
+            android:label="@string/app_name">
         </activity>
 
         <activity

@@ -1,20 +1,15 @@
-package com.example.igiagante.thegarden.core.repository.restAPI;
+package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
-import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.realm.IrrigationRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.NutrientRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.IrrigationTable;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
-import com.example.igiagante.thegarden.core.repository.restAPI.service.IrrigationRestApi;
+import com.example.igiagante.thegarden.core.repository.restAPI.services.IrrigationRestApi;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
@@ -33,7 +28,7 @@ public class RestApiIrrigationRepository  extends BaseRestApiRepository<Irrigati
 
     public RestApiIrrigationRepository(Context context) {
         super(context);
-        api = ServiceFactory.createRetrofitService(IrrigationRestApi.class);
+        api = ServiceFactory.createRetrofitService(IrrigationRestApi.class, session.getToken());
     }
 
     @Override

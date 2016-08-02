@@ -1,11 +1,10 @@
-package com.example.igiagante.thegarden.core.repository.restAPI;
+package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
-import com.example.igiagante.thegarden.core.repository.restAPI.service.FlavorRestApi;
-import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.core.repository.restAPI.services.FlavorRestApi;
 
 import java.util.List;
 

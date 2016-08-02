@@ -1,20 +1,17 @@
-package com.example.igiagante.thegarden.core.repository.restAPI;
+package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
-import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.NutrientRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.NutrientTable;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
-import com.example.igiagante.thegarden.core.repository.restAPI.service.NutrientRestApi;
+import com.example.igiagante.thegarden.core.repository.restAPI.services.NutrientRestApi;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -33,7 +30,7 @@ public class RestApiNutrientRepository extends BaseRestApiRepository<Nutrient> i
 
     public RestApiNutrientRepository(Context context) {
         super(context);
-        api = ServiceFactory.createRetrofitService(NutrientRestApi.class);
+        api = ServiceFactory.createRetrofitService(NutrientRestApi.class, session.getToken());
     }
 
     @Override
