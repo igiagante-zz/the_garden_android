@@ -4,9 +4,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
@@ -39,7 +37,7 @@ public class Session {
 
     public void setToken(String token) {
         this.token = token;
-        test();
+        setTokenExpirationDate();
     }
 
     public Date getTokenExpiration() {
@@ -51,22 +49,55 @@ public class Session {
 
     }
 
-    private void test(){
+    /**
+     * Extract expiration date from token
+     */
+    private void setTokenExpirationDate(){
+
         String[] jwtParts = token.split("\\.");
-
-        String jwtHeader = new Gson().toJson(
-                new ByteArrayInputStream(Base64.decode(jwtParts[0], 0)));
-
-        String jwtPayload = new Gson().toJson(
-                new ByteArrayInputStream(Base64.decode(jwtParts[1], 0)));
-
         byte[] data = Base64.decode(jwtParts[1], Base64.DEFAULT);
+
         try {
+
             String text = new String(data, "UTF-8");
-            Log.d("TEST", text);
+            Claims claims = new Gson().fromJson(text, Claims.class);
+            this.tokenExpiration = new Date(Integer.parseInt(claims.getExp()));
+
         } catch (UnsupportedEncodingException e){
+            Log.d("Exception", "Something was wrong trying to parse the token to extract expiration date");
+        }
+    }
+
+    /**
+     * Used to parse string data token into object Claims
+     */
+    private class Claims {
+        private String sub;
+        private String iat;
+        private String exp;
+
+        public String getSub() {
+            return sub;
         }
 
-        Log.d("TEST", jwtPayload);
+        public void setSub(String sub) {
+            this.sub = sub;
+        }
+
+        public String getIat() {
+            return iat;
+        }
+
+        public void setIat(String iat) {
+            this.iat = iat;
+        }
+
+        public String getExp() {
+            return exp;
+        }
+
+        public void setExp(String exp) {
+            this.exp = exp;
+        }
     }
 }

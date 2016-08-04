@@ -1,7 +1,6 @@
 package com.example.igiagante.thegarden.login;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -25,9 +24,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * @author Ignacio Giagante, on 2/8/16.
+ * @author Ignacio Giagante, on 4/8/16.
  */
-public class LoginFragment extends BaseFragment implements LoginView {
+public class RegisterFragment extends BaseFragment implements LoginView {
 
     @Inject
     LoginPresenter loginPresenter;
@@ -38,10 +37,10 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @Bind(R.id.password_id)
     EditText mPassword;
 
-    @Bind(R.id.btn_login_id)
+    @Bind(R.id.btn_signup)
     Button mButtonLogin;
 
-    @Bind(R.id.signup_id)
+    @Bind(R.id.link_login)
     Button mButtonSignUp;
 
     @Override
@@ -53,18 +52,15 @@ public class LoginFragment extends BaseFragment implements LoginView {
          */
         this.getComponent(LoginComponent.class).inject(this);
 
-        final View fragmentView = inflater.inflate(R.layout.login_fragment, container, false);
+        final View fragmentView = inflater.inflate(R.layout.register_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
-        mButtonLogin.setOnClickListener(v -> loginUser());
-
-        mButtonSignUp.setOnClickListener(v ->
-                getActivity().startActivity(new Intent(getContext(), RegisterActivity.class)));
+        mButtonLogin.setOnClickListener(v -> createUser());
 
         return fragmentView;
     }
 
-    private void loginUser(){
+    private void createUser(){
         String username = mUserName.getText().toString();
         String password = mPassword.getText().toString();
 
@@ -72,7 +68,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
             User user = new User();
             user.setUserName(username);
             user.setPassword(password);
-            loginPresenter.loginUser(user);
+            loginPresenter.registerUser(user);
         } else {
             showToastMessage("Pass username and password please.");
         }
