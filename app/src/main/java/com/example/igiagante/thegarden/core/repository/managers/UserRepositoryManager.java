@@ -16,6 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 5/8/16.
@@ -44,13 +45,15 @@ public class UserRepositoryManager {
         List<User> list = new ArrayList<>();
         query.subscribe(users -> list.addAll(users));
 
-        User user = list.get(0);
-        if(!list.isEmpty() && user.getGardens()!= null && !user.getGardens().isEmpty()){
+        if(!list.isEmpty() && list.get(0).getGardens()!= null && !list.get(0).getGardens().isEmpty()){
             return Observable.just(list);
         } else {
             //if the user has an empty database, it should ask to the api for the gardens
-            ArrayList<Garden> gardensByUser = (ArrayList<Garden>) api.getGardensByUser(username);
-            user.setGardens(gardensByUser);
+            Observable<List<Garden>> gardensByUser = api.getGardensByUser(username);
+
+            gardensByUser.subscribeOn(Schedulers.io()).toBlocking().subscribe(result -> {
+                list.get(0).setGardens((ArrayList<Garden>) result);
+            });
             return Observable.just(gardensByUser);
         }
     }

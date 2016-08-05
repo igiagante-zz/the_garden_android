@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.login.usecase;
 
+import android.content.Context;
+
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
@@ -19,13 +21,14 @@ public class RegisterUserUseCase extends UseCase<User> {
     private final RestUserApi api;
 
     @Inject
-    public RegisterUserUseCase(Session session, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public RegisterUserUseCase(Context context, Session session,
+                               ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.api = new RestUserApi(session);
+        this.api = new RestUserApi(context, session);
     }
 
     @Override
     protected Observable buildUseCaseObservable(User user) {
-        return api.registerUser(user.getUserName(), user.getPassword());
+        return api.registerUser(user);
     }
 }

@@ -84,8 +84,7 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
         return api.getGardens();
     }
 
-    public List<Garden> getGardensByUser(String username) {
+    public Observable<List<Garden>> getGardensByUser(String username) {
         return api.getGardenByUserName(username);
-
     }
 }

@@ -1,10 +1,13 @@
 package com.example.igiagante.thegarden.core.repository.restAPI.authentication;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.Session;
+import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.repository.network.HttpStatus;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
+import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.services.UserRestApi;
 import com.google.gson.Gson;
 
@@ -20,27 +23,31 @@ public class RestUserApi {
 
     private static final String TAG = RestUserApi.class.getSimpleName();
 
-    private HttpStatus httpStatus;
     private final UserRestApi api;
+    private final UserRealmRepository realmRepository;
 
+    private HttpStatus httpStatus;
     private Session session;
 
-    public RestUserApi(Session session) {
+    public RestUserApi(Context context, Session session) {
         this.api = ServiceFactory.createRetrofitService(UserRestApi.class);
         this.httpStatus = new HttpStatus();
         this.session = session;
+        this.realmRepository = new UserRealmRepository(context);
     }
 
-    public Observable<String> registerUser(String userName, String password) {
+    public Observable<String> registerUser(User user) {
 
-        Observable<Response<InnerResponse>> result = api.createUser(userName, password);
+        Observable<Response<InnerResponse>> result = api.createUser(user.getUserName(), user.getPassword());
 
         return result.flatMap(response -> {
             String httpStatusValue = "";
             if (response.isSuccessful()) {
-                session.setUserName(userName);
+                session.setUserName(user.getUserName());
                 session.setToken(response.body().getToken());
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
+
+                realmRepository.add(user);
             } else {
                 try{
                     String error = response.errorBody().string();
@@ -55,14 +62,14 @@ public class RestUserApi {
         });
     }
 
-    public Observable<String> loginUser(String userName, String password) {
+    public Observable<String> loginUser(User user) {
 
-        Observable<Response<InnerResponse>> result = api.loginUser(userName, password);
+        Observable<Response<InnerResponse>> result = api.loginUser(user.getUserName(), user.getPassword());
 
         return result.flatMap(response -> {
             String httpStatusValue = "";
             if (response.isSuccessful()) {
-                session.setUserName(userName);
+                session.setUserName(user.getUserName());
                 session.setToken(response.body().getToken());
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
             }
