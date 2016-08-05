@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import android.content.Context;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
@@ -9,9 +10,11 @@ import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.services.GardenRestApi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 3/7/16.
@@ -20,8 +23,8 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
 
     private final GardenRestApi api;
 
-    public RestApiGardenRepository(Context context) {
-        super(context);
+    public RestApiGardenRepository(Context context, Session session) {
+        super(context, session);
         api = ServiceFactory.createRetrofitService(GardenRestApi.class, session.getToken());
     }
 
@@ -81,4 +84,8 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
         return api.getGardens();
     }
 
+    public List<Garden> getGardensByUser(String username) {
+        return api.getGardenByUserName(username);
+
+    }
 }

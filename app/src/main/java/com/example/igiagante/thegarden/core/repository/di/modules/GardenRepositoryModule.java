@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.di.modules;
 
 import android.content.Context;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.repository.managers.GardenRepositoryManager;
 
@@ -16,7 +17,7 @@ public class GardenRepositoryModule {
 
     @Provides
     @PerActivity
-    GardenRepositoryManager provideGardenRepositoryManager(Context context) {
-        return new GardenRepositoryManager(context);
+    GardenRepositoryManager provideGardenRepositoryManager(Context context, Session session) {
+        return new GardenRepositoryManager(context, session);
     }
 }

@@ -20,71 +20,44 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
     private final static String TAG = LoginPresenter.class.getSimpleName();
 
-    private final UseCase registerUserUseCase;
-
     private final UseCase loginUserUseCase;
 
     @Inject
-    public LoginPresenter(@Named("registerUser") UseCase registerUserUseCase,
-                              @Named("loginUser") UseCase loginUserUseCase) {
-        this.registerUserUseCase = registerUserUseCase;
+    public LoginPresenter(@Named("loginUser") UseCase loginUserUseCase) {
         this.loginUserUseCase = loginUserUseCase;
     }
 
     public void destroy() {
-        this.registerUserUseCase.unsubscribe();
         this.loginUserUseCase.unsubscribe();
         this.view = null;
-    }
-
-    public void registerUser(User user) {
-        this.registerUserUseCase.execute(user, new RegisterUserSubscriber());
     }
 
     public void loginUser(User user) {
         this.loginUserUseCase.execute(user, new LoginUserSubscriber());
     }
 
-    private void notifyUserRegistration(String result){
-        getView().notifyUserRegistration(result);
-    }
-
-    private void notifyUserLogin(String result){
+    private void notifyUserLogin(String result) {
         getView().notifyUserLogin(result);
-    }
-
-    private final class RegisterUserSubscriber extends DefaultSubscriber<String> {
-
-        @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
-        }
-
-        @Override public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
-            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            //PlantListPresenter.this.showViewRetry();
-            Log.e(TAG, e.getMessage());
-        }
-
-        @Override public void onNext(String result) {
-            LoginPresenter.this.notifyUserRegistration(result);
-        }
     }
 
     private final class LoginUserSubscriber extends DefaultSubscriber<String> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
             //PlantListPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             //PlantListPresenter.this.hideViewLoading();
             //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
             //PlantListPresenter.this.showViewRetry();
             Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
 
-        @Override public void onNext(String result) {
+        @Override
+        public void onNext(String result) {
             LoginPresenter.this.notifyUserLogin(result);
         }
     }

@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.di.modules;
 
 import android.content.Context;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.repository.managers.NutrientRepositoryManager;
 
@@ -16,7 +17,7 @@ public class NutrientRepositoryModule {
 
     @Provides
     @PerActivity
-    NutrientRepositoryManager provideNutrientRepositoryManager(Context context) {
-        return new NutrientRepositoryManager(context);
+    NutrientRepositoryManager provideNutrientRepositoryManager(Context context, Session session) {
+        return new NutrientRepositoryManager(context, session);
     }
 }

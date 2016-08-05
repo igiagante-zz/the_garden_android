@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
@@ -74,6 +75,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private MainComponent mainComponent;
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private GardenViewPagerAdapter mAdapter;
@@ -84,6 +86,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Inject
     GardenPresenter mGardenPresenter;
+
+    @Inject
+    Session mSession;
 
     /**
      * RecycleView for garden list of the navigation drawer
@@ -136,7 +141,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         // Load gardens!
         if(gardens != null) {
-            mGardenPresenter.getGardens();
+            mGardenPresenter.getGardens(mSession.getUserName());
         }
     }
 

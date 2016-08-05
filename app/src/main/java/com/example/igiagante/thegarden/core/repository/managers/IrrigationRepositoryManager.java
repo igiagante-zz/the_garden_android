@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.core.repository.managers;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
@@ -23,9 +24,9 @@ import rx.schedulers.Schedulers;
 public class IrrigationRepositoryManager extends RepositoryManager<Repository<Irrigation>> {
 
     @Inject
-    public IrrigationRepositoryManager(Context context) {
+    public IrrigationRepositoryManager(Context context, Session session) {
         mRepositories.add(new IrrigationRealmRepository(context));
-        mRepositories.add(new RestApiIrrigationRepository(context));
+        mRepositories.add(new RestApiIrrigationRepository(context, session));
     }
 
     public Observable add(@NonNull Irrigation irrigation) {

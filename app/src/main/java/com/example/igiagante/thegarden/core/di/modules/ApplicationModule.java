@@ -56,4 +56,10 @@ public class ApplicationModule {
     UseCase providePersistStaticDataUseCase(PersistStaticDataUseCase persistStaticDataUseCase) {
          return persistStaticDataUseCase;
     }
+
+    @Provides
+    @Singleton
+    Session provideSession() {
+        return new Session();
+    }
 }

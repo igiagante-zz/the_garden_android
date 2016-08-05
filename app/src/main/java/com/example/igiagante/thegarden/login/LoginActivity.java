@@ -8,6 +8,7 @@ import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.login.di.DaggerLoginComponent;
 import com.example.igiagante.thegarden.login.di.LoginComponent;
+import com.example.igiagante.thegarden.login.fragments.LoginFragment;
 
 import butterknife.ButterKnife;
 

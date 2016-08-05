@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
@@ -26,8 +27,8 @@ public class RestApiIrrigationRepository  extends BaseRestApiRepository<Irrigati
 
     private final IrrigationRestApi api;
 
-    public RestApiIrrigationRepository(Context context) {
-        super(context);
+    public RestApiIrrigationRepository(Context context, Session session) {
+        super(context, session);
         api = ServiceFactory.createRetrofitService(IrrigationRestApi.class, session.getToken());
     }
 

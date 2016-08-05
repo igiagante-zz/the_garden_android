@@ -4,20 +4,20 @@ import android.content.Context;
 
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.PerActivity;
-import com.example.igiagante.thegarden.core.repository.managers.PlantRepositoryManager;
+import com.example.igiagante.thegarden.core.repository.managers.UserRepositoryManager;
 
 import dagger.Module;
 import dagger.Provides;
 
 /**
- * @author Ignacio Giagante, on 8/6/16.
+ * @author Ignacio Giagante, on 5/8/16.
  */
 @Module
-public class PlantRepositoryModule {
+public class UserRepositoryModule {
 
     @Provides
     @PerActivity
-    PlantRepositoryManager providePlantRepositoryManager(Context context, Session session) {
-        return new PlantRepositoryManager(context, session);
+    UserRepositoryManager provideUserRepositoryManager(Context context, Session session) {
+        return new UserRepositoryManager(context, session);
     }
 }

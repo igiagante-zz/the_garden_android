@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.repository.Repository;
@@ -28,8 +29,8 @@ public class RestApiNutrientRepository extends BaseRestApiRepository<Nutrient> i
 
     private final NutrientRestApi api;
 
-    public RestApiNutrientRepository(Context context) {
-        super(context);
+    public RestApiNutrientRepository(Context context, Session session) {
+        super(context, session);
         api = ServiceFactory.createRetrofitService(NutrientRestApi.class, session.getToken());
     }
 

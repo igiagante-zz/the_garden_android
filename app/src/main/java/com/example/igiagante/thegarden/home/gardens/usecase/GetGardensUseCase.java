@@ -15,7 +15,7 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 3/7/16.
  */
-public class GetGardensUseCase extends UseCase<Void> {
+public class GetGardensUseCase extends UseCase<String> {
 
     /**
      * Repository Manager which delegates the actions to the correct repository
@@ -33,7 +33,7 @@ public class GetGardensUseCase extends UseCase<Void> {
     }
 
     @Override
-    protected Observable buildUseCaseObservable(Void aVoid) {
+    protected Observable buildUseCaseObservable(String username) {
         GardenSpecification gardenSpecification = new GardenSpecification();
         return gardenRepositoryManager.query(gardenSpecification);
     }

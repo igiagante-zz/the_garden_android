@@ -4,11 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
-import com.example.igiagante.thegarden.core.repository.Repository;
-import com.example.igiagante.thegarden.core.repository.Specification;
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.core.repository.Repository;
+import com.example.igiagante.thegarden.core.repository.Specification;
+import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.restAPI.services.PlantRestAPI;
@@ -34,8 +35,8 @@ public class RestApiPlantRepository extends BaseRestApiRepository<Plant> impleme
     private Context mContext;
 
     @Inject
-    public RestApiPlantRepository(Context context) {
-        super(context);
+    public RestApiPlantRepository(Context context, Session session) {
+        super(context, session);
         this.mContext = context;
         api = ServiceFactory.createRetrofitService(PlantRestAPI.class, session.getToken());
     }
@@ -52,7 +53,7 @@ public class RestApiPlantRepository extends BaseRestApiRepository<Plant> impleme
 
     @Override
     public Observable<Plant> add(@NonNull final Plant plant) {
-
+        // TODO - Refactor this and update using execute method form base clas
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
         Observable<Plant> apiResult = api.createPlant(builder.build()).asObservable();
 

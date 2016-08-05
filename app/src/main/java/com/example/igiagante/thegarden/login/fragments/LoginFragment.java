@@ -1,18 +1,20 @@
-package com.example.igiagante.thegarden.login;
+package com.example.igiagante.thegarden.login.fragments;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.home.MainActivity;
+import com.example.igiagante.thegarden.login.RegisterActivity;
 import com.example.igiagante.thegarden.login.di.LoginComponent;
 import com.example.igiagante.thegarden.login.presenters.LoginPresenter;
 import com.example.igiagante.thegarden.login.view.LoginView;
@@ -32,17 +34,17 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @Inject
     LoginPresenter loginPresenter;
 
-    @Bind(R.id.username_id)
-    EditText mUserName;
+    @Bind(R.id.login_email_id)
+    EditText mUserEmail;
 
-    @Bind(R.id.password_id)
+    @Bind(R.id.login_password_id)
     EditText mPassword;
 
     @Bind(R.id.btn_login_id)
     Button mButtonLogin;
 
     @Bind(R.id.signup_id)
-    Button mButtonSignUp;
+    TextView mButtonSignUp;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,18 +66,27 @@ public class LoginFragment extends BaseFragment implements LoginView {
         return fragmentView;
     }
 
-    private void loginUser(){
-        String username = mUserName.getText().toString();
+    private void loginUser() {
+
+        if (!validate()) {
+            onLoginFailed();
+            return;
+        }
+
+        mButtonLogin.setEnabled(false);
+
+        String username = mUserEmail.getText().toString();
         String password = mPassword.getText().toString();
 
-        if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
-            User user = new User();
-            user.setUserName(username);
-            user.setPassword(password);
-            loginPresenter.loginUser(user);
-        } else {
-            showToastMessage("Pass username and password please.");
-        }
+        User user = new User();
+        user.setUserName(username);
+        user.setPassword(password);
+        loginPresenter.loginUser(user);
+    }
+
+    private void onLoginFailed() {
+        showToastMessage("Login Failed");
+        mButtonLogin.setEnabled(true);
     }
 
     @Override
@@ -84,26 +95,25 @@ public class LoginFragment extends BaseFragment implements LoginView {
         this.loginPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.loginPresenter.destroy();
     }
 
     @Override
-    public void notifyUserRegistration(String result) {
+    public void notifyUserLogin(String result) {
         if(!result.equals("OK")) {
             showToastMessage(result);
+        } else {
+            getActivity().startActivity(new Intent(getContext(), MainActivity.class));
         }
-    }
-
-    @Override
-    public void notifyUserLogin(String result) {
-
     }
 
     @Override
@@ -114,5 +124,28 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @Override
     public Context context() {
         return this.getActivity().getApplicationContext();
+    }
+
+    private boolean validate() {
+        boolean valid = true;
+
+        String email = mUserEmail.getText().toString();
+        String password = mPassword.getText().toString();
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            mUserEmail.setError("enter a valid email address");
+            valid = false;
+        } else {
+            mUserEmail.setError(null);
+        }
+
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+            mPassword.setError("between 4 and 10 alphanumeric characters");
+            valid = false;
+        } else {
+            mPassword.setError(null);
+        }
+
+        return valid;
     }
 }

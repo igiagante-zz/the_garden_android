@@ -18,8 +18,8 @@ import rx.Observable;
  */
 public interface UserRestApi {
 
-    @GET("user/{userName}")
-    Observable<User> getUser(@Path("userName") String userName);
+    @GET("user/{username}")
+    Observable<User> getUser(@Path("username") String userName);
 
     @FormUrlEncoded
     @POST("user/signup")
@@ -27,5 +27,5 @@ public interface UserRestApi {
 
     @FormUrlEncoded
     @POST("user/login")
-    Observable<Response<RestUserApi.InnerResponse>> loginUser(@Field("userName") String userName, @Field("password") String password);
+    Observable<Response<RestUserApi.InnerResponse>> loginUser(@Field("username") String userName, @Field("password") String password);
 }

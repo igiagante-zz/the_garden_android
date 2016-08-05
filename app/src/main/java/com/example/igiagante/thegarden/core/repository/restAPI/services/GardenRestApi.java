@@ -22,6 +22,9 @@ public interface GardenRestApi {
     @GET("garden/{id}")
     Observable<Garden> getGarden(@Path("id") String id);
 
+    @GET("garden//user/{username}")
+    List<Garden> getGardenByUserName(@Path("username") String username);
+
     @GET("garden/")
     Observable<List<Garden>> getGardens();
 

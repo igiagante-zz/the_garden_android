@@ -2,13 +2,11 @@ package com.example.igiagante.thegarden.core.repository.restAPI.authentication;
 
 import android.util.Log;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.repository.network.HttpStatus;
-import com.example.igiagante.thegarden.core.repository.network.Message;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
-import com.example.igiagante.thegarden.core.repository.restAPI.BaseRestApi;
 import com.example.igiagante.thegarden.core.repository.restAPI.services.UserRestApi;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 
@@ -18,16 +16,19 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 2/8/16.
  */
-public class RestUserApi extends BaseRestApi {
+public class RestUserApi {
 
     private static final String TAG = RestUserApi.class.getSimpleName();
 
     private HttpStatus httpStatus;
     private final UserRestApi api;
 
-    public RestUserApi() {
+    private Session session;
+
+    public RestUserApi(Session session) {
         this.api = ServiceFactory.createRetrofitService(UserRestApi.class);
         this.httpStatus = new HttpStatus();
+        this.session = session;
     }
 
     public Observable<String> registerUser(String userName, String password) {
@@ -37,6 +38,7 @@ public class RestUserApi extends BaseRestApi {
         return result.flatMap(response -> {
             String httpStatusValue = "";
             if (response.isSuccessful()) {
+                session.setUserName(userName);
                 session.setToken(response.body().getToken());
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
             } else {
@@ -60,6 +62,7 @@ public class RestUserApi extends BaseRestApi {
         return result.flatMap(response -> {
             String httpStatusValue = "";
             if (response.isSuccessful()) {
+                session.setUserName(userName);
                 session.setToken(response.body().getToken());
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
             }

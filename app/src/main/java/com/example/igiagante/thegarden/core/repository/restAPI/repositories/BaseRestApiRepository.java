@@ -5,18 +5,12 @@ import android.util.Log;
 
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.repository.Repository;
-import com.example.igiagante.thegarden.core.repository.restAPI.BaseRestApi;
-import com.example.igiagante.thegarden.core.repository.restAPI.di.DaggerSessionComponent;
-import com.example.igiagante.thegarden.core.repository.restAPI.di.SessionComponent;
-import com.example.igiagante.thegarden.home.di.DaggerMainComponent;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -27,14 +21,17 @@ import rx.schedulers.Schedulers;
 /**
  * @author Ignacio Giagante, on 3/7/16.
  */
-public class BaseRestApiRepository<T> extends BaseRestApi{
+public class BaseRestApiRepository<T> {
 
     private static final String TAG = BaseRestApiRepository.class.getSimpleName();
 
     protected Context mContext;
 
-    public BaseRestApiRepository(Context mContext) {
+    protected Session session;
+
+    public BaseRestApiRepository(Context mContext, Session session) {
         this.mContext = mContext;
+        this.session = session;
     }
 
     /**
@@ -49,7 +46,7 @@ public class BaseRestApiRepository<T> extends BaseRestApi{
         List<T> listOne = new ArrayList<>();
         apiResult.subscribeOn(Schedulers.io()).toBlocking().subscribe(result -> listOne.add(result));
 
-        // update the garden into database
+        // update database
         Repository dataBase = null;
 
         try {
@@ -69,7 +66,7 @@ public class BaseRestApiRepository<T> extends BaseRestApi{
             ei.printStackTrace();
         }
 
-        Observable<T> dbResult = null;
+        Observable<T> dbResult;
 
         if(update) {
             dbResult = dataBase.update(listOne.get(0));

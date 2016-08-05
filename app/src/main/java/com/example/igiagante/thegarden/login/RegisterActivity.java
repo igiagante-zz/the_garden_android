@@ -8,6 +8,8 @@ import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.login.di.DaggerLoginComponent;
 import com.example.igiagante.thegarden.login.di.LoginComponent;
+import com.example.igiagante.thegarden.login.fragments.LoginFragment;
+import com.example.igiagante.thegarden.login.fragments.RegisterFragment;
 
 import butterknife.ButterKnife;
 
@@ -28,11 +30,11 @@ public class RegisterActivity extends BaseActivity implements HasComponent<Login
         super.onCreate(savedInstanceState);
         initializeInjector();
 
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.register_activity);
         ButterKnife.bind(this);
 
-        Fragment loginFragment = new LoginFragment();
-        addFragment(R.id.login_container_data, loginFragment);
+        Fragment registerFragment = new RegisterFragment();
+        addFragment(R.id.register_container_data, registerFragment);
     }
 
     private void initializeInjector() {

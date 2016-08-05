@@ -24,6 +24,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     private final static String TAG = GardenPresenter.class.getSimpleName();
 
+    private final UseCase getGetGardensByUseCase;
     private final UseCase getGardensUseCase;
     private final UseCase getGardenUseCase;
     private final UseCase saveGardenUseCase;
@@ -31,10 +32,12 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     @Inject
     public GardenPresenter(@Named("gardens") UseCase getGardensUseCase,
+                           @Named("getGardensByUser") UseCase getGetGardensByUseCase,
                            @Named("getGarden") UseCase getGardenUseCase,
                            @Named("saveGarden") UseCase saveGardenUseCase,
                            @Named("deleteGarden") UseCase deleteGardenUseCase) {
         this.getGardensUseCase = getGardensUseCase;
+        this.getGetGardensByUseCase = getGetGardensByUseCase;
         this.saveGardenUseCase = saveGardenUseCase;
         this.deleteGardenUseCase = deleteGardenUseCase;
         this.getGardenUseCase = getGardenUseCase;
@@ -48,8 +51,8 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         this.view = null;
     }
 
-    public void getGardens() {
-        getGardensUseCase.execute(null, new GardenSubscriber());
+    public void getGardens(String username) {
+        getGetGardensByUseCase.execute(username, new GardenSubscriber());
     }
 
     public void saveGarden(Garden garden) {

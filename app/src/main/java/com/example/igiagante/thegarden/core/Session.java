@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.core;
 
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
@@ -54,17 +55,19 @@ public class Session {
      */
     private void setTokenExpirationDate(){
 
-        String[] jwtParts = token.split("\\.");
-        byte[] data = Base64.decode(jwtParts[1], Base64.DEFAULT);
+        if(!TextUtils.isEmpty(token)){
+            String[] jwtParts = token.split("\\.");
+            byte[] data = Base64.decode(jwtParts[1], Base64.DEFAULT);
 
-        try {
+            try {
 
-            String text = new String(data, "UTF-8");
-            Claims claims = new Gson().fromJson(text, Claims.class);
-            this.tokenExpiration = new Date(Integer.parseInt(claims.getExp()));
+                String text = new String(data, "UTF-8");
+                Claims claims = new Gson().fromJson(text, Claims.class);
+                this.tokenExpiration = new Date(Integer.parseInt(claims.getExp()));
 
-        } catch (UnsupportedEncodingException e){
-            Log.d("Exception", "Something was wrong trying to parse the token to extract expiration date");
+            } catch (UnsupportedEncodingException e){
+                Log.d("Exception", "Something was wrong trying to parse the token to extract expiration date");
+            }
         }
     }
 

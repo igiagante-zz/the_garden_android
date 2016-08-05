@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.di.modules;
 
 import android.content.Context;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.repository.managers.IrrigationRepositoryManager;
 
@@ -16,7 +17,7 @@ public class IrrigationRepositoryModule {
 
     @Provides
     @PerActivity
-    IrrigationRepositoryManager provideIrrigationRepositoryManager(Context context) {
-        return new IrrigationRepositoryManager(context);
+    IrrigationRepositoryManager provideIrrigationRepositoryManager(Context context, Session session) {
+        return new IrrigationRepositoryManager(context, session);
     }
 }
