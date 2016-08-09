@@ -43,17 +43,20 @@ public class RestUserApi {
         return result.flatMap(response -> {
             String httpStatusValue = "";
             if (response.isSuccessful()) {
-                session.setUserName(user.getUserName());
+
+                session.getUser().setUserName(user.getUserName());
                 session.setToken(response.body().getToken());
+                session.setTokenExpirationDateFromStringCodeBase64();
+
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
 
                 realmRepository.add(user);
             } else {
-                try{
+                try {
                     String error = response.errorBody().string();
                     MessageError messageErrorKey = new Gson().fromJson(error, MessageError.class);
                     httpStatusValue = httpStatus.getMessage(messageErrorKey.getMessage());
-                }catch (IOException ie) {
+                } catch (IOException ie) {
                     Log.d(TAG, ie.getMessage());
                 }
             }
@@ -69,8 +72,23 @@ public class RestUserApi {
         return result.flatMap(response -> {
             String httpStatusValue = "";
             if (response.isSuccessful()) {
-                session.setUserName(user.getUserName());
+                session.getUser().setUserName(user.getUserName());
                 session.setToken(response.body().getToken());
+                httpStatusValue = httpStatus.getHttpStatusValue(response.code());
+            }
+            return Observable.just(httpStatusValue);
+        });
+    }
+
+    public Observable<String> refreshToken(String userId) {
+
+        Observable<Response<InnerResponse>> result = api.refreshToken(userId);
+
+        return result.flatMap(response -> {
+            String httpStatusValue = "";
+            if (response.isSuccessful()) {
+                session.setToken(response.body().getToken());
+                session.setTokenExpirationDateFromStringCodeBase64();
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
             }
             return Observable.just(httpStatusValue);

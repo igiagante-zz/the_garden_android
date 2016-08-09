@@ -22,13 +22,18 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
     private final UseCase loginUserUseCase;
 
+    private final UseCase refreshTokenUseCase;
+
     @Inject
-    public LoginPresenter(@Named("loginUser") UseCase loginUserUseCase) {
+    public LoginPresenter(@Named("loginUser") UseCase loginUserUseCase,
+                          @Named("refreshToken") UseCase refreshTokenUseCase) {
         this.loginUserUseCase = loginUserUseCase;
+        this.refreshTokenUseCase = refreshTokenUseCase;
     }
 
     public void destroy() {
         this.loginUserUseCase.unsubscribe();
+        this.refreshTokenUseCase.unsubscribe();
         this.view = null;
     }
 
@@ -36,8 +41,16 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
         this.loginUserUseCase.execute(user, new LoginUserSubscriber());
     }
 
+    public void refreshToken(String userId){
+        this.refreshTokenUseCase.execute(userId, new RrefreshTokenSubscriber());
+    }
+
     private void notifyUserLogin(String result) {
         getView().notifyUserLogin(result);
+    }
+
+    private void sendNewToken(String token){
+        getView().sendNewToken(token);
     }
 
     private final class LoginUserSubscriber extends DefaultSubscriber<String> {
@@ -59,6 +72,28 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
         @Override
         public void onNext(String result) {
             LoginPresenter.this.notifyUserLogin(result);
+        }
+    }
+
+    private final class RrefreshTokenSubscriber extends DefaultSubscriber<String> {
+
+        @Override
+        public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            //PlantListPresenter.this.hideViewLoading();
+            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+            //PlantListPresenter.this.showViewRetry();
+            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onNext(String token) {
+            LoginPresenter.this.sendNewToken(token);
         }
     }
 }

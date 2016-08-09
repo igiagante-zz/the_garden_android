@@ -22,6 +22,10 @@ public interface UserRestApi {
     Observable<User> getUser(@Path("username") String userName);
 
     @FormUrlEncoded
+    @POST("user/refreshToken")
+    Observable<Response<RestUserApi.InnerResponse>> refreshToken(@Field("userId") String userId);
+
+    @FormUrlEncoded
     @POST("user/signup")
     Observable<Response<RestUserApi.InnerResponse>> createUser(@Field("username") String userName, @Field("password") String password);
 

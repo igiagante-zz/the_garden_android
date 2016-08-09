@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.di.components;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.Session;
@@ -10,6 +11,7 @@ import com.example.igiagante.thegarden.core.di.modules.ApplicationModule;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.home.plants.usecase.PersistStaticDataUseCase;
+import com.example.igiagante.thegarden.login.usecase.RefreshTokenUseCase;
 
 import javax.inject.Singleton;
 
@@ -31,4 +33,5 @@ public interface ApplicationComponent {
     PostExecutionThread postExecutionThread();
     PersistStaticDataUseCase persistStaticDataUseCase();
     Session session();
+    SharedPreferences sharedPreferences();
 }

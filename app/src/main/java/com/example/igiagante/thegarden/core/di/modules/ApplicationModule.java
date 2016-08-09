@@ -4,7 +4,10 @@ package com.example.igiagante.thegarden.core.di.modules;
  * @author Ignacio Giagante, on 18/4/16.
  */
 
+import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.Session;
@@ -61,5 +64,11 @@ public class ApplicationModule {
     @Singleton
     Session provideSession() {
         return new Session();
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences providesSharedPreferences(Application application) {
+        return PreferenceManager.getDefaultSharedPreferences(application);
     }
 }

@@ -2,7 +2,9 @@ package com.example.igiagante.thegarden.login.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.home.MainActivity;
@@ -30,6 +33,12 @@ import butterknife.ButterKnife;
  * @author Ignacio Giagante, on 2/8/16.
  */
 public class LoginFragment extends BaseFragment implements LoginView {
+
+    public static final String PREFS_NAME = "The_Garden_Preferences";
+    private static final String TOKEN_PREFS_NAME = "token";
+
+    @Inject
+    Session session;
 
     @Inject
     LoginPresenter loginPresenter;
@@ -57,6 +66,19 @@ public class LoginFragment extends BaseFragment implements LoginView {
 
         final View fragmentView = inflater.inflate(R.layout.login_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
+
+        // Restore preferences
+        SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        String token = settings.getString(TOKEN_PREFS_NAME, "");
+
+        if(!TextUtils.isEmpty(token)){
+
+            session.setToken(token);
+
+            if(session.checkIfTokenIsExpired()){
+                this.loginPresenter.refreshToken(this.session.getUser().getId());
+            }
+        }
 
         mButtonLogin.setOnClickListener(v -> loginUser());
 
@@ -114,6 +136,12 @@ public class LoginFragment extends BaseFragment implements LoginView {
         } else {
             getActivity().startActivity(new Intent(getContext(), MainActivity.class));
         }
+    }
+
+    @Override
+    public void sendNewToken(String token) {
+        this.session.setToken(token);
+        this.session.setTokenExpirationDateFromStringCodeBase64();
     }
 
     @Override

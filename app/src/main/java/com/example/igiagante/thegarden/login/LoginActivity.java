@@ -9,6 +9,9 @@ import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.login.di.DaggerLoginComponent;
 import com.example.igiagante.thegarden.login.di.LoginComponent;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
+import com.example.igiagante.thegarden.login.usecase.RefreshTokenUseCase;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 
@@ -26,6 +29,7 @@ public class LoginActivity extends BaseActivity implements HasComponent<LoginCom
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         initializeInjector();
 

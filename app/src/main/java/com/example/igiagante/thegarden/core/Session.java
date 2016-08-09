@@ -4,12 +4,20 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
+import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
+import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
+import com.example.igiagante.thegarden.core.domain.entity.User;
+import com.example.igiagante.thegarden.login.usecase.RefreshTokenUseCase;
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import dagger.Component;
 
 /**
  * @author Ignacio Giagante, on 2/8/16.
@@ -20,16 +28,16 @@ public class Session {
 
     public Session() {}
 
-    private String userName;
+    private User user;
     private String token;
     private Date tokenExpiration;
 
-    public String getUserName() {
-        return userName;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getToken() {
@@ -38,7 +46,6 @@ public class Session {
 
     public void setToken(String token) {
         this.token = token;
-        setTokenExpirationDate();
     }
 
     public Date getTokenExpiration() {
@@ -47,13 +54,16 @@ public class Session {
 
     public void setTokenExpiration(Date tokenExpiration) {
         this.tokenExpiration = tokenExpiration;
+    }
 
+    public boolean checkIfTokenIsExpired(){
+        return new Date().after(tokenExpiration);
     }
 
     /**
      * Extract expiration date from token
      */
-    private void setTokenExpirationDate(){
+    public void setTokenExpirationDateFromStringCodeBase64(){
 
         if(!TextUtils.isEmpty(token)){
             String[] jwtParts = token.split("\\.");
@@ -65,8 +75,10 @@ public class Session {
                 Claims claims = new Gson().fromJson(text, Claims.class);
                 this.tokenExpiration = new Date(Integer.parseInt(claims.getExp()));
 
+                this.getUser().setId(claims.getSub());
+
             } catch (UnsupportedEncodingException e){
-                Log.d("Exception", "Something was wrong trying to parse the token to extract expiration date");
+                Log.d("Exception", "Something was wrong trying to parse token to extract expiration date");
             }
         }
     }
@@ -83,24 +95,8 @@ public class Session {
             return sub;
         }
 
-        public void setSub(String sub) {
-            this.sub = sub;
-        }
-
-        public String getIat() {
-            return iat;
-        }
-
-        public void setIat(String iat) {
-            this.iat = iat;
-        }
-
         public String getExp() {
             return exp;
-        }
-
-        public void setExp(String exp) {
-            this.exp = exp;
         }
     }
 }

@@ -8,4 +8,6 @@ import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 public interface LoginView extends IView {
 
     void notifyUserLogin(String result);
+
+    void sendNewToken(String token);
 }
