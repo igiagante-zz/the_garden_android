@@ -38,8 +38,8 @@ public class ExistNutrientUseCase extends UseCase<String> {
         Observable<Nutrient> nutrientObservable = nutrientRepositoryManager.getRepositories().get(0).getByName(plantName);
 
         List<Boolean> list = new ArrayList<>();
-        nutrientObservable.subscribe(plant -> {
-            if(plant != null) {
+        nutrientObservable.subscribe(nutrient -> {
+            if(nutrient != null) {
                 list.add(Boolean.TRUE);
             } else {
                 list.add(Boolean.FALSE);

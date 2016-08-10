@@ -26,11 +26,13 @@ import dagger.Component;
 @Singleton
 public class Session {
 
-    public Session() {}
-
     private User user;
     private String token;
     private Date tokenExpiration;
+
+    public Session() {
+        user = new User();
+    }
 
     public User getUser() {
         return user;
@@ -46,6 +48,7 @@ public class Session {
 
     public void setToken(String token) {
         this.token = token;
+        setTokenExpirationDateFromStringCodeBase64();
     }
 
     public Date getTokenExpiration() {
@@ -57,28 +60,32 @@ public class Session {
     }
 
     public boolean checkIfTokenIsExpired(){
-        return new Date().after(tokenExpiration);
+        if(tokenExpiration != null){
+            return new Date().after(tokenExpiration);
+        }
+        return false;
     }
 
     /**
      * Extract expiration date from token
      */
-    public void setTokenExpirationDateFromStringCodeBase64(){
+    private void setTokenExpirationDateFromStringCodeBase64(){
 
         if(!TextUtils.isEmpty(token)){
             String[] jwtParts = token.split("\\.");
-            byte[] data = Base64.decode(jwtParts[1], Base64.DEFAULT);
+            if(jwtParts.length > 1 && jwtParts[1] != null) {
+                byte[] data = Base64.decode(jwtParts[1], Base64.DEFAULT);
+                try {
 
-            try {
+                    String text = new String(data, "UTF-8");
+                    Claims claims = new Gson().fromJson(text, Claims.class);
+                    this.tokenExpiration = new Date(Integer.parseInt(claims.getExp()));
 
-                String text = new String(data, "UTF-8");
-                Claims claims = new Gson().fromJson(text, Claims.class);
-                this.tokenExpiration = new Date(Integer.parseInt(claims.getExp()));
+                    this.getUser().setId(claims.getSub());
 
-                this.getUser().setId(claims.getSub());
-
-            } catch (UnsupportedEncodingException e){
-                Log.d("Exception", "Something was wrong trying to parse token to extract expiration date");
+                } catch (UnsupportedEncodingException e){
+                    Log.d("Exception", "Something was wrong trying to parse token to extract expiration date");
+                }
             }
         }
     }

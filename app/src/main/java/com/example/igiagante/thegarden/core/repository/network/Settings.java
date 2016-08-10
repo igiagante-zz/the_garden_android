@@ -6,7 +6,7 @@ package com.example.igiagante.thegarden.core.repository.network;
 public class Settings {
 
     //Genymotion
-    //public static final String API_ENDPOINT = "http://10.0.3.2:3000/api/";
+    //public static final String API_ENDPOINT = "http://10.0.3.2:3000/apxi/";
 
     //Real Device
     public static final String DOMAIN = "http://10.18.32.203:3000";

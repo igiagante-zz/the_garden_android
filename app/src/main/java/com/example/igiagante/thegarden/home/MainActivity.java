@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +47,7 @@ import com.example.igiagante.thegarden.home.gardens.presentation.delegates.Adapt
 import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
+import com.example.igiagante.thegarden.login.fragments.LoginFragment;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -89,6 +92,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Inject
     Session mSession;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     /**
      * RecycleView for garden list of the navigation drawer
@@ -141,7 +147,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         // Load gardens!
         if(gardens != null) {
-            mGardenPresenter.getGardens(mSession.getUser().getUserName());
+            mGardenPresenter.getGardens(mSession.getUser().getId());
         }
     }
 
@@ -233,6 +239,21 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         nutrientsOption.setOnClickListener(v -> {
             this.drawerLayout.closeDrawers();
             startActivity(new Intent(this, NutrientActivity.class));
+        });
+
+        //logout
+        Button logout = (Button) findViewById(R.id.logout_id);
+        logout.setOnClickListener(v -> {
+
+            // Delete token from preferences
+            String token = sharedPreferences.getString(LoginFragment.TOKEN_PREFS_NAME, "");
+            if(!TextUtils.isEmpty(token)){
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(LoginFragment.TOKEN_PREFS_NAME, "");
+                editor.apply();
+            }
+            this.drawerLayout.closeDrawers();
+            finish();
         });
     }
 

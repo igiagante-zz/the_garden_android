@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
@@ -24,7 +25,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     private final static String TAG = GardenPresenter.class.getSimpleName();
 
-    private final UseCase getGetGardensByUseCase;
+    private final UseCase getGetGardensByUserUseCase;
     private final UseCase getGardensUseCase;
     private final UseCase getGardenUseCase;
     private final UseCase saveGardenUseCase;
@@ -32,12 +33,12 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     @Inject
     public GardenPresenter(@Named("gardens") UseCase getGardensUseCase,
-                           @Named("getGardensByUser") UseCase getGetGardensByUseCase,
+                           @Named("getGardensByUser") UseCase getGetGardensByUserUseCase,
                            @Named("getGarden") UseCase getGardenUseCase,
                            @Named("saveGarden") UseCase saveGardenUseCase,
                            @Named("deleteGarden") UseCase deleteGardenUseCase) {
         this.getGardensUseCase = getGardensUseCase;
-        this.getGetGardensByUseCase = getGetGardensByUseCase;
+        this.getGetGardensByUserUseCase = getGetGardensByUserUseCase;
         this.saveGardenUseCase = saveGardenUseCase;
         this.deleteGardenUseCase = deleteGardenUseCase;
         this.getGardenUseCase = getGardenUseCase;
@@ -52,7 +53,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     }
 
     public void getGardens(String username) {
-        getGetGardensByUseCase.execute(username, new GardenSubscriber());
+        getGetGardensByUserUseCase.execute(username, new GetGardensByUserSubscriber());
     }
 
     public void saveGarden(Garden garden) {
@@ -83,17 +84,19 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         getView().loadGarden(createGardenHolder(garden));
     }
 
-    private final class GardenSubscriber extends DefaultSubscriber<List<Garden>> {
+    // TODO - Refactor
+    private final class GetGardensByUserSubscriber extends DefaultSubscriber<User> {
 
         @Override public void onCompleted() {
         }
 
         @Override public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
 
-        @Override public void onNext(List<Garden> gardens) {
-            GardenPresenter.this.showGardens(createGardenHolderList(gardens));
+        @Override public void onNext(User user) {
+            GardenPresenter.this.showGardens(createGardenHolderList(user.getGardens()));
         }
     }
 

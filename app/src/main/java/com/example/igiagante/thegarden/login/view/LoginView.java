@@ -10,4 +10,8 @@ public interface LoginView extends IView {
     void notifyUserLogin(String result);
 
     void sendNewToken(String token);
+
+    void userExists(Boolean exists);
+
+    void notifyUserWasPersisted();
 }

@@ -34,14 +34,15 @@ import butterknife.ButterKnife;
  */
 public class LoginFragment extends BaseFragment implements LoginView {
 
-    public static final String PREFS_NAME = "The_Garden_Preferences";
-    private static final String TOKEN_PREFS_NAME = "token";
+    public static final String TOKEN_PREFS_NAME = "token";
 
     @Inject
     Session session;
 
     @Inject
     LoginPresenter loginPresenter;
+
+    @Inject SharedPreferences sharedPreferences;
 
     @Bind(R.id.login_email_id)
     EditText mUserEmail;
@@ -67,16 +68,15 @@ public class LoginFragment extends BaseFragment implements LoginView {
         final View fragmentView = inflater.inflate(R.layout.login_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
-        // Restore preferences
-        SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
-        String token = settings.getString(TOKEN_PREFS_NAME, "");
+        // Restore Token from preferences
+        String token = sharedPreferences.getString(TOKEN_PREFS_NAME, "");
 
         if(!TextUtils.isEmpty(token)){
 
             session.setToken(token);
 
             if(session.checkIfTokenIsExpired()){
-                this.loginPresenter.refreshToken(this.session.getUser().getId());
+                this.loginPresenter.refreshToken();
             }
         }
 
@@ -118,6 +118,15 @@ public class LoginFragment extends BaseFragment implements LoginView {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(TOKEN_PREFS_NAME, session.getToken());
+        editor.apply();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
@@ -129,19 +138,47 @@ public class LoginFragment extends BaseFragment implements LoginView {
         this.loginPresenter.destroy();
     }
 
+    /**
+     * First, try to login
+     */
     @Override
     public void notifyUserLogin(String result) {
         if(!result.equals("OK")) {
             showToastMessage(result);
         } else {
-            getActivity().startActivity(new Intent(getContext(), MainActivity.class));
+            cleanFields();
+            this.loginPresenter.existsUser(session.getUser().getId());
         }
+    }
+
+    private void cleanFields(){
+        mUserEmail.setText("");
+        mPassword.setText("");
     }
 
     @Override
     public void sendNewToken(String token) {
         this.session.setToken(token);
-        this.session.setTokenExpirationDateFromStringCodeBase64();
+    }
+
+    /**
+     * Second, lets check if the user exists in DB
+     */
+    @Override
+    public void userExists(Boolean exists) {
+        if(!exists) {
+            this.loginPresenter.saveUser(session.getUser());
+        } else {
+            getActivity().startActivity(new Intent(getContext(), MainActivity.class));
+        }
+    }
+
+    /**
+     * Third, after saving the user, lets move to the main activity
+     */
+    @Override
+    public void notifyUserWasPersisted() {
+        getActivity().startActivity(new Intent(getContext(), MainActivity.class));
     }
 
     @Override

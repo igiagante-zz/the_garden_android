@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.login.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.login.di.LoginComponent;
 import com.example.igiagante.thegarden.login.presenters.RegisterPresenter;
 import com.example.igiagante.thegarden.login.view.RegisterView;
@@ -119,6 +121,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
             showToastMessage(result);
         }
         mProgressDialog.hide();
+        getActivity().startActivity(new Intent(getContext(), MainActivity.class));
     }
 
     @Override

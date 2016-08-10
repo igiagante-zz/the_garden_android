@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.User;
+import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.network.HttpStatus;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository;
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 import retrofit2.Response;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 2/8/16.
@@ -24,16 +26,17 @@ public class RestUserApi {
     private static final String TAG = RestUserApi.class.getSimpleName();
 
     private final UserRestApi api;
-    private final UserRealmRepository realmRepository;
+    private UserRealmRepository realmRepository;
 
     private HttpStatus httpStatus;
     private Session session;
+    private Context context;
 
     public RestUserApi(Context context, Session session) {
         this.api = ServiceFactory.createRetrofitService(UserRestApi.class);
         this.httpStatus = new HttpStatus();
         this.session = session;
-        this.realmRepository = new UserRealmRepository(context);
+        this.context = context;
     }
 
     public Observable<String> registerUser(User user) {
@@ -46,10 +49,10 @@ public class RestUserApi {
 
                 session.getUser().setUserName(user.getUserName());
                 session.setToken(response.body().getToken());
-                session.setTokenExpirationDateFromStringCodeBase64();
 
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
 
+                realmRepository = new UserRealmRepository(context);
                 realmRepository.add(user);
             } else {
                 try {
@@ -69,11 +72,17 @@ public class RestUserApi {
 
         Observable<Response<InnerResponse>> result = api.loginUser(user.getUserName(), user.getPassword());
 
+        User sessionUser = session.getUser();
+
         return result.flatMap(response -> {
+
             String httpStatusValue = "";
+
             if (response.isSuccessful()) {
-                session.getUser().setUserName(user.getUserName());
+
+                sessionUser.setUserName(user.getUserName());
                 session.setToken(response.body().getToken());
+
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
             }
             return Observable.just(httpStatusValue);
@@ -88,7 +97,6 @@ public class RestUserApi {
             String httpStatusValue = "";
             if (response.isSuccessful()) {
                 session.setToken(response.body().getToken());
-                session.setTokenExpirationDateFromStringCodeBase64();
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
             }
             return Observable.just(httpStatusValue);

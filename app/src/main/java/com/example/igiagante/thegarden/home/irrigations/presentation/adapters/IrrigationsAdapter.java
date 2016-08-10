@@ -14,6 +14,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -27,7 +28,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
     private Context mContext;
     private LayoutInflater layoutInflater;
-    private ArrayList<Irrigation> irrigations = new ArrayList<>();
+    private ArrayList<Irrigation> irrigations;
 
     private OnIrrigationSelected mOnIrrigationSelected;
     private OnDeleteIrrigation mOnDeleteIrrigation;
@@ -120,6 +121,9 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
         if(!irrigations.isEmpty()) {
             this.irrigations = new ArrayList<>(irrigations);
             this.notifyItemRangeInserted(0, irrigations.size() - 1);
+        } else {
+            this.irrigations = new ArrayList<>();
+            this.notifyDataSetChanged();
         }
     }
 

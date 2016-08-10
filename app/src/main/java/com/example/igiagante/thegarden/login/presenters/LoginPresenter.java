@@ -24,16 +24,26 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
     private final UseCase refreshTokenUseCase;
 
+    private final UseCase existsUserUseCase;
+
+    private final UseCase saveUserUseCase;
+
     @Inject
     public LoginPresenter(@Named("loginUser") UseCase loginUserUseCase,
-                          @Named("refreshToken") UseCase refreshTokenUseCase) {
+                          @Named("refreshToken") UseCase refreshTokenUseCase,
+                          @Named("existsUser") UseCase existsUserUseCase,
+                          @Named("saveUser") UseCase saveUserUseCase) {
         this.loginUserUseCase = loginUserUseCase;
         this.refreshTokenUseCase = refreshTokenUseCase;
+        this.existsUserUseCase = existsUserUseCase;
+        this.saveUserUseCase = saveUserUseCase;
     }
 
     public void destroy() {
         this.loginUserUseCase.unsubscribe();
         this.refreshTokenUseCase.unsubscribe();
+        this.existsUserUseCase.unsubscribe();
+        this.saveUserUseCase.unsubscribe();
         this.view = null;
     }
 
@@ -41,16 +51,32 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
         this.loginUserUseCase.execute(user, new LoginUserSubscriber());
     }
 
-    public void refreshToken(String userId){
-        this.refreshTokenUseCase.execute(userId, new RrefreshTokenSubscriber());
+    public void refreshToken() {
+        this.refreshTokenUseCase.execute(null, new RrefreshTokenSubscriber());
+    }
+
+    public void existsUser(String userId) {
+        this.existsUserUseCase.execute(userId, new UserExistsSubscriber());
+    }
+
+    public void saveUser(User user) {
+        this.saveUserUseCase.execute(user, new SaveUserSubscriber());
     }
 
     private void notifyUserLogin(String result) {
         getView().notifyUserLogin(result);
     }
 
-    private void sendNewToken(String token){
+    private void sendNewToken(String token) {
         getView().sendNewToken(token);
+    }
+
+    private void userExists(Boolean exists) {
+        getView().userExists(exists);
+    }
+
+    private void notifyUserWasPersisted() {
+        getView().notifyUserWasPersisted();
     }
 
     private final class LoginUserSubscriber extends DefaultSubscriber<String> {
@@ -94,6 +120,42 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
         @Override
         public void onNext(String token) {
             LoginPresenter.this.sendNewToken(token);
+        }
+    }
+
+    private final class UserExistsSubscriber extends DefaultSubscriber<Boolean> {
+
+        @Override
+        public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        @Override
+        public void onNext(Boolean exists) {
+            LoginPresenter.this.userExists(exists);
+        }
+    }
+
+    private final class SaveUserSubscriber extends DefaultSubscriber<User> {
+
+        @Override
+        public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        @Override
+        public void onNext(User user) {
+            LoginPresenter.this.notifyUserWasPersisted();
         }
     }
 }

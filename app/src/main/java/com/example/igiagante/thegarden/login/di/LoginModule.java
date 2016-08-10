@@ -5,9 +5,10 @@ import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.login.usecase.LoginUserUseCase;
 import com.example.igiagante.thegarden.login.usecase.RefreshTokenUseCase;
 import com.example.igiagante.thegarden.login.usecase.RegisterUserUseCase;
+import com.example.igiagante.thegarden.login.usecase.ExistsUserUseCase;
+import com.example.igiagante.thegarden.login.usecase.SaveUserUseCase;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -40,5 +41,19 @@ public class LoginModule {
     @Named("refreshToken")
     UseCase provideRefreshTokenUseCase(RefreshTokenUseCase refreshTokenUseCase) {
         return refreshTokenUseCase;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("existsUser")
+    UseCase provideExistsUserUseCase(ExistsUserUseCase existsUserUseCase) {
+        return existsUserUseCase;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("saveUser")
+    UseCase provideSaveUserUseCase(SaveUserUseCase saveUserUseCase) {
+        return saveUserUseCase;
     }
 }

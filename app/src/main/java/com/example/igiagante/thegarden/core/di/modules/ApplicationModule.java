@@ -4,7 +4,6 @@ package com.example.igiagante.thegarden.core.di.modules;
  * @author Ignacio Giagante, on 18/4/16.
  */
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -60,15 +59,13 @@ public class ApplicationModule {
          return persistStaticDataUseCase;
     }
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     Session provideSession() {
         return new Session();
     }
 
-    @Provides
-    @Singleton
-    SharedPreferences providesSharedPreferences(Application application) {
-        return PreferenceManager.getDefaultSharedPreferences(application);
+    @Provides @Singleton
+    SharedPreferences provideSharedPreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 }
