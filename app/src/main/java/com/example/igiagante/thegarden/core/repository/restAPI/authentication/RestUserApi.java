@@ -84,6 +84,14 @@ public class RestUserApi {
                 session.setToken(response.body().getToken());
 
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
+            } else {
+                try {
+                    String error = response.errorBody().string();
+                    MessageError messageErrorKey = new Gson().fromJson(error, MessageError.class);
+                    httpStatusValue = httpStatus.getMessage(messageErrorKey.getMessage());
+                } catch (IOException ie) {
+                    Log.d(TAG, ie.getMessage());
+                }
             }
             return Observable.just(httpStatusValue);
         });

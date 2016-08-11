@@ -79,7 +79,9 @@ public class Session {
 
                     String text = new String(data, "UTF-8");
                     Claims claims = new Gson().fromJson(text, Claims.class);
-                    this.tokenExpiration = new Date(Integer.parseInt(claims.getExp()));
+
+                    long milliseconds = Integer.parseInt(claims.getExp()) * 1000L;
+                    this.tokenExpiration = new Date(milliseconds);
 
                     this.getUser().setId(claims.getSub());
 

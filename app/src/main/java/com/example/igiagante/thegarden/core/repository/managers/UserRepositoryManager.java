@@ -3,6 +3,8 @@ package com.example.igiagante.thegarden.core.repository.managers;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -65,11 +67,11 @@ public class UserRepositoryManager {
         User user = new User();
         if(!list.isEmpty()) {
             user = list.get(0);
+            Log.d("User added", " username --- " + user.getUserName());
         }
 
-        if(user.getGardens()!= null && !user.getGardens().isEmpty()){
-            return Observable.just(user);
-        } else {
+        if(user.getGardens() == null && !TextUtils.isEmpty(user.getUserName())){
+
             //if the user has an empty database, it should ask to the api for the gardens
             Observable<List<Garden>> gardensByUser = api.getGardensByUser(user.getUserName());
 
@@ -79,10 +81,13 @@ public class UserRepositoryManager {
                 userCopy.setGardens((ArrayList<Garden>) result);
             });
 
-            // update user with gardens
+            // update db user with gardens
             realmRepository.update(userCopy);
 
             return Observable.just(userCopy);
+
+        } else {
+            return Observable.just(user);
         }
     }
 }

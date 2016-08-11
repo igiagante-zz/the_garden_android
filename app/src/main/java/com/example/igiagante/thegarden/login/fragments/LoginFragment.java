@@ -42,7 +42,8 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @Inject
     LoginPresenter loginPresenter;
 
-    @Inject SharedPreferences sharedPreferences;
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Bind(R.id.login_email_id)
     EditText mUserEmail;
@@ -71,11 +72,11 @@ public class LoginFragment extends BaseFragment implements LoginView {
         // Restore Token from preferences
         String token = sharedPreferences.getString(TOKEN_PREFS_NAME, "");
 
-        if(!TextUtils.isEmpty(token)){
+        if (!TextUtils.isEmpty(token)) {
 
             session.setToken(token);
 
-            if(session.checkIfTokenIsExpired()){
+            if (session.checkIfTokenIsExpired()) {
                 this.loginPresenter.refreshToken();
             }
         }
@@ -84,6 +85,8 @@ public class LoginFragment extends BaseFragment implements LoginView {
 
         mButtonSignUp.setOnClickListener(v ->
                 getActivity().startActivity(new Intent(getContext(), RegisterActivity.class)));
+
+        mUserEmail.requestFocus();
 
         return fragmentView;
     }
@@ -95,20 +98,18 @@ public class LoginFragment extends BaseFragment implements LoginView {
             return;
         }
 
-        mButtonLogin.setEnabled(false);
-
         String username = mUserEmail.getText().toString();
         String password = mPassword.getText().toString();
 
         User user = new User();
         user.setUserName(username);
         user.setPassword(password);
+
         loginPresenter.loginUser(user);
     }
 
     private void onLoginFailed() {
         showToastMessage("Login Failed");
-        mButtonLogin.setEnabled(true);
     }
 
     @Override
@@ -143,7 +144,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
      */
     @Override
     public void notifyUserLogin(String result) {
-        if(!result.equals("OK")) {
+        if (!result.equals("OK")) {
             showToastMessage(result);
         } else {
             cleanFields();
@@ -151,7 +152,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
         }
     }
 
-    private void cleanFields(){
+    private void cleanFields() {
         mUserEmail.setText("");
         mPassword.setText("");
     }
@@ -159,6 +160,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @Override
     public void sendNewToken(String token) {
         this.session.setToken(token);
+        goToMainActivity();
     }
 
     /**
@@ -166,10 +168,10 @@ public class LoginFragment extends BaseFragment implements LoginView {
      */
     @Override
     public void userExists(Boolean exists) {
-        if(!exists) {
+        if (!exists) {
             this.loginPresenter.saveUser(session.getUser());
         } else {
-            getActivity().startActivity(new Intent(getContext(), MainActivity.class));
+            goToMainActivity();
         }
     }
 
@@ -178,6 +180,10 @@ public class LoginFragment extends BaseFragment implements LoginView {
      */
     @Override
     public void notifyUserWasPersisted() {
+        goToMainActivity();
+    }
+
+    private void goToMainActivity() {
         getActivity().startActivity(new Intent(getContext(), MainActivity.class));
     }
 

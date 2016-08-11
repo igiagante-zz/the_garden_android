@@ -19,4 +19,6 @@
     <color name="fill">#D8D8D8</color>
     <color name="border">#979797</color>
     <color name="gray">#979797</color>
+
+    <color name="background_login">#77ab59</color>
 </resources>

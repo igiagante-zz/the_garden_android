@@ -106,11 +106,15 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
      * @return gardenHolders
      */
     private ArrayList<GardenHolder> createGardenHolderList(List<Garden> gardens) {
+
         ArrayList<GardenHolder> gardenHolders = new ArrayList<>();
 
-        for (int i = 0; i < gardens.size(); i++) {
-            gardenHolders.add(createGardenHolder(gardens.get(i), i));
+        if(gardens != null) {
+            for (int i = 0; i < gardens.size(); i++) {
+                gardenHolders.add(createGardenHolder(gardens.get(i), i));
+            }
         }
+
         return gardenHolders;
     }
 

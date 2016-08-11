@@ -117,11 +117,13 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
 
     @Override
     public void notifyUserRegistration(String result) {
+        mProgressDialog.hide();
+        mButtonSignUp.setEnabled(true);
         if(!result.equals("OK")) {
             showToastMessage(result);
+        } else {
+            getActivity().startActivity(new Intent(getContext(), MainActivity.class));
         }
-        mProgressDialog.hide();
-        getActivity().startActivity(new Intent(getContext(), MainActivity.class));
     }
 
     @Override

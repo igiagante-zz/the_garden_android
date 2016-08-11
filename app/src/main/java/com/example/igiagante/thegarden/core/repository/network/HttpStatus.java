@@ -38,7 +38,7 @@ public class HttpStatus {
 
     private static final String USER_CREATED_KEY = "The user was created successfully!";
     private static final String INVALID_USER_MESSAGE_KEY = "The username already exists. Please try other!";
-    private static final String USER_NOT_FOUND_MESSAGE_KEY = "The username is wrong!";
+    private static final String USER_NOT_FOUND_MESSAGE_KEY = "The username or password is not valid!";
     private static final String WRONG_PASSWORD_MESSAGE_KEY = "The password is wrong!";
 
     public HttpStatus() {
