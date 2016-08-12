@@ -27,7 +27,6 @@ public class GetGardensByUserUseCase extends UseCase<String> {
 
     @Override
     protected Observable buildUseCaseObservable(String userId) {
-        //UserByNameSpecification userByNameSpecification = new UserByNameSpecification(username);
         return userRepositoryManager.query(userId);
     }
 }

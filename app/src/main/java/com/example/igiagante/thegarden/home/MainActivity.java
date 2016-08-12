@@ -32,6 +32,7 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
@@ -226,7 +227,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         drawerLayout.addDrawerListener(mDrawerToggle);
 
-        mNavigationGardenAdapter = new NavigationGardenAdapter(this, this, this);
+        mNavigationGardenAdapter = new NavigationGardenAdapter(this, this, this, mSession);
         recyclerViewGardens = (RecyclerView) findViewById(R.id.recycler_view_gardens);
         this.recyclerViewGardens.setLayoutManager(new LinearLayoutManager(this));
         this.recyclerViewGardens.setAdapter(mNavigationGardenAdapter);
@@ -327,8 +328,20 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     @Override
+    public void notifyIfGardenExists(boolean exists) {
+        if(exists) {
+            Toast.makeText(this, "The garden's name already exists. Try other please!",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            mGardenPresenter.saveGarden(this.garden.getModel());
+        }
+    }
+
+    @Override
     public void createGarden(Garden garden) {
-        mGardenPresenter.saveGarden(garden);
+        this.garden = new GardenHolder();
+        this.garden.setModel(garden);
+        mGardenPresenter.existsGarden(garden.getName());
     }
 
     @Override
@@ -340,6 +353,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     public void notifyIfGardenWasPersistedOrUpdated(Garden garden) {
         drawerLayout.closeDrawers();
 
+        //add garden to user and update it
+        addGardenToUser(garden);
+
         // update garden data in adapter menu
         mNavigationGardenAdapter.addOrUpdateGarden(garden);
 
@@ -350,6 +366,18 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         }
 
         loadGarden(this.garden);
+    }
+
+    private void addGardenToUser(Garden garden) {
+        User user = mSession.getUser();
+        user.getGardens().add(garden);
+        this.mGardenPresenter.updateUser(user);
+    }
+
+    @Override
+    public void notifyIfUserWasUpdated(User user) {
+        // update user's gardens after their ids were persisted
+        this.mSession.getUser().setGardens(user.getGardens());
     }
 
     @Override

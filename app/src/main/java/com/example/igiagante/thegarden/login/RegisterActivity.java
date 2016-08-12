@@ -43,4 +43,8 @@ public class RegisterActivity extends BaseActivity implements HasComponent<Login
                 .activityModule(getActivityModule())
                 .build();
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.adapter.delegate.AdapterDelegate;
@@ -34,12 +35,16 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
     private List<IViewType> items = new LinkedList<>();
 
     public NavigationGardenAdapter(Context context, AdapterDelegateButtonAddGarden.OnGardenDialog onGardenDialog,
-                                   AdapterDelegateGarden.OnClickGardenListener onClickLongListener) {
+                                   AdapterDelegateGarden.OnClickGardenListener onClickLongListener,
+                                   Session session) {
         this.mContext = context;
 
         // add adapter delegates
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButtonAddGarden(mContext, onGardenDialog));
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_GARDEN, new AdapterDelegateGarden(onClickLongListener));
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON,
+                new AdapterDelegateButtonAddGarden(mContext, session, onGardenDialog));
+
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_GARDEN,
+                new AdapterDelegateGarden(onClickLongListener));
 
         // add first item -> button
         items.add(new ViewTypeButton());
@@ -154,10 +159,11 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         ArrayList<ViewTypeGarden> viewTypeGardens = new ArrayList<>();
 
-        for (GardenHolder gardenHolder : gardens) {
-            viewTypeGardens.add(createViewTypeGarden(gardenHolder.getModel()));
+        if(gardens != null) {
+            for (GardenHolder gardenHolder : gardens) {
+                viewTypeGardens.add(createViewTypeGarden(gardenHolder.getModel()));
+            }
         }
-
         return viewTypeGardens;
     }
 

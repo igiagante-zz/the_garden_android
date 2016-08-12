@@ -9,10 +9,7 @@ import android.util.Log;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.User;
-import com.example.igiagante.thegarden.core.repository.Specification;
-import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.specification.UserByNameSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiGardenRepository;
 
 import java.util.ArrayList;
@@ -39,21 +36,26 @@ public class UserRepositoryManager {
         this.context = context;
     }
 
-    public Observable<Boolean> checkIfUserExistsInDataBase(@Nullable String userId){
+    public Observable<Boolean> checkIfUserExistsInDataBase(@Nullable String userId) {
         return realmRepository.getById(userId).flatMap(user -> {
-            if(user != null){
+            if (user != null) {
                 return Observable.just(true);
             }
             return Observable.just(false);
         });
     }
 
-    public Observable<User> saveUser(@NonNull User user) {
-        return  realmRepository.add(user);
+    public Observable<User> addOrUpdateUser(@NonNull User user) {
+        if (TextUtils.isEmpty(user.getId())) {
+            return realmRepository.add(user);
+        } else {
+            return realmRepository.update(user);
+        }
     }
 
     /**
      * Return an observable a list of resources.
+     *
      * @return Observable
      */
     public Observable query(@Nullable String userId) {
@@ -65,12 +67,11 @@ public class UserRepositoryManager {
         query.subscribe(user -> list.add(user));
 
         User user = new User();
-        if(!list.isEmpty()) {
+        if (!list.isEmpty()) {
             user = list.get(0);
-            Log.d("User added", " username --- " + user.getUserName());
         }
 
-        if(user.getGardens() == null && !TextUtils.isEmpty(user.getUserName())){
+        if (user.getGardens() == null && !TextUtils.isEmpty(user.getUserName())) {
 
             //if the user has an empty database, it should ask to the api for the gardens
             Observable<List<Garden>> gardensByUser = api.getGardensByUser(user.getUserName());

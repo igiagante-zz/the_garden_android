@@ -46,4 +46,8 @@ public class LoginActivity extends BaseActivity implements HasComponent<LoginCom
                 .activityModule(getActivityModule())
                 .build();
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

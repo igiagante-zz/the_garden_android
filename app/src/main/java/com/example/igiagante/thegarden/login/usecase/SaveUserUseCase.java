@@ -28,6 +28,6 @@ public class SaveUserUseCase extends UseCase<User> {
 
     @Override
     protected Observable buildUseCaseObservable(User user) {
-        return this.userRepositoryManager.saveUser(user);
+        return this.userRepositoryManager.addOrUpdateUser(user);
     }
 }

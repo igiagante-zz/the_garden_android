@@ -19,6 +19,9 @@ public class Garden implements Parcelable {
     @SerializedName("id")
     private String id;
 
+    @SerializedName("userId")
+    private String userId;
+
     @SerializedName("name")
     private String name;
 
@@ -45,6 +48,14 @@ public class Garden implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -95,6 +106,7 @@ public class Garden implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeString(userId);
         dest.writeString(name);
         dest.writeList(plants);
         dest.writeList(irrigations);
@@ -112,6 +124,7 @@ public class Garden implements Parcelable {
 
     private Garden(Parcel in) {
         id = in.readString();
+        userId = in.readString();
         name = in.readString();
         in.readList(plants, this.getClass().getClassLoader());
         in.readList(irrigations, this.getClass().getClassLoader());

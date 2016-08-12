@@ -157,12 +157,6 @@ public class LoginFragment extends BaseFragment implements LoginView {
         mPassword.setText("");
     }
 
-    @Override
-    public void sendNewToken(String token) {
-        this.session.setToken(token);
-        goToMainActivity();
-    }
-
     /**
      * Second, lets check if the user exists in DB
      */
@@ -180,6 +174,12 @@ public class LoginFragment extends BaseFragment implements LoginView {
      */
     @Override
     public void notifyUserWasPersisted() {
+        goToMainActivity();
+    }
+
+    @Override
+    public void sendNewToken(String token) {
+        this.session.setToken(token);
         goToMainActivity();
     }
 

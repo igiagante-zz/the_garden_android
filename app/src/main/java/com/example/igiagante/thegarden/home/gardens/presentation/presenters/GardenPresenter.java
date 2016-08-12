@@ -30,18 +30,27 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     private final UseCase getGardenUseCase;
     private final UseCase saveGardenUseCase;
     private final UseCase deleteGardenUseCase;
+    private final UseCase existGardenUseCase;
+
+    private final UseCase updateUserUseCase;
 
     @Inject
     public GardenPresenter(@Named("gardens") UseCase getGardensUseCase,
                            @Named("getGardensByUser") UseCase getGetGardensByUserUseCase,
                            @Named("getGarden") UseCase getGardenUseCase,
                            @Named("saveGarden") UseCase saveGardenUseCase,
-                           @Named("deleteGarden") UseCase deleteGardenUseCase) {
+                           @Named("deleteGarden") UseCase deleteGardenUseCase,
+                           @Named("existGarden") UseCase existGardenUseCase,
+                           @Named("saveUser") UseCase saveUserUseCase) {
+
         this.getGardensUseCase = getGardensUseCase;
         this.getGetGardensByUserUseCase = getGetGardensByUserUseCase;
         this.saveGardenUseCase = saveGardenUseCase;
         this.deleteGardenUseCase = deleteGardenUseCase;
         this.getGardenUseCase = getGardenUseCase;
+        this.existGardenUseCase = existGardenUseCase;
+
+        this.updateUserUseCase = saveUserUseCase;
     }
 
     public void destroy() {
@@ -68,6 +77,14 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         getGardenUseCase.execute(gardenId, new GetGardenSubscriber());
     }
 
+    public void existsGarden(String gardenName) {
+        this.existGardenUseCase.execute(gardenName, new ExistsGardenSubscriber());
+    }
+
+    public void updateUser(User user) {
+        this.updateUserUseCase.execute(user, new UpdateUserSubscriber());
+    }
+
     private void showGardens(List<GardenHolder> gardens) {
         getView().loadGardens(gardens);
     }
@@ -82,6 +99,14 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     private void loadGarden(Garden garden) {
         getView().loadGarden(createGardenHolder(garden));
+    }
+
+    private void notifyIfGardenExists(boolean exists){
+        getView().notifyIfGardenExists(exists);
+    }
+
+    private void notifyIfUserWasUpdated(User user) {
+        getView().notifyIfUserWasUpdated(user);
     }
 
     // TODO - Refactor
@@ -131,6 +156,24 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         return gardenHolder;
     }
 
+    private final class ExistsGardenSubscriber extends DefaultSubscriber<Boolean> {
+
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onNext(Boolean exist) {
+            GardenPresenter.this.notifyIfGardenExists(exist);
+        }
+    }
+
     private final class SaveGardenSubscriber extends DefaultSubscriber<Garden> {
 
         @Override public void onCompleted() {
@@ -174,6 +217,21 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
         @Override public void onNext(Garden garden) {
             GardenPresenter.this.loadGarden(garden);
+        }
+    }
+
+    private final class UpdateUserSubscriber extends DefaultSubscriber<User> {
+
+        @Override public void onCompleted() {
+            //PlantListPresenter.this.hideViewLoading();
+        }
+
+        @Override public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        @Override public void onNext(User user) {
+            GardenPresenter.this.notifyIfUserWasUpdated(user);
         }
     }
 }

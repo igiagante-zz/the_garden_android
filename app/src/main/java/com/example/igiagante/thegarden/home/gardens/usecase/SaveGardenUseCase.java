@@ -1,12 +1,13 @@
-package com.example.igiagante.thegarden.home.plants.usecase;
+package com.example.igiagante.thegarden.home.gardens.usecase;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.GardenRepositoryManager;
+import com.example.igiagante.thegarden.core.repository.managers.UserRepositoryManager;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;
@@ -24,7 +25,8 @@ public class SaveGardenUseCase extends UseCase<Garden> {
     private final GardenRepositoryManager gardenRepositoryManager;
 
     @Inject
-    public SaveGardenUseCase(@NonNull GardenRepositoryManager gardenRepositoryManager, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public SaveGardenUseCase(GardenRepositoryManager gardenRepositoryManager,
+                             ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.gardenRepositoryManager = gardenRepositoryManager;
     }
