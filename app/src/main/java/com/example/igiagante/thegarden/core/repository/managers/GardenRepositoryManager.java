@@ -24,8 +24,11 @@ import rx.schedulers.Schedulers;
  */
 public class GardenRepositoryManager extends RepositoryManager<Repository<Garden>> {
 
+    private Context context;
+
     @Inject
     public GardenRepositoryManager(Context context, Session session) {
+        this.context = context;
         mRepositories.add(new GardenRealmRepository(context));
         mRepositories.add(new RestApiGardenRepository(context, session));
     }
@@ -79,6 +82,25 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
         }
 
         return result;
+    }
+
+    public Observable existGardenByNameAndUserId(Garden garden) {
+
+        GardenRealmRepository gardenRealmRepository = new GardenRealmRepository(context);
+
+        Observable<Garden> gardenObservable = gardenRealmRepository
+                .getByNameAndUserId(garden.getName(), garden.getUserId());
+
+        List<Boolean> list = new ArrayList<>();
+        gardenObservable.subscribe(nutrient -> {
+            if (nutrient != null) {
+                list.add(Boolean.TRUE);
+            } else {
+                list.add(Boolean.FALSE);
+            }
+        });
+
+        return list.isEmpty() ? Observable.just(Boolean.FALSE) : Observable.just(list.get(0));
     }
 
     /**

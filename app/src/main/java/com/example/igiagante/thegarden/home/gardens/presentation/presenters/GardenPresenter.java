@@ -41,7 +41,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
                            @Named("saveGarden") UseCase saveGardenUseCase,
                            @Named("deleteGarden") UseCase deleteGardenUseCase,
                            @Named("existGarden") UseCase existGardenUseCase,
-                           @Named("saveUser") UseCase saveUserUseCase) {
+                           @Named("updateUser") UseCase saveUserUseCase) {
 
         this.getGardensUseCase = getGardensUseCase;
         this.getGetGardensByUserUseCase = getGetGardensByUserUseCase;
@@ -77,8 +77,8 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         this.getGardenUseCase.execute(gardenId, new GetGardenSubscriber());
     }
 
-    public void existsGarden(String gardenName) {
-        this.existGardenUseCase.execute(gardenName, new ExistsGardenSubscriber());
+    public void existsGarden(Garden garden) {
+        this.existGardenUseCase.execute(garden, new ExistsGardenSubscriber());
     }
 
     public void updateUser(User user) {
@@ -141,6 +141,19 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         }
 
         return gardenHolders;
+    }
+
+    public ArrayList<Garden> createGardenListFromGardenHolderList(List<GardenHolder> gardenHolders) {
+
+        ArrayList<Garden> gardens = new ArrayList<>();
+
+        if(gardenHolders != null) {
+            for (int i = 0; i < gardenHolders.size(); i++) {
+                gardens.add(gardenHolders.get(i).getModel());
+            }
+        }
+
+        return gardens;
     }
 
     public GardenHolder createGardenHolder(Garden garden, int position) {

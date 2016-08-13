@@ -268,6 +268,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             this.garden = gardens.get(0);
         }
         mAdapter.setGardenHolder(garden);
+
+        //add gardens to session's user
+        mSession.getUser().setGardens(mGardenPresenter.createGardenListFromGardenHolderList(gardens));
     }
 
     @Override
@@ -341,7 +344,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     public void createGarden(Garden garden) {
         this.garden = new GardenHolder();
         this.garden.setModel(garden);
-        mGardenPresenter.existsGarden(garden.getName());
+        mGardenPresenter.existsGarden(garden);
     }
 
     @Override
@@ -353,9 +356,6 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     public void notifyIfGardenWasPersistedOrUpdated(Garden garden) {
         drawerLayout.closeDrawers();
 
-        //add garden to user and update it
-        addGardenToUser(garden);
-
         // update garden data in adapter menu
         mNavigationGardenAdapter.addOrUpdateGarden(garden);
 
@@ -366,11 +366,15 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         }
 
         loadGarden(this.garden);
+
+        //add garden to user and update it
+        addGardenToUser(garden);
     }
 
     private void addGardenToUser(Garden garden) {
         User user = mSession.getUser();
         user.getGardens().add(garden);
+        // update gardensIds from user
         this.mGardenPresenter.updateUser(user);
     }
 

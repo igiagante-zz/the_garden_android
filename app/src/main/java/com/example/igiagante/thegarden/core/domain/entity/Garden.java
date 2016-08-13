@@ -124,7 +124,7 @@ public class Garden implements Parcelable {
 
     private Garden(Parcel in) {
         id = in.readString();
-        userId = in.readString();
+        userId   = in.readString();
         name = in.readString();
         in.readList(plants, this.getClass().getClassLoader());
         in.readList(irrigations, this.getClass().getClassLoader());

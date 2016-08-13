@@ -45,12 +45,12 @@ public class UserRepositoryManager {
         });
     }
 
-    public Observable<User> addOrUpdateUser(@NonNull User user) {
-        if (TextUtils.isEmpty(user.getId())) {
-            return realmRepository.add(user);
-        } else {
-            return realmRepository.update(user);
-        }
+    public Observable<User> saveUser(@NonNull User user) {
+        return realmRepository.add(user);
+    }
+
+    public Observable<User> updateUser(@NonNull User user) {
+        return realmRepository.update(user);
     }
 
     /**

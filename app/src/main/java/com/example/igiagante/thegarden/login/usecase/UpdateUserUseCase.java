@@ -11,9 +11,9 @@ import javax.inject.Inject;
 import rx.Observable;
 
 /**
- * @author Ignacio Giagante, on 10/8/16.
+ * @author Ignacio Giagante, on 13/8/16.
  */
-public class SaveUserUseCase extends UseCase<User> {
+public class UpdateUserUseCase extends UseCase<User> {
 
     /**
      * Repository Manager which delegates the actions to the correct repository
@@ -21,13 +21,13 @@ public class SaveUserUseCase extends UseCase<User> {
     private final UserRepositoryManager userRepositoryManager;
 
     @Inject
-    public SaveUserUseCase(UserRepositoryManager userRepositoryManager, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public UpdateUserUseCase(UserRepositoryManager userRepositoryManager, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.userRepositoryManager = userRepositoryManager;
     }
 
     @Override
     protected Observable buildUseCaseObservable(User user) {
-        return this.userRepositoryManager.saveUser(user);
+        return this.userRepositoryManager.updateUser(user);
     }
 }
