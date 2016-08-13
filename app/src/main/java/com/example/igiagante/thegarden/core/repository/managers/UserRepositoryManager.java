@@ -70,7 +70,7 @@ public class UserRepositoryManager {
             Log.d("User added", " username --- " + user.getUserName());
         }
 
-        if(user.getGardens() != null && !TextUtils.isEmpty(user.getUserName())){
+        if(user.getGardens() != null && user.getGardens().isEmpty() && !TextUtils.isEmpty(user.getUserName())){
 
             //if the user has an empty database, it should ask to the api for the gardens
             Observable<List<Garden>> gardensByUser = api.getGardensByUser(user.getUserName());
