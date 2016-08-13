@@ -62,19 +62,19 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     }
 
     public void getGardens(String username) {
-        getGetGardensByUserUseCase.execute(username, new GetGardensByUserSubscriber());
+        this.getGetGardensByUserUseCase.execute(username, new GetGardensByUserSubscriber());
     }
 
     public void saveGarden(Garden garden) {
-        saveGardenUseCase.execute(garden, new SaveGardenSubscriber());
+        this.saveGardenUseCase.execute(garden, new SaveGardenSubscriber());
     }
 
     public void deleteGarden(String gardenId) {
-        deleteGardenUseCase.execute(gardenId, new DeleteGardenSubscriber());
+        this.deleteGardenUseCase.execute(gardenId, new DeleteGardenSubscriber());
     }
 
     public void getGarden(String gardenId){
-        getGardenUseCase.execute(gardenId, new GetGardenSubscriber());
+        this.getGardenUseCase.execute(gardenId, new GetGardenSubscriber());
     }
 
     public void existsGarden(String gardenName) {
