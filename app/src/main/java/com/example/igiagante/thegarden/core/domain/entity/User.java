@@ -15,7 +15,7 @@ public class User {
     private String userName;
     private String password;
 
-    private ArrayList<Garden> gardens;
+    private ArrayList<Garden> gardens = new ArrayList<>();
 
     public String getId() {
         return id;

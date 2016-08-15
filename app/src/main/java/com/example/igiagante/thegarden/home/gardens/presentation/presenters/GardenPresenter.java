@@ -69,8 +69,8 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         this.saveGardenUseCase.execute(garden, new SaveGardenSubscriber());
     }
 
-    public void deleteGarden(String gardenId) {
-        this.deleteGardenUseCase.execute(gardenId, new DeleteGardenSubscriber());
+    public void deleteGarden(Garden garden) {
+        this.deleteGardenUseCase.execute(garden, new DeleteGardenSubscriber());
     }
 
     public void getGarden(String gardenId){

@@ -70,7 +70,11 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
 
     @Override
     public Observable<Integer> remove(String gardenId) {
-        return api.deleteGarden(gardenId).asObservable()
+        return null;
+    }
+
+    public Observable<Integer> remove(String gardenId, String userId) {
+        return api.deleteGarden(gardenId, userId).asObservable()
                 .map(response -> response.isSuccessful() ? 1 : -1);
     }
 

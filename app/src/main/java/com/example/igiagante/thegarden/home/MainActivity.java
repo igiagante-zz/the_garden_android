@@ -294,6 +294,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         garden.setStartDate(gardenViewTypeText.getStartDate());
         garden.setPlants(gardenViewTypeText.getPlants());
 
+        //add userId
+        garden.setUserId(mSession.getUser().getId());
+
         switch (item.getItemId()) {
             case R.id.edit_plant:
                 showEditGardenDialog(garden);
@@ -302,7 +305,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 if (!garden.getPlants().isEmpty()) {
                     Toast.makeText(this, "The garden has plants. Remove first the plants", Toast.LENGTH_SHORT).show();
                 } else {
-                    mGardenPresenter.deleteGarden(garden.getId());
+                    mGardenPresenter.deleteGarden(garden);
                 }
 
                 break;
@@ -388,11 +391,25 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     public void notifyIfGardenWasDeleted() {
         drawerLayout.closeDrawers();
 
+        // update adapter
         mNavigationGardenAdapter.removeGarden(editGardenPosition);
         mNavigationGardenAdapter.notifyDataSetChanged();
 
         // load the first garden after one is removed
         loadGarden(gardens.get(0));
+
+        // update gardensIds from user
+        removeGardenFromUser(this.gardens.get(editGardenPosition).getModel());
+
+        // at the end it updates the model
+        this.gardens.remove(editGardenPosition);
+    }
+
+    private void removeGardenFromUser(Garden garden) {
+        User user = mSession.getUser();
+        user.getGardens().remove(garden);
+        // update gardensIds from user
+        this.mGardenPresenter.updateUser(user);
     }
 
     @Override

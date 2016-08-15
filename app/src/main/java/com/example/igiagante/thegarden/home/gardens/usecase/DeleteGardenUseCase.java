@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.home.gardens.usecase;
 
 import android.support.annotation.NonNull;
 
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.GardenRepositoryManager;
@@ -14,7 +15,7 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 5/7/16.
  */
-public class DeleteGardenUseCase extends UseCase<String> {
+public class DeleteGardenUseCase extends UseCase<Garden> {
 
     /**
      * Repository Manager which delegates the actions to the correct repository
@@ -28,7 +29,7 @@ public class DeleteGardenUseCase extends UseCase<String> {
     }
 
     @Override
-    protected Observable buildUseCaseObservable(String gardenId) {
-        return gardenRepositoryManager.delete(gardenId);
+    protected Observable buildUseCaseObservable(Garden garden) {
+        return gardenRepositoryManager.delete(garden.getId(), garden.getUserId());
     }
 }

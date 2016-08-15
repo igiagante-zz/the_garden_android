@@ -34,7 +34,7 @@ public interface GardenRestApi {
     @PUT("garden/{id}")
     Observable<Garden> updateGarden(@Path("id") String id, @Body Garden body);
 
-    @DELETE("garden/{id}")
-    Observable<Response<Message>> deleteGarden(@Path("id") String id);
+    @DELETE("garden/{id}/{userId}")
+    Observable<Response<Message>> deleteGarden(@Path("id") String id, @Path("userId") String userId);
 
 }
