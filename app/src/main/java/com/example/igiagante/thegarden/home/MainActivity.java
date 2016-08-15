@@ -268,10 +268,13 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         if (!gardens.isEmpty() && this.garden == null) {
             this.garden = gardens.get(0);
         }
-        mAdapter.setGardenHolder(garden);
 
-        //add gardens to session's user
-        mSession.getUser().setGardens(mGardenPresenter.createGardenListFromGardenHolderList(gardens));
+        if(garden != null) {
+            mAdapter.setGardenHolder(garden);
+
+            //add gardens to session's user
+            mSession.getUser().setGardens(mGardenPresenter.createGardenListFromGardenHolderList(gardens));
+        }
     }
 
     @Override
