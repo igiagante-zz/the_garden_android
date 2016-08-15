@@ -48,6 +48,7 @@ import com.example.igiagante.thegarden.home.gardens.presentation.delegates.Adapt
 import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
+import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
 
 import java.lang.ref.WeakReference;
@@ -254,7 +255,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 editor.apply();
             }
             this.drawerLayout.closeDrawers();
-            finish();
+            startActivity(new Intent(this, LoginActivity.class));
         });
     }
 

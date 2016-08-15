@@ -175,8 +175,11 @@ public class IrrigationsFragment extends BaseFragment implements IrrigationView,
     public void setGarden(GardenHolder mGarden) {
         this.mGarden = mGarden;
         ArrayList<Irrigation> irrigations = (ArrayList<Irrigation>) this.mGarden.getModel().getIrrigations();
-        this.irrigationsAdapter.setIrrigations(irrigations);
-        mProgressBar.setVisibility(View.GONE);
+
+        if(irrigationsAdapter != null) {
+            this.irrigationsAdapter.setIrrigations(irrigations);
+            mProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
