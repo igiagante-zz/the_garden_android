@@ -20,7 +20,6 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
     SparseArray<Fragment> registeredFragments = new SparseArray<>(3);
 
-    private GardenHolder gardenHolder;
     private String [] titles = {};
 
     public GardenViewPagerAdapter(FragmentManager manager, Context context) {
@@ -57,14 +56,11 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void setGardenHolder(GardenHolder gardenHolder) {
-        this.gardenHolder = gardenHolder;
         setDataFromModel(gardenHolder);
     }
 
     // TODO - Refactor
     private void setDataFromModel(GardenHolder gardenHolder) {
-
-        this.gardenHolder = gardenHolder;
 
         PlantListFragment plantListFragment = (PlantListFragment) registeredFragments.get(0);
 

@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.realm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.repository.Mapper;
@@ -83,6 +84,8 @@ public class UserRealmRepository implements Repository<User> {
                 toUserRealm.copy(user, userRealm);
             });
             realm.close();
+        } else {
+            Log.d("user", "The user is NULL");
         }
 
         return Observable.just(user);

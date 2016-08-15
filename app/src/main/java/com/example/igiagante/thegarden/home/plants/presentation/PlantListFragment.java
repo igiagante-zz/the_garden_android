@@ -18,6 +18,7 @@ import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantA
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.di.MainComponent;
+import com.example.igiagante.thegarden.home.gardens.presentation.adapters.GardenViewPagerAdapter;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.presenters.PlantListPresenter;
@@ -90,6 +91,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
             mPlants = savedInstanceState.getParcelableArrayList(PLANTS_KEY);
         }
 
+        plantsAdapter = new PlantsAdapter(getContext());
         this.recyclerViewPlants.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewPlants.setAdapter(plantsAdapter);
 
@@ -170,7 +172,9 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
     public void setPlants(ArrayList<Plant> mPlants) {
         this.mPlants = mPlants;
-        this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
+        if(plantsAdapter != null) {
+            this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
+        }
     }
 
     /**

@@ -78,7 +78,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
 
         mProgressDialog = new ProgressDialog(getContext());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Creating Account...");
+        mProgressDialog.setMessage(getString(R.string.creating_account));
         mProgressDialog.show();
 
         createUser();
@@ -122,6 +122,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
         if(!result.equals("OK")) {
             showToastMessage(result);
         } else {
+            getActivity().finish();
             getActivity().startActivity(new Intent(getContext(), MainActivity.class));
         }
     }
@@ -143,14 +144,14 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
         String password = mPassword.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            mUserEmail.setError("enter a valid email address");
+            mUserEmail.setError(getString(R.string.email_not_valid));
             valid = false;
         } else {
             mUserEmail.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            mPassword.setError("between 4 and 10 alphanumeric characters");
+            mPassword.setError(getString(R.string.check_email_characters));
             valid = false;
         } else {
             mPassword.setError(null);

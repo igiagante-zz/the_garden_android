@@ -24,8 +24,13 @@ import rx.schedulers.Schedulers;
  */
 public class GardenRepositoryManager extends RepositoryManager<Repository<Garden>> {
 
+    private Context context;
+    private Session session;
+
     @Inject
     public GardenRepositoryManager(Context context, Session session) {
+        this.context = context;
+        this.session = session;
         mRepositories.add(new GardenRealmRepository(context));
         mRepositories.add(new RestApiGardenRepository(context, session));
     }
@@ -56,9 +61,13 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
         return mRepositories.get(1).update(garden);
     }
 
-    public Observable delete(@NonNull String gardenId) {
+    public Observable delete(@NonNull String gardenId, @NonNull String userId) {
+
+        // TODO - Refactor this
+        RestApiGardenRepository restApiGardenRepository = new RestApiGardenRepository(context, session);
+
         // delete plant from api
-        Observable<Integer> resultFromApi = mRepositories.get(1).remove(gardenId);
+        Observable<Integer> resultFromApi = restApiGardenRepository.remove(gardenId, userId);
 
         //Create a list of Integer in order to avoid calling Realm from other Thread
         List<Integer> list = new ArrayList<>();
@@ -79,6 +88,25 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
         }
 
         return result;
+    }
+
+    public Observable existGardenByNameAndUserId(Garden garden) {
+
+        GardenRealmRepository gardenRealmRepository = new GardenRealmRepository(context);
+
+        Observable<Garden> gardenObservable = gardenRealmRepository
+                .getByNameAndUserId(garden.getName(), garden.getUserId());
+
+        List<Boolean> list = new ArrayList<>();
+        gardenObservable.subscribe(nutrient -> {
+            if (nutrient != null) {
+                list.add(Boolean.TRUE);
+            } else {
+                list.add(Boolean.FALSE);
+            }
+        });
+
+        return list.isEmpty() ? Observable.just(Boolean.FALSE) : Observable.just(list.get(0));
     }
 
     /**

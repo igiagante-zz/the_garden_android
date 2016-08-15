@@ -13,6 +13,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenToGard
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByIdSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByNameAndUserIdSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByNameSpecification;
 
 import java.util.Collection;
@@ -55,6 +56,10 @@ public class GardenRealmRepository implements Repository<Garden> {
     @Override
     public Observable<Garden> getByName(String name) {
         return query(new GardenByNameSpecification(name)).flatMap(Observable::from);
+    }
+
+    public Observable<Garden> getByNameAndUserId(@NonNull String name, @NonNull String userId) {
+        return query(new GardenByNameAndUserIdSpecification(name, userId)).flatMap(Observable::from);
     }
 
     @Override

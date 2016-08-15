@@ -32,6 +32,7 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
@@ -47,6 +48,7 @@ import com.example.igiagante.thegarden.home.gardens.presentation.delegates.Adapt
 import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
+import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
 
 import java.lang.ref.WeakReference;
@@ -226,7 +228,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         drawerLayout.addDrawerListener(mDrawerToggle);
 
-        mNavigationGardenAdapter = new NavigationGardenAdapter(this, this, this);
+        mNavigationGardenAdapter = new NavigationGardenAdapter(this, this, this, mSession);
         recyclerViewGardens = (RecyclerView) findViewById(R.id.recycler_view_gardens);
         this.recyclerViewGardens.setLayoutManager(new LinearLayoutManager(this));
         this.recyclerViewGardens.setAdapter(mNavigationGardenAdapter);
@@ -253,7 +255,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 editor.apply();
             }
             this.drawerLayout.closeDrawers();
-            finish();
+            startActivity(new Intent(this, LoginActivity.class));
         });
     }
 
@@ -267,6 +269,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             this.garden = gardens.get(0);
         }
         mAdapter.setGardenHolder(garden);
+
+        //add gardens to session's user
+        mSession.getUser().setGardens(mGardenPresenter.createGardenListFromGardenHolderList(gardens));
     }
 
     @Override
@@ -290,6 +295,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         garden.setStartDate(gardenViewTypeText.getStartDate());
         garden.setPlants(gardenViewTypeText.getPlants());
 
+        //add userId
+        garden.setUserId(mSession.getUser().getId());
+
         switch (item.getItemId()) {
             case R.id.edit_plant:
                 showEditGardenDialog(garden);
@@ -298,7 +306,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 if (!garden.getPlants().isEmpty()) {
                     Toast.makeText(this, "The garden has plants. Remove first the plants", Toast.LENGTH_SHORT).show();
                 } else {
-                    mGardenPresenter.deleteGarden(garden.getId());
+                    mGardenPresenter.deleteGarden(garden);
                 }
 
                 break;
@@ -327,8 +335,20 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     @Override
+    public void notifyIfGardenExists(boolean exists) {
+        if(exists) {
+            Toast.makeText(this, "The garden's name already exists. Try other please!",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            mGardenPresenter.saveGarden(this.garden.getModel());
+        }
+    }
+
+    @Override
     public void createGarden(Garden garden) {
-        mGardenPresenter.saveGarden(garden);
+        this.garden = new GardenHolder();
+        this.garden.setModel(garden);
+        mGardenPresenter.existsGarden(garden);
     }
 
     @Override
@@ -350,17 +370,47 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         }
 
         loadGarden(this.garden);
+
+        //add garden to user and update it
+        addGardenToUser(garden);
+    }
+
+    private void addGardenToUser(Garden garden) {
+        User user = mSession.getUser();
+        user.getGardens().add(garden);
+        // update gardensIds from user
+        this.mGardenPresenter.updateUser(user);
+    }
+
+    @Override
+    public void notifyIfUserWasUpdated(User user) {
+        // update user's gardens after their ids were persisted
+        this.mSession.getUser().setGardens(user.getGardens());
     }
 
     @Override
     public void notifyIfGardenWasDeleted() {
         drawerLayout.closeDrawers();
 
+        // update adapter
         mNavigationGardenAdapter.removeGarden(editGardenPosition);
         mNavigationGardenAdapter.notifyDataSetChanged();
 
         // load the first garden after one is removed
         loadGarden(gardens.get(0));
+
+        // update gardensIds from user
+        removeGardenFromUser(this.gardens.get(editGardenPosition).getModel());
+
+        // at the end it updates the model
+        this.gardens.remove(editGardenPosition);
+    }
+
+    private void removeGardenFromUser(Garden garden) {
+        User user = mSession.getUser();
+        user.getGardens().remove(garden);
+        // update gardensIds from user
+        this.mGardenPresenter.updateUser(user);
     }
 
     @Override

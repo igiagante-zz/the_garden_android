@@ -3,10 +3,11 @@ package com.example.igiagante.thegarden.home.gardens.di;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.home.gardens.usecase.DeleteGardenUseCase;
+import com.example.igiagante.thegarden.home.gardens.usecase.ExistGardenUseCase;
 import com.example.igiagante.thegarden.home.gardens.usecase.GetGardenUseCase;
 import com.example.igiagante.thegarden.home.gardens.usecase.GetGardensByUserUseCase;
 import com.example.igiagante.thegarden.home.gardens.usecase.GetGardensUseCase;
-import com.example.igiagante.thegarden.home.plants.usecase.SaveGardenUseCase;
+import com.example.igiagante.thegarden.home.gardens.usecase.SaveGardenUseCase;
 
 import javax.inject.Named;
 
@@ -52,5 +53,12 @@ public class GardenModule {
     @Named("deleteGarden")
     UseCase provideDeleteGardenUseCase(DeleteGardenUseCase deleteGardenUseCase) {
         return deleteGardenUseCase;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("existGarden")
+    UseCase provideExistGardenUseCase(ExistGardenUseCase existGardenUseCase) {
+        return existGardenUseCase;
     }
 }

@@ -12,6 +12,7 @@ import com.example.igiagante.thegarden.home.plants.di.PlantsModule;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
 import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.plants.presentation.presenters.PlantListPresenter;
+import com.example.igiagante.thegarden.login.di.LoginModule;
 
 import dagger.Component;
 
@@ -20,7 +21,8 @@ import dagger.Component;
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class,
-        modules = {ActivityModule.class, GardenModule.class, PlantsModule.class, IrrigationModule.class})
+        modules = {ActivityModule.class, GardenModule.class, PlantsModule.class,
+                IrrigationModule.class, LoginModule.class})
 public interface MainComponent {
 
     // Activities

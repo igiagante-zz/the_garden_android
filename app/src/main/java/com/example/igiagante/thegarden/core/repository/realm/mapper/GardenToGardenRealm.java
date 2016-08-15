@@ -34,6 +34,8 @@ public class GardenToGardenRealm implements Mapper<Garden, GardenRealm> {
 
     @Override
     public GardenRealm copy(Garden garden, GardenRealm gardenRealm) {
+
+        gardenRealm.setUserId(garden.getUserId());
         gardenRealm.setName(garden.getName());
         gardenRealm.setStartDate(garden.getStartDate());
         gardenRealm.setEndDate(garden.getEndDate());

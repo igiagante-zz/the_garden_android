@@ -4,7 +4,9 @@ import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.UserRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import java.util.ArrayList;
 
@@ -42,7 +44,13 @@ public class UserToUserRealm implements Mapper<User, UserRealm> {
 
         if(gardens != null && !gardens.isEmpty()) {
             for(Garden garden : gardens) {
-                gardenRealms.add(toGardenRealm.map(garden));
+                GardenRealm gardenRealm = realm.where(GardenRealm.class).equalTo(Table.ID, garden.getId()).findFirst();
+                if (gardenRealm == null) {
+                    // create garden realm object and set id
+                    gardenRealm = realm.createObject(GardenRealm.class);
+                    gardenRealm.setId(garden.getId());
+                }
+                gardenRealms.add(toGardenRealm.copy(garden, gardenRealm));
             }
         }
 

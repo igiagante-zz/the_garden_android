@@ -79,8 +79,6 @@ public class PersistStaticDataUseCase extends UseCase<Void> {
         // if there are any attribute in DB, let's ask to the api
         if (attributesFromDB.isEmpty()) {
 
-            Log.i("Current Thread", Thread.currentThread().getName());
-
             ArrayList<Attribute> attributesFromApi = new ArrayList<>();
 
             apiAttributeRepository.query(attributeSpecification)

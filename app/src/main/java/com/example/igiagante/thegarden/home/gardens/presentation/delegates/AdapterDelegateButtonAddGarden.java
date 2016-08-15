@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.adapter.delegate.AdapterDelegate;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeButton;
@@ -20,6 +22,7 @@ import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewT
 public class AdapterDelegateButtonAddGarden implements AdapterDelegate<AdapterDelegateButtonAddGarden.ButtonAddGardenHolder, ViewTypeButton> {
 
     private Context mContext;
+    private Session session;
     private OnGardenDialog onGardenDialog;
     private final LayoutInflater layoutInflater;
 
@@ -27,8 +30,9 @@ public class AdapterDelegateButtonAddGarden implements AdapterDelegate<AdapterDe
         void createGarden(Garden garden);
     }
 
-    public AdapterDelegateButtonAddGarden(Context context, OnGardenDialog onGardenDialog) {
+    public AdapterDelegateButtonAddGarden(Context context, Session session, OnGardenDialog onGardenDialog) {
         this.mContext = context;
+        this.session = session;
         this.onGardenDialog = onGardenDialog;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -70,12 +74,14 @@ public class AdapterDelegateButtonAddGarden implements AdapterDelegate<AdapterDe
             alertDialogBuilder
                     .setPositiveButton("Yes", (dialog, which) -> {
                         Garden garden = new Garden();
+                        garden.setUserId(session.getUser().getId());
                         garden.setName(editText.getText().toString());
                         onGardenDialog.createGarden(garden);})
                     .setNegativeButton("No", null);
 
             // create an alert dialog
             AlertDialog alert = alertDialogBuilder.create();
+            alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
             alert.show();
         }
     }

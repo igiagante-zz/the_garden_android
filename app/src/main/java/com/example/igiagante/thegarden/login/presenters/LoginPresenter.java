@@ -28,15 +28,20 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
     private final UseCase saveUserUseCase;
 
+    private final UseCase updateUserUseCase;
+
     @Inject
     public LoginPresenter(@Named("loginUser") UseCase loginUserUseCase,
                           @Named("refreshToken") UseCase refreshTokenUseCase,
                           @Named("existsUser") UseCase existsUserUseCase,
-                          @Named("saveUser") UseCase saveUserUseCase) {
+                          @Named("saveUser") UseCase saveUserUseCase,
+                          @Named("updateUser") UseCase updateUserUseCase) {
+
         this.loginUserUseCase = loginUserUseCase;
         this.refreshTokenUseCase = refreshTokenUseCase;
         this.existsUserUseCase = existsUserUseCase;
         this.saveUserUseCase = saveUserUseCase;
+        this.updateUserUseCase = updateUserUseCase;
     }
 
     public void destroy() {
@@ -44,6 +49,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
         this.refreshTokenUseCase.unsubscribe();
         this.existsUserUseCase.unsubscribe();
         this.saveUserUseCase.unsubscribe();
+        this.updateUserUseCase.unsubscribe();
         this.view = null;
     }
 

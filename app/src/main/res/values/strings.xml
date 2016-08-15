@@ -24,6 +24,12 @@
         <item>Charts</item>
     </string-array>
 
+    <!-- Login & Register -->
+    <string name="creating_account">Creating Account,&#8230;</string>
+    <string name="email_not_valid">Enter a valid email address</string>
+    <string name="check_email_characters">Between 4 and 10 alphanumeric characters accepted</string>
+    <string name="login_failed">Login Failed!</string>
+
     <!-- Plants - Main -->
     <string name="seedDate">Seed Date</string>
     <string name="flower">Flower</string>

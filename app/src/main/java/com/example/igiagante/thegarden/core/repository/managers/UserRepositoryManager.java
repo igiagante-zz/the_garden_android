@@ -9,10 +9,7 @@ import android.util.Log;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.User;
-import com.example.igiagante.thegarden.core.repository.Specification;
-import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.specification.UserByNameSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiGardenRepository;
 
 import java.util.ArrayList;
@@ -39,9 +36,9 @@ public class UserRepositoryManager {
         this.context = context;
     }
 
-    public Observable<Boolean> checkIfUserExistsInDataBase(@Nullable String userId){
+    public Observable<Boolean> checkIfUserExistsInDataBase(@Nullable String userId) {
         return realmRepository.getById(userId).flatMap(user -> {
-            if(user != null){
+            if (user != null) {
                 return Observable.just(true);
             }
             return Observable.just(false);
@@ -49,11 +46,16 @@ public class UserRepositoryManager {
     }
 
     public Observable<User> saveUser(@NonNull User user) {
-        return  realmRepository.add(user);
+        return realmRepository.add(user);
+    }
+
+    public Observable<User> updateUser(@NonNull User user) {
+        return realmRepository.update(user);
     }
 
     /**
      * Return an observable a list of resources.
+     *
      * @return Observable
      */
     public Observable query(@Nullable String userId) {
@@ -65,9 +67,8 @@ public class UserRepositoryManager {
         query.subscribe(user -> list.add(user));
 
         User user = new User();
-        if(!list.isEmpty()) {
+        if (!list.isEmpty()) {
             user = list.get(0);
-            Log.d("User added", " username --- " + user.getUserName());
         }
 
         if(user.getGardens() != null && user.getGardens().isEmpty() && !TextUtils.isEmpty(user.getUserName())){

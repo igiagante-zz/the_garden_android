@@ -73,15 +73,14 @@ public class LoginFragment extends BaseFragment implements LoginView {
         String token = sharedPreferences.getString(TOKEN_PREFS_NAME, "");
 
         if (!TextUtils.isEmpty(token)) {
-
             session.setToken(token);
-
             if (session.checkIfTokenIsExpired()) {
                 this.loginPresenter.refreshToken();
             }
+            goToMainActivity();
+        } else {
+            mButtonLogin.setOnClickListener(v -> loginUser());
         }
-
-        mButtonLogin.setOnClickListener(v -> loginUser());
 
         mButtonSignUp.setOnClickListener(v ->
                 getActivity().startActivity(new Intent(getContext(), RegisterActivity.class)));
@@ -109,7 +108,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
     }
 
     private void onLoginFailed() {
-        showToastMessage("Login Failed");
+        showToastMessage(getString(R.string.login_failed));
     }
 
     @Override
@@ -157,12 +156,6 @@ public class LoginFragment extends BaseFragment implements LoginView {
         mPassword.setText("");
     }
 
-    @Override
-    public void sendNewToken(String token) {
-        this.session.setToken(token);
-        goToMainActivity();
-    }
-
     /**
      * Second, lets check if the user exists in DB
      */
@@ -183,7 +176,14 @@ public class LoginFragment extends BaseFragment implements LoginView {
         goToMainActivity();
     }
 
+    @Override
+    public void sendNewToken(String token) {
+        this.session.setToken(token);
+        goToMainActivity();
+    }
+
     private void goToMainActivity() {
+        getActivity().finish();
         getActivity().startActivity(new Intent(getContext(), MainActivity.class));
     }
 
@@ -204,14 +204,14 @@ public class LoginFragment extends BaseFragment implements LoginView {
         String password = mPassword.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            mUserEmail.setError("enter a valid email address");
+            mUserEmail.setError(getString(R.string.email_not_valid));
             valid = false;
         } else {
             mUserEmail.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            mPassword.setError("between 4 and 10 alphanumeric characters");
+            mPassword.setError(getString(R.string.check_email_characters));
             valid = false;
         } else {
             mPassword.setError(null);
