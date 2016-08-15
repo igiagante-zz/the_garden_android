@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorContract.FlavorEntry;
 
 import java.math.BigInteger;
@@ -167,7 +168,7 @@ public class FlavorDao {
 
         flavor.setId(String.valueOf(id));
         flavor.setName(flavorCursor.getString(nameIndex));
-        flavor.setImageUrl(flavorCursor.getString(imageUrlIndex));
+        flavor.setImageUrl(Settings.DOMAIN + flavorCursor.getString(imageUrlIndex));
         flavor.setMongoId(flavorCursor.getString(mongoIdIndex));
 
         return flavor;
