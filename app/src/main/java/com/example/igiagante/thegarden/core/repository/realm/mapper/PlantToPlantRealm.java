@@ -119,7 +119,6 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
                 }
 
                 attributePerPlantRealm.setPercentage(attribute.getPercentage());
-
                 attributesRealm.add(attributePerPlantRealm);
             }
         }

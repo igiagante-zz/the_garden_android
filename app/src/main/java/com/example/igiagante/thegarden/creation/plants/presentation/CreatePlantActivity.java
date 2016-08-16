@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.core.presentation.FlowStepExecutor;
@@ -23,7 +24,9 @@ import com.example.igiagante.thegarden.creation.plants.presentation.adapters.Vie
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.UpdateGardenPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.SavePlantView;
+import com.example.igiagante.thegarden.creation.plants.presentation.views.UpdateGardenView;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 
@@ -247,9 +250,21 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     }
 
     @Override
+    public void onSavePlant() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        Plant plant = plantBuilder.build();
+        this.mSavePlantPresenter.savePlant(plant);
+    }
+
+    @Override
+    public void notifyIfGardenWasUpdated(Garden garden) {
+        goToMainActivity();
+    }
+
     public void notifyIfPlantWasPersistedOrUpdated(Plant plant) {
         //update garden model
         this.mGarden.getModel().getPlants().add(plant);
+        this.mSavePlantPresenter.updateGarden(mGarden.getModel());
         goToMainActivity();
     }
 
@@ -283,12 +298,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public Context context() {
         return getApplicationContext();
-    }
-
-    @Override
-    public void onSavePlant() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mSavePlantPresenter.savePlant(plantBuilder.build());
     }
 
     public Plant getPlant() {

@@ -12,6 +12,7 @@ import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiGardenRepository;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +28,11 @@ public class UserRepositoryManager {
 
     private UserRealmRepository realmRepository;
     private RestApiGardenRepository api;
-    private Context context;
 
     @Inject
     public UserRepositoryManager(Context context, Session session) {
         realmRepository = new UserRealmRepository(context);
         api = new RestApiGardenRepository(context, session);
-        this.context = context;
     }
 
     public Observable<Boolean> checkIfUserExistsInDataBase(@Nullable String userId) {

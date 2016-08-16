@@ -38,7 +38,7 @@ public class BaseRestApiRepository<T> {
      * Go to the api and then continue with the DB
      * @param apiResult after call api
      * @param repository DB
-     * @param update indicate if the transaction is about `updating`
+     * @param update indicate if the transaction is about an `updating`
      */
     protected T execute(Observable<T> apiResult, Class repository, boolean update) {
 

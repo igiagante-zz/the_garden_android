@@ -8,6 +8,7 @@ import com.example.igiagante.thegarden.creation.plants.usecase.GetFlavorsUseCase
 import com.example.igiagante.thegarden.creation.plants.usecase.GetImagesUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetPlaguesUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.SavePlantUseCase;
+import com.example.igiagante.thegarden.creation.plants.usecase.UpdateGardenWithPlantsUseCase;
 
 import javax.inject.Named;
 
@@ -55,5 +56,13 @@ public class CreatePlantModule {
     @Named("existPlant")
     UseCase provideExistPlantUseCase(ExistPlantUseCase existPlant) {
         return existPlant;
+    }
+
+
+    @Provides
+    @PerActivity
+    @Named("updateGarden")
+    UseCase provideUpdateGardenWithPlantsUseCase(UpdateGardenWithPlantsUseCase UpdateGardenWithPlantsUseCase) {
+        return UpdateGardenWithPlantsUseCase;
     }
 }

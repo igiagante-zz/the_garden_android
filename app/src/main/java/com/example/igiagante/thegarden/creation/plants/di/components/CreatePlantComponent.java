@@ -14,6 +14,8 @@ import com.example.igiagante.thegarden.creation.plants.presentation.fragments.Ma
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.FlavorGalleryPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.MainDataPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
+import com.example.igiagante.thegarden.creation.plants.presentation.presenters.UpdateGardenPresenter;
+import com.example.igiagante.thegarden.home.gardens.di.GardenModule;
 
 import dagger.Component;
 
@@ -22,7 +24,8 @@ import dagger.Component;
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class,
-        modules = {ActivityModule.class, CreatePlantModule.class, FlavorRepositoryModule.class, GalleryModule.class})
+        modules = {ActivityModule.class, CreatePlantModule.class, FlavorRepositoryModule.class,
+                GalleryModule.class, GardenModule.class})
 public interface CreatePlantComponent extends GalleryComponent {
 
     // Fragments
@@ -39,4 +42,6 @@ public interface CreatePlantComponent extends GalleryComponent {
     SavePlantPresenter savePlantPresenter();
 
     MainDataPresenter mainDataPresenter();
+
+    UpdateGardenPresenter updateGardenPresenter();
 }
