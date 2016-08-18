@@ -35,6 +35,7 @@ import butterknife.ButterKnife;
 public class LoginFragment extends BaseFragment implements LoginView {
 
     public static final String TOKEN_PREFS_NAME = "token";
+    public static final String USERNAME_PREFS_NAME = "username";
 
     @Inject
     Session session;
@@ -71,9 +72,11 @@ public class LoginFragment extends BaseFragment implements LoginView {
 
         // Restore Token from preferences
         String token = sharedPreferences.getString(TOKEN_PREFS_NAME, "");
+        String username = sharedPreferences.getString(USERNAME_PREFS_NAME, "");
 
         if (!TextUtils.isEmpty(token)) {
             session.setToken(token);
+            session.getUser().setUserName(username);
             if (session.checkIfTokenIsExpired()) {
                 this.loginPresenter.refreshToken();
             }
@@ -123,6 +126,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(TOKEN_PREFS_NAME, session.getToken());
+        editor.putString(USERNAME_PREFS_NAME, session.getUser().getUserName());
         editor.apply();
     }
 

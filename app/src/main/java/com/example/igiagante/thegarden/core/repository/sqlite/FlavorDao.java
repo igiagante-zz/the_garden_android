@@ -97,7 +97,7 @@ public class FlavorDao {
             ContentValues flavorValues = new ContentValues();
 
             flavorValues.put(FlavorEntry.COLUMN_NAME, flavors.get(i).getName());
-            flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL,flavors.get(i).getImageUrl());
+            flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL,flavors.get(i).getImageUrl().replace(Settings.DOMAIN, ""));
             flavorValues.put(FlavorEntry.COLUMN_MONGO_ID, flavors.get(i).getId());
 
             values[i] = flavorValues;

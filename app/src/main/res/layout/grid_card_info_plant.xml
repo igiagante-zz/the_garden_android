@@ -54,7 +54,7 @@
             android:paddingTop="@dimen/plant_data_margin"
             android:paddingEnd="@dimen/plant_data_margin"
             android:textSize="@dimen/plant_data_text_size"
-            android:text="High: 20 cm" />
+            android:text="Height: 20 cm" />
 
         <TextView
             android:id="@+id/flower_time_id"

@@ -57,15 +57,14 @@ public class UserRepositoryManager {
      *
      * @return Observable
      */
-    public Observable query(@Nullable String userId) {
+    public Observable query(@Nullable User user) {
 
         //check if the user has gardens into the database
-        Observable<User> query = realmRepository.getById(userId);
+        Observable<User> query = realmRepository.getById(user.getId());
 
         List<User> list = new ArrayList<>();
-        query.subscribe(user -> list.add(user));
+        query.subscribe(userFromDB -> list.add(userFromDB));
 
-        User user = new User();
         if (!list.isEmpty()) {
             user = list.get(0);
         }

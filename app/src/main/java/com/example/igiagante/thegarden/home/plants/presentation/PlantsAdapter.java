@@ -92,7 +92,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         holder.mGenotype.setText(genotypeLabel + ": " + plantHolder.getGenotype());
         String harvestLabel = mContext.getString(R.string.harvest);
         holder.mHarvest.setText(harvestLabel + ": " + String.valueOf(plantHolder.getHarvest()));
-        String highLabel = mContext.getString(R.string.high);
+        String highLabel = mContext.getString(R.string.height);
         holder.mHigh.setText(highLabel + ": " + String.valueOf(plantHolder.getSize()));
         String floweringTimeLabel = mContext.getString(R.string.flower);
         holder.mFloweringTime.setText(floweringTimeLabel + ": " + plantHolder.getFloweringTime());

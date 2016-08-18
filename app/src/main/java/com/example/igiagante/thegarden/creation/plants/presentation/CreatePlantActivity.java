@@ -256,15 +256,14 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         this.mSavePlantPresenter.savePlant(plant);
     }
 
-    @Override
-    public void notifyIfGardenWasUpdated(Garden garden) {
-        goToMainActivity();
-    }
-
     public void notifyIfPlantWasPersistedOrUpdated(Plant plant) {
         //update garden model
         this.mGarden.getModel().getPlants().add(plant);
         this.mSavePlantPresenter.updateGarden(mGarden.getModel());
+    }
+
+    @Override
+    public void notifyIfGardenWasUpdated(Garden garden) {
         goToMainActivity();
     }
 

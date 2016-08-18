@@ -61,8 +61,8 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         this.view = null;
     }
 
-    public void getGardens(String username) {
-        this.getGetGardensByUserUseCase.execute(username, new GetGardensByUserSubscriber());
+    public void getGardensByUser(User user) {
+        this.getGetGardensByUserUseCase.execute(user, new GetGardensByUserSubscriber());
     }
 
     public void saveGarden(Garden garden) {

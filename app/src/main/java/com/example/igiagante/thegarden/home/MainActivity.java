@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         // Load gardens!
         if(gardens != null) {
-            mGardenPresenter.getGardens(mSession.getUser().getId());
+            mGardenPresenter.getGardensByUser(mSession.getUser());
         }
     }
 

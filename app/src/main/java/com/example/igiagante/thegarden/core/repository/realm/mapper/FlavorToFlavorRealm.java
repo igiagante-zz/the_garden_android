@@ -31,7 +31,7 @@ public class FlavorToFlavorRealm implements Mapper<Flavor, FlavorRealm> {
     @Override
     public FlavorRealm copy(Flavor flavor, FlavorRealm flavorRealm) {
         flavorRealm.setName(flavor.getName());
-        flavorRealm.setImageUrl(flavor.getImageUrl());
+        flavorRealm.setImageUrl(flavor.getImageUrl().replace(Settings.DOMAIN, ""));
         return flavorRealm;
     }
 }

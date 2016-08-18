@@ -92,6 +92,7 @@ public class PlantUtils {
         plant.setEcSoil(1);
         plant.setHarvest(60);
         plant.setDescription("Description");
+        plant.setSeedDate(new Date());
 
         return plant;
     }

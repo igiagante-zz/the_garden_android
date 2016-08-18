@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.home.gardens.usecase;
 
+import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.UserRepositoryManager;
@@ -12,7 +13,7 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 5/8/16.
  */
-public class GetGardensByUserUseCase extends UseCase<String> {
+public class GetGardensByUserUseCase extends UseCase<User> {
 
     /**
      * Repository Manager which delegates the actions to the correct repository
@@ -26,7 +27,7 @@ public class GetGardensByUserUseCase extends UseCase<String> {
     }
 
     @Override
-    protected Observable buildUseCaseObservable(String userId) {
-        return userRepositoryManager.query(userId);
+    protected Observable buildUseCaseObservable(User user) {
+        return userRepositoryManager.query(user);
     }
 }

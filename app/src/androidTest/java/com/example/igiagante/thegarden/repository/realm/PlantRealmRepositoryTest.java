@@ -17,8 +17,10 @@ import com.example.igiagante.thegarden.repository.realm.utils.PlantUtils;
 
 import junit.framework.Assert;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import rx.Observable;
 
@@ -83,7 +85,17 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
 
         plantRealmRepository.add(plant);
 
-        plantRealmRepository.getById(ID).subscribe(plantFromDB -> Assert.assertEquals(plantFromDB.getName(), NAME));
+        plantRealmRepository.getById(ID).subscribe(plantFromDB -> {
+            Assert.assertEquals(plantFromDB.getName(), NAME);
+
+            String format = "dd/MM";
+            SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+
+            String one = sdf.format(plantFromDB.getSeedDate());
+            String two = sdf.format(new Date());
+
+            Assert.assertEquals(one, two);
+        });
     }
 
     /**
