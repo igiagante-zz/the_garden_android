@@ -4,9 +4,9 @@
     android:layout_height="wrap_content">
 
     <com.github.mikephil.charting.charts.HorizontalBarChart
-        android:id="@+id/attributes_chart"
-        android:layout_marginStart="5dp"
-        android:layout_width="340dp"
-        android:layout_height="300dp" />
+        android:id="@+id/symptoms_chart"
+        android:layout_marginStart="@dimen/show_plant_chart_margin_start"
+        android:layout_width="@dimen/show_plant_chart_width"
+        android:layout_height="@dimen/show_plant_chart_height" />
 
 </RelativeLayout>

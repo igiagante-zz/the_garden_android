@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.show_plant.presentation;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
@@ -21,11 +23,20 @@ import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.ui.CirclePageIndicator;
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.CarouselAdapter;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
+import com.example.igiagante.thegarden.show_plant.ShowPlantComponent;
 import com.example.igiagante.thegarden.show_plant.adapters.PlantFlavorAdapter;
 import com.example.igiagante.thegarden.show_plant.adapters.PlantPlagueAdapter;
+import com.example.igiagante.thegarden.show_plant.presentation.fragments.EffectsFragment;
+import com.example.igiagante.thegarden.show_plant.presentation.fragments.MedicinalFragment;
+import com.example.igiagante.thegarden.show_plant.presentation.fragments.SymptomsFragment;
+import com.example.igiagante.thegarden.show_plant.presenters.GetAttributesPresenter;
+import com.example.igiagante.thegarden.show_plant.view.ShowPlantView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,7 +44,9 @@ import butterknife.ButterKnife;
 /**
  * @author Ignacio Giagante, on 13/6/16.
  */
-public class GetPlantDataFragment extends BaseFragment {
+public class GetPlantDataFragment extends BaseFragment implements ShowPlantView {
+
+    public static final String ATTRIBUTES_KEY = "ATTRIBUTES";
 
     @Bind(R.id.plant_data_plagues_recycle_view_id)
     RecyclerView mPlaguesRecycleView;
@@ -51,6 +64,12 @@ public class GetPlantDataFragment extends BaseFragment {
 
     private PlantFlavorAdapter flavorAdapter;
 
+    @Inject
+    GetAttributesPresenter getAttributesPresenter;
+
+    private ViewPager viewPager;
+
+    private TabLayout tabLayout;
 
     @Nullable
     @Override
@@ -58,6 +77,11 @@ public class GetPlantDataFragment extends BaseFragment {
 
         final View fragmentView = inflater.inflate(R.layout.get_plant_data_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
+
+        /**
+         * Get component in order to inject the presenter
+         */
+        this.getComponent(ShowPlantComponent.class).inject(this);
 
         // setup viewpager
         mIndicator = (CirclePageIndicator) fragmentView.findViewById(R.id.plant_data_indicator_id);
@@ -81,15 +105,51 @@ public class GetPlantDataFragment extends BaseFragment {
         flavorAdapter = new PlantFlavorAdapter(getContext());
         mFlavorsRecycleView.setAdapter(flavorAdapter);
 
-        ViewPager viewPager = (ViewPager) fragmentView.findViewById(R.id.show_plant_attributes_viewpager_id);
-        setupViewPager(viewPager);
+        viewPager = (ViewPager) fragmentView.findViewById(R.id.show_plant_attributes_viewpager_id);
 
-        TabLayout tabLayout = (TabLayout) fragmentView.findViewById(R.id.show_plant_tab_layout_attributes);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout = (TabLayout) fragmentView.findViewById(R.id.show_plant_tab_layout_attributes);
 
-        loadPlantData();
+        this.getAttributesPresenter.getAttributes();
 
         return fragmentView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.getAttributesPresenter.setView(new WeakReference<>(this));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void loadAttributes(List<Attribute> attributes) {
+        loadPlantData();
+        setupViewPager(viewPager, (ArrayList<Attribute>) attributes);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void setupViewPager(ViewPager viewPager, ArrayList<Attribute> attributes) {
+
+        PlantViewPagerAdapter adapter = new PlantViewPagerAdapter(getActivity().getSupportFragmentManager());
+        adapter.addFragment(EffectsFragment.newInstance(attributes), getString(R.string.tab_effects));
+        adapter.addFragment(MedicinalFragment.newInstance(attributes), getString(R.string.tab_medicinal));
+        adapter.addFragment(SymptomsFragment.newInstance(attributes), getString(R.string.tab_symptoms));
+        viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public Context context() {
+        return null;
     }
 
     /**
@@ -102,21 +162,6 @@ public class GetPlantDataFragment extends BaseFragment {
         mIndicator.setStrokeColor(R.color.gray);
         mIndicator.setStrokeWidth(2);
         mIndicator.setRadius(6 * density);
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-
-        PlantViewPagerAdapter adapter = new PlantViewPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new AttributeDataFragment(), "Effects");
-        adapter.addFragment(new AttributeDataFragment(), "Medicinal");
-        adapter.addFragment(new AttributeDataFragment(), "Symptoms");
-        viewPager.setAdapter(adapter);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     private void loadPlantData() {

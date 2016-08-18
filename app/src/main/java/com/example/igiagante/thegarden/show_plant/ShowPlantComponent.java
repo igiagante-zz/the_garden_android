@@ -4,7 +4,7 @@ import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
 import com.example.igiagante.thegarden.creation.plants.di.module.CreatePlantModule;
-import com.example.igiagante.thegarden.show_plant.presentation.AttributeDataFragment;
+import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataFragment;
 import com.example.igiagante.thegarden.show_plant.presenters.GetAttributesPresenter;
 
 import dagger.Component;
@@ -17,7 +17,7 @@ import dagger.Component;
         modules = {ActivityModule.class, CreatePlantModule.class})
 public interface ShowPlantComponent {
 
-    void inject(AttributeDataFragment attributeDataFragment);
+    void inject(GetPlantDataFragment getPlantDataFragment);
 
     GetAttributesPresenter getAttributesPresenter();
 }

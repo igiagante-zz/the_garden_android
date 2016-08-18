@@ -153,6 +153,10 @@
 
     <dimen name="show_plant_image_carousel_width">300dp</dimen>
 
+    <dimen name="show_plant_chart_width">340dp</dimen>
+    <dimen name="show_plant_chart_height">300dp</dimen>
+    <dimen name="show_plant_chart_margin_start">5dp</dimen>
+
     <!-- NUTRIENTS -->
 
     <dimen name="nutrient_card_view_height">100dp</dimen>
