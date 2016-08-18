@@ -6,16 +6,19 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CarouselFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
+import com.example.igiagante.thegarden.show_plant.DaggerShowPlantComponent;
+import com.example.igiagante.thegarden.show_plant.ShowPlantComponent;
 
 /**
  * @author Ignacio Giagante, on 13/6/16.
  */
 public class GetPlantDataActivity extends BaseActivity implements
-        CarouselFragment.OnDeleteImageInCarousel {
+        CarouselFragment.OnDeleteImageInCarousel, HasComponent<ShowPlantComponent> {
 
     private static final String PLANT_ID_KEY = "PLANT_ID";
 
@@ -23,10 +26,14 @@ public class GetPlantDataActivity extends BaseActivity implements
 
     private PlantHolder mPlant;
 
+    private ShowPlantComponent showPlantComponent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.get_plant_data_activity);
+
+        initializeInjector();
 
         this.initializeActivity(savedInstanceState);
 
@@ -68,5 +75,17 @@ public class GetPlantDataActivity extends BaseActivity implements
 
     public PlantHolder getPlant() {
         return mPlant;
+    }
+
+    @Override
+    public ShowPlantComponent getComponent() {
+        return showPlantComponent;
+    }
+
+    private void initializeInjector() {
+        this.showPlantComponent = DaggerShowPlantComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
     }
 }

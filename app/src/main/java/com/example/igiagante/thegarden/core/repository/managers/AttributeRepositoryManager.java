@@ -6,6 +6,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.AttributeRealmRepository;
+import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiAttributeRepository;
 
 import javax.inject.Inject;
 
