@@ -1,34 +1,27 @@
 package com.example.igiagante.thegarden.show_plant.presentation;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
-import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CarouselFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.show_plant.DaggerShowPlantComponent;
 import com.example.igiagante.thegarden.show_plant.ShowPlantComponent;
-import com.example.igiagante.thegarden.show_plant.presenters.GetAttributesPresenter;
-import com.example.igiagante.thegarden.show_plant.view.ShowPlantView;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
-
-import javax.inject.Inject;
+import com.google.android.gms.analytics.HitBuilders;
 
 /**
  * @author Ignacio Giagante, on 13/6/16.
  */
 public class GetPlantDataActivity extends BaseActivity implements
         CarouselFragment.OnDeleteImageInCarousel, HasComponent<ShowPlantComponent> {
+
+    private static final String TAG = GetPlantDataActivity.class.getSimpleName();
 
     private static final String PLANT_ID_KEY = "PLANT_ID";
 
@@ -45,10 +38,10 @@ public class GetPlantDataActivity extends BaseActivity implements
 
         initializeInjector();
 
-
+        tracker.setScreenName(TAG);
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         this.initializeActivity(savedInstanceState);
-
 
         Intent intent = getIntent();
 

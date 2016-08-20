@@ -181,5 +181,15 @@
     <string name="delete_irrigation_dialog_title">Delete Irrigation</string>
     <string name="delete_irrigation_dialog_content">Are you sure you want to delete this irrigation?</string>
 
+    <!-- Google Analytics -->
+
+    <!-- categories -->
+    <string name="category_login">Login</string>
+    <string name="category_register">Register</string>
+
+    <!-- actions -->
+    <string name="action_logout">Logout</string>
+    <string name="action_user_logged">User Logged</string>
+    <string name="action_new_user_registered">Logout</string>
 
 </resources>

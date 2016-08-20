@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Replace placeholder ID with your tracking ID -->
+    <string name="ga_trackingId">UA-82877624-1</string>
+
+    <bool name="ga_autoActivityTracking">true</bool>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+
+    <string name="ga_appName">Serivce</string>
+    <string name="ga_appVersion">1.1.3</string>
+
+    <bool name="ga_debug">true</bool>
+
+    <item
+        name="ga_dispatchPeriod"
+        format="integer"
+        type="integer">120
+    </item>
+
+    <string name="ga_sampleFrequency">90</string>
+
+    <bool name="ga_anonymizeIp">true</bool>
+    <bool name="ga_dryRun">false</bool>
+
+    <!-- Percentage of events to include in reports -->
+    <string name="ga_sampleFrequency">100.0</string>
+
+    <!-- How long a session exists before giving up -->
+    <integer name="ga_sessionTimeout">-1</integer>
+
+    <string name="com.example.igiagante.thegarden.home.MainActivity">MainActivity</string>
+</resources>

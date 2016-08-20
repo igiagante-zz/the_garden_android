@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,11 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.home.MainActivity;
+import com.example.igiagante.thegarden.login.RegisterActivity;
 import com.example.igiagante.thegarden.login.di.LoginComponent;
 import com.example.igiagante.thegarden.login.presenters.RegisterPresenter;
 import com.example.igiagante.thegarden.login.view.RegisterView;
+import com.google.android.gms.analytics.HitBuilders;
 
 import java.lang.ref.WeakReference;
 
@@ -89,7 +92,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
         mButtonSignUp.setEnabled(true);
     }
 
-    private void createUser(){
+    private void createUser() {
         String username = mUserEmail.getText().toString();
         String password = mPassword.getText().toString();
 
@@ -105,12 +108,14 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
         this.registerPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.registerPresenter.destroy();
     }
@@ -119,9 +124,16 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
     public void notifyUserRegistration(String result) {
         mProgressDialog.hide();
         mButtonSignUp.setEnabled(true);
-        if(!result.equals("OK")) {
+        if (!result.equals("OK")) {
             showToastMessage(result);
         } else {
+
+            RegisterActivity activity = (RegisterActivity) getActivity();
+            activity.getTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory(getString(R.string.category_register))
+                    .setAction(getString(R.string.action_new_user_registered))
+                    .build());
+
             getActivity().finish();
             getActivity().startActivity(new Intent(getContext(), MainActivity.class));
         }

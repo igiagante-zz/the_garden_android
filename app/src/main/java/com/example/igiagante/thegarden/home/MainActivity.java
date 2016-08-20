@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -50,6 +51,8 @@ import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
 import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -127,6 +130,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         initializeInjector();
         getComponent().inject(this);
+
+        tracker.setScreenName(TAG);
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         if (savedInstanceState != null) {
             gardens = savedInstanceState.getParcelableArrayList(GARDENS_KEY);
@@ -255,6 +261,12 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 editor.apply();
             }
             this.drawerLayout.closeDrawers();
+
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory(getString(R.string.category_login))
+                    .setAction(getString(R.string.action_logout))
+                    .build());
+
             startActivity(new Intent(this, LoginActivity.class));
         });
     }

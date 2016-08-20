@@ -8,10 +8,10 @@ android:layout_height="match_parent"
 android:fitsSystemWindows="true"
 tools:context=".home.MainActivity">
 
-<!-- Layout real de la actividad -->
+<!-- Real Layout from Activity -->
 <include layout="@layout/toolbar" />
 
-<!-- Layout del menú lateral (Navigation View) -->
+<!-- (Navigation View) -->
 <include layout="@layout/navigation_drawer_left"/>
 
 </android.support.v4.widget.DrawerLayout>
