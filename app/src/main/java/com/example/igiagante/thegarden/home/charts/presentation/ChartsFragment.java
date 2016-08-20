@@ -1,31 +1,92 @@
 package com.example.igiagante.thegarden.home.charts.presentation;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Attribute;
+import com.example.igiagante.thegarden.core.domain.entity.SensorTemp;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.home.charts.view.SensorTempView;
+import com.example.igiagante.thegarden.home.di.MainComponent;
+import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataFragment;
+import com.github.mikephil.charting.charts.LineChart;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * @author igiagante on 5/5/16.
  */
-public class ChartsFragment extends BaseFragment {
+public class ChartsFragment extends BaseFragment implements SensorTempView {
 
-    public ChartsFragment() {
-        // Required empty public constructor
-    }
+    public static final String SENSOR_DATA_KEY = "SENSOR_DATA";
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private LineChart tempChart;
+    private LineChart humidityChart;
+
+    private ArrayList<SensorTemp> data;
+
+    @Inject
+    ChartsPresenter chartsPresenter;
+
+    public static ChartsFragment newInstance(ArrayList<Attribute> data) {
+        ChartsFragment myFragment = new ChartsFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(SENSOR_DATA_KEY, data);
+        myFragment.setArguments(args);
+
+        return myFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.charts_fragment, container, false);
+
+        /**
+         * Get component in order to inject the presenter
+         */
+        this.getComponent(MainComponent.class).inject(this);
+
+        final View fragmentView = inflater.inflate(R.layout.charts_fragment, container, false);
+
+        this.chartsPresenter.setView(new WeakReference<>(this));
+
+        Bundle args = getArguments();
+        if (args != null) {
+            data = args.getParcelableArrayList(SENSOR_DATA_KEY);
+            new LineChartBuilder(tempChart, data, false).build();
+            new LineChartBuilder(tempChart, data, true).build();
+        }
+
+        tempChart = (LineChart) fragmentView.findViewById(R.id.temp_chart);
+        humidityChart = (LineChart) fragmentView.findViewById(R.id.humidity_chart);
+
+        this.chartsPresenter.getSensorData();
+
+        return fragmentView;
+    }
+
+    @Override
+    public void loadSensorTempData(List<SensorTemp> data) {
+        new LineChartBuilder(tempChart, (ArrayList<SensorTemp>) data, false).build();
+        new LineChartBuilder(humidityChart, (ArrayList<SensorTemp>) data, true).build();
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public Context context() {
+        return getActivity().getApplicationContext();
     }
 }

@@ -9,5 +9,4 @@
         android:layout_width="@dimen/show_plant_chart_width"
         android:layout_height="@dimen/show_plant_chart_height" />
 
-
 </RelativeLayout>
