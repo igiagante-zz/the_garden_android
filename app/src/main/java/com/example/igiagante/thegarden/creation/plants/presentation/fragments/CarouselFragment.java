@@ -76,7 +76,6 @@ public class CarouselFragment extends BaseFragment {
             mImage.setImageURI(Uri.fromFile(new File(mImageUrl)));
         }
 
-
         if(getActivity() instanceof CarouselActivity) {
             FrameLayout frameLayout = (FrameLayout) containerView.findViewById(R.id.carousel_container_id);
             frameLayout.setBackground(ContextCompat.getDrawable(getContext(), R.color.background));

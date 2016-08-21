@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/temp_chart"
-        android:layout_width="@dimen/show_plant_chart_width"
-        android:layout_height="@dimen/show_plant_chart_height"
-        android:layout_marginStart="@dimen/show_plant_chart_margin_start" />
+    <ProgressBar
+        android:id="@+id/progress_bar_charts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/humidity_chart"
-        android:layout_width="@dimen/show_plant_chart_width"
-        android:layout_height="@dimen/show_plant_chart_height"
-        android:layout_marginStart="@dimen/show_plant_chart_margin_start"
-        android:layout_marginTop="15dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/temp_chart"
+            android:layout_width="@dimen/show_plant_chart_width"
+            android:layout_height="@dimen/show_plant_chart_height"
+            android:layout_marginStart="@dimen/show_plant_chart_margin_start" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/humidity_chart"
+            android:layout_width="@dimen/show_plant_chart_width"
+            android:layout_height="@dimen/show_plant_chart_height"
+            android:layout_marginStart="@dimen/show_plant_chart_margin_start"
+            android:layout_marginTop="@dimen/show_plant_chart_margin_top" />
+
+    </LinearLayout>
+
+</RelativeLayout>

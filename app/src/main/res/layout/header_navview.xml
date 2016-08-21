@@ -8,7 +8,8 @@
         android:layout_height="@dimen/image_header_view_height"
         android:background="@android:color/black"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_garden_one" />
+        android:src="@drawable/ic_garden_one"
+        android:contentDescription="@string/header_nav_garden_picture"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,8 +22,8 @@
             android:id="@+id/header_nav_garden_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:padding="10dp"
+            android:layout_marginEnd="@dimen/header_nav_garden_title_margin_end"
+            android:padding="@dimen/header_nav_garden_title_padding"
             android:text="@string/header_nav_bar_garden_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
             android:textStyle="bold"
@@ -32,8 +33,8 @@
             android:id="@+id/header_nav_temp_and_humd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:padding="8dp"
+            android:layout_marginEnd="@dimen/header_nav_text_margin_end"
+            android:padding="@dimen/header_nav_text_padding"
             android:text="@string/header_nav_bar_temp_humd"
             android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
             android:textStyle="bold"
@@ -43,8 +44,8 @@
             android:id="@+id/header_nav_number_of_plants"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:padding="8dp"
+            android:layout_marginEnd="@dimen/header_nav_text_margin_end"
+            android:padding="@dimen/header_nav_text_padding"
             android:text="@string/header_nav_bar_number_of_plants"
             android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
             android:textStyle="bold"

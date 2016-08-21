@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.home;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -110,8 +112,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Bind(R.id.recycler_view_gardens)
     RecyclerView recyclerViewGardens;
 
-    @Bind(R.id.fab_id)
-    FloatingActionButton fab;
+    @Bind(R.id.progress_bar_garden)
+    ProgressBar progressBar;
 
     /**
      * Save garden's position from Garden, which should be deleted
@@ -146,9 +148,6 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-
-        // show FAB
-        fab.setOnClickListener(view -> startActivity(new Intent(this, CreatePlantActivity.class)));
 
         setupToolbar();
 
@@ -242,9 +241,6 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         this.recyclerViewGardens.setLayoutManager(new LinearLayoutManager(this));
         this.recyclerViewGardens.setAdapter(mNavigationGardenAdapter);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab_id);
-        fab.setVisibility(View.INVISIBLE);
-
         //nutrients
         Button nutrientsOption = (Button) findViewById(R.id.nutrients_id);
         nutrientsOption.setOnClickListener(v -> {
@@ -272,6 +268,16 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
             startActivity(new Intent(this, LoginActivity.class));
         });
+    }
+
+    @Override
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

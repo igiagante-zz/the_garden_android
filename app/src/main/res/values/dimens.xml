@@ -27,8 +27,14 @@
     <dimen name="navigation_drawer_garden_name_margin_start">8dp</dimen>
     <dimen name="navigation_drawer_garden_name_padding_top">8dp</dimen>
 
-    <dimen name="header_nav_garden_title_text_size">24sp</dimen>
+    <dimen name="header_nav_garden_title_text_size">26sp</dimen>
     <dimen name="header_nav_garden_temp_and_humd_text_size">22sp</dimen>
+
+    <dimen name="header_nav_garden_title_margin_end">8dp</dimen>
+    <dimen name="header_nav_garden_title_padding">10dp</dimen>
+
+    <dimen name="header_nav_text_margin_end">10dp</dimen>
+    <dimen name="header_nav_text_padding">8dp</dimen>
 
     <!-- General Keylines -->
     <dimen name="margin_top">60dp</dimen>
@@ -159,6 +165,7 @@
     <dimen name="show_plant_chart_width">340dp</dimen>
     <dimen name="show_plant_chart_height">300dp</dimen>
     <dimen name="show_plant_chart_margin_start">5dp</dimen>
+    <dimen name="show_plant_chart_margin_top">15dp</dimen>
 
     <!-- NUTRIENTS -->
 

@@ -230,6 +230,16 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     }
 
+    @Override
+    public void showLoading() {
+        this.mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        this.mProgressBar.setVisibility(View.GONE);
+    }
+
     /**
      * Notify to the active fragment about the movement to the previous page
      */

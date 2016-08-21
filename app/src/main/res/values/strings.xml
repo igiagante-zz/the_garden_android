@@ -19,6 +19,7 @@
     <string name="header_nav_bar_number_of_plants">Plants: %1$s</string>
 
     <string name="there_is_not_internet_connection">Internet Connection is not available.</string>
+    <string name="header_nav_garden_picture">Garden Picture</string>
 
     <string-array name="garden_view_pager_fragment_title">
         <item>Plants</item>
@@ -27,6 +28,7 @@
     </string-array>
 
     <!-- Login & Register -->
+    <string name="loading_gardens">Loadging gardens,&#8230;</string>
     <string name="creating_account">Creating Account,&#8230;</string>
     <string name="email_not_valid">Enter a valid email address</string>
     <string name="check_email_characters">Between 4 and 10 alphanumeric characters accepted</string>

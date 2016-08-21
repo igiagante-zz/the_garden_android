@@ -33,7 +33,16 @@ public class ChartsPresenter extends AbstractPresenter<SensorTempView> {
     }
 
     public void getSensorData() {
+        this.showViewLoading();
         this.sensorTempUseCase.execute(null, new SensorTempSubscriber());
+    }
+
+    private void showViewLoading() {
+        getView().showLoading();
+    }
+
+    private void hideViewLoading() {
+        getView().hideLoading();
     }
 
     private void showSensorData(List<SensorTemp> data) {
@@ -44,14 +53,12 @@ public class ChartsPresenter extends AbstractPresenter<SensorTempView> {
 
         @Override
         public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+            ChartsPresenter.this.hideViewLoading();
         }
 
         @Override
         public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
-            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            //PlantListPresenter.this.showViewRetry();
+            ChartsPresenter.this.hideViewLoading();
             Log.e("Error", e.getMessage());
             e.printStackTrace();
         }

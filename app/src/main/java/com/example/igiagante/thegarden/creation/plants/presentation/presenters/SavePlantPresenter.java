@@ -39,10 +39,12 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
     }
 
     public void savePlant(Plant plant) {
+        this.showViewLoading();
         this.savePlantUseCase.execute(plant, new SavePlantSubscriber());
     }
 
     public void updateGarden(Garden garden){
+        this.showViewLoading();
         this.updateGardenUseCase.execute(garden, new UpdateGardenSubscriber());
     }
 
@@ -54,16 +56,24 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
         getView().notifyIfGardenWasUpdated(garden);
     }
 
+    private void showViewLoading() {
+        getView().showLoading();
+    }
+
+    private void hideViewLoading() {
+        getView().hideLoading();
+    }
+
     private final class SavePlantSubscriber extends DefaultSubscriber<Plant> {
 
         @Override
         public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+            SavePlantPresenter.this.hideViewLoading();
         }
 
         @Override
         public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
+            SavePlantPresenter.this.hideViewLoading();
             Log.e("Error", e.getMessage());
             e.printStackTrace();
         }
@@ -78,12 +88,12 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
 
         @Override
         public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+            SavePlantPresenter.this.hideViewLoading();
         }
 
         @Override
         public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
+            SavePlantPresenter.this.hideViewLoading();
             Log.e("Error", e.getMessage());
             e.printStackTrace();
         }
@@ -93,5 +103,4 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
             SavePlantPresenter.this.notifyIfGardenWasUpdated(garden);
         }
     }
-
 }
