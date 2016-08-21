@@ -76,19 +76,28 @@ public class LoginFragment extends BaseFragment implements LoginView {
         String token = sharedPreferences.getString(TOKEN_PREFS_NAME, "");
         String username = sharedPreferences.getString(USERNAME_PREFS_NAME, "");
 
-        if (!TextUtils.isEmpty(token)) {
-            session.setToken(token);
-            session.getUser().setUserName(username);
-            if (session.checkIfTokenIsExpired()) {
-                this.loginPresenter.refreshToken();
+        mButtonLogin.setOnClickListener(v -> loginUser());
+        mButtonSignUp.setOnClickListener(v -> {
+            if (!checkInternet()) {
+                showToastMessage(getString(R.string.there_is_not_internet_connection));
+            } else {
+                getActivity().startActivity(new Intent(getContext(), RegisterActivity.class));
             }
-            goToMainActivity();
-        } else {
-            mButtonLogin.setOnClickListener(v -> loginUser());
-        }
+        });
 
-        mButtonSignUp.setOnClickListener(v ->
-                getActivity().startActivity(new Intent(getContext(), RegisterActivity.class)));
+        if (checkInternet()) {
+
+            if (!TextUtils.isEmpty(token)) {
+                session.setToken(token);
+                session.getUser().setUserName(username);
+                if (session.checkIfTokenIsExpired()) {
+                    this.loginPresenter.refreshToken();
+                }
+                goToMainActivity();
+            }
+        } else {
+            showToastMessage(getString(R.string.there_is_not_internet_connection));
+        }
 
         mUserEmail.requestFocus();
 
@@ -96,6 +105,11 @@ public class LoginFragment extends BaseFragment implements LoginView {
     }
 
     private void loginUser() {
+
+        if (!checkInternet()) {
+            showToastMessage(getString(R.string.there_is_not_internet_connection));
+            return;
+        }
 
         if (!validate()) {
             onLoginFailed();
@@ -149,7 +163,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
      */
     @Override
     public void notifyUserLogin(String result) {
-        if (!result.equals("OK")) {
+        if (!result.equals(getString(R.string.login_ok))) {
             showToastMessage(result);
         } else {
             cleanFields();

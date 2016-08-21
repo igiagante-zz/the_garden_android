@@ -29,6 +29,7 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
 
     @Inject
     public GardenRepositoryManager(Context context, Session session) {
+        super(context);
         this.context = context;
         this.session = session;
         mRepositories.add(new GardenRealmRepository(context));
@@ -38,16 +39,20 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
     public Observable add(@NonNull Garden garden) {
 
         // search a garden using the name
-        Specification plantSpecification = new GardenByNameSpecification(garden.getName());
+        Specification gardenByNameSpecification = new GardenByNameSpecification(garden.getName());
 
         // there should be only one garden with this name, so it will ask for the list's item
-        Observable<Garden> observableOne = mRepositories.get(0).query(plantSpecification)
+        Observable<Garden> observableOne = mRepositories.get(0).query(gardenByNameSpecification)
                 .flatMap(list -> Observable.just(list.get(0)));
 
         List<Garden> list = new ArrayList<>();
         observableOne.map(plant1 -> list.add(garden));
 
         Observable<List<Garden>> observable = Observable.just(list);
+
+        if (!checkInternet()) {
+            return Observable.just(list.get(0));
+        }
 
         // check if the garden already exits. If the garden exists, it returns the garden. On the other
         // side, it asks to the rest api to save the garden.
@@ -58,10 +63,17 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
     }
 
     public Observable update(@NonNull Garden garden) {
+        if (!checkInternet()) {
+            return Observable.just(garden);
+        }
         return mRepositories.get(1).update(garden);
     }
 
     public Observable delete(@NonNull String gardenId, @NonNull String userId) {
+
+        if (!checkInternet()) {
+            return Observable.just(-1);
+        }
 
         // TODO - Refactor this
         RestApiGardenRepository restApiGardenRepository = new RestApiGardenRepository(context, session);
@@ -74,14 +86,14 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
         resultFromApi.subscribeOn(Schedulers.io()).toBlocking().subscribe(success -> list.add(success));
 
         // delete plant from DB
-        if(!list.isEmpty() && list.get(0) != -1) {
+        if (!list.isEmpty() && list.get(0) != -1) {
             Observable<Integer> resultFromDB = mRepositories.get(0).remove(gardenId);
             resultFromDB.toBlocking().subscribe(success -> list.add(success));
         }
 
         Observable<Integer> result;
 
-        if(list.contains(-1)) {
+        if (list.contains(-1)) {
             result = Observable.just(-1);
         } else {
             result = Observable.just(1);
@@ -111,6 +123,7 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
 
     /**
      * Return an observable a list of resources.
+     *
      * @param specification {@link Specification}
      * @return Observable
      */
@@ -122,6 +135,10 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
         query.subscribe(gardens -> list.addAll(gardens));
 
         Observable<List<Garden>> observable = Observable.just(list);
+
+        if (!checkInternet()) {
+            return Observable.just(list.get(0));
+        }
 
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists

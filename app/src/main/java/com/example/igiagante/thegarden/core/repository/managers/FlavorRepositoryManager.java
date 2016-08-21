@@ -19,6 +19,7 @@ public class FlavorRepositoryManager extends RepositoryManager<Repository<Flavor
 
     @Inject
     public FlavorRepositoryManager(Context context){
+        super(context);
         mRepositories.add(new FlavorDaoRepository(new FlavorDao(context)));
     }
 

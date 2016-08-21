@@ -1,7 +1,12 @@
 package com.example.igiagante.thegarden.core.presentation;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.core.di.HasComponent;
@@ -19,7 +24,10 @@ public abstract class BaseFragment extends Fragment {
      * @param message An string representing a message to be shown.
      */
     protected void showToastMessage(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
+        TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
+        textView.setGravity(Gravity.CENTER);
+        toast.show();
     }
 
     /**
@@ -40,5 +48,17 @@ public abstract class BaseFragment extends Fragment {
 
     protected boolean isLandScape() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    public boolean checkInternet() {
+
+        boolean isConnected;
+
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
+
+        return isConnected;
     }
 }

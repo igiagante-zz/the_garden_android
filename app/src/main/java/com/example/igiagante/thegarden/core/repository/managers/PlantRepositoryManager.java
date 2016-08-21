@@ -26,6 +26,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
 
     @Inject
     public PlantRepositoryManager(Context context, Session session) {
+        super(context);
         mRepositories.add(new PlantRealmRepository(context));
         mRepositories.add(new RestApiPlantRepository(context, session));
     }
@@ -42,6 +43,10 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         List<Plant> list = new ArrayList<>();
         observableOne.map(plant1 -> list.add(plant));
 
+        if(!checkInternet()) {
+            return Observable.just(list.get(0));
+        }
+
         Observable<List<Plant>> observable = Observable.just(list);
 
         // check if the plant already exits. If the plant exists, it returns the plant. On the other
@@ -53,10 +58,18 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
     }
 
     public Observable<Plant> update(@NonNull Plant plant) {
+        if(!checkInternet()){
+            return Observable.just(plant);
+        }
         return mRepositories.get(1).update(plant);
     }
 
     public Observable delete(@NonNull String plantId) {
+
+        if(!checkInternet()) {
+            return Observable.just(-1);
+        }
+
         // delete plant from api
         Observable<Integer> resultFromApi = mRepositories.get(1).remove(plantId);
 
@@ -94,6 +107,10 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         query.subscribe(plants -> list.addAll(plants));
 
         Observable<List<Plant>> observable = Observable.just(list);
+
+        if (!checkInternet()) {
+            return Observable.just(list.get(0));
+        }
 
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists

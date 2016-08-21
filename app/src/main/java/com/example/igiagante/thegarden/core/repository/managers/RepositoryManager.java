@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.core.repository.managers;
 
+import android.content.Context;
+
 import com.example.igiagante.thegarden.core.repository.Repository;
 
 import java.util.ArrayList;
@@ -8,7 +10,11 @@ import java.util.List;
 /**
  * @author Ignacio Giagante, on 3/6/16.
  */
-public abstract class RepositoryManager<Repo extends Repository<?>> {
+public class RepositoryManager<Repo extends Repository<?>> extends BaseRepositoryManager{
+
+    public RepositoryManager(Context context) {
+        super(context);
+    }
 
     /**
      * List of repositories

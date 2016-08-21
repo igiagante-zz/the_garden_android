@@ -2,6 +2,8 @@ package com.example.igiagante.thegarden.core.presentation;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Adds a {@link Fragment} to this activity's layout.
      *
      * @param containerViewId The container view to where add the fragment.
-     * @param fragment The fragment to be added.
+     * @param fragment        The fragment to be added.
      */
     protected void addFragment(int containerViewId, Fragment fragment) {
         FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
@@ -52,8 +54,8 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Adds a {@link Fragment} to this activity's layout.
      *
      * @param containerViewId The container view to where add the fragment.
-     * @param fragment The fragment to be added.
-     * @param tag To tag fragment
+     * @param fragment        The fragment to be added.
+     * @param tag             To tag fragment
      */
     protected void addFragment(int containerViewId, Fragment fragment, String tag) {
         FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
@@ -63,6 +65,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Find fragment by tag
+     *
      * @param tag Tag to identify the fragment
      * @return Fragment
      */
@@ -76,7 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @return {@link ApplicationComponent}
      */
     protected ApplicationComponent getApplicationComponent() {
-        return ((AndroidApplication)getApplication()).getApplicationComponent();
+        return ((AndroidApplication) getApplication()).getApplicationComponent();
     }
 
     /**
@@ -94,9 +97,5 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public Tracker getTracker() {
         return tracker;
-    }
-
-    public void setTracker(Tracker tracker) {
-        this.tracker = tracker;
     }
 }

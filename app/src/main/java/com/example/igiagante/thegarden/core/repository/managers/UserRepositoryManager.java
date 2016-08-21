@@ -24,13 +24,14 @@ import rx.schedulers.Schedulers;
 /**
  * @author Ignacio Giagante, on 5/8/16.
  */
-public class UserRepositoryManager {
+public class UserRepositoryManager extends BaseRepositoryManager {
 
     private UserRealmRepository realmRepository;
     private RestApiGardenRepository api;
 
     @Inject
     public UserRepositoryManager(Context context, Session session) {
+        super(context);
         realmRepository = new UserRealmRepository(context);
         api = new RestApiGardenRepository(context, session);
     }
@@ -45,10 +46,16 @@ public class UserRepositoryManager {
     }
 
     public Observable<User> saveUser(@NonNull User user) {
+        if (!checkInternet()) {
+            return Observable.just(user);
+        }
         return realmRepository.add(user);
     }
 
     public Observable<User> updateUser(@NonNull User user) {
+        if (!checkInternet()) {
+            return Observable.just(user);
+        }
         return realmRepository.update(user);
     }
 
@@ -67,6 +74,10 @@ public class UserRepositoryManager {
 
         if (!list.isEmpty()) {
             user = list.get(0);
+        }
+
+        if (!checkInternet()) {
+            return Observable.just(user);
         }
 
         if(user.getGardens() != null && user.getGardens().isEmpty() && !TextUtils.isEmpty(user.getUserName())){

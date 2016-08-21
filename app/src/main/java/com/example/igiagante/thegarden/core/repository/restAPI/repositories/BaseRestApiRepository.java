@@ -21,7 +21,7 @@ import rx.schedulers.Schedulers;
 /**
  * @author Ignacio Giagante, on 3/7/16.
  */
-public class BaseRestApiRepository<T> {
+public class BaseRestApiRepository<T> extends BaseRestApi {
 
     private static final String TAG = BaseRestApiRepository.class.getSimpleName();
 
@@ -29,8 +29,9 @@ public class BaseRestApiRepository<T> {
 
     protected Session session;
 
-    public BaseRestApiRepository(Context mContext, Session session) {
-        this.mContext = mContext;
+    public BaseRestApiRepository(Context context, Session session) {
+        super(context);
+        this.mContext = context;
         this.session = session;
     }
 
