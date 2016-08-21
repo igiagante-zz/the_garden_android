@@ -14,4 +14,7 @@ public interface SensorTempApi {
 
     @GET("sensor/")
     Observable<List<SensorTemp>> getValues();
+
+    @GET("sensor/actual")
+    Observable<SensorTemp> getActualTempAndHumd();
 }

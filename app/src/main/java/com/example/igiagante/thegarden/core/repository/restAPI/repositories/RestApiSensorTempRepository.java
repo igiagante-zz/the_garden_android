@@ -56,6 +56,10 @@ public class RestApiSensorTempRepository implements Repository<SensorTemp> {
 
     }
 
+    public Observable<SensorTemp> getActualTempAndHumd() {
+        return api.getActualTempAndHumd();
+    }
+
     @Override
     public Observable<List<SensorTemp>> query(Specification specification) {
         return api.getValues();

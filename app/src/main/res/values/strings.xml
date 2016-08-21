@@ -15,8 +15,10 @@
     <string name="settings">Settings</string>
 
     <string name="header_nav_bar_garden_name">The jungle</string>
-    <string name="header_nav_bar_temp_humd">T: 25 ºC  H: 40%</string>
+    <string name="header_nav_bar_temp_humd">T: %1$s ºC&#160;&#160;&#160;H: %2$s%%</string>
     <string name="header_nav_bar_number_of_plants">Plants: %1$s</string>
+
+
 
     <string-array name="garden_view_pager_fragment_title">
         <item>Plants</item>

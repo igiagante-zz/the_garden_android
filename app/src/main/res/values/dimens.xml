@@ -27,6 +27,9 @@
     <dimen name="navigation_drawer_garden_name_margin_start">8dp</dimen>
     <dimen name="navigation_drawer_garden_name_padding_top">8dp</dimen>
 
+    <dimen name="header_nav_garden_title_text_size">24sp</dimen>
+    <dimen name="header_nav_garden_temp_and_humd_text_size">22sp</dimen>
+
     <!-- General Keylines -->
     <dimen name="margin_top">60dp</dimen>
     <dimen name="margin_left">10dp</dimen>

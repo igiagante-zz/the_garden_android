@@ -4,10 +4,12 @@ import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.SensorTemp;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.home.gardens.usecase.GetGardenTempAndHumd;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 
@@ -25,6 +27,8 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     private final static String TAG = GardenPresenter.class.getSimpleName();
 
+    private final UseCase getGardenTempAndHumd;
+
     private final UseCase getGetGardensByUserUseCase;
     private final UseCase getGardensUseCase;
     private final UseCase getGardenUseCase;
@@ -35,13 +39,16 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     private final UseCase updateUserUseCase;
 
     @Inject
-    public GardenPresenter(@Named("gardens") UseCase getGardensUseCase,
+    public GardenPresenter(GetGardenTempAndHumd getGardenTempAndHumd,
+                           @Named("gardens") UseCase getGardensUseCase,
                            @Named("getGardensByUser") UseCase getGetGardensByUserUseCase,
                            @Named("getGarden") UseCase getGardenUseCase,
                            @Named("saveGarden") UseCase saveGardenUseCase,
                            @Named("deleteGarden") UseCase deleteGardenUseCase,
                            @Named("existGarden") UseCase existGardenUseCase,
                            @Named("updateUser") UseCase saveUserUseCase) {
+
+        this.getGardenTempAndHumd = getGardenTempAndHumd;
 
         this.getGardensUseCase = getGardensUseCase;
         this.getGetGardensByUserUseCase = getGetGardensByUserUseCase;
@@ -54,10 +61,13 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     }
 
     public void destroy() {
+        this.getGardenTempAndHumd.unsubscribe();
         this.getGardensUseCase.unsubscribe();
+        this.getGetGardensByUserUseCase.unsubscribe();
         this.getGardenUseCase.unsubscribe();
         this.saveGardenUseCase.unsubscribe();
         this.deleteGardenUseCase.unsubscribe();
+        this.updateUserUseCase.unsubscribe();
         this.view = null;
     }
 
@@ -85,6 +95,36 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         this.updateUserUseCase.execute(user, new UpdateUserSubscriber());
     }
 
+    public void getActualTempAndHumidity() {
+        this.getGardenTempAndHumd.execute(null, new GetGardenTempAndHumidity());
+    }
+
+    public ArrayList<Garden> createGardenListFromGardenHolderList(List<GardenHolder> gardenHolders) {
+
+        ArrayList<Garden> gardens = new ArrayList<>();
+
+        if(gardenHolders != null) {
+            for (int i = 0; i < gardenHolders.size(); i++) {
+                gardens.add(gardenHolders.get(i).getModel());
+            }
+        }
+
+        return gardens;
+    }
+
+    public GardenHolder createGardenHolder(Garden garden, int position) {
+        GardenHolder gardenHolder = new GardenHolder();
+        gardenHolder.setModel(garden);
+        gardenHolder.setPosition(position);
+        return gardenHolder;
+    }
+
+    private GardenHolder createGardenHolder(Garden garden) {
+        GardenHolder gardenHolder = new GardenHolder();
+        gardenHolder.setModel(garden);
+        return gardenHolder;
+    }
+
     private void showGardens(List<GardenHolder> gardens) {
         getView().loadGardens(gardens);
     }
@@ -107,6 +147,25 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     private void notifyIfUserWasUpdated(User user) {
         getView().notifyIfUserWasUpdated(user);
+    }
+
+    private void updateTemp(SensorTemp sensorTemp) {
+        getView().updateTemp(sensorTemp);
+    }
+
+    private final class GetGardenTempAndHumidity extends DefaultSubscriber<SensorTemp> {
+
+        @Override public void onCompleted() {
+        }
+
+        @Override public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+
+        @Override public void onNext(SensorTemp sensorTemp) {
+            GardenPresenter.this.updateTemp(sensorTemp);
+        }
     }
 
     // TODO - Refactor
@@ -141,32 +200,6 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         }
 
         return gardenHolders;
-    }
-
-    public ArrayList<Garden> createGardenListFromGardenHolderList(List<GardenHolder> gardenHolders) {
-
-        ArrayList<Garden> gardens = new ArrayList<>();
-
-        if(gardenHolders != null) {
-            for (int i = 0; i < gardenHolders.size(); i++) {
-                gardens.add(gardenHolders.get(i).getModel());
-            }
-        }
-
-        return gardens;
-    }
-
-    public GardenHolder createGardenHolder(Garden garden, int position) {
-        GardenHolder gardenHolder = new GardenHolder();
-        gardenHolder.setModel(garden);
-        gardenHolder.setPosition(position);
-        return gardenHolder;
-    }
-
-    private GardenHolder createGardenHolder(Garden garden) {
-        GardenHolder gardenHolder = new GardenHolder();
-        gardenHolder.setModel(garden);
-        return gardenHolder;
     }
 
     private final class ExistsGardenSubscriber extends DefaultSubscriber<Boolean> {

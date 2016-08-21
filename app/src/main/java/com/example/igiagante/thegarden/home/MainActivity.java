@@ -35,6 +35,7 @@ import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.core.domain.entity.SensorTemp;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
@@ -288,6 +289,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             loadGarden(garden);
             //add gardens to session's user
             mSession.getUser().setGardens(mGardenPresenter.createGardenListFromGardenHolderList(gardens));
+
+            this.mGardenPresenter.getActualTempAndHumidity();
         }
     }
 
@@ -296,6 +299,16 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         this.drawerLayout.closeDrawers();
         this.mAdapter.setGardenHolder(gardenHolder);
         setupNavigationHeaderData(gardenHolder.getModel());
+    }
+
+    @Override
+    public void updateTemp(SensorTemp sensorTemp) {
+
+        String temp = String.valueOf(sensorTemp.getTemp());
+        String humd = String.valueOf(sensorTemp.getHumidity());
+
+        TextView tempAndHumd = (TextView) findViewById(R.id.header_nav_temp_and_humd);
+        tempAndHumd.setText(getString(R.string.header_nav_bar_temp_humd, temp, humd));
     }
 
     private void setupNavigationHeaderData(Garden garden) {
