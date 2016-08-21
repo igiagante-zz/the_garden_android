@@ -70,6 +70,8 @@
             android:label="@string/activity_irrigation_detail"
             android:screenOrientation="portrait"/>
 
+        <receiver android:name=".login.NotificationPublisher" />
+
         <!-- Optionally, register AnalyticsReceiver and AnalyticsService to support background
      dispatching on non-Google Play devices -->
         <receiver

@@ -30,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -42,20 +41,19 @@ import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientA
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.di.DaggerMainComponent;
 import com.example.igiagante.thegarden.home.di.MainComponent;
-import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
-import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.home.gardens.presentation.adapters.GardenViewPagerAdapter;
 import com.example.igiagante.thegarden.home.gardens.presentation.adapters.NavigationGardenAdapter;
-import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.gardens.presentation.delegates.AdapterDelegateButtonAddGarden;
 import com.example.igiagante.thegarden.home.gardens.presentation.delegates.AdapterDelegateGarden;
 import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
+import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
+import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

@@ -18,7 +18,9 @@
     <string name="header_nav_bar_temp_humd">T: %1$s ºC&#160;&#160;&#160;H: %2$s%%</string>
     <string name="header_nav_bar_number_of_plants">Plants: %1$s</string>
 
-
+    <!-- Notifications -->
+    <string name="notification_title">The Garden</string>
+    <string name="notification_text">The plants need water!</string>
 
     <string-array name="garden_view_pager_fragment_title">
         <item>Plants</item>
