@@ -51,6 +51,9 @@ import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
 import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -122,6 +125,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     private ArrayList<GardenHolder> gardens = new ArrayList<>();
 
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,7 +159,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         tabLayout.setupWithViewPager(viewPager);
 
         // Load gardens!
-        if(gardens != null) {
+        if (gardens != null) {
             mGardenPresenter.getGardensByUser(mSession.getUser());
         }
     }
@@ -169,20 +174,21 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_CODE_CREATE_PLANT_ACTIVITY && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE_CREATE_PLANT_ACTIVITY && resultCode == Activity.RESULT_OK) {
             setActiveGarden(data);
         }
     }
 
     /**
      * Get Garden data from Intent
+     *
      * @param intent Intent Object
      */
     private void setActiveGarden(Intent intent) {
         GardenHolder garden = intent.getParcelableExtra(GARDEN_KEY);
-        if(garden != null) {
+        if (garden != null) {
             int position = existGarden(garden);
-            if(position != -1) {
+            if (position != -1) {
                 gardens.set(position, garden);
             }
         }
@@ -255,7 +261,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
             // Delete token from preferences
             String token = sharedPreferences.getString(LoginFragment.TOKEN_PREFS_NAME, "");
-            if(!TextUtils.isEmpty(token)){
+            if (!TextUtils.isEmpty(token)) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(LoginFragment.TOKEN_PREFS_NAME, "");
                 editor.apply();
@@ -281,7 +287,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             this.garden = gardens.get(0);
         }
 
-        if(garden != null) {
+        if (garden != null) {
             // load default garden
             mAdapter.setGardenHolder(garden);
             //add gardens to session's user
@@ -351,7 +357,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Override
     public void notifyIfGardenExists(boolean exists) {
-        if(exists) {
+        if (exists) {
             Toast.makeText(this, "The garden's name already exists. Try other please!",
                     Toast.LENGTH_SHORT).show();
         } else {

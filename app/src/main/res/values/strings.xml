@@ -192,4 +192,8 @@
     <string name="action_user_logged">User Logged</string>
     <string name="action_new_user_registered">Logout</string>
 
+    <!-- Google AdMob -->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+
 </resources>
