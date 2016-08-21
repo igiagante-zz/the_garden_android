@@ -190,6 +190,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
 
     private void goToMainActivity() {
 
+        // tracking
         LoginActivity activity = (LoginActivity) getActivity();
         activity.getTracker().send(new HitBuilders.EventBuilder()
                 .setCategory(getString(R.string.category_login))

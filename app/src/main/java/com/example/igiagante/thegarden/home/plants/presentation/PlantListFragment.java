@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -35,6 +37,7 @@ import butterknife.ButterKnife;
 
 /**
  * Fragment
+ *
  * @author Ignacio Giagante, on 5/5/16.
  */
 public class PlantListFragment extends BaseFragment implements PlantListView, PlantsAdapter.OnDeletePlant {
@@ -50,8 +53,11 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
     @Bind(R.id.recycle_view_id)
     RecyclerView recyclerViewPlants;
 
-    @Bind(R.id.add_new_plant_id)
-    Button buttonAddPlant;
+    @Bind(R.id.progress_bar_plants)
+    ProgressBar progressBar;
+
+    @Bind(R.id.plants_add_new_plant_id)
+    FloatingActionButton fab;
 
     private ArrayList<Plant> mPlants = new ArrayList<>();
 
@@ -80,14 +86,14 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         ButterKnife.bind(this, fragmentView);
 
         Bundle args = getArguments();
-        if(args != null) {
+        if (args != null) {
             mGarden = args.getParcelable(MainActivity.GARDEN_KEY);
-            if(mGarden != null) {
+            if (mGarden != null) {
                 mPlants = (ArrayList<Plant>) mGarden.getModel().getPlants();
             }
         }
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mPlants = savedInstanceState.getParcelableArrayList(PLANTS_KEY);
         }
 
@@ -95,11 +101,11 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         this.recyclerViewPlants.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewPlants.setAdapter(plantsAdapter);
 
-        buttonAddPlant.setOnClickListener(view ->
+        fab.setOnClickListener(view ->
                 startActivityForResult(createIntentForCreatePlantActivity(),
                         MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
 
-        plantsAdapter.setOnEditPlant((MainActivity)getActivity());
+        plantsAdapter.setOnEditPlant((MainActivity) getActivity());
 
         plantsAdapter.setOnDeletePlant(this);
 
@@ -128,20 +134,17 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         this.plantListPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         recyclerViewPlants.setAdapter(null);
         ButterKnife.unbind(this);
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.plantListPresenter.destroy();
-    }
-
-    @Override
-    public void renderPlantList(Collection<Plant> plants) {
-        this.plantsAdapter.setPlants(createPlantHolderList(plants));
     }
 
     @Override
@@ -168,17 +171,24 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
     public void setGarden(GardenHolder mGarden) {
         this.mGarden = mGarden;
         setPlants((ArrayList<Plant>) this.mGarden.getModel().getPlants());
+        if (progressBar != null) {
+            this.progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setPlants(ArrayList<Plant> mPlants) {
         this.mPlants = mPlants;
-        if(plantsAdapter != null) {
+        if (plantsAdapter != null) {
             this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
+        }
+        if (progressBar != null) {
+            this.progressBar.setVisibility(View.GONE);
         }
     }
 
     /**
      * Transform a list of plants to plant holders
+     *
      * @param plants list of plants
      * @return list of plant holders
      */
@@ -186,7 +196,7 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
         ArrayList<PlantHolder> plantHolders = new ArrayList<>();
 
-        for(Plant plant : plants) {
+        for (Plant plant : plants) {
             PlantHolder plantHolder = new PlantHolder();
             plantHolder.setModel(plant);
             plantHolders.add(plantHolder);

@@ -156,12 +156,14 @@ public class PlantRealmRepository implements Repository<Plant> {
         realm = Realm.getInstance(realmConfiguration);
 
         PlantRealm plantRealm = realm.where(PlantRealm.class).equalTo(PlantTable.ID, plantId).findFirst();
-        realm.executeTransaction(realmParam -> plantRealm.deleteFromRealm());
+        if(plantRealm != null){
+            realm.executeTransaction(realmParam -> plantRealm.deleteFromRealm());
+        }
 
         realm.close();
 
         // if plantRealm.isValid() is false, it is because the realm object was deleted
-        return Observable.just(plantRealm.isValid() ? -1 : 1);
+        return Observable.just((plantRealm != null && plantRealm.isValid()) ? -1 : 1);
     }
 
     @Override

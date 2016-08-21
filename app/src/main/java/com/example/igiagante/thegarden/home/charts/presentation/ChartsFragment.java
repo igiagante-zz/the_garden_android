@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
@@ -21,6 +22,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * @author igiagante on 5/5/16.
  */
@@ -35,6 +39,9 @@ public class ChartsFragment extends BaseFragment implements SensorTempView {
 
     @Inject
     ChartsPresenter chartsPresenter;
+
+    @Bind(R.id.progress_bar_charts)
+    ProgressBar progressBar;
 
     public static ChartsFragment newInstance(ArrayList<Attribute> data) {
         ChartsFragment myFragment = new ChartsFragment();
@@ -57,6 +64,7 @@ public class ChartsFragment extends BaseFragment implements SensorTempView {
 
         final View fragmentView = inflater.inflate(R.layout.charts_fragment, container, false);
 
+        ButterKnife.bind(this, fragmentView);
         this.chartsPresenter.setView(new WeakReference<>(this));
 
         Bundle args = getArguments();
@@ -78,6 +86,16 @@ public class ChartsFragment extends BaseFragment implements SensorTempView {
     public void loadSensorTempData(List<SensorTemp> data) {
         new LineChartBuilder(tempChart, (ArrayList<SensorTemp>) data, false).build();
         new LineChartBuilder(humidityChart, (ArrayList<SensorTemp>) data, true).build();
+    }
+
+    @Override
+    public void showLoading() {
+        this.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        this.progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

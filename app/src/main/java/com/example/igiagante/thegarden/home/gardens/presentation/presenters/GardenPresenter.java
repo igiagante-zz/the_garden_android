@@ -84,6 +84,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     }
 
     public void getGarden(String gardenId){
+        this.showViewLoading();
         this.getGardenUseCase.execute(gardenId, new GetGardenSubscriber());
     }
 
@@ -92,6 +93,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     }
 
     public void updateUser(User user) {
+        this.showViewLoading();
         this.updateUserUseCase.execute(user, new UpdateUserSubscriber());
     }
 
@@ -153,9 +155,18 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         getView().updateTemp(sensorTemp);
     }
 
+    private void showViewLoading() {
+        getView().showLoading();
+    }
+
+    private void hideViewLoading() {
+        getView().hideLoading();
+    }
+
     private final class GetGardenTempAndHumidity extends DefaultSubscriber<SensorTemp> {
 
         @Override public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
@@ -172,9 +183,11 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     private final class GetGardensByUserSubscriber extends DefaultSubscriber<User> {
 
         @Override public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
@@ -206,10 +219,12 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
         @Override
         public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
         @Override
         public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e("Error", e.getMessage());
             e.printStackTrace();
         }
@@ -223,10 +238,11 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     private final class SaveGardenSubscriber extends DefaultSubscriber<Garden> {
 
         @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+            GardenPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
@@ -239,10 +255,11 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     private final class DeleteGardenSubscriber extends DefaultSubscriber<Integer> {
 
         @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+            GardenPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
         }
 
@@ -254,10 +271,11 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     private final class GetGardenSubscriber extends DefaultSubscriber<Garden> {
 
         @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+            GardenPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
         }
 
@@ -269,10 +287,11 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     private final class UpdateUserSubscriber extends DefaultSubscriber<User> {
 
         @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+            GardenPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
         }
 
