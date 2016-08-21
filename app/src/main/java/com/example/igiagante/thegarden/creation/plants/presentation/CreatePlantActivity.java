@@ -29,6 +29,7 @@ import com.example.igiagante.thegarden.creation.plants.presentation.views.SavePl
 import com.example.igiagante.thegarden.creation.plants.presentation.views.UpdateGardenView;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
+import com.google.android.gms.analytics.HitBuilders;
 
 import java.lang.ref.WeakReference;
 
@@ -48,6 +49,8 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     public static final String PLANT_KEY = "PLANT";
     public static final String CURRENT_PAGE_KEY = "CURRENT_PAGE";
+
+    private static final String TAG = CreatePlantActivity.class.getSimpleName();
 
     @Inject
     SavePlantPresenter mSavePlantPresenter;
@@ -109,6 +112,9 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         this.initializeInjector();
         ButterKnife.bind(this);
+
+        tracker.setScreenName(TAG);
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         // Create builder which will in charge of creating the plant
         plantBuilder = new Plant.PlantBuilder();

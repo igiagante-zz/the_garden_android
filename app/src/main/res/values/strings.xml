@@ -137,6 +137,10 @@
     <string name="tab_medicinal">Medicinal</string>
     <string name="tab_symptoms">Symptoms</string>
 
+    <string name="effects">effects</string>
+    <string name="medicinal">medicinal</string>
+    <string name="symptoms">symptoms</string>
+
     <string name="show_plant_description_tittle">Description</string>
     <string name="show_plant_description_text">Salvia divinorum, es un planta herbácea perenne, de la familia de las lamiáceas, que es originaria de México donde se encuentra en Oaxaca en San José Tenango.</string>
 
@@ -177,5 +181,15 @@
     <string name="delete_irrigation_dialog_title">Delete Irrigation</string>
     <string name="delete_irrigation_dialog_content">Are you sure you want to delete this irrigation?</string>
 
+    <!-- Google Analytics -->
+
+    <!-- categories -->
+    <string name="category_login">Login</string>
+    <string name="category_register">Register</string>
+
+    <!-- actions -->
+    <string name="action_logout">Logout</string>
+    <string name="action_user_logged">User Logged</string>
+    <string name="action_new_user_registered">Logout</string>
 
 </resources>

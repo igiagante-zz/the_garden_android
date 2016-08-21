@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ga_appName">TheGarden</string>
+    <string name="ga_appVersion">1.0</string>
+    <!--Remember to disable verobse log level for production -->
+    <string name="ga_logLevel">verbose</string>
+    <integer name="ga_dispatchPeriod">1000</integer>
+    <bool name="ga_dryRun">false</bool>
+</resources>

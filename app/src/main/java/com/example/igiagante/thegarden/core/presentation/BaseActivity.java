@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -19,10 +21,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
+    protected Tracker tracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getApplicationComponent().inject(this);
+
+        tracker = ((AndroidApplication) getApplication()).getTracker(AndroidApplication.TrackerName.APP_TRACKER);
     }
 
     @Override
@@ -84,5 +90,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected boolean isLandScape() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    public Tracker getTracker() {
+        return tracker;
+    }
+
+    public void setTracker(Tracker tracker) {
+        this.tracker = tracker;
     }
 }

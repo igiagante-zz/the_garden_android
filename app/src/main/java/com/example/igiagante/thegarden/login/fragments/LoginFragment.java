@@ -17,10 +17,12 @@ import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.home.MainActivity;
+import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.RegisterActivity;
 import com.example.igiagante.thegarden.login.di.LoginComponent;
 import com.example.igiagante.thegarden.login.presenters.LoginPresenter;
 import com.example.igiagante.thegarden.login.view.LoginView;
+import com.google.android.gms.analytics.HitBuilders;
 
 import java.lang.ref.WeakReference;
 
@@ -187,6 +189,13 @@ public class LoginFragment extends BaseFragment implements LoginView {
     }
 
     private void goToMainActivity() {
+
+        LoginActivity activity = (LoginActivity) getActivity();
+        activity.getTracker().send(new HitBuilders.EventBuilder()
+                .setCategory(getString(R.string.category_login))
+                .setAction(getString(R.string.action_user_logged))
+                .build());
+
         getActivity().finish();
         getActivity().startActivity(new Intent(getContext(), MainActivity.class));
     }
