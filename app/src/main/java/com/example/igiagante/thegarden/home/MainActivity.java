@@ -26,12 +26,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
@@ -271,7 +273,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         if(garden != null) {
             // load default garden
-            mAdapter.setGardenHolder(garden);
+            loadGarden(garden);
             //add gardens to session's user
             mSession.getUser().setGardens(mGardenPresenter.createGardenListFromGardenHolderList(gardens));
         }
@@ -281,6 +283,21 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     public void loadGarden(GardenHolder gardenHolder) {
         this.drawerLayout.closeDrawers();
         this.mAdapter.setGardenHolder(gardenHolder);
+        setupNavigationHeaderData(gardenHolder.getModel());
+    }
+
+    private void setupNavigationHeaderData(Garden garden) {
+        TextView title = (TextView) findViewById(R.id.header_nav_garden_title);
+        TextView numberOfPlants = (TextView) findViewById(R.id.header_nav_number_of_plants);
+
+        title.setText(garden.getName());
+
+        List<Plant> plants = garden.getPlants();
+        if(plants != null && plants.isEmpty()) {
+            numberOfPlants.setText(getString(R.string.header_nav_bar_number_of_plants, "0"));
+        } else {
+            numberOfPlants.setText(getString(R.string.header_nav_bar_number_of_plants, String.valueOf(plants.size())));
+        }
     }
 
     @Override

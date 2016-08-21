@@ -18,6 +18,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/header_nav_garden_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -27,6 +28,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/header_nav_temp_and_humd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -36,6 +38,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/header_nav_number_of_plants"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
