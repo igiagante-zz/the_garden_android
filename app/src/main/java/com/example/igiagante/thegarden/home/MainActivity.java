@@ -1,12 +1,14 @@
 package com.example.igiagante.thegarden.home;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +21,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -132,6 +138,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         initializeInjector();
         getComponent().inject(this);
 
+        setupWindowAnimations();
+
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));
 
@@ -155,6 +163,14 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             loadGarden(this.garden);
         } else {
             mGardenPresenter.getGardensByUser(mSession.getUser());
+        }
+    }
+
+    private void setupWindowAnimations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Explode explode = new Explode();
+            explode.setDuration(500);
+            getWindow().setExitTransition(explode);
         }
     }
 

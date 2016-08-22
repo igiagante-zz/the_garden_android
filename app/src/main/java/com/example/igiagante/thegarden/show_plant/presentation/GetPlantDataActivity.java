@@ -1,8 +1,12 @@
 package com.example.igiagante.thegarden.show_plant.presentation;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -39,6 +43,8 @@ public class GetPlantDataActivity extends BaseActivity implements
 
         initializeInjector();
 
+        setupWindowAnimations();
+
         tracker.setScreenName(TAG);
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
@@ -58,6 +64,13 @@ public class GetPlantDataActivity extends BaseActivity implements
         tittle.setGravity(Gravity.CENTER);
     }
 
+    private void setupWindowAnimations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Explode explode = new Explode();
+            explode.setDuration(500);
+            getWindow().setExitTransition(explode);
+        }
+    }
 
     /**
      * Initializes this activity.

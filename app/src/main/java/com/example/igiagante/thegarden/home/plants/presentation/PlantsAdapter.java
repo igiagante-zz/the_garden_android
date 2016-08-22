@@ -1,9 +1,15 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -176,7 +183,16 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             Intent intent = new Intent(mContext, GetPlantDataActivity.class);
             intent.putExtra(SHOW_PLANT_KEY, plantHolder);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(intent);
+
+            Activity activity = (MainActivity)onEditPlant.get();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                itemView.setOnClickListener(view ->
+                                mContext.startActivity(intent,
+                        ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()));
+            } else {
+                mContext.startActivity(intent);
+            }
         }
     }
 }
