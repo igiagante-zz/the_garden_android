@@ -255,6 +255,14 @@
     <dimen name="margin_end_genotype_land">50dp</dimen>
     <dimen name="margin_end_ph_soil_land">30dp</dimen>
 
+    <!-- land - grid card info plant -->
+    <dimen name="plant_data_text_size_land">24sp</dimen>
+    <dimen name="card_plant_name_size_land">35sp</dimen>
+    <dimen name="card_plant_margin_land">45dp</dimen>
+    <dimen name="card_plant_image_size_land">540dp</dimen>
+    <dimen name="card_plant_button_delete_size_land">30dp</dimen>
+    <dimen name="grid_card_info_plant_margin_top_land">50dp</dimen>
+
     <!-- land - attributes rectangles -->
     <dimen name="rectangle_effects_land_margin_start">60dp</dimen>
     <dimen name="rectangle_medicinal_land_margin_start">60dp</dimen>

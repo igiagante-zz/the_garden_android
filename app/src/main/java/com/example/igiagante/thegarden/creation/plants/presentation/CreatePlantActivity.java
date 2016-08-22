@@ -24,9 +24,7 @@ import com.example.igiagante.thegarden.creation.plants.presentation.adapters.Vie
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
-import com.example.igiagante.thegarden.creation.plants.presentation.presenters.UpdateGardenPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.SavePlantView;
-import com.example.igiagante.thegarden.creation.plants.presentation.views.UpdateGardenView;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.google.android.gms.analytics.HitBuilders;
@@ -151,7 +149,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
             mButtonSave.setVisibility(View.VISIBLE);
             mButtonBack.setOnClickListener(v -> finish());
             mButtonSave.setOnClickListener(v -> {
-                mProgressBar.setVisibility(View.VISIBLE);
                 updateBuilder();
                 mSavePlantPresenter.savePlant(plantBuilder.build());
             });
@@ -267,7 +264,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onSavePlant() {
-        mProgressBar.setVisibility(View.VISIBLE);
         Plant plant = plantBuilder.build();
         this.mSavePlantPresenter.savePlant(plant);
     }

@@ -80,7 +80,6 @@ public class PlantRealmRepository implements Repository<Plant> {
         realm.executeTransaction(realmParam -> {
             for (Plant plant : plants) {
                 realmParam.copyToRealmOrUpdate(toPlantRealm.map(plant));
-
             }
         });
 

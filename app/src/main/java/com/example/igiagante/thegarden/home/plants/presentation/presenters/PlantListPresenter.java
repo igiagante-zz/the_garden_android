@@ -48,26 +48,24 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
         this.deletePlantUseCase.execute(plantId, new DeletePlantSubscriber());
     }
 
-    private void notifyPlantWasDeleted() {
-        getView().notifyPlantWasDeleted();
+    private void notifyPlantWasDeleted(String plantId) {
+        getView().notifyPlantWasDeleted(plantId);
     }
 
 
-    private final class DeletePlantSubscriber extends DefaultSubscriber<Integer> {
+    private final class DeletePlantSubscriber extends DefaultSubscriber<Object> {
 
         @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
-            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            //PlantListPresenter.this.showViewRetry();
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(Integer result) {
-            PlantListPresenter.this.notifyPlantWasDeleted();
+        @Override public void onNext(Object result) {
+            if(result instanceof String) {
+                PlantListPresenter.this.notifyPlantWasDeleted((String)result);
+            }
         }
     }
 }

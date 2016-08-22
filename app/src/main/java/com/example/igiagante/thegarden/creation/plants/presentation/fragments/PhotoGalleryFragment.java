@@ -98,6 +98,11 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
             mImages = arguments.getParcelableArrayList(IMAGES_KEY);
         }
 
+        // check if the user is trying to edit a plant
+        if (mPlant != null) {
+            mImages = (ArrayList<Image>) mPlant.getImages();
+        }
+
         if(mImages != null) {
             loadResourcesIds(mImages);
         }

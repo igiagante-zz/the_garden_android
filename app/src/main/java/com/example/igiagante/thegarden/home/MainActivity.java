@@ -1,17 +1,13 @@
 package com.example.igiagante.thegarden.home;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -34,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -44,23 +39,21 @@ import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.home.charts.services.ChartsDataService;
 import com.example.igiagante.thegarden.home.di.DaggerMainComponent;
 import com.example.igiagante.thegarden.home.di.MainComponent;
-import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
-import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.home.gardens.presentation.adapters.GardenViewPagerAdapter;
 import com.example.igiagante.thegarden.home.gardens.presentation.adapters.NavigationGardenAdapter;
-import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.gardens.presentation.delegates.AdapterDelegateButtonAddGarden;
 import com.example.igiagante.thegarden.home.gardens.presentation.delegates.AdapterDelegateGarden;
 import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
+import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
+import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -139,13 +132,6 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         initializeInjector();
         getComponent().inject(this);
 
-        tracker.setScreenName(TAG);
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
-
-        if (savedInstanceState != null) {
-            gardens = savedInstanceState.getParcelableArrayList(GARDENS_KEY);
-        }
-
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));
 
@@ -158,8 +144,16 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         viewPager.setAdapter(mAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        tracker.setScreenName(TAG);
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         // Load gardens!
-        if (gardens != null) {
+        if (savedInstanceState != null) {
+            this.gardens = savedInstanceState.getParcelableArrayList(GARDENS_KEY);
+            this.garden = savedInstanceState.getParcelable(GARDEN_KEY);
+            loadGardens(this.gardens);
+            loadGarden(this.garden);
+        } else {
             mGardenPresenter.getGardensByUser(mSession.getUser());
         }
     }
@@ -168,6 +162,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(GARDENS_KEY, gardens);
+        outState.putParcelable(GARDEN_KEY, garden);
     }
 
     @Override
@@ -307,6 +302,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Override
     public void loadGarden(GardenHolder gardenHolder) {
+        gardenHolder.setSelected(true);
         this.drawerLayout.closeDrawers();
         this.mAdapter.setGardenHolder(gardenHolder);
         setupNavigationHeaderData(gardenHolder.getModel());

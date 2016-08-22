@@ -73,14 +73,10 @@ public class AttributesPresenter extends AbstractPresenter<AttributesView> {
 
         @Override
         public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
         }
 
         @Override
         public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
-            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            //PlantListPresenter.this.showViewRetry();
             Log.e("Error", e.getMessage());
             e.printStackTrace();
         }

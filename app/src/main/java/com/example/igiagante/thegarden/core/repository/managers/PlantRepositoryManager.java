@@ -83,15 +83,11 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
             resultFromDB.toBlocking().subscribe(success -> list.add(success));
         }
 
-        Observable<Integer> result;
-
         if(list.contains(-1)) {
-            result = Observable.just(-1);
+            return  Observable.just(-1);
         } else {
-            result = Observable.from(list);
+            return  Observable.just(plantId);
         }
-
-        return result;
     }
 
     /**

@@ -10,6 +10,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.DataHolder;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -76,7 +77,11 @@ public class PlantHolder extends DataHolder<Plant> {
     private String getSeedDateString() {
         String format = "dd/MM";
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
-        return sdf.format(getModel().getSeedDate());
+        Date seedDate = getModel().getSeedDate();
+        if(seedDate != null) {
+            return sdf.format(seedDate);
+        }
+        return "";
     }
 
     public Image getMainImage() {

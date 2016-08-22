@@ -12,6 +12,7 @@ import com.example.igiagante.thegarden.core.presentation.DataHolder;
 public class GardenHolder extends DataHolder<Garden> {
 
     private int position;
+    private boolean isSelected;
 
     public GardenHolder() {}
 
@@ -25,6 +26,14 @@ public class GardenHolder extends DataHolder<Garden> {
 
     public String getGardenId(){
         return getModel().getId();
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     @Override

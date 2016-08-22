@@ -10,5 +10,5 @@ public interface PlantListView extends IView {
     /**
      * Notify that a plant was deleted from the garden
      */
-    void notifyPlantWasDeleted();
+    void notifyPlantWasDeleted(String plantId);
 }

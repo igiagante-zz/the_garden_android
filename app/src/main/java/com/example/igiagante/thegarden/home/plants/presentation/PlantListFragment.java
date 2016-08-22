@@ -29,6 +29,7 @@ import com.example.igiagante.thegarden.home.plants.presentation.view.PlantListVi
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -163,17 +164,28 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         this.plantListPresenter.deletePlant(plantId);
     }
 
+    private void removePlantFromGardenModel(String plantId) {
+        List<Plant> plants = this.mGarden.getModel().getPlants();
+
+        for (int i = 0; i < plants.size(); i++) {
+            if (plants.get(i).getId().equals(plantId)) {
+                plants.remove(i);
+            }
+        }
+    }
+
     @Override
-    public void notifyPlantWasDeleted() {
+    public void notifyPlantWasDeleted(String plantId) {
+        removePlantFromGardenModel(plantId);
         this.plantsAdapter.removePlant();
     }
 
     public void setGarden(GardenHolder mGarden) {
-        this.mGarden = mGarden;
-        setPlants((ArrayList<Plant>) this.mGarden.getModel().getPlants());
         if (progressBar != null) {
             this.progressBar.setVisibility(View.VISIBLE);
         }
+        this.mGarden = mGarden;
+        setPlants((ArrayList<Plant>) this.mGarden.getModel().getPlants());
     }
 
     public void setPlants(ArrayList<Plant> mPlants) {
