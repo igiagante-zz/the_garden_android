@@ -9,6 +9,7 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.SensorTempRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
@@ -39,7 +40,7 @@ public class PlantRealmRepository implements Repository<Plant> {
     public PlantRealmRepository(@NonNull Context context) {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
-                .name("garden.realm")
+                .name(Repository.DATABASE_NAME_DEV)
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
@@ -168,10 +169,13 @@ public class PlantRealmRepository implements Repository<Plant> {
 
     @Override
     public void removeAll() {
-        // Delete all
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
+        realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            RealmResults<PlantRealm> result = realm.where(PlantRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
     }
 
     @Override

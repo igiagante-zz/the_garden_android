@@ -9,6 +9,9 @@ import rx.Observable;
  */
 public interface Repository<T> {
 
+    String DATABASE_NAME_DEV = "garden.realm";
+    String DATABASE_NAME_TEST = "garden-test.realm";
+
     /**
      * Return a resource using the id
      * @param id Object id

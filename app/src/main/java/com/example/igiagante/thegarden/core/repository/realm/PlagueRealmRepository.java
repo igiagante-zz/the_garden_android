@@ -11,6 +11,7 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlagueRealmToPlague;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlagueToPlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.specification.plague.PlagueByIdSpecification;
 
@@ -37,7 +38,7 @@ public class PlagueRealmRepository implements Repository<Plague> {
     public PlagueRealmRepository(@NonNull Context context) {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
-                .name("garden.realm")
+                .name(Repository.DATABASE_NAME_DEV)
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
@@ -107,10 +108,13 @@ public class PlagueRealmRepository implements Repository<Plague> {
 
     @Override
     public void removeAll() {
-        // Delete all
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
+        realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            RealmResults<PlagueRealm> result = realm.where(PlagueRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
     }
 
     @Override

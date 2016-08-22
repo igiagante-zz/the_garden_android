@@ -221,23 +221,4 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
         // assertions
         result.subscribe(count -> Assert.assertEquals(1, count.intValue()));
     }
-
-    /*
-    public void testRemoveOnePlantBySpecification() {
-
-        // setup
-        Plant plant = PlantUtils.createPlant(ID, NAME);
-
-        plantRealmRepository.add(plant);
-
-        plantRealmRepository.getById(ID).subscribe(attributeFromDB -> Assert.assertEquals(attributeFromDB.getName(), NAME));
-
-        RealmSpecification realmSpecification = new PlantByNameSpecification(NAME);
-
-        // when
-        Observable<Integer> result = plantRealmRepository.remove(realmSpecification);
-
-        // assertions
-        result.subscribe(count -> Assert.assertEquals(1, count.intValue()));
-    }*/
 }

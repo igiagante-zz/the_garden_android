@@ -77,6 +77,11 @@ public class LineChartBuilder {
             xAxis.add(sdf.format(data.get(i).getDate()));
         }
 
+        // The api return last 16 days temp data, but the last element is the first. This is a workaround
+        // to avoid inconsistent data shown in the chart.
+        xAxis.add(0, xAxis.get(xAxis.size() - 1));
+        xAxis.remove(xAxis.size() - 1);
+
         LineDataSet lineDataSet = new LineDataSet(entries, "Temperature");
         lineDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         lineDataSet.setDrawFilled(true);

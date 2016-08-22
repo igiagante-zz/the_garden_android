@@ -11,6 +11,7 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenRealmToGarden;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenToGardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.SensorTempRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByNameAndUserIdSpecification;
@@ -38,7 +39,7 @@ public class GardenRealmRepository implements Repository<Garden> {
     public GardenRealmRepository(@NonNull Context context) {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
-                .name("garden.realm")
+                .name(Repository.DATABASE_NAME_DEV)
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
@@ -133,9 +134,13 @@ public class GardenRealmRepository implements Repository<Garden> {
     @Override
     public void removeAll() {
         // Delete all
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
+        realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            RealmResults<GardenRealm> result = realm.where(GardenRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
     }
 
     @Override

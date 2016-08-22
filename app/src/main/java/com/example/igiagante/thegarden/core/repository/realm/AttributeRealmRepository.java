@@ -11,6 +11,7 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeRealmToAttribute;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeToAttributeRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
@@ -39,7 +40,7 @@ public class AttributeRealmRepository implements Repository<Attribute> {
     public AttributeRealmRepository(@NonNull Context context) {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
-                .name("garden.realm")
+                .name(Repository.DATABASE_NAME_DEV)
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
@@ -119,10 +120,13 @@ public class AttributeRealmRepository implements Repository<Attribute> {
 
     @Override
     public void removeAll() {
-        // Delete all
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
+        realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            RealmResults<AttributeRealm> result = realm.where(AttributeRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
     }
 
     @Override
