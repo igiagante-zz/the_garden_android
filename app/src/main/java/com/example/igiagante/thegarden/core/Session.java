@@ -66,6 +66,12 @@ public class Session {
         return false;
     }
 
+    public void cleanSession() {
+        user = new User();
+        token = "";
+        tokenExpiration = null;
+    }
+
     /**
      * Extract expiration date from token
      */

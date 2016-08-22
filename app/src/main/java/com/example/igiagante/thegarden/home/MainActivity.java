@@ -262,6 +262,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(LoginFragment.TOKEN_PREFS_NAME, "");
                 editor.apply();
+                this.mSession.cleanSession();
             }
             this.drawerLayout.closeDrawers();
 

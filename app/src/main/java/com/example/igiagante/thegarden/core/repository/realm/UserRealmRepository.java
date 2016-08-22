@@ -11,6 +11,7 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.UserRealmToUser;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.UserToUserRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.UserRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByNameSpecification;
@@ -98,7 +99,18 @@ public class UserRealmRepository implements Repository<User> {
 
     @Override
     public void removeAll() {
+        // Delete all
+        realm = Realm.getInstance(realmConfiguration);
 
+        realm.executeTransaction(realmParam -> {
+            RealmResults<UserRealm> result = realm.where(UserRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
+
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
     }
 
     @Override
