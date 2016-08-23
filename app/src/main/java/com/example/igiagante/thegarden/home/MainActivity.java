@@ -135,14 +135,10 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-
         setupToolbar();
 
-        mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this);
-        viewPager.setAdapter(mAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         tracker.setScreenName(TAG);
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
@@ -292,12 +288,18 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         if (garden != null) {
             // load default garden
-            loadGarden(garden);
+            setupViewPager(garden);
             //add gardens to session's user
             mSession.getUser().setGardens(mGardenPresenter.createGardenListFromGardenHolderList(gardens));
 
             this.mGardenPresenter.getActualTempAndHumidity();
         }
+    }
+
+    private void setupViewPager(GardenHolder gardenHolder) {
+        mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this, gardenHolder.getModel());
+        viewPager.setAdapter(mAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

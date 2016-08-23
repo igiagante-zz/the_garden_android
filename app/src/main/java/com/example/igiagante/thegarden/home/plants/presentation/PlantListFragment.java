@@ -10,19 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
-import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.di.MainComponent;
-import com.example.igiagante.thegarden.home.gardens.presentation.adapters.GardenViewPagerAdapter;
+import com.example.igiagante.thegarden.home.gardens.presentation.GardenFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
-import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.plants.presentation.presenters.PlantListPresenter;
 import com.example.igiagante.thegarden.home.plants.presentation.view.PlantListView;
 
@@ -41,7 +38,7 @@ import butterknife.ButterKnife;
  *
  * @author Ignacio Giagante, on 5/5/16.
  */
-public class PlantListFragment extends BaseFragment implements PlantListView, PlantsAdapter.OnDeletePlant {
+public class PlantListFragment extends GardenFragment implements PlantListView, PlantsAdapter.OnDeletePlant {
 
     private final static String PLANTS_KEY = "PLANTS";
 
@@ -61,8 +58,6 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
     FloatingActionButton fab;
 
     private ArrayList<Plant> mPlants = new ArrayList<>();
-
-    private GardenHolder mGarden;
 
     public static PlantListFragment newInstance(Garden garden) {
         PlantListFragment myFragment = new PlantListFragment();
@@ -88,9 +83,9 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
         Bundle args = getArguments();
         if (args != null) {
-            mGarden = args.getParcelable(MainActivity.GARDEN_KEY);
-            if (mGarden != null) {
-                mPlants = (ArrayList<Plant>) mGarden.getModel().getPlants();
+            garden = args.getParcelable(MainActivity.GARDEN_KEY);
+            if (garden != null) {
+                mPlants = (ArrayList<Plant>) garden.getPlants();
             }
         }
 
@@ -116,10 +111,9 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         return fragmentView;
     }
 
-    // TODO - Remove this after FAB has been implemented
     private Intent createIntentForCreatePlantActivity() {
         Intent intent = new Intent(getActivity(), CreatePlantActivity.class);
-        intent.putExtra(MainActivity.GARDEN_KEY, mGarden);
+        intent.putExtra(MainActivity.GARDEN_KEY, garden);
         return intent;
     }
 
@@ -164,8 +158,9 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
         this.plantListPresenter.deletePlant(plantId);
     }
 
-    private void removePlantFromGardenModel(String plantId) {
-        List<Plant> plants = this.mGarden.getModel().getPlants();
+    private void removePlantFromgardenModel(String plantId) {
+
+        List<Plant> plants = this.garden.getPlants();
 
         for (int i = 0; i < plants.size(); i++) {
             if (plants.get(i).getId().equals(plantId)) {
@@ -176,26 +171,16 @@ public class PlantListFragment extends BaseFragment implements PlantListView, Pl
 
     @Override
     public void notifyPlantWasDeleted(String plantId) {
-        removePlantFromGardenModel(plantId);
+        removePlantFromgardenModel(plantId);
         this.plantsAdapter.removePlant();
     }
 
-    public void setGarden(GardenHolder mGarden) {
-        if (progressBar != null) {
-            this.progressBar.setVisibility(View.VISIBLE);
-        }
-        this.mGarden = mGarden;
-        setPlants((ArrayList<Plant>) this.mGarden.getModel().getPlants());
-    }
-
-    public void setPlants(ArrayList<Plant> mPlants) {
-        this.mPlants = mPlants;
-        if (plantsAdapter != null) {
-            this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
-        }
-        if (progressBar != null) {
-            this.progressBar.setVisibility(View.GONE);
-        }
+    @Override
+    public void setGarden(Garden garden) {
+        this.progressBar.setVisibility(View.VISIBLE);
+        this.mPlants = (ArrayList<Plant>) garden.getPlants();
+        this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
+        this.progressBar.setVisibility(View.GONE);
     }
 
     /**
