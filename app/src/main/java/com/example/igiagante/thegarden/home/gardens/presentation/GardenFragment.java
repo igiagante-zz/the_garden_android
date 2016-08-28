@@ -17,4 +17,6 @@ public class GardenFragment extends BaseFragment {
     public void setGarden(Garden garden) {
         this.garden = garden;
     }
+
+    public void createOneGardenFirst() {}
 }

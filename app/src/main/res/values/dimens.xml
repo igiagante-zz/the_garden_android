@@ -36,6 +36,8 @@
     <dimen name="header_nav_text_margin_end">10dp</dimen>
     <dimen name="header_nav_text_padding">8dp</dimen>
 
+    <dimen name="text_create_one_garden">40sp</dimen>
+
     <!-- General Keylines -->
     <dimen name="margin_top">60dp</dimen>
     <dimen name="margin_left">10dp</dimen>

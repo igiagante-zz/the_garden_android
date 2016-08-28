@@ -30,6 +30,7 @@ import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.Gard
 import com.google.android.gms.analytics.HitBuilders;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -66,7 +67,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     /**
      * Where the plant belongs to
      */
-    private GardenHolder mGarden;
+    private Garden mGarden;
 
     /**
      * Model to keep all the data related to the plant
@@ -120,7 +121,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         // get garden info
         mGarden = getIntent().getParcelableExtra(MainActivity.GARDEN_KEY);
         if(mGarden != null) {
-            plantBuilder.addGardenId(mGarden.getGardenId());
+            plantBuilder.addGardenId(mGarden.getId());
         }
 
         // set view for this presenter
@@ -265,13 +266,28 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public void onSavePlant() {
         Plant plant = plantBuilder.build();
+        plant.setGardenId(mGarden.getId());
         this.mSavePlantPresenter.savePlant(plant);
     }
 
     public void notifyIfPlantWasPersistedOrUpdated(Plant plant) {
         //update garden model
-        this.mGarden.getModel().getPlants().add(plant);
-        this.mSavePlantPresenter.updateGarden(mGarden.getModel());
+        List<Plant> plants = this.mGarden.getPlants();
+
+        boolean plantUpdated = false;
+
+        for (int i = 0; i < plants.size(); i++) {
+            if(plants.get(i).getId().equals(plant.getId())){
+                plants.set(i, plant);
+                plantUpdated = true;
+            }
+        }
+
+        if(!plantUpdated) {
+            plants.add(plant);
+        }
+
+        this.mSavePlantPresenter.updateGarden(mGarden);
     }
 
     @Override

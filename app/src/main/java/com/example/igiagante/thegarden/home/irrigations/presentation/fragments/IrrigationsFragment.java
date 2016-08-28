@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -61,6 +62,9 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
 
     @Bind(R.id.irrigations_add_new_irrigation_id)
     FloatingActionButton buttonAddNutrient;
+
+    @Bind(R.id.create_one_garden_first_irrigations)
+    TextView createOneGarden;
 
     private ArrayList<Irrigation> mIrrigations = new ArrayList<>();
 
@@ -111,8 +115,14 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
 
     @Override
     public void setGarden(Garden garden) {
+        this.garden = garden;
         this.mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
         this.irrigationsAdapter.setIrrigations(this.mIrrigations);
+    }
+
+    @Override
+    public void createOneGardenFirst() {
+        this.createOneGarden.setVisibility(View.VISIBLE);
     }
 
     private void startIrrigationDetailActivity(Irrigation irrigation) {

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -57,6 +58,9 @@ public class PlantListFragment extends GardenFragment implements PlantListView, 
     @Bind(R.id.plants_add_new_plant_id)
     FloatingActionButton fab;
 
+    @Bind(R.id.create_one_garden_first_plants)
+    TextView createOneGarden;
+
     private ArrayList<Plant> mPlants = new ArrayList<>();
 
     public static PlantListFragment newInstance(Garden garden) {
@@ -100,6 +104,7 @@ public class PlantListFragment extends GardenFragment implements PlantListView, 
         fab.setOnClickListener(view ->
                 startActivityForResult(createIntentForCreatePlantActivity(),
                         MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
+        fab.setEnabled(false);
 
         plantsAdapter.setOnEditPlant((MainActivity) getActivity());
 
@@ -158,7 +163,7 @@ public class PlantListFragment extends GardenFragment implements PlantListView, 
         this.plantListPresenter.deletePlant(plantId);
     }
 
-    private void removePlantFromgardenModel(String plantId) {
+    private void removePlantFromGardenModel(String plantId) {
 
         List<Plant> plants = this.garden.getPlants();
 
@@ -171,16 +176,24 @@ public class PlantListFragment extends GardenFragment implements PlantListView, 
 
     @Override
     public void notifyPlantWasDeleted(String plantId) {
-        removePlantFromgardenModel(plantId);
+        removePlantFromGardenModel(plantId);
         this.plantsAdapter.removePlant();
     }
 
     @Override
     public void setGarden(Garden garden) {
+        this.garden = garden;
         this.progressBar.setVisibility(View.VISIBLE);
         this.mPlants = (ArrayList<Plant>) garden.getPlants();
         this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
         this.progressBar.setVisibility(View.GONE);
+        this.fab.setEnabled(true);
+        this.createOneGarden.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void createOneGardenFirst() {
+        this.createOneGarden.setVisibility(View.VISIBLE);
     }
 
     /**

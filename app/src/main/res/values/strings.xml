@@ -14,7 +14,7 @@
     <string name="logout">Logout</string>
     <string name="settings">Settings</string>
 
-    <string name="header_nav_bar_garden_name">The jungle</string>
+    <string name="header_nav_bar_garden_name">The Garden</string>
     <string name="header_nav_bar_temp_humd">T: %1$s ºC&#160;&#160;&#160;H: %2$s%%</string>
     <string name="header_nav_bar_number_of_plants">Plants: %1$s</string>
 
@@ -26,6 +26,8 @@
         <item>Irrigations</item>
         <item>Charts</item>
     </string-array>
+
+    <string name="create_one_garden">Create one garden to start &#8230;</string>
 
     <!-- Login & Register -->
     <string name="loading_gardens">Loadging gardens,&#8230;</string>

@@ -3,6 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/create_one_garden_first_irrigations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_one_garden"
+            android:textSize="@dimen/text_create_one_garden"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:gravity="center"/>
+
         <ProgressBar
             android:id="@+id/irrigation_list_progress_bar"
             android:layout_width="wrap_content"

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -286,15 +287,26 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             this.garden = gardens.get(0);
         }
 
-        // load default garden
         setupViewPager();
 
         if (garden != null) {
             //add gardens to session's user
             mSession.getUser().setGardens(mGardenPresenter.createGardenListFromGardenHolderList(gardens));
-
+            //get gardens temp and humidity
             this.mGardenPresenter.getActualTempAndHumidity();
+            // load default garden
+            loadGarden(this.garden);
+        } else {
+            this.mAdapter.createFirstGardenMessage();
+            setGardenDefaultValues();
         }
+    }
+
+    private void setGardenDefaultValues() {
+        TextView tempAndHumd = (TextView) findViewById(R.id.header_nav_temp_and_humd);
+        tempAndHumd.setText(getString(R.string.header_nav_bar_temp_humd, "25", "50"));
+        TextView numberOfPlants = (TextView) findViewById(R.id.header_nav_number_of_plants);
+        numberOfPlants.setText(getString(R.string.header_nav_bar_number_of_plants, "0"));
     }
 
     private void setupViewPager() {
@@ -303,17 +315,18 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         } else {
             mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this, null);
         }
-
         viewPager.setAdapter(mAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
-    public void loadGarden(GardenHolder gardenHolder) {
+    public void loadGarden(@NonNull GardenHolder gardenHolder) {
         gardenHolder.setSelected(true);
         this.drawerLayout.closeDrawers();
         this.mAdapter.setGardenHolder(gardenHolder);
         setupNavigationHeaderData(gardenHolder.getModel());
+        //get gardens temp and humidity
+        this.mGardenPresenter.getActualTempAndHumidity();
     }
 
     @Override
@@ -331,8 +344,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         TextView numberOfPlants = (TextView) findViewById(R.id.header_nav_number_of_plants);
 
         title.setText(garden.getName());
-
         List<Plant> plants = garden.getPlants();
+
         if (plants != null && plants.isEmpty()) {
             numberOfPlants.setText(getString(R.string.header_nav_bar_number_of_plants, "0"));
         } else {
@@ -537,7 +550,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Override
     public void editPlant(PlantHolder plantHolder) {
         Intent intent = new Intent(this, CreatePlantActivity.class);
-        intent.putExtra(GARDEN_KEY, garden);
+        intent.putExtra(GARDEN_KEY, garden.getModel());
         intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
         startActivity(intent);
     }

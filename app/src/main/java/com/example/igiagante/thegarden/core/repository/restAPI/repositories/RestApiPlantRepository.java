@@ -155,6 +155,7 @@ public class RestApiPlantRepository extends BaseRestApiRepository<Plant> impleme
      * @param plant   Plant
      * @return builder
      */
+    @NonNull
     private MultipartBody.Builder addPlantToRequestBody(@NonNull final MultipartBody.Builder builder, @NonNull final Plant plant) {
 
         if (plant.getResourcesIds() != null && !plant.getResourcesIds().isEmpty()) {

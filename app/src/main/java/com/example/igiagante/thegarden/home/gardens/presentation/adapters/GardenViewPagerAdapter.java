@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.home.gardens.presentation.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -22,7 +23,7 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
     SparseArray<Fragment> registeredFragments = new SparseArray<>(3);
 
-    private String [] titles = {};
+    private String[] titles = {};
 
     private Garden garden;
 
@@ -60,13 +61,20 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
         super.destroyItem(container, position, object);
     }
 
-    public void setGardenHolder(GardenHolder gardenHolder) {
+    public void setGardenHolder(@NonNull GardenHolder gardenHolder) {
+
         this.garden = gardenHolder.getModel();
 
-        if(this.garden != null) {
-            for (int i = 0; i < registeredFragments.size(); i++) {
-                ((GardenFragment)registeredFragments.get(i)).setGarden(this.garden);
+        for (int i = 0; i < registeredFragments.size(); i++) {
+            if (this.garden != null) {
+                ((GardenFragment) registeredFragments.get(i)).setGarden(this.garden);
             }
+        }
+    }
+
+    public void createFirstGardenMessage() {
+        for (int i = 0; i < registeredFragments.size(); i++) {
+            ((GardenFragment) registeredFragments.get(i)).createOneGardenFirst();
         }
     }
 
@@ -76,6 +84,7 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
     /**
      * Depend on the position at the view pager, it will ask for an specific fragment instance
+     *
      * @param position pager's position
      * @return fragment
      */
