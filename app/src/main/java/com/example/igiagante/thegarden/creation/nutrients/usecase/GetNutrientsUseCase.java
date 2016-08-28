@@ -6,6 +6,7 @@ import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.NutrientRepositoryManager;
 import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientsByUserIdSpecification;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;
@@ -15,7 +16,7 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 12/7/16.
  */
-public class GetNutrientsUseCase extends UseCase<Void> {
+public class GetNutrientsUseCase extends UseCase<String> {
 
     /**
      * Repository Manager which delegates the actions to the correct repository
@@ -30,8 +31,8 @@ public class GetNutrientsUseCase extends UseCase<Void> {
     }
 
     @Override
-    protected Observable buildUseCaseObservable(Void aVoid) {
-        NutrientSpecification nutrientSpecification = new NutrientSpecification();
+    protected Observable buildUseCaseObservable(String userId) {
+        NutrientsByUserIdSpecification nutrientSpecification = new NutrientsByUserIdSpecification(userId);
         return nutrientRepositoryManager.query(nutrientSpecification);
     }
 

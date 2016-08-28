@@ -13,6 +13,8 @@ public class NutrientRealm extends RealmObject {
     @PrimaryKey
     private String id;
 
+    private String userId;
+
     @Required
     private String name;
 
@@ -32,6 +34,14 @@ public class NutrientRealm extends RealmObject {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {

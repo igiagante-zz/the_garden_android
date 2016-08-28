@@ -3,21 +3,26 @@ package com.example.igiagante.thegarden.home.plants.usecase;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
+import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.domain.entity.SensorTemp;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.AttributeRealmRepository;
+import com.example.igiagante.thegarden.core.repository.realm.NutrientRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.PlagueRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.SensorTempRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.specification.SensorTempSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.attribute.AttributeSpecification;
+import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.plague.PlagueSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiAttributeRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiFlavorRepository;
+import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiNutrientRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiPlagueRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiSensorTempRepository;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorDao;
@@ -51,7 +56,7 @@ public class PersistStaticDataUseCase extends UseCase<Void> {
     private final RestApiSensorTempRepository restApiSensorTempRepository;
 
     /**
-     * Databases
+     * Database repositories
      */
     private final AttributeRealmRepository attributeRealmRepository;
     private final FlavorDao flavorDao;
@@ -61,7 +66,7 @@ public class PersistStaticDataUseCase extends UseCase<Void> {
     private Context context;
 
     @Inject
-    public PersistStaticDataUseCase(Context context, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public PersistStaticDataUseCase(Context context, Session session, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.context = context;
 

@@ -85,7 +85,6 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
 
         mButtonSignUp.setEnabled(false);
 
-        mProgressDialog = new ProgressDialog(getContext());
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage(getString(R.string.creating_account));
         mProgressDialog.show();
@@ -112,12 +111,14 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.registerPresenter.setView(new WeakReference<>(this));
+        mProgressDialog = new ProgressDialog(getContext());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        mProgressDialog.dismiss();
     }
 
     @Override

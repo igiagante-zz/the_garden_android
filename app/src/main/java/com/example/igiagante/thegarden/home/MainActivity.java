@@ -286,9 +286,10 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             this.garden = gardens.get(0);
         }
 
+        // load default garden
+        setupViewPager();
+
         if (garden != null) {
-            // load default garden
-            setupViewPager(garden);
             //add gardens to session's user
             mSession.getUser().setGardens(mGardenPresenter.createGardenListFromGardenHolderList(gardens));
 
@@ -296,8 +297,13 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         }
     }
 
-    private void setupViewPager(GardenHolder gardenHolder) {
-        mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this, gardenHolder.getModel());
+    private void setupViewPager() {
+        if(this.garden != null) {
+            mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this, garden.getModel());
+        } else {
+            mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this, null);
+        }
+
         viewPager.setAdapter(mAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

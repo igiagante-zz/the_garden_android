@@ -93,7 +93,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
                 if (session.checkIfTokenIsExpired()) {
                     this.loginPresenter.refreshToken();
                 }
-                goToMainActivity();
+                notifyUserLogin(getString(R.string.login_ok));
             }
         } else {
             showToastMessage(getString(R.string.there_is_not_internet_connection));

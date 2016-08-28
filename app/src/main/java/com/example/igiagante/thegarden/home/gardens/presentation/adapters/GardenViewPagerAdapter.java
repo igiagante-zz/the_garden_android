@@ -63,8 +63,10 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
     public void setGardenHolder(GardenHolder gardenHolder) {
         this.garden = gardenHolder.getModel();
 
-        for (int i = 0; i < registeredFragments.size(); i++) {
-            ((GardenFragment)registeredFragments.get(i)).setGarden(this.garden);
+        if(this.garden != null) {
+            for (int i = 0; i < registeredFragments.size(); i++) {
+                ((GardenFragment)registeredFragments.get(i)).setGarden(this.garden);
+            }
         }
     }
 

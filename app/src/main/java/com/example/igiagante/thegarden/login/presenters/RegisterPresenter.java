@@ -43,14 +43,11 @@ public class RegisterPresenter extends AbstractPresenter<RegisterView> {
     private final class RegisterUserSubscriber extends DefaultSubscriber<String> {
 
         @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
-            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            //PlantListPresenter.this.showViewRetry();
             Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
 
         @Override public void onNext(String result) {

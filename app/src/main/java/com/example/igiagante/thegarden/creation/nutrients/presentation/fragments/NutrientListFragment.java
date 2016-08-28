@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.nutrients.di.NutrientComponent;
@@ -37,6 +38,9 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
 
     @Inject
     NutrientPresenter nutrientPresenter;
+
+    @Inject
+    Session mSession;
 
     private NutrientsAdapter nutrientsAdapter;
 
@@ -82,7 +86,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
                 mProgressBar.setVisibility(View.GONE);
             }
         } else {
-            this.nutrientPresenter.loadNutrients();
+            this.nutrientPresenter.loadNutrients(mSession.getUser().getId());
         }
 
         buttonAddNutrient.setOnClickListener(v -> mOnAddNutrientListener.startNutrientDetailActivity());

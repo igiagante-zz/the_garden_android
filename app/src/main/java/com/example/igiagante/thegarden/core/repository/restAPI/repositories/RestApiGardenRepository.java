@@ -10,11 +10,9 @@ import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.services.GardenRestApi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 3/7/16.
@@ -89,6 +87,6 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
     }
 
     public Observable<List<Garden>> getGardensByUser(String username) {
-        return api.getGardenByUserName(username);
+        return api.getGardensByUserName(username);
     }
 }

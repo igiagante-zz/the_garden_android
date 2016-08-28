@@ -6,6 +6,7 @@ package com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables;
 public interface NutrientTable extends Table {
 
     String NAME = "name";
+    String USER_ID = "userId";
     String EC = "ec";
     String PH = "ph";
     String PH_DOSE = "phDose";

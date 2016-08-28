@@ -33,6 +33,7 @@ public class NutrientToNutrientRealm implements Mapper<Nutrient, NutrientRealm> 
 
     @Override
     public NutrientRealm copy(Nutrient nutrient, NutrientRealm nutrientRealm) {
+        nutrientRealm.setUserId(nutrient.getUserId());
         nutrientRealm.setName(nutrient.getName());
         nutrientRealm.setPh(nutrient.getPh());
         nutrientRealm.setNpk(nutrient.getNpk());

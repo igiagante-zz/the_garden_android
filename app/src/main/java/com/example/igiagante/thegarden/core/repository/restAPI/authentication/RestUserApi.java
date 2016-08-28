@@ -53,7 +53,7 @@ public class RestUserApi {
                 httpStatusValue = httpStatus.getHttpStatusValue(response.code());
 
                 realmRepository = new UserRealmRepository(context);
-                realmRepository.add(user);
+                realmRepository.add(session.getUser());
             } else {
                 try {
                     String error = response.errorBody().string();

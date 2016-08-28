@@ -18,6 +18,9 @@ public class Nutrient implements Parcelable {
     @SerializedName("id")
     private String id;
 
+    @SerializedName("userId")
+    private String userId;
+
     @SerializedName("name")
     private String name;
 
@@ -45,6 +48,14 @@ public class Nutrient implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -111,6 +122,7 @@ public class Nutrient implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeString(userId);
         dest.writeString(name);
         dest.writeFloat(ph);
         dest.writeString(npk);
@@ -132,6 +144,7 @@ public class Nutrient implements Parcelable {
 
     private Nutrient(Parcel in) {
         id = in.readString();
+        userId = in.readString();
         name = in.readString();
         ph = in.readFloat();
         npk = in.readString();

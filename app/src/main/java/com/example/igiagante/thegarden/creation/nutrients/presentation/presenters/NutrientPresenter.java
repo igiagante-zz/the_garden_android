@@ -44,8 +44,8 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
         this.view = null;
     }
 
-    public void loadNutrients() {
-        this.getNutrientsUseCase.execute(null, new NutrientsSubscriber());
+    public void loadNutrients(String userId) {
+        this.getNutrientsUseCase.execute(userId, new NutrientsSubscriber());
     }
 
     public void deleteNutrient(String nutrientId) {
