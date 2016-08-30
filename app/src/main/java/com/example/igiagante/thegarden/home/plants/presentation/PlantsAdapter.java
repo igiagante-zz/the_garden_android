@@ -33,6 +33,7 @@ import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -224,9 +225,9 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             this.mImages = mImages;
         }
 
-        private void createShareIntent(File file) {
+        private void createShareIntent(List<String> filesPaths) {
 
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
             shareIntent.setType("text/plain");
             shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -235,42 +236,62 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
             shareIntent.putExtra(Intent.EXTRA_TEXT, getEmailText());
 
-            Uri uri = Uri.fromFile(file);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            ArrayList<Uri> uris = new ArrayList<>();
+
+            for (String file : filesPaths)
+            {
+                File fileIn = new File(file);
+                Uri u = Uri.fromFile(fileIn);
+                uris.add(u);
+            }
+
+            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
             mContext.startActivity(Intent.createChooser(shareIntent, mContext.getString(R.string.share_plant_info)));
         }
 
         private void createAttachmentAndSendEmail() {
 
-            Observable<File> downloadObservable = Observable.create(
+            Observable<List<String>> downloadObservable = Observable.create(
                     sub -> {
-                        String url = mImages.get(0).getUrl();
+
+                        ArrayList<String> filesPaths = new ArrayList<>();
+                        ArrayList<String> urls = new ArrayList<>();
+
+                        for (Image image : mImages) {
+                            urls.add(image.getUrl());
+                        }
+
                         OutputStream output = null;
 
-                        try {
+                        File folder = new File(Environment.getExternalStorageDirectory() + "/plants");
+                        folder.mkdirs();
 
-                            File folder = new File(Environment.getExternalStorageDirectory() + "/plants");
-                            folder.mkdirs();
-                            File tempFile = new File(folder.getAbsolutePath(), "plant.jpeg");
-                            String filePath = tempFile.getAbsolutePath();
+                        for (int i = 0; i < urls.size(); i++) {
 
-                            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(url).getContent());
-                            output = new BufferedOutputStream(new FileOutputStream(filePath));
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+                            try {
 
-                            output.flush();
-                            output.close();
+                                File tempFile = new File(folder.getAbsolutePath(), "image" + i + ".jpeg");
+                                String filePath = tempFile.getAbsolutePath();
 
-                            sub.onNext(tempFile);
+                                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(urls.get(i)).getContent());
+                                output = new BufferedOutputStream(new FileOutputStream(filePath));
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
 
-                        } catch (Exception e) {
-                            sub.onError(e);
+                                output.flush();
+                                output.close();
+
+                                filesPaths.add(tempFile.getAbsolutePath());
+
+                            } catch (Exception e) {
+                                sub.onError(e);
+                            }
                         }
+                        sub.onNext(filesPaths);
                         sub.onCompleted();
                     }
             );
 
-            Subscriber<File> mySubscriber = new Subscriber<File>() {
+            Subscriber<List<String>> mySubscriber = new Subscriber<List<String>>() {
                 @Override
                 public void onCompleted() {
                 }
@@ -281,8 +302,8 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
                 }
 
                 @Override
-                public void onNext(File file) {
-                    createShareIntent(file);
+                public void onNext(List<String> filesPaths) {
+                    createShareIntent(filesPaths);
                 }
             };
 
