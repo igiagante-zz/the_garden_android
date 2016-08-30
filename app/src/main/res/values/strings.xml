@@ -153,6 +153,12 @@
     <string name="delete_plant_dialog_title">Delete Plant</string>
     <string name="delete_plant_dialog_content">Are you sure you want to delete this plant?</string>
 
+    <!-- Share Plant Info -->
+    <string name="share_plant_info">Share plant info</string>
+    <string name="subject_email">The Garden: Plant info</string>
+
+    <string name="email_plant_name">Plant Name: %1$s</string>
+
     <!-- NUTRIENTS-->
 
     <string name="nutrient_list_title">Nutrients</string>
