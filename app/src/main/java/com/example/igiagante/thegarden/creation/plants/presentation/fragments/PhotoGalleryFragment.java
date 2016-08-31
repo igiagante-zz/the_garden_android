@@ -208,8 +208,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
                 mAdapter.setImagesPath(imagesFilesPaths);
 
                 //update images from builder
-                ArrayList<Image> imagesFromFilesPaths = getImagesFromFilesPaths(imagesFilesPaths);
-                this.mImages = imagesFromFilesPaths;
+                this.mImages = getImagesFromFilesPaths(imagesFilesPaths);
 
                 if(getActivity() instanceof CreatePlantActivity) {
                     updateImagesFromBuilder(images, false);
