@@ -120,11 +120,10 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
     public void setIrrigations(ArrayList<Irrigation> irrigations) {
         if(!irrigations.isEmpty()) {
             this.irrigations = new ArrayList<>(irrigations);
-            this.notifyItemRangeInserted(0, irrigations.size() - 1);
         } else {
             this.irrigations = new ArrayList<>();
-            this.notifyDataSetChanged();
         }
+        this.notifyDataSetChanged();
     }
 
     /**
