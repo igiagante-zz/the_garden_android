@@ -1,20 +1,19 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.content.FileProvider;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
@@ -25,25 +24,21 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.Request;
-import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -53,11 +48,10 @@ import rx.schedulers.Schedulers;
  * @author giagante on 5/5/16.
  *         Create an adapter for RecycleView Plants
  */
-public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewHolder> {
+public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewHolder> implements Filterable {
 
     public static final String SHOW_PLANT_KEY = "SHOW_PLANT";
 
-    private List<PlantHolder> mPlants;
     private final LayoutInflater layoutInflater;
     private Context mContext;
 
@@ -74,8 +68,13 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
      */
     private int plantDeletedPosition;
 
+    private ArrayList<PlantHolder> mPlants;
+
+    private ArrayList<PlantHolder> filteredPlantList;
 
     private List<Image> mImages;
+
+    private PlantFilter plantFilter;
 
     public interface OnEditPlant {
         void editPlant(PlantHolder plantHolder);
@@ -83,7 +82,6 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
     public interface OnDeletePlant {
         void showDeletePlantDialog(int position);
-
         void deletePlant(String plantId);
     }
 
@@ -91,8 +89,8 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     public PlantsAdapter(Context context) {
         this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.mPlants = Collections.emptyList();
-        this.mPlants = Collections.emptyList();
+        this.mImages = Collections.emptyList();
+        this.mPlants = new ArrayList<>();
     }
 
     @Override
@@ -103,7 +101,8 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
     @Override
     public void onBindViewHolder(PlantViewHolder holder, int position) {
-        final PlantHolder plantHolder = this.mPlants.get(position);
+
+        final PlantHolder plantHolder = this.filteredPlantList.get(position);
 
         mImages = plantHolder.getImages();
         holder.setImages(mImages);
@@ -134,11 +133,12 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
     @Override
     public int getItemCount() {
-        return (this.mPlants != null) ? this.mPlants.size() : 0;
+        return (this.filteredPlantList != null) ? this.filteredPlantList.size() : 0;
     }
 
     public void setPlants(Collection<PlantHolder> mPlants) {
-        this.mPlants = (List<PlantHolder>) mPlants;
+        this.mPlants = (ArrayList<PlantHolder>) mPlants;
+        this.filteredPlantList = new ArrayList<>(this.mPlants);
         this.notifyDataSetChanged();
     }
 
@@ -154,6 +154,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
     public void removePlant() {
         if (!mPlants.isEmpty()) {
             this.mPlants.remove(plantDeletedPosition);
+            this.filteredPlantList.remove(plantDeletedPosition);
             this.notifyItemRemoved(plantDeletedPosition);
         }
     }
@@ -164,6 +165,62 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
     public void setOnDeletePlant(OnDeletePlant onDeletePlant) {
         this.onDeletePlant = onDeletePlant;
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (plantFilter == null) {
+            plantFilter = new PlantFilter(this, mPlants);
+        }
+        return plantFilter;
+    }
+
+    private static class PlantFilter extends Filter {
+
+        private final PlantsAdapter adapter;
+
+        private final List<PlantHolder> originalList;
+
+        private final List<PlantHolder> filteredList;
+
+        private PlantFilter(PlantsAdapter adapter, List<PlantHolder> originalList) {
+            super();
+            this.adapter = adapter;
+            this.originalList = new LinkedList<>(originalList);
+            this.filteredList = new ArrayList<>();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            filteredList.clear();
+
+            final FilterResults results = new FilterResults();
+
+            if (constraint.length() == 0) {
+                filteredList.addAll(originalList);
+            } else {
+                final String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (final PlantHolder plant : originalList) {
+                    if (plant.getName().contains(filterPattern)) {
+                        filteredList.add(plant);
+                    }
+                }
+            }
+
+            results.values = filteredList;
+            results.count = filteredList.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            adapter.filteredPlantList.clear();
+            List<PlantHolder> values = (List<PlantHolder>) results.values;
+            adapter.filteredPlantList.addAll(values);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     class PlantViewHolder extends RecyclerView.ViewHolder {
@@ -238,8 +295,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
             ArrayList<Uri> uris = new ArrayList<>();
 
-            for (String file : filesPaths)
-            {
+            for (String file : filesPaths) {
                 File fileIn = new File(file);
                 Uri u = Uri.fromFile(fileIn);
                 uris.add(u);
@@ -313,6 +369,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
                     .subscribe(mySubscriber);
         }
 
+        @NonNull
         private String getEmailText() {
 
             StringBuilder builder = new StringBuilder();

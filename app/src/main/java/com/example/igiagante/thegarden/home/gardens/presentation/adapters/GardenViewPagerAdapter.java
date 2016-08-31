@@ -78,6 +78,10 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+    public void filterList(int position, String query) {
+        ((GardenFragment) registeredFragments.get(position)).filterList(query);
+    }
+
     private String getTitleByPosition(int position) {
         return titles[position];
     }

@@ -19,4 +19,6 @@ public class GardenFragment extends BaseFragment {
     }
 
     public void createOneGardenFirst() {}
+
+    public void filterList(String query) {}
 }

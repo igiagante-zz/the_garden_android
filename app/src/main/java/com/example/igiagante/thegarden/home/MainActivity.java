@@ -72,7 +72,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         PlantsAdapter.OnEditPlant,
         GardenView,
         AdapterDelegateButtonAddGarden.OnGardenDialog,
-        AdapterDelegateGarden.OnClickGardenListener {
+        AdapterDelegateGarden.OnClickGardenListener,
+        ViewPager.OnPageChangeListener {
 
     /**
      * Used to handle intent which starts the activity {@link CreatePlantActivity}
@@ -122,7 +123,19 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
      */
     private GardenHolder garden;
 
+    /**
+     * List of gardens for the {@link NavigationGardenAdapter}
+     */
     private ArrayList<GardenHolder> gardens = new ArrayList<>();
+
+    /**
+     * Used by the searchView since it needs the tab position in order to call the correct
+     * fragment, which will filter its list of items
+     */
+    private int viewPagerTabPosition = 0;
+
+    private SearchView searchView;
+    private MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +151,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         setupToolbar();
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.main_viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         tracker.setScreenName(TAG);
@@ -153,6 +166,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         } else {
             mGardenPresenter.getGardensByUser(mSession.getUser());
         }
+
+        this.viewPager.addOnPageChangeListener(this);
     }
 
     @Override
@@ -310,7 +325,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     private void setupViewPager() {
-        if(this.garden != null) {
+        if (this.garden != null) {
             mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this, garden.getModel());
         } else {
             mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this, null);
@@ -520,12 +535,45 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         // Retrieve the SearchView and plug it into SearchManager
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        this.menuItem = menu.findItem(R.id.action_search);
+        this.searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.filterList(viewPager.getCurrentItem(), newText);
+                return true;
+            }
+        });
+
         return true;
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        // DO Nothing
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (position != 0) {
+            menuItem.setVisible(false);
+        } else {
+            menuItem.setVisible(true);
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        // DO Nothing
+    }
 
     @Override
     public void showError(String message) {

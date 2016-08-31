@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -194,6 +195,11 @@ public class PlantListFragment extends GardenFragment implements PlantListView, 
     @Override
     public void createOneGardenFirst() {
         this.createOneGarden.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void filterList(String query) {
+        this.plantsAdapter.getFilter().filter(query);
     }
 
     /**

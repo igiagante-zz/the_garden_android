@@ -2,7 +2,6 @@ package com.example.igiagante.thegarden.home.charts.presentation;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,10 +12,9 @@ import android.widget.ProgressBar;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.domain.entity.SensorTemp;
-import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.home.charts.view.SensorTempView;
 import com.example.igiagante.thegarden.home.di.MainComponent;
-import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataFragment;
+import com.example.igiagante.thegarden.home.gardens.presentation.GardenFragment;
 import com.github.mikephil.charting.charts.LineChart;
 
 import java.lang.ref.WeakReference;
@@ -31,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * @author igiagante on 5/5/16.
  */
-public class ChartsFragment extends BaseFragment implements SensorTempView {
+public class ChartsFragment extends GardenFragment implements SensorTempView {
 
     public static final String SENSOR_DATA_KEY = "SENSOR_DATA";
 
@@ -92,7 +90,7 @@ public class ChartsFragment extends BaseFragment implements SensorTempView {
 
     @Override
     public void loadSensorTempData(List<SensorTemp> data) {
-        this.chartsAdapter = new ChartsAdapter(getContext(), (ArrayList<SensorTemp>) data);
+        this.chartsAdapter = new ChartsAdapter(getActivity(), (ArrayList<SensorTemp>) data);
         recyclerViewCharts.setAdapter(chartsAdapter);
     }
 
