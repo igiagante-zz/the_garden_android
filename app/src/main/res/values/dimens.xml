@@ -226,10 +226,11 @@
     <dimen name="elv_row_counter_margin_start">80dp</dimen>
 
     <!-- irrigation data layout -->
+    <dimen name="irrigation_data_text_size">26sp</dimen>
     <dimen name="irrigation_data_margin">15dp</dimen>
     <dimen name="irrigation_data_margin_top">30dp</dimen>
     <dimen name="irrigation_data_inner_margin_start">30dp</dimen>
-    <dimen name="irrigation_data_date_margin_top">35dp</dimen>
+    <dimen name="irrigation_data_date_margin_top">25dp</dimen>
     <dimen name="irrigation_data_date_margin_width">130dp</dimen>
 
     <dimen name="irrigation_data_layout_buttons_margin_top">60dp</dimen>

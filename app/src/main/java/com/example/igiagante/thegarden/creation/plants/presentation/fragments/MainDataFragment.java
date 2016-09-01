@@ -45,18 +45,6 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Inject
     MainDataPresenter mainDataPresenter;
 
-    @Bind(R.id.name_of_plant_id)
-    TextView mNameOfPlant;
-
-    @Bind(R.id.genotype_id)
-    TextView mGenotype;
-
-    @Bind(R.id.ph_soil_id)
-    CountViewDecimal mPhSoil;
-
-    @Bind(R.id.ec_soil_id)
-    CountViewDecimal mEcSoil;
-
     @Bind(R.id.size_id)
     CountView mSize;
 
@@ -85,17 +73,17 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
         // ask to the activity if it has a plant for edition
         if (mPlant != null) {
-            setPlantValuesInView();
+            //setPlantValuesInView();
         } else {
-            initDefaultValues();
+            //initDefaultValues();
         }
 
         if (savedInstanceState != null) {
             mPlant = savedInstanceState.getParcelable(PLANT_KEY);
-            setPlantValuesInView();
+           // setPlantValuesInView();
         }
 
-        mNameOfPlant.addTextChangedListener(this);
+       // mNameOfPlant.addTextChangedListener(this);
 
         return fragmentView;
     }
@@ -119,7 +107,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Override
     public void informIfPlantExist(Boolean exist) {
         if(exist) {
-            mNameOfPlant.setError(getString(R.string.name_of_the_plant_already_exist));
+            //mNameOfPlant.setError(getString(R.string.name_of_the_plant_already_exist));
         }
     }
 
@@ -166,11 +154,12 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (outState != null) {
-            mPlant = createParcelable();
+           // mPlant = createParcelable();
             outState.putParcelable(PLANT_KEY, mPlant);
         }
     }
 
+    /*
     @Override
     protected void move() {
         Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
@@ -228,5 +217,5 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
         mGenotype.setText(mPlant.getGenotype());
         mSize.setEditValue(mPlant.getSize());
-    }
+    } */
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -24,6 +25,7 @@ public class CountViewDecimal  extends LinearLayout {
 
     private float mDefaultValue;
     private EditText mEditValue;
+    private String hint;
 
     public CountViewDecimal(Context context) {
         super(context);
@@ -47,6 +49,7 @@ public class CountViewDecimal  extends LinearLayout {
 
         try {
             mDefaultValue = a.getFloat(R.styleable.CountViewDecimal_setValueDecimal, 6);
+            hint = a.getString(R.styleable.CountViewDecimal_setDecimalHint);
         } finally {
             a.recycle();
         }
@@ -62,6 +65,9 @@ public class CountViewDecimal  extends LinearLayout {
         inflate(mContext, R.layout.count_view_decimal, this);
         mEditValue = (EditText) findViewById(R.id.count_input);
         mEditValue.setText(formatFloat(mDefaultValue));
+
+        TextInputLayout textInputLayout = (TextInputLayout)findViewById(R.id.input_wrap_decimal);
+        textInputLayout.setHint(hint);
 
         Button mButtonUp = (Button) findViewById(R.id.count_button_up);
         mButtonUp.setOnClickListener(view -> incrementValue());
