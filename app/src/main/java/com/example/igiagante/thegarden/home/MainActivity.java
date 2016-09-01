@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -591,8 +592,14 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Override
     public void sendEmail(String emailText, ArrayList<String> urls) {
+
         emailProducer = new EmailProducer(this, emailText, urls);
-        checkPermission();
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkPermission();
+        } else {
+            emailProducer.createAttachmentAndSendEmail();
+        }
     }
 
     /**
