@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -123,6 +124,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Bind(R.id.progress_bar_garden)
     ProgressBar progressBar;
+
+    @Bind(R.id.add_button)
+    FloatingActionButton fab;
 
     /**
      * Save garden's position from Garden, which should be deleted
@@ -578,6 +582,11 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Override
     public void onPageSelected(int position) {
+
+        switch (position) {
+            case 0:
+        }
+
         if (position != 0) {
             menuItem.setVisible(false);
         } else {

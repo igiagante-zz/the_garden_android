@@ -55,9 +55,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
     @Bind(R.id.progress_bar_plants)
     ProgressBar progressBar;
 
-    @Bind(R.id.plants_add_new_plant_id)
-    FloatingActionButton fab;
-
     @Bind(R.id.create_one_garden_first_plants)
     TextView createOneGarden;
 
@@ -85,12 +82,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
         final View fragmentView = inflater.inflate(R.layout.plant_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
-        // disable fab unless there is an active garden
-        fab.setEnabled(false);
-        fab.setOnClickListener(view ->
-                startActivityForResult(createIntentForCreatePlantActivity(),
-                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
-
         Bundle args = getArguments();
         if (args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
@@ -101,7 +92,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
 
         if (savedInstanceState != null) {
             mPlants = savedInstanceState.getParcelableArrayList(PLANTS_KEY);
-            fab.setEnabled(true);
         }
 
         plantsAdapter = new PlantsAdapter(getContext(), (PlantsAdapter.OnSendEmail) getActivity());
@@ -189,7 +179,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
         this.mPlants = (ArrayList<Plant>) garden.getPlants();
         this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
         this.progressBar.setVisibility(View.GONE);
-        this.fab.setEnabled(true);
         this.createOneGarden.setVisibility(View.INVISIBLE);
     }
 
@@ -201,6 +190,12 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
     @Override
     public void filterList(String query) {
         this.plantsAdapter.getFilter().filter(query);
+    }
+
+    @Override
+    public void executeFABAction() {
+        startActivityForResult(createIntentForCreatePlantActivity(),
+                MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY);
     }
 
     /**

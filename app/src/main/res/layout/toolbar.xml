@@ -67,6 +67,17 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:src="@drawable/ic_add"
+            android:layout_marginBottom="110dp"
+            android:layout_gravity="bottom|end"
+            />
+
     </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>

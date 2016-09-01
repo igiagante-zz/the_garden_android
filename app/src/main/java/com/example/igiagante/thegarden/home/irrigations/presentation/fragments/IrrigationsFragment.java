@@ -103,9 +103,9 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         buttonAddNutrient.setOnClickListener(v -> startIrrigationDetailActivity(null));
 
         Bundle args = getArguments();
-        if(args != null) {
+        if (args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
-            if(garden != null) {
+            if (garden != null) {
                 mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
                 irrigationsAdapter.setIrrigations(mIrrigations);
                 mProgressBar.setVisibility(View.GONE);
@@ -166,9 +166,9 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK){
+        if (requestCode == REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK) {
             Irrigation irrigation = data.getParcelableExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY);
-            if(irrigation != null){
+            if (irrigation != null) {
                 this.irrigationsAdapter.addIrrigation(irrigation);
             }
         }
@@ -180,12 +180,14 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.irrigationPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.irrigationPresenter.destroy();
     }
