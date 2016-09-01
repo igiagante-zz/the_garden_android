@@ -85,18 +85,13 @@ public class LoginFragment extends BaseFragment implements LoginView {
             }
         });
 
-        if (checkInternet()) {
-
-            if (!TextUtils.isEmpty(token)) {
-                session.setToken(token);
-                session.getUser().setUserName(username);
-                if (session.checkIfTokenIsExpired()) {
-                    this.loginPresenter.refreshToken();
-                }
-                notifyUserLogin(getString(R.string.login_ok));
+        if (!TextUtils.isEmpty(token)) {
+            session.setToken(token);
+            session.getUser().setUserName(username);
+            if (session.checkIfTokenIsExpired()) {
+                this.loginPresenter.refreshToken();
             }
-        } else {
-            showToastMessage(getString(R.string.there_is_not_internet_connection));
+            notifyUserLogin(getString(R.string.login_ok));
         }
 
         mUserEmail.requestFocus();

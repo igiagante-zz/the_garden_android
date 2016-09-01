@@ -91,8 +91,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         return new ActivityModule(this);
     }
 
-    protected boolean isLandScape() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    public boolean checkInternet() {
+        boolean isConnected;
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
+
+        return isConnected;
     }
 
     public Tracker getTracker() {

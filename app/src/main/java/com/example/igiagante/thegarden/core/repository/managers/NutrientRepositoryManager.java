@@ -110,7 +110,7 @@ public class NutrientRepositoryManager extends RepositoryManager<Repository<Nutr
         Observable<List<Nutrient>> observable = Observable.just(list);
 
         if (!checkInternet()) {
-            return Observable.just(list.get(0));
+            return Observable.just(list);
         }
 
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)

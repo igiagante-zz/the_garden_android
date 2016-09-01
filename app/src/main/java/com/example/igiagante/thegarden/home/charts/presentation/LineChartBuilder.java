@@ -53,7 +53,7 @@ public class LineChartBuilder {
 
         xAxis.setTextSize(10f);
 
-        lineChart.animateY(2500);
+        lineChart.animateY(1500);
         lineChart.getLegend().setEnabled(true);
 
         setData();
@@ -82,7 +82,15 @@ public class LineChartBuilder {
         xAxis.add(0, xAxis.get(xAxis.size() - 1));
         xAxis.remove(xAxis.size() - 1);
 
-        LineDataSet lineDataSet = new LineDataSet(entries, "Temperature");
+        String legendTitle = "";
+
+        if(forHumidityChart) {
+            legendTitle = "Humidity";
+        } else {
+            legendTitle = "Temperature";
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(entries, legendTitle);
         lineDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setDrawValues(false);

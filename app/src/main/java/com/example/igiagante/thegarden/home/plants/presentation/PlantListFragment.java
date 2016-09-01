@@ -85,6 +85,12 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
         final View fragmentView = inflater.inflate(R.layout.plant_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
+        // disable fab unless there is an active garden
+        fab.setEnabled(false);
+        fab.setOnClickListener(view ->
+                startActivityForResult(createIntentForCreatePlantActivity(),
+                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
+
         Bundle args = getArguments();
         if (args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
@@ -95,16 +101,12 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
 
         if (savedInstanceState != null) {
             mPlants = savedInstanceState.getParcelableArrayList(PLANTS_KEY);
+            fab.setEnabled(true);
         }
 
         plantsAdapter = new PlantsAdapter(getContext(), (PlantsAdapter.OnSendEmail) getActivity());
         this.recyclerViewPlants.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewPlants.setAdapter(plantsAdapter);
-
-        fab.setOnClickListener(view ->
-                startActivityForResult(createIntentForCreatePlantActivity(),
-                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
-        fab.setEnabled(false);
 
         plantsAdapter.setOnEditPlant((MainActivity) getActivity());
 

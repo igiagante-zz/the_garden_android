@@ -51,9 +51,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public boolean checkInternet() {
-
         boolean isConnected;
-
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

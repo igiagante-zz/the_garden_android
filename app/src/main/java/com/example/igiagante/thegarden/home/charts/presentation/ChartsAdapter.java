@@ -77,9 +77,5 @@ public class ChartsAdapter extends RecyclerView.Adapter<ChartsAdapter.ChartViewH
         public void setChart(LineChart chart) {
             this.chart = chart;
         }
-
-        public void setForHumidity(boolean forHumidity) {
-            this.forHumidity = forHumidity;
-        }
     }
 }

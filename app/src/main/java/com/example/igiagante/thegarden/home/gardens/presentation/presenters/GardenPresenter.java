@@ -277,6 +277,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         @Override public void onError(Throwable e) {
             GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
 
         @Override public void onNext(Garden garden) {

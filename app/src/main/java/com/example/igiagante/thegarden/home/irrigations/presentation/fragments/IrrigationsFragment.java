@@ -98,6 +98,10 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.recyclerViewIrrigations.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewIrrigations.setAdapter(irrigationsAdapter);
 
+        // disable fab unless there is an active garden
+        buttonAddNutrient.setEnabled(false);
+        buttonAddNutrient.setOnClickListener(v -> startIrrigationDetailActivity(null));
+
         Bundle args = getArguments();
         if(args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
@@ -105,10 +109,9 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
                 mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
                 irrigationsAdapter.setIrrigations(mIrrigations);
                 mProgressBar.setVisibility(View.GONE);
+                buttonAddNutrient.setEnabled(true);
             }
         }
-
-        buttonAddNutrient.setOnClickListener(v -> startIrrigationDetailActivity(null));
 
         return fragmentView;
     }
@@ -118,6 +121,7 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.garden = garden;
         this.mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
         this.irrigationsAdapter.setIrrigations(this.mIrrigations);
+        buttonAddNutrient.setEnabled(true);
     }
 
     @Override

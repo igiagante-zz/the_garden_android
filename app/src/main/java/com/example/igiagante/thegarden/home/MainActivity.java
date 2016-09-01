@@ -595,10 +595,14 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         emailProducer = new EmailProducer(this, emailText, urls);
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkPermission();
+        if(checkInternet()) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                checkPermission();
+            } else {
+                emailProducer.createAttachmentAndSendEmail();
+            }
         } else {
-            emailProducer.createAttachmentAndSendEmail();
+            Toast.makeText(this, getString(R.string.there_is_not_internet_connection), Toast.LENGTH_SHORT).show();
         }
     }
 
