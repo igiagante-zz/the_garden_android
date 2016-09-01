@@ -1,15 +1,19 @@
 package com.example.igiagante.thegarden.home;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -50,6 +54,7 @@ import com.example.igiagante.thegarden.home.gardens.presentation.presenters.Gard
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
+import com.example.igiagante.thegarden.home.plants.services.EmailProducer;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.login.LoginActivity;
@@ -73,12 +78,17 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         GardenView,
         AdapterDelegateButtonAddGarden.OnGardenDialog,
         AdapterDelegateGarden.OnClickGardenListener,
-        ViewPager.OnPageChangeListener {
+        ViewPager.OnPageChangeListener, PlantsAdapter.OnSendEmail {
 
     /**
      * Used to handle intent which starts the activity {@link CreatePlantActivity}
      */
     public static final int REQUEST_CODE_CREATE_PLANT_ACTIVITY = 2345;
+
+    /**
+     * Used to handle request permissions
+     */
+    public final static int REQUEST_CODE_ASK_PERMISSIONS = 768;
 
     public static final String GARDEN_KEY = "GARDEN";
     private static final String GARDENS_KEY = "GARDENS";
@@ -128,11 +138,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
      */
     private ArrayList<GardenHolder> gardens = new ArrayList<>();
 
-    /**
-     * Used by the searchView since it needs the tab position in order to call the correct
-     * fragment, which will filter its list of items
-     */
-    private int viewPagerTabPosition = 0;
+    private EmailProducer emailProducer;
 
     private SearchView searchView;
     private MenuItem menuItem;
@@ -502,6 +508,14 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     @Override
+    public void editPlant(PlantHolder plantHolder) {
+        Intent intent = new Intent(this, CreatePlantActivity.class);
+        intent.putExtra(GARDEN_KEY, garden.getModel());
+        intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
+        startActivity(intent);
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -576,13 +590,58 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     @Override
+    public void sendEmail(String emailText, ArrayList<String> urls) {
+        emailProducer = new EmailProducer(this, emailText, urls);
+        checkPermission();
+    }
+
+    /**
+     * Check if the user has granted permissions to read and write storage
+     */
+    private void checkPermission() {
+
+        int readExternalStoragePermission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        int writeExternalStoragePermission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (readExternalStoragePermission != PackageManager.PERMISSION_GRANTED
+                || writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    REQUEST_CODE_ASK_PERMISSIONS);
+        } else {
+            emailProducer.createAttachmentAndSendEmail();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    emailProducer.createAttachmentAndSendEmail();
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    @Override
     public void showError(String message) {
 
     }
 
     @Override
     public Context context() {
-        return null;
+        return getApplicationContext();
     }
 
     @Override
@@ -593,14 +652,6 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Override
     public MainComponent getComponent() {
         return mainComponent;
-    }
-
-    @Override
-    public void editPlant(PlantHolder plantHolder) {
-        Intent intent = new Intent(this, CreatePlantActivity.class);
-        intent.putExtra(GARDEN_KEY, garden.getModel());
-        intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
-        startActivity(intent);
     }
 
     private void initializeInjector() {

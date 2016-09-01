@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,9 @@ import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.MainActivity;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.gardens.presentation.GardenFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
@@ -40,14 +39,14 @@ import butterknife.ButterKnife;
  *
  * @author Ignacio Giagante, on 5/5/16.
  */
-public class PlantListFragment extends GardenFragment implements PlantListView, PlantsAdapter.OnDeletePlant {
+public class PlantListFragment extends GardenFragment implements PlantListView,
+        PlantsAdapter.OnDeletePlant {
 
     private final static String PLANTS_KEY = "PLANTS";
 
     @Inject
     PlantListPresenter plantListPresenter;
 
-    @Inject
     PlantsAdapter plantsAdapter;
 
     @Bind(R.id.recycle_view_id)
@@ -98,7 +97,7 @@ public class PlantListFragment extends GardenFragment implements PlantListView, 
             mPlants = savedInstanceState.getParcelableArrayList(PLANTS_KEY);
         }
 
-        plantsAdapter = new PlantsAdapter(getContext());
+        plantsAdapter = new PlantsAdapter(getContext(), (PlantsAdapter.OnSendEmail) getActivity());
         this.recyclerViewPlants.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewPlants.setAdapter(plantsAdapter);
 

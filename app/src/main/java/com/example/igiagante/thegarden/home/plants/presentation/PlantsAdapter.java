@@ -2,10 +2,7 @@ package com.example.igiagante.thegarden.home.plants.presentation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,13 +19,7 @@ import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.ref.WeakReference;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,10 +30,6 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * @author giagante on 5/5/16.
@@ -76,6 +63,12 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
     private PlantFilter plantFilter;
 
+    private OnSendEmail onSendEmail;
+
+    public interface OnSendEmail {
+        void sendEmail(String emailText, ArrayList<String> urls);
+    }
+
     public interface OnEditPlant {
         void editPlant(PlantHolder plantHolder);
     }
@@ -85,12 +78,12 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         void deletePlant(String plantId);
     }
 
-    @Inject
-    public PlantsAdapter(Context context) {
+    public PlantsAdapter(Context context, OnSendEmail onSendEmail) {
         this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mImages = Collections.emptyList();
         this.mPlants = new ArrayList<>();
+        this.onSendEmail = onSendEmail;
     }
 
     @Override
@@ -263,7 +256,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
             itemView.setOnClickListener(v -> startGetPlantDataActivity(getAdapterPosition()));
 
-            mSharePlantButton.setOnClickListener(v -> sendEmail());
+            mSharePlantButton.setOnClickListener(v -> sendEmail(getEmailText()));
         }
 
         private void startGetPlantDataActivity(int adapterPosition) {
@@ -274,99 +267,20 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             mContext.startActivity(intent);
         }
 
-        private void sendEmail() {
-            createAttachmentAndSendEmail();
+        private void sendEmail(String emailText) {
+            onSendEmail.sendEmail(emailText, getUrls());
         }
 
         public void setImages(List<Image> mImages) {
             this.mImages = mImages;
         }
 
-        private void createShareIntent(List<String> filesPaths) {
-
-            Intent shareIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-            shareIntent.setType("text/plain");
-            shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            String subject = mContext.getResources().getString(R.string.subject_email);
-
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, getEmailText());
-
-            ArrayList<Uri> uris = new ArrayList<>();
-
-            for (String file : filesPaths) {
-                File fileIn = new File(file);
-                Uri u = Uri.fromFile(fileIn);
-                uris.add(u);
+        private ArrayList<String> getUrls() {
+            ArrayList<String> urls = new ArrayList<>();
+            for(Image image : mImages) {
+                urls.add(image.getUrl());
             }
-
-            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-            mContext.startActivity(Intent.createChooser(shareIntent, mContext.getString(R.string.share_plant_info)));
-        }
-
-        private void createAttachmentAndSendEmail() {
-
-            Observable<List<String>> downloadObservable = Observable.create(
-                    sub -> {
-
-                        ArrayList<String> filesPaths = new ArrayList<>();
-                        ArrayList<String> urls = new ArrayList<>();
-
-                        for (Image image : mImages) {
-                            urls.add(image.getUrl());
-                        }
-
-                        OutputStream output = null;
-
-                        File folder = new File(Environment.getExternalStorageDirectory() + "/plants");
-                        folder.mkdirs();
-
-                        for (int i = 0; i < urls.size(); i++) {
-
-                            try {
-
-                                File tempFile = new File(folder.getAbsolutePath(), "image" + i + ".jpeg");
-                                String filePath = tempFile.getAbsolutePath();
-
-                                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(urls.get(i)).getContent());
-                                output = new BufferedOutputStream(new FileOutputStream(filePath));
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
-
-                                output.flush();
-                                output.close();
-
-                                filesPaths.add(tempFile.getAbsolutePath());
-
-                            } catch (Exception e) {
-                                sub.onError(e);
-                            }
-                        }
-                        sub.onNext(filesPaths);
-                        sub.onCompleted();
-                    }
-            );
-
-            Subscriber<List<String>> mySubscriber = new Subscriber<List<String>>() {
-                @Override
-                public void onCompleted() {
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    e.printStackTrace();
-                }
-
-                @Override
-                public void onNext(List<String> filesPaths) {
-                    createShareIntent(filesPaths);
-                }
-            };
-
-            downloadObservable
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(mySubscriber);
+            return  urls;
         }
 
         @NonNull
