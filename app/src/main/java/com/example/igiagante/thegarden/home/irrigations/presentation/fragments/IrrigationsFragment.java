@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,9 +62,6 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
     @Bind(R.id.irrigations_recycle_view_id)
     RecyclerView recyclerViewIrrigations;
 
-    @Bind(R.id.irrigations_add_new_irrigation_id)
-    FloatingActionButton buttonAddNutrient;
-
     @Bind(R.id.create_one_garden_first_irrigations)
     TextView createOneGarden;
 
@@ -98,10 +97,6 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.recyclerViewIrrigations.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewIrrigations.setAdapter(irrigationsAdapter);
 
-        // disable fab unless there is an active garden
-        buttonAddNutrient.setEnabled(false);
-        buttonAddNutrient.setOnClickListener(v -> startIrrigationDetailActivity(null));
-
         Bundle args = getArguments();
         if (args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
@@ -109,7 +104,6 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
                 mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
                 irrigationsAdapter.setIrrigations(mIrrigations);
                 mProgressBar.setVisibility(View.GONE);
-                buttonAddNutrient.setEnabled(true);
             }
         }
 
@@ -121,7 +115,6 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.garden = garden;
         this.mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
         this.irrigationsAdapter.setIrrigations(this.mIrrigations);
-        buttonAddNutrient.setEnabled(true);
     }
 
     @Override
@@ -129,7 +122,11 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.createOneGarden.setVisibility(View.VISIBLE);
     }
 
-    private void startIrrigationDetailActivity(Irrigation irrigation) {
+    public void addIrrigation(@NonNull Irrigation irrigation) {
+        this.irrigationsAdapter.addIrrigation(irrigation);
+    }
+
+    private void startIrrigationDetailActivity(@Nullable Irrigation irrigation) {
         Intent intent = new Intent(getContext(), IrrigationDetailActivity.class);
         intent.putExtra(GARDEN_ID_KEY, garden.getId());
         intent.putExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY, irrigation);
@@ -160,18 +157,6 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
     @Override
     public void showIrrigationDetails(Irrigation irrigation) {
         startIrrigationDetailActivity(irrigation);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK) {
-            Irrigation irrigation = data.getParcelableExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY);
-            if (irrigation != null) {
-                this.irrigationsAdapter.addIrrigation(irrigation);
-            }
-        }
     }
 
     @Override

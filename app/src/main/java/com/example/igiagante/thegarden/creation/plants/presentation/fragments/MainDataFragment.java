@@ -45,6 +45,18 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Inject
     MainDataPresenter mainDataPresenter;
 
+    @Bind(R.id.name_of_plant_id)
+    TextView mNameOfPlant;
+
+    @Bind(R.id.genotype_id)
+    TextView mGenotype;
+
+    @Bind(R.id.ph_soil_id)
+    CountViewDecimal mPhSoil;
+
+    @Bind(R.id.ec_soil_id)
+    CountViewDecimal mEcSoil;
+
     @Bind(R.id.size_id)
     CountView mSize;
 
@@ -73,17 +85,15 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
         // ask to the activity if it has a plant for edition
         if (mPlant != null) {
-            //setPlantValuesInView();
-        } else {
-            //initDefaultValues();
+            setPlantValuesInView();
         }
 
         if (savedInstanceState != null) {
             mPlant = savedInstanceState.getParcelable(PLANT_KEY);
-           // setPlantValuesInView();
+            setPlantValuesInView();
         }
 
-       // mNameOfPlant.addTextChangedListener(this);
+        mNameOfPlant.addTextChangedListener(this);
 
         return fragmentView;
     }
@@ -107,7 +117,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Override
     public void informIfPlantExist(Boolean exist) {
         if(exist) {
-            //mNameOfPlant.setError(getString(R.string.name_of_the_plant_already_exist));
+            mNameOfPlant.setError(getString(R.string.name_of_the_plant_already_exist));
         }
     }
 
@@ -154,12 +164,11 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (outState != null) {
-           // mPlant = createParcelable();
+            mPlant = createParcelable();
             outState.putParcelable(PLANT_KEY, mPlant);
         }
     }
 
-    /*
     @Override
     protected void move() {
         Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
@@ -174,21 +183,6 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Override
     protected void loadPlantDataForEdition(PlantHolder plantHolder) {
         super.loadPlantDataForEdition(plantHolder);
-    }
-
-    private void initDefaultValues() {
-
-        EditText mPhSoilText = (EditText) mPhSoil.findViewById(R.id.count_input);
-        mPhSoilText.setHint(R.string.ph_soil);
-        mPhSoilText.setText(R.string.ph_soil_default_value);
-
-        EditText mEcSoilText = (EditText) mEcSoil.findViewById(R.id.count_input);
-        mEcSoilText.setHint(R.string.ec_soil);
-        mEcSoilText.setText(R.string.ec_soil_default_value);
-
-        EditText sizeText = (EditText) mSize.findViewById(R.id.count_input);
-        sizeText.setHint(R.string.size);
-        sizeText.setText(R.string.size_default_value);
     }
 
     private Plant createParcelable() {
@@ -217,5 +211,5 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
         mGenotype.setText(mPlant.getGenotype());
         mSize.setEditValue(mPlant.getSize());
-    } */
+    }
 }

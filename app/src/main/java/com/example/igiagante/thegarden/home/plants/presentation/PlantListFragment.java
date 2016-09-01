@@ -108,11 +108,7 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
         return fragmentView;
     }
 
-    private Intent createIntentForCreatePlantActivity() {
-        Intent intent = new Intent(getActivity(), CreatePlantActivity.class);
-        intent.putExtra(MainActivity.GARDEN_KEY, garden);
-        return intent;
-    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -194,8 +190,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
 
     @Override
     public void executeFABAction() {
-        startActivityForResult(createIntentForCreatePlantActivity(),
-                MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY);
     }
 
     /**

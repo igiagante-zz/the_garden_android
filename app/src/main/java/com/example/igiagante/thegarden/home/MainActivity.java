@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -40,6 +41,7 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.domain.entity.SensorTemp;
 import com.example.igiagante.thegarden.core.domain.entity.User;
@@ -55,6 +57,9 @@ import com.example.igiagante.thegarden.home.gardens.presentation.delegates.Adapt
 import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
+import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity;
+import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationDetailFragment;
+import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.services.EmailProducer;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
@@ -143,10 +148,19 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
      */
     private ArrayList<GardenHolder> gardens = new ArrayList<>();
 
+    /**
+     * Used to send an email with attachments
+     */
     private EmailProducer emailProducer;
 
     private SearchView searchView;
+
+    /**
+     * This menuItem is taken out because it needs to hide the searchView
+     */
     private MenuItem menuItem;
+
+    private int tabPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +193,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         }
 
         this.viewPager.addOnPageChangeListener(this);
+
+        initFAB();
     }
 
     @Override
@@ -186,15 +202,6 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(GARDENS_KEY, gardens);
         outState.putParcelable(GARDEN_KEY, garden);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_CREATE_PLANT_ACTIVITY && resultCode == Activity.RESULT_OK) {
-            setActiveGarden(data);
-        }
     }
 
     /**
@@ -581,10 +588,40 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_CREATE_PLANT_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            setActiveGarden(data);
+        }
+
+        if (requestCode == IrrigationsFragment.REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK) {
+            Irrigation irrigation = data.getParcelableExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY);
+            if (irrigation != null) {
+                Fragment item = this.mAdapter.getItem(tabPosition);
+                if(item instanceof IrrigationsFragment) {
+                    ((IrrigationsFragment) item).addIrrigation(irrigation);
+                }
+            }
+        }
+    }
+
+    @Override
     public void onPageSelected(int position) {
+        fab.setVisibility(View.GONE);
+        this.tabPosition = position;
 
         switch (position) {
             case 0:
+                initFAB();
+                break;
+            case 1:
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(v -> startIrrigationDetailActivity());
+                break;
+            case 2:
+                fab.setVisibility(View.GONE);
+                break;
         }
 
         if (position != 0) {
@@ -592,6 +629,25 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         } else {
             menuItem.setVisible(true);
         }
+    }
+
+    private void initFAB() {
+        fab.setVisibility(View.VISIBLE);
+        fab.setOnClickListener(v ->
+                startActivityForResult(createIntentForCreatePlantActivity(),
+                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
+    }
+
+    private Intent createIntentForCreatePlantActivity() {
+        Intent intent = new Intent(this, CreatePlantActivity.class);
+        intent.putExtra(MainActivity.GARDEN_KEY, garden.getModel());
+        return intent;
+    }
+
+    private void startIrrigationDetailActivity() {
+        Intent intent = new Intent(this, IrrigationDetailActivity.class);
+        intent.putExtra(IrrigationsFragment.GARDEN_ID_KEY, garden.getGardenId());
+        startActivityForResult(intent, IrrigationsFragment.REQUEST_CODE_IRRIGATION_DETAIL);
     }
 
     @Override
