@@ -130,7 +130,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Bind(R.id.progress_bar_garden)
     ProgressBar progressBar;
 
-    @Bind(R.id.add_button)
+    @Bind(R.id.add_main_button)
     FloatingActionButton fab;
 
     /**
@@ -160,6 +160,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
      */
     private MenuItem menuItem;
 
+    /**
+     * Used to know which page is actived
+     */
     private int tabPosition = 0;
 
     @Override
@@ -207,15 +210,12 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     /**
      * Get Garden data from Intent
      *
-     * @param intent Intent Object
+     * @param garden Object
      */
-    private void setActiveGarden(Intent intent) {
-        GardenHolder garden = intent.getParcelableExtra(GARDEN_KEY);
-        if (garden != null) {
-            int position = existGarden(garden);
-            if (position != -1) {
-                gardens.set(position, garden);
-            }
+    private void setActiveGarden(@NonNull GardenHolder garden) {
+        int position = existGarden(garden);
+        if (position != -1) {
+            gardens.set(position, garden);
         }
     }
 
@@ -592,16 +592,15 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE_CREATE_PLANT_ACTIVITY && resultCode == Activity.RESULT_OK) {
-            setActiveGarden(data);
+            GardenHolder garden = data.getParcelableExtra(GARDEN_KEY);
+            setActiveGarden(garden);
         }
 
         if (requestCode == IrrigationsFragment.REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK) {
             Irrigation irrigation = data.getParcelableExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY);
             if (irrigation != null) {
-                Fragment item = this.mAdapter.getItem(tabPosition);
-                if(item instanceof IrrigationsFragment) {
-                    ((IrrigationsFragment) item).addIrrigation(irrigation);
-                }
+                this.garden.getModel().getIrrigations().add(irrigation);
+                setActiveGarden(this.garden);
             }
         }
     }
@@ -660,7 +659,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         emailProducer = new EmailProducer(this, emailText, urls);
 
-        if(checkInternet()) {
+        if (checkInternet()) {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkPermission();
             } else {
@@ -686,7 +685,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 || writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_CODE_ASK_PERMISSIONS);
         } else {
             emailProducer.createAttachmentAndSendEmail();

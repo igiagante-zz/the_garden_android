@@ -68,7 +68,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_button"
+            android:id="@+id/add_main_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="16dp"
