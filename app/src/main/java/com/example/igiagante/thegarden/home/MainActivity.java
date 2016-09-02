@@ -597,11 +597,10 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         }
 
         if (requestCode == IrrigationsFragment.REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK) {
-            Irrigation irrigation = data.getParcelableExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY);
-            if (irrigation != null) {
-                this.garden.getModel().getIrrigations().add(irrigation);
-                setActiveGarden(this.garden);
-            }
+            Garden garden = data.getParcelableExtra(GARDEN_KEY);
+            GardenHolder gardenHolder = new GardenHolder();
+            gardenHolder.setModel(garden);
+            loadGarden(gardenHolder);
         }
     }
 
@@ -645,7 +644,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     private void startIrrigationDetailActivity() {
         Intent intent = new Intent(this, IrrigationDetailActivity.class);
-        intent.putExtra(IrrigationsFragment.GARDEN_ID_KEY, garden.getGardenId());
+        intent.putExtra(MainActivity.GARDEN_KEY, garden.getModel());
         startActivityForResult(intent, IrrigationsFragment.REQUEST_CODE_IRRIGATION_DETAIL);
     }
 
