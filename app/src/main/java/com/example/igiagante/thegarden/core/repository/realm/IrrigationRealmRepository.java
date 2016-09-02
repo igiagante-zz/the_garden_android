@@ -13,6 +13,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.IrrigationTo
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.IrrigationRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
+import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.irrigations.IrrigationByIdSpecification;
 
 import java.util.Collection;
@@ -34,7 +35,11 @@ public class IrrigationRealmRepository implements Repository<Irrigation> {
     private Realm realm;
     private final RealmConfiguration realmConfiguration;
 
+    private Context mContext;
+
     public IrrigationRealmRepository(@NonNull Context context) {
+
+        this.mContext = context;
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
                 .name(Repository.DATABASE_NAME_DEV)
@@ -59,6 +64,7 @@ public class IrrigationRealmRepository implements Repository<Irrigation> {
 
     @Override
     public Observable<Irrigation> add(Irrigation irrigation) {
+
         realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam ->
                 realmParam.copyToRealmOrUpdate(toIrrigationRealm.map(irrigation)));

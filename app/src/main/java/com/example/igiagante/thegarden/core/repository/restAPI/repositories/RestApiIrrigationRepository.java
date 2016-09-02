@@ -57,6 +57,7 @@ public class RestApiIrrigationRepository  extends BaseRestApiRepository<Irrigati
         return addOrUpdate(irrigation, true);
     }
 
+    @NonNull
     private Observable addOrUpdate(Irrigation irrigation, boolean update) {
 
         MultipartBody.Builder builder = getRequestBody(irrigation);

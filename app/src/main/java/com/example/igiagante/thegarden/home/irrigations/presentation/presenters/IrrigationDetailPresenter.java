@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.home.irrigations.presentation.presenters
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
@@ -25,16 +26,19 @@ import javax.inject.Named;
 @PerActivity
 public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetailView> {
 
-    private final static String TAG = IrrigationPresenter.class.getSimpleName();
+    private final static String TAG = IrrigationDetailPresenter.class.getSimpleName();
 
     private final UseCase saveIrrigationUseCase;
     private final UseCase getNutrientsUseCase;
+    private final UseCase saveGardenUseCase;
 
     @Inject
     public IrrigationDetailPresenter(@Named("saveIrrigation") UseCase saveIrrigationUseCase,
-                                     @Named("getNutrients") UseCase getNutrientsUseCase) {
+                                     @Named("getNutrients") UseCase getNutrientsUseCase,
+                                     @Named("saveGarden") UseCase saveGardenUseCase) {
         this.saveIrrigationUseCase = saveIrrigationUseCase;
         this.getNutrientsUseCase = getNutrientsUseCase;
+        this.saveGardenUseCase = saveGardenUseCase;
     }
 
     public void destroy() {
@@ -43,16 +47,20 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
         this.view = null;
     }
 
-    public void saveIrrigation(Irrigation irrigation){
+    public void saveIrrigation(Irrigation irrigation) {
         removeDomainFromNutrientsImages(irrigation.getDose().getNutrients());
         this.saveIrrigationUseCase.execute(irrigation, new SaveIrrigationSubscriber());
     }
 
-    public void getNutrients(){
+    public void getNutrients() {
         this.getNutrientsUseCase.execute(null, new NutrientsSubscriber());
     }
 
-    private void loadNutrients(List<NutrientHolder> nutrients){
+    public void updateGarden(Garden garden) {
+        this.saveGardenUseCase.execute(garden, new UpdateGardenSubscriber());
+    }
+
+    private void loadNutrients(List<NutrientHolder> nutrients) {
         getView().loadNutrients(nutrients);
     }
 
@@ -60,33 +68,60 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
         getView().notifyIfIrrigationWasPersistedOrUpdated(irrigation);
     }
 
+    private void notifyIfGardenWasUpdated(Garden garden) {
+        getView().notifyIfGardenWasUpdated(garden);
+    }
+
     private final class SaveIrrigationSubscriber extends DefaultSubscriber<Irrigation> {
 
-        @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+        @Override
+        public void onCompleted() {
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
 
-        @Override public void onNext(Irrigation irrigation) {
+        @Override
+        public void onNext(Irrigation irrigation) {
             IrrigationDetailPresenter.this.notifyIfIrrigationWasPersistedOrUpdated(irrigation);
         }
     }
 
     private final class NutrientsSubscriber extends DefaultSubscriber<List<Nutrient>> {
 
-        @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+        @Override
+        public void onCompleted() {
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(List<Nutrient> nutrients) {
+        @Override
+        public void onNext(List<Nutrient> nutrients) {
             IrrigationDetailPresenter.this.loadNutrients(createNutrientHolderList(nutrients));
+        }
+    }
+
+    private final class UpdateGardenSubscriber extends DefaultSubscriber<Garden> {
+
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onNext(Garden garden) {
+            IrrigationDetailPresenter.this.notifyIfGardenWasUpdated(garden);
         }
     }
 
@@ -101,19 +136,19 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
     }
 
     private void removeDomainFromNutrientsImages(List<Nutrient> nutrients) {
-        for(Nutrient nutrient : nutrients) {
+        for (Nutrient nutrient : nutrients) {
             removeDomainFromImages(nutrient);
         }
     }
 
     private void removeDomainFromImages(Nutrient nutrient) {
-        for(Image image : nutrient.getImages()){
-            if(image.getUrl() != null && image.getUrl().contains("http")){
-                String [] parts = image.getUrl().split(Settings.DOMAIN);
+        for (Image image : nutrient.getImages()) {
+            if (image.getUrl() != null && image.getUrl().contains("http")) {
+                String[] parts = image.getUrl().split(Settings.DOMAIN);
                 image.setUrl(parts[1]);
             }
-            if(image.getThumbnailUrl() != null && image.getThumbnailUrl().contains("http")){
-                String [] parts = image.getThumbnailUrl().split(Settings.DOMAIN);
+            if (image.getThumbnailUrl() != null && image.getThumbnailUrl().contains("http")) {
+                String[] parts = image.getThumbnailUrl().split(Settings.DOMAIN);
                 image.setThumbnailUrl(parts[1]);
             }
         }

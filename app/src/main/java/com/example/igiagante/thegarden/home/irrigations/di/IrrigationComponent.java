@@ -4,6 +4,7 @@ import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
 import com.example.igiagante.thegarden.creation.nutrients.di.NutrientModule;
+import com.example.igiagante.thegarden.home.gardens.di.GardenModule;
 import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationDetailFragment;
 import com.example.igiagante.thegarden.home.irrigations.presentation.presenters.IrrigationDetailPresenter;
 
@@ -14,7 +15,7 @@ import dagger.Component;
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class,
-        modules = {ActivityModule.class, IrrigationModule.class, NutrientModule.class})
+        modules = {ActivityModule.class, IrrigationModule.class, NutrientModule.class, GardenModule.class})
 public interface IrrigationComponent {
 
     void inject(IrrigationDetailFragment irrigationDetailFragment);

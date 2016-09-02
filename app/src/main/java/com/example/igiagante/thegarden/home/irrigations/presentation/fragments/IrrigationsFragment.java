@@ -131,7 +131,7 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
 
     private void startIrrigationDetailActivity(Irrigation irrigation) {
         Intent intent = new Intent(getContext(), IrrigationDetailActivity.class);
-        intent.putExtra(GARDEN_ID_KEY, garden.getId());
+        intent.putExtra(MainActivity.GARDEN_KEY, garden);
         intent.putExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY, irrigation);
         IrrigationsFragment.this.startActivityForResult(intent, REQUEST_CODE_IRRIGATION_DETAIL);
     }
