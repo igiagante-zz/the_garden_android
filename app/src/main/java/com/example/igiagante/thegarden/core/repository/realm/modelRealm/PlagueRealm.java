@@ -18,6 +18,8 @@ public class PlagueRealm extends RealmObject {
     @Required
     private String imageUrl;
 
+    private String localPath;
+
     public String getId() {
         return id;
     }
@@ -40,5 +42,13 @@ public class PlagueRealm extends RealmObject {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
     }
 }

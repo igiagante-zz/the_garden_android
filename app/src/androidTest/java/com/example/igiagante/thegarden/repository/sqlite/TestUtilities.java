@@ -69,6 +69,7 @@ public class TestUtilities extends AndroidTestCase {
         flavor.setId(id);
         flavor.setName("Lemon");
         flavor.setImageUrl("url");
+        flavor.setLocalPath("path");
         flavor.setMongoId("57605cf782a9a92ee597f7c9");
 
         return flavor;

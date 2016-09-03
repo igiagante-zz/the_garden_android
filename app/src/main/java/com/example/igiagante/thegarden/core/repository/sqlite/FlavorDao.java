@@ -22,7 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * Used to separate low level data accessing API or operations from high level business service.
+ * Used to separate low level data access API or operations from high level business service.
  * @author Ignacio Giagante, on 10/5/16.
  */
 public class FlavorDao {
@@ -38,6 +38,7 @@ public class FlavorDao {
             FlavorEntry._ID,
             FlavorEntry.COLUMN_NAME,
             FlavorEntry.COLUMN_IMAGE_URL,
+            FlavorEntry.COLUMN_LOCAL_PATH,
             FlavorEntry.COLUMN_MONGO_ID };
 
     /**
@@ -52,7 +53,7 @@ public class FlavorDao {
         //check if the flavor is already in database
         Cursor flavorCursor = mContext.getContentResolver().query(
                 FlavorEntry.CONTENT_URI,
-                new String[]{FlavorEntry._ID},
+                new String[]{ FlavorEntry._ID },
                 FlavorEntry._ID + " = ?",
                 new String[]{ flavor.getId() },
                 null);
@@ -66,6 +67,7 @@ public class FlavorDao {
 
             flavorValues.put(FlavorEntry.COLUMN_NAME, flavor.getName());
             flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL, flavor.getImageUrl());
+            flavorValues.put(FlavorEntry.COLUMN_LOCAL_PATH, flavor.getLocalPath());
             flavorValues.put(FlavorEntry.COLUMN_MONGO_ID, flavor.getMongoId());
 
             Uri insertedUri = mContext.getContentResolver().insert(FlavorEntry.CONTENT_URI,
@@ -79,6 +81,14 @@ public class FlavorDao {
         return flavorId;
     }
 
+    public void deleteAll() {
+        mContext.getContentResolver().delete(
+                FlavorEntry.CONTENT_URI,
+                null,
+                null
+        );
+    }
+
     /**
      * Add a flavor collection to Sqlite
      * @param flavors flavor list
@@ -88,22 +98,33 @@ public class FlavorDao {
         return mContext.getContentResolver().bulkInsert(FlavorEntry.CONTENT_URI, getContentValues(flavors));
     }
 
+    public void update(Flavor flavor) {
+        mContext.getContentResolver().update(
+                FlavorEntry.CONTENT_URI,
+                getContentValuesForOneFlavor(flavor),
+                FlavorEntry._ID + " = ?",
+                new String[] { flavor.getId() } );
+    }
+
     private ContentValues[] getContentValues(List<Flavor> flavors) {
 
         ContentValues [] values = new ContentValues[flavors.size()];
 
         for (int i = 0; i < flavors.size(); i++) {
-
-            ContentValues flavorValues = new ContentValues();
-
-            flavorValues.put(FlavorEntry.COLUMN_NAME, flavors.get(i).getName());
-            flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL,flavors.get(i).getImageUrl().replace(Settings.DOMAIN, ""));
-            flavorValues.put(FlavorEntry.COLUMN_MONGO_ID, flavors.get(i).getId());
-
-            values[i] = flavorValues;
+            values[i] = getContentValuesForOneFlavor(flavors.get(i));
         }
-
         return values;
+    }
+
+    private ContentValues getContentValuesForOneFlavor(Flavor flavor) {
+        ContentValues flavorValues = new ContentValues();
+
+        flavorValues.put(FlavorEntry.COLUMN_NAME, flavor.getName());
+        flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL,flavor.getImageUrl().replace(Settings.DOMAIN, ""));
+        flavorValues.put(FlavorEntry.COLUMN_LOCAL_PATH, flavor.getLocalPath());
+        flavorValues.put(FlavorEntry.COLUMN_MONGO_ID, flavor.getId());
+
+        return flavorValues;
     }
 
 
@@ -164,11 +185,13 @@ public class FlavorDao {
         int id = flavorCursor.getColumnIndex(FlavorEntry._ID);
         int nameIndex = flavorCursor.getColumnIndex(FlavorEntry.COLUMN_NAME);
         int imageUrlIndex = flavorCursor.getColumnIndex(FlavorEntry.COLUMN_IMAGE_URL);
+        int localPathIndex = flavorCursor.getColumnIndex(FlavorEntry.COLUMN_LOCAL_PATH);
         int mongoIdIndex = flavorCursor.getColumnIndex(FlavorEntry.COLUMN_MONGO_ID);
 
         flavor.setId(String.valueOf(id));
         flavor.setName(flavorCursor.getString(nameIndex));
         flavor.setImageUrl(Settings.DOMAIN + flavorCursor.getString(imageUrlIndex));
+        flavor.setLocalPath(flavorCursor.getString(localPathIndex));
         flavor.setMongoId(flavorCursor.getString(mongoIdIndex));
 
         return flavor;
@@ -187,6 +210,7 @@ public class FlavorDao {
         flavor.setId(Long.toHexString(cursor.getLong(cursor.getColumnIndex(FlavorEntry._ID))));
         flavor.setName(cursor.getString(cursor.getColumnIndex(FlavorEntry.COLUMN_NAME)));
         flavor.setImageUrl(cursor.getString(cursor.getColumnIndex(FlavorEntry.COLUMN_IMAGE_URL)));
+        flavor.setLocalPath(cursor.getString(cursor.getColumnIndex(FlavorEntry.COLUMN_LOCAL_PATH)));
         flavor.setMongoId(cursor.getString(cursor.getColumnIndex(FlavorEntry.COLUMN_MONGO_ID)));
 
         cursor.close();

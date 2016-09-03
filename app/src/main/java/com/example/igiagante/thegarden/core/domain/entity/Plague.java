@@ -21,6 +21,8 @@ public class Plague implements Parcelable {
     @SerializedName("imageUrl")
     private String imageUrl;
 
+    private String localPath;
+
     public String getId() {
         return id;
     }
@@ -45,6 +47,14 @@ public class Plague implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -55,6 +65,7 @@ public class Plague implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(imageUrl);
+        dest.writeString(localPath);
     }
 
     public static final Parcelable.Creator<Plague> CREATOR = new Parcelable.Creator<Plague>() {
@@ -71,5 +82,6 @@ public class Plague implements Parcelable {
         id = in.readString();
         name = in.readString();
         imageUrl = in.readString();
+        localPath = in.readString();
     }
 }

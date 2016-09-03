@@ -168,7 +168,6 @@ public class FlavorProvider extends ContentProvider {
         switch (match) {
             case FLAVOR:
                 db.beginTransaction();
-
                 try {
                     for (ContentValues value : values) {
                         long _id = db.insertWithOnConflict(FlavorContract.FlavorEntry.TABLE_NAME, null, value,

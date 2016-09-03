@@ -13,13 +13,16 @@ import com.example.igiagante.thegarden.core.di.components.DaggerApplicationCompo
 import com.example.igiagante.thegarden.core.di.modules.ApplicationModule;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.home.charts.services.ChartsDataService;
+import com.example.igiagante.thegarden.home.plants.usecase.DownLoadImagesUseCase;
 import com.example.igiagante.thegarden.home.plants.usecase.PersistStaticDataUseCase;
+import com.example.igiagante.thegarden.home.plants.usecase.SetLocalPathsUseCase;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,6 +42,12 @@ public class AndroidApplication extends Application {
 
     @Inject
     PersistStaticDataUseCase persistStaticDataUseCase;
+
+    @Inject
+    DownLoadImagesUseCase downLoadImagesUseCase;
+
+    @Inject
+    SetLocalPathsUseCase setLocalPathsUseCase;
 
     public enum TrackerName {
         APP_TRACKER,
@@ -65,6 +74,9 @@ public class AndroidApplication extends Application {
         Fresco.initialize(this);
 
         applicationComponent.inject(this);
+
+        //download images
+        downLoadImagesUseCase.execute(null, new ImageDownloadSubscriber());
 
         // update database
         persistStaticDataUseCase.execute(null, new ApplicationSubscriber());
@@ -98,6 +110,43 @@ public class AndroidApplication extends Application {
         @Override
         public void onNext(String result) {
             Log.i(TAG, "The database's update was " + result);
+        }
+    }
+
+    private final class ImageDownloadSubscriber extends DefaultSubscriber<List<String>> {
+
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onNext(List<String> urls) {
+            Log.i(TAG, " Images downloaded " + urls);
+            setLocalPathsUseCase.execute(urls, new SetImageLocalPathsSubscriber());
+        }
+    }
+
+    private final class SetImageLocalPathsSubscriber extends DefaultSubscriber<String> {
+
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onNext(String result) {
+            Log.i(TAG, " set local path " + result);
         }
     }
 

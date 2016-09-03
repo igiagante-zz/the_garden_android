@@ -44,6 +44,31 @@ public class TestFlavorDao extends AndroidTestCase {
         assertEquals(flavor.getMongoId(), flavorFromDb.getMongoId());
     }
 
+    public void testUpdateFlavor(){
+
+        Flavor flavor = TestUtilities.buildFlavor("123");
+
+        long flavorId = flavorDao.createFlavor(flavor);
+
+        Flavor flavorFromDb = flavorDao.getFlavor(String.valueOf(flavorId));
+
+        assertEquals(flavor.getName(), flavorFromDb.getName());
+        assertEquals(flavor.getImageUrl(), flavorFromDb.getImageUrl());
+        assertEquals(flavor.getLocalPath(), flavorFromDb.getLocalPath());
+        assertEquals(flavor.getMongoId(), flavorFromDb.getMongoId());
+
+        flavorFromDb.setName("new name");
+        flavorFromDb.setLocalPath("new path");
+
+        flavorDao.update(flavorFromDb);
+
+        Flavor flavorUpdated = flavorDao.getFlavor(String.valueOf(flavorId));
+
+        assertEquals(flavorUpdated.getName(), flavorFromDb.getName());
+        assertEquals(flavorUpdated.getLocalPath(), flavorFromDb.getLocalPath());
+
+    }
+
     public void testGetAllFlavors(){
 
         Flavor flavorOne = TestUtilities.buildFlavor("1");

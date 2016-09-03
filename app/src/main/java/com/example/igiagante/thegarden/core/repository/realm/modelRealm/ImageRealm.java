@@ -5,7 +5,7 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
- * Created by igiagante on 26/4/16.
+ * @author Ignacio Giagante, on 26/4/16.
  */
 public class ImageRealm extends RealmObject {
 
@@ -20,6 +20,8 @@ public class ImageRealm extends RealmObject {
 
     @Required
     private String thumbnailUrl;
+
+    private String localPath;
 
     private String type;
 
@@ -57,6 +59,14 @@ public class ImageRealm extends RealmObject {
 
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
     }
 
     public String getType() {

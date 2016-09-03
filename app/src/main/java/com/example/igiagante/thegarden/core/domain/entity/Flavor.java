@@ -22,6 +22,8 @@ public class Flavor implements Parcelable {
     @SerializedName("imageUrl")
     private String imageUrl;
 
+    private String localPath;
+
     @SerializedName("mongoId")
     private String mongoId;
 
@@ -49,6 +51,14 @@ public class Flavor implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
+    }
+
     public String getMongoId() {
         return mongoId;
     }
@@ -67,6 +77,7 @@ public class Flavor implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(imageUrl);
+        dest.writeString(localPath);
         dest.writeString(mongoId);
     }
 
@@ -84,6 +95,7 @@ public class Flavor implements Parcelable {
         id = in.readString();
         name = in.readString();
         imageUrl = in.readString();
+        localPath = in.readString();
         mongoId = in.readString();
     }
 }

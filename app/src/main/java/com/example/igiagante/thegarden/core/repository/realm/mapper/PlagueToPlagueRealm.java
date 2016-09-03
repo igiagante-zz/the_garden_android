@@ -2,6 +2,7 @@ package com.example.igiagante.thegarden.core.repository.realm.mapper;
 
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.Mapper;
+import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 
 import io.realm.Realm;
@@ -30,7 +31,8 @@ public class PlagueToPlagueRealm implements Mapper<Plague, PlagueRealm> {
     public PlagueRealm copy(Plague plague, PlagueRealm plagueRealm) {
 
         plagueRealm.setName(plague.getName());
-        plagueRealm.setImageUrl(plague.getImageUrl());
+        plagueRealm.setImageUrl(plague.getImageUrl().replace(Settings.DOMAIN, ""));
+        plagueRealm.setLocalPath(plague.getLocalPath());
 
         return plagueRealm;
     }

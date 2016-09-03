@@ -90,7 +90,17 @@ public class PlagueRealmRepository implements Repository<Plague> {
 
     @Override
     public Observable<Plague> update(Plague plague) {
-        return null;
+        realm = Realm.getInstance(realmConfiguration);
+
+        PlagueRealm plagueRealm = realm.where(PlagueRealm.class).equalTo(PlantTable.ID, plague.getId()).findFirst();
+
+        realm.executeTransaction(realmParam -> {
+            toPlagueRealm.copy(plague, plagueRealm);
+        });
+
+        realm.close();
+
+        return Observable.just(plague);
     }
 
     @Override

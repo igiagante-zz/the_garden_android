@@ -24,6 +24,7 @@ public class PlagueRealmToPlague implements Mapper<PlagueRealm, Plague> {
 
         plague.setName(plagueRealm.getName());
         plague.setImageUrl(Settings.DOMAIN + plagueRealm.getImageUrl());
+        plague.setLocalPath(plagueRealm.getLocalPath());
 
         return plague;
     }
