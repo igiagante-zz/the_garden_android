@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="@dimen/plague_view_margin_top"
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/ph_image_id"
@@ -16,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/plague_view_text_size"
         android:text="@string/plague_view_ph_default_text"
-        android:layout_marginTop="7dp"/>
+        android:layout_marginTop="@dimen/plague_view_ph_margin_top"/>
 
     <ImageView
         android:id="@+id/ec_image_id"

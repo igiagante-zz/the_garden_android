@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Environment;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.presentation.ValidationMessage;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -22,11 +23,17 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 
 /**
  * @author Ignacio Giagante, on 1/9/16.
  */
 public class EmailProducer {
+
+    /**
+     * Used as event bus to notify if the email was sent
+     */
+    protected PublishSubject<Boolean> subject = PublishSubject.create();
 
     private Context mContext;
     private ArrayList<String> urls;
@@ -36,6 +43,14 @@ public class EmailProducer {
         this.mContext = mContext;
         this.urls = urls;
         this.emailText = emailText;
+    }
+
+    protected void notifyAboutEmail(Boolean enable) {
+        subject.onNext(enable);
+    }
+
+    public Observable<Boolean> getNotificationEmailObservable() {
+        return subject;
     }
 
     private void createShareIntent(List<String> filesPaths) {
@@ -59,6 +74,8 @@ public class EmailProducer {
 
         shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
         mContext.startActivity(Intent.createChooser(shareIntent, mContext.getString(R.string.share_plant_info)));
+
+        notifyAboutEmail(true);
     }
 
     public void createAttachmentAndSendEmail() {

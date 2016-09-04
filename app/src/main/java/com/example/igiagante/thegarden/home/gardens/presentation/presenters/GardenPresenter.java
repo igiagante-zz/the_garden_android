@@ -72,6 +72,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     }
 
     public void getGardensByUser(User user) {
+        this.showViewLoading();
         this.getGetGardensByUserUseCase.execute(user, new GetGardensByUserSubscriber());
     }
 

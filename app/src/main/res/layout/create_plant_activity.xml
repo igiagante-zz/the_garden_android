@@ -3,6 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/progress_bar_plant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/create_plant_toolbar"
         android:layout_width="match_parent"
@@ -52,13 +59,6 @@
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
-
-    <ProgressBar
-        android:id="@+id/progress_bar_plant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
 
     <com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"

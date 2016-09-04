@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.home;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -686,9 +687,20 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Override
     public void sendEmail(String emailText, ArrayList<String> urls) {
 
+        ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(getString(R.string.create_email));
+        mProgressDialog.show();
+
         emailProducer = new EmailProducer(this, emailText, urls);
+        emailProducer.getNotificationEmailObservable().subscribe(sentEmail -> {
+            if(sentEmail) {
+                mProgressDialog.hide();
+            }
+        });
 
         if (checkInternet()) {
+            this.progressBar.setVisibility(View.VISIBLE);
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkPermission();
             } else {

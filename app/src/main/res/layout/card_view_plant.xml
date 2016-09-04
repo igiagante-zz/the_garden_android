@@ -32,6 +32,7 @@
                 android:scaleType="centerCrop"
                 android:background="@android:color/holo_orange_light"
                 fresco:placeholderImage="@drawable/no_image"
+                android:contentDescription="@string/image_content_description"
                 />
 
             <Button
@@ -59,8 +60,7 @@
                 android:layout_gravity="top|start"
                 android:layout_marginStart="@dimen/card_plant_name_margin_start"
                 android:layout_marginTop="@dimen/card_plant_name_margin_top"
-                android:textSize="@dimen/card_plant_name_size"
-                android:text="Valeriana" />
+                android:textSize="@dimen/card_plant_name_size" />
 
             <Button
                 android:id="@+id/edit_plant_button"

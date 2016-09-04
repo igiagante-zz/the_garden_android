@@ -29,6 +29,8 @@
 
     <string name="create_one_garden">Create one garden to start &#8230;</string>
 
+    <string name="create_email">Creating email  &#8230;</string>
+
     <!-- Login & Register -->
     <string name="loading_gardens">Loadging gardens,&#8230;</string>
     <string name="creating_account">Creating Account,&#8230;</string>
@@ -137,6 +139,8 @@
     <!-- Cancel Button Dialog -->
 
     <!-- SHOW PLANT -->
+    <string name="image_content_description">Plant Image</string>
+
     <string name="cancel_button_dialog_title">Cancel</string>
     <string name="cancel_button_dialog_content">Are you sure you want to cancel this %1$s?</string>
     <string name="cancel_button_creation">Creation</string>
