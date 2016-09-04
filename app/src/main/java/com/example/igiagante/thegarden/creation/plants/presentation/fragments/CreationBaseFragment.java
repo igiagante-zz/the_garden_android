@@ -16,16 +16,19 @@ import java.util.List;
 
 /**
  * Base Fragment class used to get some events in common for the fragments which are in the viewPager
- * {@link CreatePlantActivity#mPager}
+ * {@link CreatePlantActivity#createPlantViewPager}
  *
  * @author Ignacio Giagante, on 20/5/16.
  */
 public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
+    /**
+     * Main model
+     */
     protected Plant mPlant;
 
     /**
-     * Indicate that a plant is being updated
+     * Indicate if a plant is being updated
      */
     protected boolean updatingPlant = false;
 

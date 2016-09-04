@@ -60,7 +60,8 @@
         android:layout_centerInParent="true"
         android:visibility="gone"/>
 
-    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/viewpager_create_plant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

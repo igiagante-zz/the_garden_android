@@ -7,10 +7,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantViewPager;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.AttributesFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
@@ -27,15 +29,20 @@ import com.example.igiagante.thegarden.creation.plants.presentation.fragments.Ph
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    SparseArray<Fragment> registeredFragments = new SparseArray<>(5);
+    private static final int NUMBER_OF_PAGES = 5;
 
-    private ViewPager mViewPager;
+    private SparseArray<Fragment> registeredFragments = new SparseArray<>(NUMBER_OF_PAGES);
+
+    private CreatePlantViewPager mViewPager;
 
     private String [] titles = {};
 
-    public ViewPagerAdapter(FragmentManager manager, Context context, ViewPager viewPager) {
+    private Context mContext;
+
+    public ViewPagerAdapter(FragmentManager manager, Context context, CreatePlantViewPager viewPager) {
         super(manager);
-        titles = context.getResources().getStringArray(R.array.view_pager_fragment_title);
+        this.mContext = context;
+        this.titles = context.getResources().getStringArray(R.array.view_pager_fragment_title);
         this.mViewPager = viewPager;
     }
 
@@ -53,7 +60,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return NUMBER_OF_PAGES;
     }
 
     @Override
@@ -100,6 +107,27 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 fragment = new Fragment();
                 break;
         }
+
+        ((CreationBaseFragment)fragment)
+                .getValidationMessageObservable().subscribe (validationMessage -> {
+            if(validationMessage.getError()) {
+                mViewPager.setPagingEnabled(false);
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+                Toast.makeText(mContext, validationMessage.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                mViewPager.setPagingEnabled(true);
+            }
+        });
+
+        ((CreationBaseFragment)fragment)
+                .getEnableViewPagerObservable().subscribe (enable -> {
+            if(enable) {
+                mViewPager.setPagingEnabled(true);
+            } else {
+                Toast.makeText(mContext, " Some fields are empty ", Toast.LENGTH_SHORT).show();
+                mViewPager.setPagingEnabled(false);
+            }
+        });
 
         mViewPager.addOnPageChangeListener((CreationBaseFragment)fragment);
 

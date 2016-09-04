@@ -142,7 +142,7 @@
     <dimen name="description_how_many_plants_margin">15dp</dimen>
     <dimen name="description_how_many_plants_counter_margin_bottom">20dp</dimen>
 
-    <dimen name="description_layout_buttons_margin">20dp</dimen>
+    <dimen name="description_layout_buttons_margin">30dp</dimen>
     <dimen name="description_button_save_margin_end">25dp</dimen>
     <dimen name="description_button_width">100dp</dimen>
     <dimen name="description_button_height">45dp</dimen>

@@ -19,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -46,7 +45,6 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
-import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.domain.entity.SensorTemp;
 import com.example.igiagante.thegarden.core.domain.entity.User;
@@ -63,7 +61,6 @@ import com.example.igiagante.thegarden.home.gardens.presentation.presenters.Gard
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
 import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity;
-import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationDetailFragment;
 import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.home.plants.services.EmailProducer;
@@ -110,7 +107,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     private MainComponent mainComponent;
 
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ViewPager mainViewPager;
     private GardenViewPagerAdapter mAdapter;
 
     private DrawerLayout drawerLayout;
@@ -171,7 +168,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     private BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "Network connectivity change");
+
             if (intent.getExtras() != null) {
                 final ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 final NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
@@ -204,7 +201,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         setupToolbar();
 
-        viewPager = (ViewPager) findViewById(R.id.main_viewpager);
+        mainViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         tracker.setScreenName(TAG);
@@ -220,7 +217,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             mGardenPresenter.getGardensByUser(mSession.getUser());
         }
 
-        this.viewPager.addOnPageChangeListener(this);
+        this.mainViewPager.addOnPageChangeListener(this);
 
         initFAB();
     }
@@ -373,8 +370,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         } else {
             mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this, null);
         }
-        viewPager.setAdapter(mAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        mainViewPager.setAdapter(mAdapter);
+        tabLayout.setupWithViewPager(mainViewPager);
     }
 
     @Override
@@ -603,7 +600,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mAdapter.filterList(viewPager.getCurrentItem(), newText);
+                mAdapter.filterList(mainViewPager.getCurrentItem(), newText);
                 return true;
             }
         });

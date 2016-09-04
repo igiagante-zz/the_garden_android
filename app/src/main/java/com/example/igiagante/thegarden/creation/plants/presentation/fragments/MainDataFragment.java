@@ -9,11 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.core.presentation.ValidationMessage;
 import com.example.igiagante.thegarden.core.ui.CountView;
 import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
 import com.example.igiagante.thegarden.creation.plants.di.components.CreatePlantComponent;
@@ -140,6 +140,9 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if(!TextUtils.isEmpty(s.toString())) {
             mainDataPresenter.existPlant(s.toString().trim());
+            setEnablePaging(true);
+        } else {
+            setEnablePaging(false);
         }
     }
 
@@ -172,11 +175,19 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Override
     protected void move() {
         Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
-        builder.addPlantName(mNameOfPlant.getText().toString().trim());
+        String plantName = mNameOfPlant.getText().toString().trim();
+
+        if(TextUtils.isEmpty(plantName)) {
+            String msg = getString(R.string.plant_name_validation_message_error);
+            ValidationMessage validationMessage = new ValidationMessage(msg, true);
+            setValidationMessage(validationMessage);
+        }
+
+        builder.addPlantName(plantName);
         builder.addPhSoil(mPhSoil.getEditValue());
         builder.addEcSoil(mEcSoil.getEditValue());
         builder.addFloweringTime(mFloweringTime);
-        builder.addGenotype(mGenotype.getText().toString().trim());
+        builder.addGenotype(mGenotype.getText().toString());
         builder.addSize(mSize.getEditValue());
     }
 
