@@ -57,7 +57,7 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
 
         Observable<Garden> apiResult;
 
-        if(update) {
+        if (update) {
             apiResult = api.updateGarden(garden.getId(), garden).asObservable();
         } else {
             apiResult = api.createGarden(garden).asObservable();

@@ -2,9 +2,7 @@ package com.example.igiagante.thegarden.home.plants.presentation;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
-import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.gardens.presentation.GardenFragment;
@@ -109,7 +106,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
     }
 
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -186,10 +182,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
     @Override
     public void filterList(String query) {
         this.plantsAdapter.getFilter().filter(query);
-    }
-
-    @Override
-    public void executeFABAction() {
     }
 
     /**

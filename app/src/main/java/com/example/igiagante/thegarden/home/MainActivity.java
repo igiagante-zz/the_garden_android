@@ -64,9 +64,9 @@ import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewT
 import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity;
 import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
-import com.example.igiagante.thegarden.home.plants.services.EmailProducer;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
+import com.example.igiagante.thegarden.home.plants.services.EmailProducerService;
 import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
 import com.google.android.gms.analytics.HitBuilders;
@@ -154,7 +154,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     /**
      * Used to send an email with attachments
      */
-    private EmailProducer emailProducer;
+    private EmailProducerService emailProducerService;
 
     private SearchView searchView;
 
@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         public void onReceive(Context context, Intent intent) {
 
             if (intent.getExtras() != null) {
-                final ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                final ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 final NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
 
                 if (ni != null && ni.isConnectedOrConnecting()) {
@@ -544,7 +544,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Override
     public void editPlant(PlantHolder plantHolder) {
-        if(checkInternet()) {
+        if (checkInternet()) {
             Intent intent = new Intent(this, CreatePlantActivity.class);
             intent.putExtra(GARDEN_KEY, garden.getModel());
             intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
@@ -658,8 +658,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     private void initFAB() {
         fab.setVisibility(View.VISIBLE);
         fab.setOnClickListener(v ->
-            startActivityForResult(createIntentForCreatePlantActivity(),
-                    MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
+                startActivityForResult(createIntentForCreatePlantActivity(),
+                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
     }
 
     @Override
@@ -692,9 +692,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         mProgressDialog.setMessage(getString(R.string.create_email));
         mProgressDialog.show();
 
-        emailProducer = new EmailProducer(this, emailText, urls);
-        emailProducer.getNotificationEmailObservable().subscribe(sentEmail -> {
-            if(sentEmail) {
+        emailProducerService = new EmailProducerService(this, emailText, urls);
+        emailProducerService.getNotificationEmailObservable().subscribe(sentEmail -> {
+            if (sentEmail) {
                 mProgressDialog.hide();
             }
         });
@@ -704,7 +704,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkPermission();
             } else {
-                emailProducer.createAttachmentAndSendEmail();
+                emailProducerService.createAttachmentAndSendEmail();
             }
         } else {
             showMessageNoInternetConnection();
@@ -729,7 +729,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_CODE_ASK_PERMISSIONS);
         } else {
-            emailProducer.createAttachmentAndSendEmail();
+            emailProducerService.createAttachmentAndSendEmail();
         }
     }
 
@@ -742,7 +742,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    emailProducer.createAttachmentAndSendEmail();
+                    emailProducerService.createAttachmentAndSendEmail();
                 } else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
                 }

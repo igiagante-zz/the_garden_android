@@ -1,27 +1,22 @@
 package com.example.igiagante.thegarden.home.irrigations.presentation.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
-import com.example.igiagante.thegarden.core.presentation.BaseFragment;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.gardens.presentation.GardenFragment;
@@ -29,11 +24,9 @@ import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity
 import com.example.igiagante.thegarden.home.irrigations.presentation.adapters.IrrigationsAdapter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.presenters.IrrigationPresenter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.view.IrrigationView;
-import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -48,8 +41,6 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         IrrigationsAdapter.OnDeleteIrrigation {
 
     public static final int REQUEST_CODE_IRRIGATION_DETAIL = 334;
-
-    public static final String GARDEN_ID_KEY = "GARDEN_ID";
 
     @Inject
     IrrigationPresenter irrigationPresenter;

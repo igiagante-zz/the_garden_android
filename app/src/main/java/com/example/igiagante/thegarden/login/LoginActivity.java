@@ -4,17 +4,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
 import com.example.igiagante.thegarden.login.di.DaggerLoginComponent;
 import com.example.igiagante.thegarden.login.di.LoginComponent;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
-import com.example.igiagante.thegarden.login.usecase.RefreshTokenUseCase;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 

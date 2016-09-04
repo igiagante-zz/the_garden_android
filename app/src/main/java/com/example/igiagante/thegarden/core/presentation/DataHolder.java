@@ -19,5 +19,4 @@ public abstract class DataHolder<T> implements Parcelable {
         this.model = model;
     }
 
-
 }

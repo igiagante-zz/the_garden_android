@@ -64,7 +64,7 @@ public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImag
 
         public void setImagePath(String imagePath) {
             this.imagePath = imagePath;
-            if(imagePath.contains("http")) {
+            if (imagePath.contains("http")) {
                 mImage.setImageURI(Uri.parse(imagePath));
             } else {
                 mImage.setImageURI(Uri.fromFile(new File(imagePath)));

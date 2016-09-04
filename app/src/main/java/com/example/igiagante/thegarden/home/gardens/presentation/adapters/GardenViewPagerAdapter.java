@@ -63,6 +63,7 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
     /**
      * Set values garden in each pager from the {@link com.example.igiagante.thegarden.home.MainActivity#mainViewPager}
+     *
      * @param gardenHolder ViewHolder
      */
     public void setGardenHolder(@NonNull GardenHolder gardenHolder) {

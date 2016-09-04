@@ -24,8 +24,11 @@ import dagger.Component;
 public interface NutrientComponent extends GalleryComponent {
 
     void inject(NutrientListFragment nutrientListFragment);
+
     void inject(NutrientDetailFragment nutrientDetailFragment);
+
     void inject(NutrientDetailActivity nutrientDetailActivity);
+
     void inject(NutrientActivity nutrientActivity);
 
     NutrientPresenter nutrientPresenter();

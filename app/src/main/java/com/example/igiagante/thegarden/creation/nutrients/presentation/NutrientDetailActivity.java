@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
@@ -68,7 +67,7 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
         Fragment galleryFragment;
         Fragment dataFragment;
 
-        if(mNutrient != null) {
+        if (mNutrient != null) {
             dataFragment = NutrientDetailFragment.newInstance(mNutrient);
             galleryFragment = PhotoGalleryFragment.newInstance((ArrayList<Image>) mNutrient.getImages());
         } else {
@@ -82,7 +81,7 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
         mSaveButton.setEnabled(false);
         mSaveButton.setOnClickListener(v -> {
             mProgressBar.setVisibility(View.VISIBLE);
-            if(checkInternet()) {
+            if (checkInternet()) {
                 saveNutrient();
             } else {
                 showMessageNoInternetConnection();
@@ -99,7 +98,7 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
         NutrientDetailFragment nutrientDetailFragment = (NutrientDetailFragment) getFragmentByTag(FRAGMENT_NUTRIENT_DATA_TAG);
         PhotoGalleryFragment photoGalleryFragment = (PhotoGalleryFragment) getFragmentByTag(FRAGMENT_NUTRIENT_IMAGES_TAG);
         this.mNutrient = nutrientDetailFragment.getNutrient();
-        if(mNutrient != null) {
+        if (mNutrient != null) {
             mNutrient.setImages(photoGalleryFragment.getImages());
             mNutrient.setResourcesIds(photoGalleryFragment.getResourcesIds());
         }

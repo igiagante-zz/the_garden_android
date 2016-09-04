@@ -30,8 +30,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -79,6 +77,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
     public interface OnDeletePlant {
         void showDeletePlantDialog(int position);
+
         void deletePlant(String plantId);
     }
 
@@ -259,7 +258,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(v -> {
-                if(checkInternet()) {
+                if (checkInternet()) {
                     startGetPlantDataActivity(getAdapterPosition());
                 } else {
                     showMessageNoInternetConnection();
@@ -287,10 +286,10 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
         private ArrayList<String> getUrls() {
             ArrayList<String> urls = new ArrayList<>();
-            for(Image image : mImages) {
+            for (Image image : mImages) {
                 urls.add(image.getUrl());
             }
-            return  urls;
+            return urls;
         }
 
         @NonNull

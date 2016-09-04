@@ -10,12 +10,10 @@ import com.example.igiagante.thegarden.core.di.HasComponent;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.presentation.BaseActivity;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientDetailFragment;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.irrigations.di.DaggerIrrigationComponent;
 import com.example.igiagante.thegarden.home.irrigations.di.IrrigationComponent;
 import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationDetailFragment;
-import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationsFragment;
 
 import butterknife.ButterKnife;
 
@@ -50,14 +48,14 @@ public class IrrigationDetailActivity extends BaseActivity implements HasCompone
 
         Fragment irrigationFragment;
 
-        if(mIrrigation != null) {
+        if (mIrrigation != null) {
             irrigationFragment = IrrigationDetailFragment.newInstance(mIrrigation);
         } else {
             irrigationFragment = new IrrigationDetailFragment();
         }
 
         Garden garden = getIntent().getParcelableExtra(MainActivity.GARDEN_KEY);
-        ((IrrigationDetailFragment)irrigationFragment).setGarden(garden);
+        ((IrrigationDetailFragment) irrigationFragment).setGarden(garden);
 
         addFragment(R.id.irrigation_container_data, irrigationFragment, FRAGMENT_IRRIGATION_DATA_TAG);
     }

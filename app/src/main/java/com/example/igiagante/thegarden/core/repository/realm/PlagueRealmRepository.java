@@ -11,7 +11,6 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlagueRealmToPlague;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.PlagueToPlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.specification.plague.PlagueByIdSpecification;
 
@@ -129,9 +128,9 @@ public class PlagueRealmRepository implements Repository<Plague> {
         List<Plague> list = new ArrayList<>();
 
         realmResults.subscribe(plagueRealms -> {
-           for (PlagueRealm plagueRealm : plagueRealms) {
-               list.add(toPlague.map(plagueRealm));
-           }
+            for (PlagueRealm plagueRealm : plagueRealms) {
+                list.add(toPlague.map(plagueRealm));
+            }
         });
 
         return Observable.just(list);

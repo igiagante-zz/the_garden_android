@@ -41,7 +41,7 @@ public class EffectsFragment extends BaseFragment {
         final View fragmentView = inflater.inflate(R.layout.effects_fragment, container, false);
 
         Bundle args = getArguments();
-        if(args != null) {
+        if (args != null) {
             attributes = args.getParcelableArrayList(GetPlantDataFragment.ATTRIBUTES_KEY);
         }
 

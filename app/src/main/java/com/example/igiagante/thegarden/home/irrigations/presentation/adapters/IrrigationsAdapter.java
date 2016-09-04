@@ -14,7 +14,6 @@ import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -41,6 +40,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
     public interface OnDeleteIrrigation {
         void showDeleteIrrigationDialog(int position);
+
         void deleteIrrigation(String irrigationId);
     }
 
@@ -64,14 +64,14 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
 
-        if(irrigation != null) {
+        if (irrigation != null) {
             holder.water.setText(mContext.getString(R.string.dose_water, irrigation.getDose().getWater()));
             holder.ph.setText(mContext.getString(R.string.dose_ph, irrigation.getDose().getPh()));
             holder.ec.setText(mContext.getString(R.string.dose_ec, irrigation.getDose().getEc()));
 
             Date date = irrigation.getIrrigationDate();
 
-            if(date != null) {
+            if (date != null) {
                 holder.date.setText(dateFormatter.format(date));
             }
 
@@ -80,7 +80,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
             StringBuilder builder = new StringBuilder();
 
-            for(Nutrient nutrient : irrigation.getDose().getNutrients()) {
+            for (Nutrient nutrient : irrigation.getDose().getNutrients()) {
                 String name = nutrient.getName();
                 float quantityUsed = nutrient.getQuantityUsed();
                 builder.append(name + " " + getQuantity(quantityUsed));
@@ -96,13 +96,14 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
     /**
      * Retrieve integer part in case there are not any decimal
+     *
      * @param quantity how much water is going to receive each plant
      * @return quantity
      */
     private String getQuantity(float quantity) {
         String tempQuantity = String.valueOf(quantity);
-        String [] parts = tempQuantity.split("\\.");
-        if(parts[1] != null && Integer.parseInt(parts[1]) == 0){
+        String[] parts = tempQuantity.split("\\.");
+        if (parts[1] != null && Integer.parseInt(parts[1]) == 0) {
             tempQuantity = parts[0];
         }
         return tempQuantity;
@@ -115,10 +116,11 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
     /**
      * Set irrigations
+     *
      * @param irrigations List of irrigations
      */
     public void setIrrigations(ArrayList<Irrigation> irrigations) {
-        if(!irrigations.isEmpty()) {
+        if (!irrigations.isEmpty()) {
             this.irrigations = new ArrayList<>(irrigations);
         } else {
             this.irrigations = new ArrayList<>();
@@ -138,9 +140,10 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
     /**
      * Inform that an irrigation should be deleted
+     *
      * @param position
      */
-    public void deleteIrrigation(int position){
+    public void deleteIrrigation(int position) {
         this.irrigationDeletedPosition = position;
         this.mOnDeleteIrrigation.deleteIrrigation(this.irrigations.get(position).getId());
     }
@@ -148,7 +151,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
     /**
      * An irrigation was deleted, so it should be removed from the list
      */
-    public void removeIrrigation(){
+    public void removeIrrigation() {
         if (!irrigations.isEmpty()) {
             this.irrigations.remove(irrigationDeletedPosition);
             this.notifyItemRemoved(irrigationDeletedPosition);

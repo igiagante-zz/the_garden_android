@@ -28,6 +28,7 @@ public class FlavorHolder extends DataHolder<Flavor> {
 
     /**
      * Get Image Url resource
+     *
      * @return image url
      */
     public String getImageUrl() {
@@ -40,11 +41,12 @@ public class FlavorHolder extends DataHolder<Flavor> {
 
     /**
      * Get the image's path without domain
+     *
      * @return image's path
      */
     public String getImagePath() {
         String url = getModel().getImageUrl();
-        if(!TextUtils.isEmpty(url) && getModel().getImageUrl().contains("http")) {
+        if (!TextUtils.isEmpty(url) && getModel().getImageUrl().contains("http")) {
             url = url.replace(Settings.DOMAIN, "");
             return url;
         }

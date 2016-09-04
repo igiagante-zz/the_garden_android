@@ -127,7 +127,8 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
         this.nutrientDetailPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.nutrientDetailPresenter.destroy();
     }
@@ -145,7 +146,7 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if(!TextUtils.isEmpty(s.toString())) {
+        if (!TextUtils.isEmpty(s.toString())) {
             nutrientDetailPresenter.existNutrient(s.toString().trim());
         } else {
             mOnButtonAvailable.activeButton(false);
@@ -159,7 +160,7 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
 
     @Override
     public void notifyIfNutrientExist(boolean exist) {
-        if(exist) {
+        if (exist) {
             nameOfNutrient.setError(getString(R.string.name_of_the_nutrient_already_exist));
             mOnButtonAvailable.activeButton(false);
         } else {
@@ -191,7 +192,7 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
 
     public Nutrient getNutrient() {
         String nutrientName = nameOfNutrient.getText().toString();
-        if(TextUtils.isEmpty(nutrientName)) {
+        if (TextUtils.isEmpty(nutrientName)) {
             String msg = getString(R.string.name_of_the_nutrient_is_empty);
             setValidationMessage(new ValidationMessage(msg, true));
         } else {
@@ -201,7 +202,7 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
     }
 
     private void saveNutrientData() {
-        if(this.mNutrient == null) {
+        if (this.mNutrient == null) {
             this.mNutrient = new Nutrient();
         }
         mNutrient.setName(nameOfNutrient.getText().toString().trim());

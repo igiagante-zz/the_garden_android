@@ -11,11 +11,9 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.NutrientRealmToNutrient;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.NutrientToNutrientRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientByNameSpecification;
-import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByNameSpecification;
 
 import java.util.Collection;
 import java.util.List;

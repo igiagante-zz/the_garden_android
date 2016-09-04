@@ -69,7 +69,7 @@ public class LineChartBuilder {
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
 
         for (int i = 0; i < data.size(); i++) {
-            if(forHumidityChart){
+            if (forHumidityChart) {
                 entries.add(new Entry(data.get(i).getHumidity(), i));
             } else {
                 entries.add(new Entry(data.get(i).getTemp(), i));
@@ -79,7 +79,7 @@ public class LineChartBuilder {
 
         String legendTitle;
 
-        if(forHumidityChart) {
+        if (forHumidityChart) {
             legendTitle = "Humidity";
         } else {
             legendTitle = "Temperature";

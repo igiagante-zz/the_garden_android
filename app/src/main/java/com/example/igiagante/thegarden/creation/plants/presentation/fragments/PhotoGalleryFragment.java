@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
 import com.example.igiagante.thegarden.creation.plants.di.components.GalleryComponent;
@@ -25,7 +23,6 @@ import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantA
 import com.example.igiagante.thegarden.creation.plants.presentation.adapters.GalleryAdapter;
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.PhotoGalleryPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.PhotoGalleryView;
-import com.example.igiagante.thegarden.home.MainActivity;
 import com.fuck_boilerplate.rx_paparazzo.RxPaparazzo;
 
 import java.io.File;
@@ -38,6 +35,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 /**
  * @author Ignacio Giagante, on 10/5/16.
  */
@@ -88,13 +86,13 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         final View containerView = inflater.inflate(R.layout.plant_gallery_fragment, container, false);
         ButterKnife.bind(this, containerView);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mImages = savedInstanceState.getParcelableArrayList(IMAGES_KEY);
         }
 
         // load images from instance
         Bundle arguments = getArguments();
-        if(arguments != null) {
+        if (arguments != null) {
             mImages = arguments.getParcelableArrayList(IMAGES_KEY);
         }
 
@@ -103,7 +101,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
             mImages = (ArrayList<Image>) mPlant.getImages();
         }
 
-        if(mImages != null) {
+        if (mImages != null) {
             loadResourcesIds(mImages);
         }
 
@@ -111,13 +109,13 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
 
         //Two columns for portrait
         GridLayoutManager manager;
-        if(isLandScape() && !(getActivity() instanceof NutrientDetailActivity)) {
+        if (isLandScape() && !(getActivity() instanceof NutrientDetailActivity)) {
             manager = new GridLayoutManager(getActivity(), 3);
         } else {
             manager = new GridLayoutManager(getActivity(), 2);
         }
 
-        if(getActivity() instanceof NutrientDetailActivity) {
+        if (getActivity() instanceof NutrientDetailActivity) {
             manager.setOrientation(RecyclerView.HORIZONTAL);
         }
 
@@ -146,6 +144,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     /**
      * Call the {@link GalleryAdapter.OnDeleteImage#deleteImage(int)} method. The list of images
      * is updated too.
+     *
      * @param positionSelected represent the image's position inside the image's list
      */
     private void deleteImage(int positionSelected) {
@@ -154,7 +153,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         mAdapter.deleteImage(positionSelected);
         this.mImages.remove(positionSelected);
         // double check in case some image was deleted at the carousel. So, the builder needs to be updated.
-        if(getActivity() instanceof CreatePlantActivity) {
+        if (getActivity() instanceof CreatePlantActivity) {
             updateImagesFromBuilder(mImages, true);
         }
     }
@@ -169,12 +168,14 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
         return this.getActivity().getApplicationContext();
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.mPhotoGalleryPresenter.destroy();
     }
@@ -198,8 +199,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == CAROUSEL_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
-            if(data != null) {
+        if (requestCode == CAROUSEL_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
+            if (data != null) {
 
                 ArrayList<Image> images = data.getParcelableArrayListExtra(IMAGES_KEY);
                 imagesFilesPaths = getImagesFilesPaths(images);
@@ -210,7 +211,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
                 //update images from builder
                 this.mImages = getImagesFromFilesPaths(imagesFilesPaths);
 
-                if(getActivity() instanceof CreatePlantActivity) {
+                if (getActivity() instanceof CreatePlantActivity) {
                     updateImagesFromBuilder(images, false);
                 }
             }
@@ -220,10 +221,9 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     @Override
     public void loadImages(Collection<Image> images) {
         this.mImages.addAll(addFilesToImages(images));
-        if(getActivity() instanceof CreatePlantActivity) {
+        if (getActivity() instanceof CreatePlantActivity) {
             updateImagesFromBuilder(images, false);
         }
-        Toast.makeText(getContext(), "number of images added: " + images.size(), Toast.LENGTH_LONG).show();
     }
 
     public ArrayList<Image> getImages() {
@@ -232,17 +232,18 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
 
     /**
      * Create file using file's paths
+     *
      * @param images List of images
      * @return List of images with its file
      */
     private Collection<Image> addFilesToImages(Collection<Image> images) {
-        for(Image image : images) {
+        for (Image image : images) {
             image.setFile(new File(image.getUrl()));
         }
         return images;
     }
 
-    public ArrayList<String> getResourcesIds(){
+    public ArrayList<String> getResourcesIds() {
         return (ArrayList<String>) resourcesIds;
     }
 
@@ -254,7 +255,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
     private ArrayList<Image> getImagesFromFilesPaths(List<String> paths) {
         ArrayList<Image> images = new ArrayList<>();
 
-        for(String path : paths) {
+        for (String path : paths) {
             Image image = new Image();
             image.setUrl(path);
             image.setFile(new File(path));
@@ -265,6 +266,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
 
     /**
      * Get all the images path from the parcelable image list.
+     *
      * @param images Images
      * @return paths images folder path
      */
@@ -272,8 +274,8 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
 
         ArrayList<String> paths = new ArrayList<>();
 
-        for(Image image : images) {
-            if(!TextUtils.isEmpty(image.getThumbnailUrl())) {
+        for (Image image : images) {
+            if (!TextUtils.isEmpty(image.getThumbnailUrl())) {
                 // if the image is retrieved from DB or Api, there should have an Thumbnail url set
                 paths.add(image.getThumbnailUrl());
             } else {
@@ -335,6 +337,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
 
     /**
      * Notify to the gallery's adapter about the files paths
+     *
      * @param filesPaths files paths
      */
     public void loadImages(List<String> filesPaths) {

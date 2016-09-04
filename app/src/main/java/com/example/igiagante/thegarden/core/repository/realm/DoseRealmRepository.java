@@ -11,7 +11,6 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.DoseRealmToDose;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.DoseToDoseRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.IrrigationRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.irrigations.DoseByIdSpecification;
 

@@ -10,8 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.core.di.HasComponent;
-import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
-import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;

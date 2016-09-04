@@ -1,7 +1,6 @@
 package com.example.igiagante.thegarden.home.charts.view;
 
 import com.example.igiagante.thegarden.core.domain.entity.SensorTemp;
-import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.core.presentation.mvp.LoadDataView;
 
 import java.util.List;

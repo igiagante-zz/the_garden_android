@@ -12,10 +12,10 @@ import com.example.igiagante.thegarden.core.presentation.adapter.delegate.Adapte
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.IViewType;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeButton;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeConstans;
-import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.gardens.presentation.delegates.AdapterDelegateButtonAddGarden;
 import com.example.igiagante.thegarden.home.gardens.presentation.delegates.AdapterDelegateGarden;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
+import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -94,7 +94,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public void removeGarden(int position) {
-        if(items.size() > 1) {
+        if (items.size() > 1) {
             this.items.remove(position);
             notifyItemRemoved(position);
         }
@@ -102,6 +102,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * If the garden exists, it will be updated. In other case, it will be persisted.
+     *
      * @param garden Garden Object
      */
     public void addOrUpdateGarden(Garden garden) {
@@ -115,6 +116,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * Update garden data
+     *
      * @param garden Garden Object
      */
     private void updateItem(Garden garden, int position) {
@@ -129,6 +131,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * Add new garden to the list
+     *
      * @param garden Garden Object
      */
     private void addGarden(Garden garden) {
@@ -140,6 +143,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * Check if the garden is already on the list
+     *
      * @param garden Garden Object
      * @return garden's position within list or -1 in case doesn't exist
      */
@@ -159,7 +163,7 @@ public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         ArrayList<ViewTypeGarden> viewTypeGardens = new ArrayList<>();
 
-        if(gardens != null) {
+        if (gardens != null) {
             for (GardenHolder gardenHolder : gardens) {
                 viewTypeGardens.add(createViewTypeGarden(gardenHolder.getModel()));
             }

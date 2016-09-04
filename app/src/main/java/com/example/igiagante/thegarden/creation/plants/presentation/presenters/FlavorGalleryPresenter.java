@@ -38,6 +38,7 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
 
     /**
      * Load the flavor in the view
+     *
      * @param flavors list of flavors
      */
     public void addFlavorsInView(List<Flavor> flavors) {
@@ -46,6 +47,7 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
 
     /**
      * Transform a list of flavors to flavor holders
+     *
      * @param flavors list of flavors
      * @return list of flavor holders
      */
@@ -53,7 +55,7 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
 
         ArrayList<FlavorHolder> flavorHolders = new ArrayList<>();
 
-        for(Flavor flavor : flavors) {
+        for (Flavor flavor : flavors) {
             FlavorHolder flavorHolder = new FlavorHolder();
             flavorHolder.setModel(flavor);
             flavorHolders.add(flavorHolder);
@@ -70,15 +72,18 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
 
     private final class FlavorGallerySubscriber extends DefaultSubscriber<List<Flavor>> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e("Error", e.getMessage());
             e.printStackTrace();
         }
 
-        @Override public void onNext(List<Flavor> flavors) {
+        @Override
+        public void onNext(List<Flavor> flavors) {
             FlavorGalleryPresenter.this.addFlavorsInView(flavors);
         }
     }

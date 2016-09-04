@@ -4,13 +4,11 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantViewPager;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.AttributesFragment;
@@ -22,7 +20,7 @@ import com.example.igiagante.thegarden.creation.plants.presentation.fragments.Ph
 
 /**
  * Adapter that provides the fragments for the view pager
- *
+ * <p>
  * {@link com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity#mPager}
  *
  * @author Ignacio Giagante, on 11/5/16.
@@ -35,7 +33,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private CreatePlantViewPager mViewPager;
 
-    private String [] titles = {};
+    private String[] titles = {};
 
     private Context mContext;
 
@@ -80,6 +78,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     /**
      * Depend on the position at the view pager, it will ask for an specific fragment instance
+     *
      * @param position pager's position
      * @return fragment
      */
@@ -108,9 +107,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 break;
         }
 
-        ((CreationBaseFragment)fragment)
-                .getValidationMessageObservable().subscribe (validationMessage -> {
-            if(validationMessage.getError()) {
+        ((CreationBaseFragment) fragment)
+                .getValidationMessageObservable().subscribe(validationMessage -> {
+            if (validationMessage.getError()) {
                 mViewPager.setPagingEnabled(false);
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
                 Toast.makeText(mContext, validationMessage.getMessage(), Toast.LENGTH_SHORT).show();
@@ -119,9 +118,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             }
         });
 
-        ((CreationBaseFragment)fragment)
-                .getEnableViewPagerObservable().subscribe (enable -> {
-            if(enable) {
+        ((CreationBaseFragment) fragment)
+                .getEnableViewPagerObservable().subscribe(enable -> {
+            if (enable) {
                 mViewPager.setPagingEnabled(true);
             } else {
                 Toast.makeText(mContext, " Some fields are empty ", Toast.LENGTH_SHORT).show();
@@ -129,10 +128,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             }
         });
 
-        mViewPager.addOnPageChangeListener((CreationBaseFragment)fragment);
+        mViewPager.addOnPageChangeListener((CreationBaseFragment) fragment);
 
         //set title
-        ((BaseFragment)fragment).setTitle(getTitleByPosition(position));
+        ((BaseFragment) fragment).setTitle(getTitleByPosition(position));
 
         return fragment;
     }

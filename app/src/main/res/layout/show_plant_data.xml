@@ -26,7 +26,7 @@
         android:layout_marginStart="@dimen/plague_view_ec_image_margin_start"
         android:layout_marginEnd="@dimen/plague_view_ec_image_margin_end"
         android:layout_marginTop="@dimen/plague_view_ec_image_margin_top"
-        android:src="@drawable/ec_icon"/>
+        android:src="@drawable/ic_ec_icon"/>
 
     <TextView
         android:id="@+id/ec_text_id"
@@ -40,7 +40,7 @@
         android:id="@+id/plant_high_image_id"
         android:layout_width="@dimen/plague_view_plant_high_image_size"
         android:layout_height="@dimen/plague_view_plant_high_image_size"
-        android:src="@drawable/plant_icon"
+        android:src="@drawable/ic_plant_icon"
         android:layout_marginStart="@dimen/plague_view_plant_high_image_margin_start"/>
 
     <TextView
@@ -55,7 +55,7 @@
         android:id="@+id/grow_date_image_id"
         android:layout_width="@dimen/plague_view_grow_date_image_size"
         android:layout_height="@dimen/plague_view_grow_date_image_size"
-        android:src="@drawable/calendar_icon"
+        android:src="@drawable/ic_calendar_icon"
         android:layout_marginStart="@dimen/plague_view_grow_date_image_margin_start"
         android:layout_marginTop="@dimen/plague_view_grow_date_image_margin_top"/>
 

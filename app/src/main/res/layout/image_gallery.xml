@@ -12,7 +12,7 @@
         android:layout_height="@dimen/image_gallery_width"
         android:layout_margin="@dimen/image_gallery_margin"
         fresco:fadeDuration="300"
-        fresco:placeholderImage="@drawable/no_image"
+        fresco:placeholderImage="@drawable/ic_no_image"
         fresco:roundBottomLeft="true"
         fresco:roundBottomRight="true"
         fresco:roundTopLeft="true"

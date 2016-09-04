@@ -3,11 +3,9 @@ package com.example.igiagante.thegarden.home.gardens.usecase;
 import android.text.TextUtils;
 
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
-import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.GardenRepositoryManager;
-import com.example.igiagante.thegarden.core.repository.managers.UserRepositoryManager;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import javax.inject.Inject;
@@ -33,7 +31,7 @@ public class SaveGardenUseCase extends UseCase<Garden> {
 
     @Override
     protected Observable buildUseCaseObservable(Garden garden) {
-        if(TextUtils.isEmpty(garden.getId())) {
+        if (TextUtils.isEmpty(garden.getId())) {
             return gardenRepositoryManager.add(garden);
         } else {
             return gardenRepositoryManager.update(garden);

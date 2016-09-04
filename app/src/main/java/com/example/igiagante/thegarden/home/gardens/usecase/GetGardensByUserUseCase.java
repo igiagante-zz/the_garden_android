@@ -6,8 +6,6 @@ import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.UserRepositoryManager;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
 import rx.Observable;

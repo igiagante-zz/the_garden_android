@@ -119,7 +119,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         // get garden info
         mGarden = getIntent().getParcelableExtra(MainActivity.GARDEN_KEY);
-        if(mGarden != null) {
+        if (mGarden != null) {
             plantBuilder.addGardenId(mGarden.getId());
         }
 
@@ -144,7 +144,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setToolbarTitle(createPlantViewPager.getAdapter().getPageTitle(0).toString());
 
-        if(mPlant != null) {
+        if (mPlant != null) {
             mButtonBack.setVisibility(View.VISIBLE);
             mButtonSave.setVisibility(View.VISIBLE);
             mButtonBack.setOnClickListener(v -> finish());
@@ -183,7 +183,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      */
     private void updateBuilder() {
         for (int i = 0; i < mViewPagerAdapter.getCount(); i++) {
-            ((CreationBaseFragment)mViewPagerAdapter.getRegisteredFragment(i)).updateBuilder();
+            ((CreationBaseFragment) mViewPagerAdapter.getRegisteredFragment(i)).updateBuilder();
         }
     }
 
@@ -266,7 +266,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     public void onSavePlant() {
         Plant plant = plantBuilder.build();
         plant.setGardenId(mGarden.getId());
-        if(checkInternet()) {
+        if (checkInternet()) {
             this.mSavePlantPresenter.savePlant(plant);
         } else {
             showMessageNoInternetConnection();
@@ -280,13 +280,13 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         boolean plantUpdated = false;
 
         for (int i = 0; i < plants.size(); i++) {
-            if(plants.get(i).getId().equals(plant.getId())){
+            if (plants.get(i).getId().equals(plant.getId())) {
                 plants.set(i, plant);
                 plantUpdated = true;
             }
         }
 
-        if(!plantUpdated) {
+        if (!plantUpdated) {
             plants.add(plant);
         }
 

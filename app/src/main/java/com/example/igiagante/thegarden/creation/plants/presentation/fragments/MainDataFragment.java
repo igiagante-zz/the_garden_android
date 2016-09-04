@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
  * @author Ignacio Giagante, on 6/5/16.
  */
 public class MainDataFragment extends CreationBaseFragment implements LabelledSpinner.OnItemChosenListener,
-        TextWatcher, MainDataView{
+        TextWatcher, MainDataView {
 
     public static final String PLANT_KEY = "PLANT";
 
@@ -104,19 +104,21 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         this.mainDataPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.mainDataPresenter.destroy();
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
     @Override
     public void informIfPlantExist(Boolean exist) {
-        if(exist) {
+        if (exist) {
             mNameOfPlant.setError(getString(R.string.name_of_the_plant_already_exist));
         }
     }
@@ -138,7 +140,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if(!TextUtils.isEmpty(s.toString())) {
+        if (!TextUtils.isEmpty(s.toString())) {
             mainDataPresenter.existPlant(s.toString().trim());
             setEnablePaging(true);
         } else {
@@ -177,7 +179,7 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
         String plantName = mNameOfPlant.getText().toString().trim();
 
-        if(TextUtils.isEmpty(plantName)) {
+        if (TextUtils.isEmpty(plantName)) {
             String msg = getString(R.string.plant_name_validation_message_error);
             ValidationMessage validationMessage = new ValidationMessage(msg, true);
             setValidationMessage(validationMessage);

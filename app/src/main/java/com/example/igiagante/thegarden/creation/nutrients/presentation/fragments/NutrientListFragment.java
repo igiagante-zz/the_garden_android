@@ -79,9 +79,9 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
 
         //load nutrient list
         mProgressBar.setVisibility(View.VISIBLE);
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mNutrients = savedInstanceState.getParcelableArrayList(NUTRIENTS_KEY);
-            if(mNutrients != null) {
+            if (mNutrients != null) {
                 this.nutrientsAdapter.setNutrients(mNutrients);
                 mProgressBar.setVisibility(View.GONE);
             }
@@ -90,7 +90,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
         }
 
         buttonAddNutrient.setOnClickListener(v -> {
-            if(checkInternet()) {
+            if (checkInternet()) {
                 mOnAddNutrientListener.startNutrientDetailActivity();
             } else {
                 showToastMessage(getString(R.string.there_is_not_internet_connection));
@@ -108,7 +108,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
 
     @Override
     public void loadNutrients(List<Nutrient> nutrients) {
-        this.mNutrients = (ArrayList<Nutrient>)nutrients;
+        this.mNutrients = (ArrayList<Nutrient>) nutrients;
         this.nutrientsAdapter.setNutrients(mNutrients);
         mProgressBar.setVisibility(View.GONE);
     }
@@ -119,13 +119,15 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
         this.nutrientPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         recyclerViewNutrients.setAdapter(null);
         ButterKnife.unbind(this);
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.nutrientPresenter.destroy();
     }
@@ -164,7 +166,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
     @Override
     public void notifyIfNutrientWasPersistedOrUpdated(Nutrient nutrient) {
         int position = nutrientsAdapter.existNutrient(nutrient.getId());
-        if(position != -1) {
+        if (position != -1) {
             this.nutrientsAdapter.updateNutrient(nutrient, position);
         } else {
             this.nutrientsAdapter.addNutrient(nutrient);
@@ -183,6 +185,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
 
     /**
      * Add nutrient
+     *
      * @param nutrient
      */
     public void addNutrient(Nutrient nutrient) {

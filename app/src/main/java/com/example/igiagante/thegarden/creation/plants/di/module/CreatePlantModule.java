@@ -5,7 +5,6 @@ import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.ExistPlantUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetAttributesUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetFlavorsUseCase;
-import com.example.igiagante.thegarden.creation.plants.usecase.GetImagesUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.GetPlaguesUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.SavePlantUseCase;
 import com.example.igiagante.thegarden.creation.plants.usecase.UpdateGardenWithPlantsUseCase;
@@ -21,7 +20,8 @@ import dagger.Provides;
 @Module
 public class CreatePlantModule {
 
-    public CreatePlantModule() {}
+    public CreatePlantModule() {
+    }
 
     @Provides
     @PerActivity

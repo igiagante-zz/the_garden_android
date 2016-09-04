@@ -16,7 +16,6 @@ import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Dose;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
-import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.ui.CountView;
 import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
@@ -206,8 +205,8 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         setNutrientsSelected();
     }
 
-    private void setNutrientsSelected(){
-        for(NutrientHolder nutrientHolder : mNutrients){
+    private void setNutrientsSelected() {
+        for (NutrientHolder nutrientHolder : mNutrients) {
             nutrientHolder.setSelected(true);
         }
         this.expandableListAdapter.setNutrients(mNutrients);

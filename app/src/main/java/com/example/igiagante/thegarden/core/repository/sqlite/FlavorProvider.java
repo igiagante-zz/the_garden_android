@@ -121,7 +121,7 @@ public class FlavorProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         int rowsDeleted;
 
-        if ( null == selection ) selection = "1";
+        if (null == selection) selection = "1";
         switch (match) {
             case FLAVOR:
                 rowsDeleted = db.delete(
@@ -143,7 +143,7 @@ public class FlavorProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         int rowsUpdated;
 
-        if ( null == selection ) selection = "1";
+        if (null == selection) selection = "1";
         switch (match) {
             case FLAVOR:
                 rowsUpdated = db.update(FlavorContract.FlavorEntry.TABLE_NAME, values, selection,

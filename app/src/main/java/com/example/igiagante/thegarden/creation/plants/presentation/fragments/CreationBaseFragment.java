@@ -40,9 +40,9 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getActivity() instanceof CreatePlantActivity) {
-            mPlant = ((CreatePlantActivity)getActivity()).getPlant();
-            if(mPlant != null) {
+        if (getActivity() instanceof CreatePlantActivity) {
+            mPlant = ((CreatePlantActivity) getActivity()).getPlant();
+            if (mPlant != null) {
                 updatingPlant = true;
                 loadResourcesIds(mPlant.getImages());
             }
@@ -53,18 +53,19 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
      * Load the resources ids from each image in order to know which image was deleted, added or not.
      */
     protected void loadResourcesIds(List<Image> mImages) {
-        for(Image image : mImages) {
+        for (Image image : mImages) {
             resourcesIds.add(image.getId());
         }
     }
 
     /**
      * Update images list from builder
-     * @param images list of images
+     *
+     * @param images   list of images
      * @param carousel indicates if the images come from the carousel
      */
     protected void updateImagesFromBuilder(Collection<Image> images, boolean carousel) {
-        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
         builder.setUpdatingPlant(updatingPlant);
         builder.addImages((ArrayList<Image>) images, carousel);
         builder.addResourcesIds(resourcesIds);
@@ -92,10 +93,12 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
     /**
      * Notify to the builder that the fragment have some data for saving.
      */
-    protected void move() {}
+    protected void move() {
+    }
 
     /**
      * Update view with the corresponding data
      */
-    protected void loadPlantDataForEdition(PlantHolder plantHolder) {}
+    protected void loadPlantDataForEdition(PlantHolder plantHolder) {
+    }
 }

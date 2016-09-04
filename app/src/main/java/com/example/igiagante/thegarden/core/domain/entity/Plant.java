@@ -338,6 +338,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add plant's id to builder
+         *
          * @param id Plant Id
          * @return builder
          */
@@ -348,6 +349,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add garden's id to builder
+         *
          * @param gardenId Garden Id
          * @return builder
          */
@@ -359,6 +361,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add plant's name to builder
+         *
          * @param plantName name
          * @return builder
          */
@@ -369,6 +372,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add Ph Soil to builder
+         *
          * @param phSoil ph soil
          * @return builder
          */
@@ -379,6 +383,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add Ec Soil to builder
+         *
          * @param ecSoil ec soil
          * @return builder
          */
@@ -389,6 +394,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add flowering time of the plant to builder
+         *
          * @param floweringTime name
          * @return builder
          */
@@ -399,6 +405,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add harvest to builder
+         *
          * @param harvest indicate how much was the harvest
          * @return builder
          */
@@ -409,6 +416,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add genoytpe to builder
+         *
          * @param genotype indicate the genotype of the plant
          * @return builder
          */
@@ -419,6 +427,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add size to builder
+         *
          * @param size indicate how long is the plant in one moment
          * @return builder
          */
@@ -429,6 +438,7 @@ public class Plant implements Parcelable {
 
         /**
          * Add plants description to builder
+         *
          * @param description plant's description
          * @return builder
          */
@@ -439,18 +449,19 @@ public class Plant implements Parcelable {
 
         /**
          * Add images to the builder
-         * @param images list of images
+         *
+         * @param images   list of images
          * @param carousel indicate if the images come from the carousel
          * @return builder
          */
         public PlantBuilder addImages(ArrayList<Image> images, boolean carousel) {
             // TODO - Refactor
-            if(carousel || images.isEmpty()) {
+            if (carousel || images.isEmpty()) {
                 this.mImages = images;
             } else {
                 this.mImages.addAll(images);
             }
-            if(this.updatingPlant){
+            if (this.updatingPlant) {
                 this.mImages = filterImagesWithoutFile(mImages);
             }
             return this;
@@ -464,8 +475,8 @@ public class Plant implements Parcelable {
 
             ArrayList<Image> temp = new ArrayList<>();
 
-            for(Image image : images) {
-                if(image.getFile() != null) {
+            for (Image image : images) {
+                if (image.getFile() != null) {
                     temp.add(image);
                 }
             }
@@ -473,7 +484,7 @@ public class Plant implements Parcelable {
         }
 
         public PlantBuilder addResourcesIds(List<String> resourcesIds) {
-            this.resourcesIds = (ArrayList<String>)resourcesIds;
+            this.resourcesIds = (ArrayList<String>) resourcesIds;
             return this;
         }
 

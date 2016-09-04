@@ -3,8 +3,6 @@ package com.example.igiagante.thegarden.core.repository.network;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 /**
  * @author Ignacio Giagante, on 26/4/16.
  */
@@ -58,7 +56,7 @@ public class HttpStatus {
         return httpCodeMap.get(code);
     }
 
-    public String getMessage(String key){
+    public String getMessage(String key) {
         return messages.get(key);
     }
 }

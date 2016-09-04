@@ -12,7 +12,8 @@ import java.io.File;
  */
 public class Image implements Parcelable {
 
-    public Image() {}
+    public Image() {
+    }
 
     @SerializedName("id")
     private String id;
