@@ -42,6 +42,21 @@
     <dimen name="margin_top">60dp</dimen>
     <dimen name="margin_left">10dp</dimen>
 
+    <!-- Login -->
+
+    <dimen name="login_padding_top">56dp</dimen>
+    <dimen name="login_padding_left">24dp</dimen>
+    <dimen name="login_padding_right">24dp</dimen>
+
+    <dimen name="login_padding_logo_width">210dp</dimen>
+    <dimen name="login_padding_logo_height">120dp</dimen>
+    <dimen name="login_padding_logo_margin_bottom">24dp</dimen>
+
+    <dimen name="login_input_margin">8dp</dimen>
+    <dimen name="login_button_margin">24dp</dimen>
+
+    <dimen name="login_signup_text_size">16sp</dimen>
+
     <!-- Plants -->
     <dimen name="card_plant_elevation">4dp</dimen>
     <dimen name="card_plant_corner_radius">5dp</dimen>
