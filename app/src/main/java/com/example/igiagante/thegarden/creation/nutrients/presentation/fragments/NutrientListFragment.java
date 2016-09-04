@@ -89,7 +89,13 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
             this.nutrientPresenter.loadNutrients(mSession.getUser().getId());
         }
 
-        buttonAddNutrient.setOnClickListener(v -> mOnAddNutrientListener.startNutrientDetailActivity());
+        buttonAddNutrient.setOnClickListener(v -> {
+            if(checkInternet()) {
+                mOnAddNutrientListener.startNutrientDetailActivity();
+            } else {
+                showToastMessage(getString(R.string.there_is_not_internet_connection));
+            }
+        });
 
         return fragmentView;
     }

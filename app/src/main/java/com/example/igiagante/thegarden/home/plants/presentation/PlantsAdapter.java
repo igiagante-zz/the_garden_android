@@ -2,9 +2,12 @@ package com.example.igiagante.thegarden.home.plants.presentation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
@@ -254,7 +258,13 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(v -> startGetPlantDataActivity(getAdapterPosition()));
+            itemView.setOnClickListener(v -> {
+                if(checkInternet()) {
+                    startGetPlantDataActivity(getAdapterPosition());
+                } else {
+                    showMessageNoInternetConnection();
+                }
+            });
 
             mSharePlantButton.setOnClickListener(v -> sendEmail(getEmailText()));
         }
@@ -299,6 +309,24 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             builder.append("\n");
 
             return builder.toString();
+        }
+
+        private boolean checkInternet() {
+            boolean isConnected;
+            ConnectivityManager connectivityManager =
+                    (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
+
+            return isConnected;
+        }
+
+        private void showMessageNoInternetConnection() {
+            String string = mContext.getString(R.string.there_is_not_internet_connection);
+            Toast toast = Toast.makeText(mContext, string, Toast.LENGTH_LONG);
+            TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
+            textView.setGravity(Gravity.CENTER);
+            toast.show();
         }
     }
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
@@ -80,7 +81,11 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
 
         mSaveButton.setOnClickListener(v -> {
             mProgressBar.setVisibility(View.VISIBLE);
-            saveNutrient();
+            if(checkInternet()) {
+                saveNutrient();
+            } else {
+                showMessageNoInternetConnection();
+            }
         });
 
         mCancelButton.setOnClickListener(v -> {

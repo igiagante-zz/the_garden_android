@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.di.HasComponent;
@@ -267,7 +268,11 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     public void onSavePlant() {
         Plant plant = plantBuilder.build();
         plant.setGardenId(mGarden.getId());
-        this.mSavePlantPresenter.savePlant(plant);
+        if(checkInternet()) {
+            this.mSavePlantPresenter.savePlant(plant);
+        } else {
+            showMessageNoInternetConnection();
+        }
     }
 
     public void notifyIfPlantWasPersistedOrUpdated(Plant plant) {

@@ -4,11 +4,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +31,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -161,9 +166,26 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     private MenuItem menuItem;
 
     /**
-     * Used to know which page is actived
+     * BroadcastReceiver to check internet state connection
      */
-    private int tabPosition = 0;
+    private BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "Network connectivity change");
+            if (intent.getExtras() != null) {
+                final ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                final NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
+
+                if (ni != null && ni.isConnectedOrConnecting()) {
+                    Log.i(TAG, "Network " + ni.getTypeName() + " connected");
+                    fab.setEnabled(true);
+                } else if (intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, Boolean.FALSE)) {
+                    Log.d(TAG, "There's no network connectivity");
+                    fab.setEnabled(false);
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +195,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         initializeInjector();
         getComponent().inject(this);
+
+        this.registerReceiver(this.networkStateReceiver,
+                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));
@@ -521,10 +546,14 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Override
     public void editPlant(PlantHolder plantHolder) {
-        Intent intent = new Intent(this, CreatePlantActivity.class);
-        intent.putExtra(GARDEN_KEY, garden.getModel());
-        intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
-        startActivity(intent);
+        if(checkInternet()) {
+            Intent intent = new Intent(this, CreatePlantActivity.class);
+            intent.putExtra(GARDEN_KEY, garden.getModel());
+            intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
+            startActivity(intent);
+        } else {
+            showMessageNoInternetConnection();
+        }
     }
 
     @Override
@@ -607,7 +636,6 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Override
     public void onPageSelected(int position) {
         fab.setVisibility(View.GONE);
-        this.tabPosition = position;
 
         switch (position) {
             case 0:
@@ -632,8 +660,13 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     private void initFAB() {
         fab.setVisibility(View.VISIBLE);
         fab.setOnClickListener(v ->
-                startActivityForResult(createIntentForCreatePlantActivity(),
-                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
+            startActivityForResult(createIntentForCreatePlantActivity(),
+                    MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private Intent createIntentForCreatePlantActivity() {
@@ -665,7 +698,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 emailProducer.createAttachmentAndSendEmail();
             }
         } else {
-            Toast.makeText(this, getString(R.string.there_is_not_internet_connection), Toast.LENGTH_SHORT).show();
+            showMessageNoInternetConnection();
         }
     }
 
