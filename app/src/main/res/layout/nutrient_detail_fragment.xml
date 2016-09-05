@@ -32,11 +32,13 @@
             </android.support.design.widget.TextInputLayout>
 
             <com.example.igiagante.thegarden.core.ui.CountViewDecimal
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/nutrient_ph_id"
-                app:setValueDecimal="6.5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/count_view_margin_start" />
+                android:layout_marginStart="@dimen/count_view_margin_start"
+                app:setValueDecimal="6.5"
+                app:setDecimalHint="Ph"/>
 
         </LinearLayout>
 

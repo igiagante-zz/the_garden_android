@@ -17,6 +17,8 @@ public class User {
 
     private ArrayList<Garden> gardens = new ArrayList<>();
 
+    private ArrayList<Nutrient> nutrients = new ArrayList<>();
+
     public String getId() {
         return id;
     }
@@ -47,5 +49,13 @@ public class User {
 
     public void setGardens(ArrayList<Garden> gardens) {
         this.gardens = gardens;
+    }
+
+    public ArrayList<Nutrient> getNutrients() {
+        return nutrients;
+    }
+
+    public void setNutrients(ArrayList<Nutrient> nutrients) {
+        this.nutrients = nutrients;
     }
 }

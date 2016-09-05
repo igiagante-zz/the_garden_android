@@ -3,7 +3,6 @@ package com.example.igiagante.thegarden.creation.plants.presentation.presenters;
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
@@ -34,7 +33,7 @@ public class MainDataPresenter extends AbstractPresenter<MainDataView> {
         this.view = null;
     }
 
-    private void notifyIfPlantExist(Boolean exist){
+    private void notifyIfPlantExist(Boolean exist) {
         getView().informIfPlantExist(exist);
     }
 

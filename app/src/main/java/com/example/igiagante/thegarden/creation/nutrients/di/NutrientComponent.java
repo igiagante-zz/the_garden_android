@@ -1,8 +1,10 @@
 package com.example.igiagante.thegarden.creation.nutrients.di;
 
+import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
+import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientDetailFragment;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.fragments.NutrientListFragment;
@@ -22,10 +24,16 @@ import dagger.Component;
 public interface NutrientComponent extends GalleryComponent {
 
     void inject(NutrientListFragment nutrientListFragment);
+
     void inject(NutrientDetailFragment nutrientDetailFragment);
+
     void inject(NutrientDetailActivity nutrientDetailActivity);
+
+    void inject(NutrientActivity nutrientActivity);
 
     NutrientPresenter nutrientPresenter();
 
     NutrientDetailPresenter nutrientDetailPresenter();
+
+    Session session();
 }

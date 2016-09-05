@@ -36,7 +36,7 @@ public class IrrigationRealmRepository implements Repository<Irrigation> {
     public IrrigationRealmRepository(@NonNull Context context) {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
-                .name("garden.realm")
+                .name(Repository.DATABASE_NAME_DEV)
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
@@ -58,6 +58,7 @@ public class IrrigationRealmRepository implements Repository<Irrigation> {
 
     @Override
     public Observable<Irrigation> add(Irrigation irrigation) {
+
         realm = Realm.getInstance(realmConfiguration);
         realm.executeTransaction(realmParam ->
                 realmParam.copyToRealmOrUpdate(toIrrigationRealm.map(irrigation)));
@@ -118,10 +119,13 @@ public class IrrigationRealmRepository implements Repository<Irrigation> {
 
     @Override
     public void removeAll() {
-        //Delete all
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
+        realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            RealmResults<IrrigationRealm> result = realm.where(IrrigationRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
     }
 
     @Override

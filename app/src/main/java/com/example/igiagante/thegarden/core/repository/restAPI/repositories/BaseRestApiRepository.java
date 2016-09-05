@@ -21,7 +21,7 @@ import rx.schedulers.Schedulers;
 /**
  * @author Ignacio Giagante, on 3/7/16.
  */
-public class BaseRestApiRepository<T> {
+public class BaseRestApiRepository<T> extends BaseRestApi {
 
     private static final String TAG = BaseRestApiRepository.class.getSimpleName();
 
@@ -29,16 +29,18 @@ public class BaseRestApiRepository<T> {
 
     protected Session session;
 
-    public BaseRestApiRepository(Context mContext, Session session) {
-        this.mContext = mContext;
+    public BaseRestApiRepository(Context context, Session session) {
+        super(context);
+        this.mContext = context;
         this.session = session;
     }
 
     /**
      * Go to the api and then continue with the DB
-     * @param apiResult after call api
+     *
+     * @param apiResult  after call api
      * @param repository DB
-     * @param update indicate if the transaction is about an `updating`
+     * @param update     indicate if the transaction is about an `updating`
      */
     protected T execute(Observable<T> apiResult, Class repository, boolean update) {
 
@@ -68,7 +70,7 @@ public class BaseRestApiRepository<T> {
 
         Observable<T> dbResult;
 
-        if(update) {
+        if (update) {
             dbResult = dataBase.update(listOne.get(0));
         } else {
             dbResult = dataBase.add(listOne.get(0));

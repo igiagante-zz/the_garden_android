@@ -23,7 +23,7 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 19/7/16.
  */
-public class RestApiIrrigationRepository  extends BaseRestApiRepository<Irrigation> implements Repository<Irrigation> {
+public class RestApiIrrigationRepository extends BaseRestApiRepository<Irrigation> implements Repository<Irrigation> {
 
     private final IrrigationRestApi api;
 
@@ -57,6 +57,7 @@ public class RestApiIrrigationRepository  extends BaseRestApiRepository<Irrigati
         return addOrUpdate(irrigation, true);
     }
 
+    @NonNull
     private Observable addOrUpdate(Irrigation irrigation, boolean update) {
 
         MultipartBody.Builder builder = getRequestBody(irrigation);
@@ -93,7 +94,7 @@ public class RestApiIrrigationRepository  extends BaseRestApiRepository<Irrigati
     /**
      * Add irrigation to the request body which is a {@link okhttp3.MultipartBody.Builder}
      *
-     * @param irrigation   Irrigation
+     * @param irrigation Irrigation
      * @return builder
      */
     private MultipartBody.Builder getRequestBody(@NonNull final Irrigation irrigation) {
@@ -107,7 +108,7 @@ public class RestApiIrrigationRepository  extends BaseRestApiRepository<Irrigati
         }
 
         String date = "";
-        if(irrigation.getDose() != null) {
+        if (irrigation.getDose() != null) {
             SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
             date = dateFormatter.format(irrigation.getIrrigationDate());
         }

@@ -67,7 +67,7 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
         Fragment galleryFragment;
         Fragment dataFragment;
 
-        if(mNutrient != null) {
+        if (mNutrient != null) {
             dataFragment = NutrientDetailFragment.newInstance(mNutrient);
             galleryFragment = PhotoGalleryFragment.newInstance((ArrayList<Image>) mNutrient.getImages());
         } else {
@@ -78,9 +78,14 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
         addFragment(R.id.nutrient_container_data, dataFragment, FRAGMENT_NUTRIENT_DATA_TAG);
         addFragment(R.id.nutrient_container_photo_gallery, galleryFragment, FRAGMENT_NUTRIENT_IMAGES_TAG);
 
+        mSaveButton.setEnabled(false);
         mSaveButton.setOnClickListener(v -> {
             mProgressBar.setVisibility(View.VISIBLE);
-            saveNutrient();
+            if (checkInternet()) {
+                saveNutrient();
+            } else {
+                showMessageNoInternetConnection();
+            }
         });
 
         mCancelButton.setOnClickListener(v -> {
@@ -93,7 +98,7 @@ public class NutrientDetailActivity extends BaseActivity implements HasComponent
         NutrientDetailFragment nutrientDetailFragment = (NutrientDetailFragment) getFragmentByTag(FRAGMENT_NUTRIENT_DATA_TAG);
         PhotoGalleryFragment photoGalleryFragment = (PhotoGalleryFragment) getFragmentByTag(FRAGMENT_NUTRIENT_IMAGES_TAG);
         this.mNutrient = nutrientDetailFragment.getNutrient();
-        if(mNutrient != null) {
+        if (mNutrient != null) {
             mNutrient.setImages(photoGalleryFragment.getImages());
             mNutrient.setResourcesIds(photoGalleryFragment.getResourcesIds());
         }

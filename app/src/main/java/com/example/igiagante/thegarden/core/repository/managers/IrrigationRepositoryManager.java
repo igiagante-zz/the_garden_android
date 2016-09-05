@@ -25,20 +25,31 @@ public class IrrigationRepositoryManager extends RepositoryManager<Repository<Ir
 
     @Inject
     public IrrigationRepositoryManager(Context context, Session session) {
+        super(context);
         mRepositories.add(new IrrigationRealmRepository(context));
         mRepositories.add(new RestApiIrrigationRepository(context, session));
     }
 
     public Observable add(@NonNull Irrigation irrigation) {
-
+        if (!checkInternet()) {
+            return Observable.just(irrigation);
+        }
         return mRepositories.get(1).add(irrigation);
     }
 
     public Observable update(@NonNull Irrigation irrigation) {
+        if (!checkInternet()) {
+            return Observable.just(irrigation);
+        }
         return mRepositories.get(1).update(irrigation);
     }
 
     public Observable delete(@NonNull String irrigationId) {
+
+        if (!checkInternet()) {
+            return Observable.just(-1);
+        }
+
         // delete plant from api
         Observable<Integer> resultFromApi = mRepositories.get(1).remove(irrigationId);
 
@@ -76,6 +87,10 @@ public class IrrigationRepositoryManager extends RepositoryManager<Repository<Ir
         query.subscribe(irrigations -> list.addAll(irrigations));
 
         Observable<List<Irrigation>> observable = Observable.just(list);
+
+        if (!checkInternet()) {
+            return Observable.just(list.get(0));
+        }
 
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists

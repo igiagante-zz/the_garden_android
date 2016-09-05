@@ -19,6 +19,7 @@ public class AttributeRepositoryManager extends RepositoryManager<Repository<Att
 
     @Inject
     public AttributeRepositoryManager(Context context) {
+        super(context);
         mRepositories.add(new AttributeRealmRepository(context));
     }
 

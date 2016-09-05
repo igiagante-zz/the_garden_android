@@ -140,7 +140,7 @@ public class RestApiPlantRepository extends BaseRestApiRepository<Plant> impleme
 
         for (Image image : plant.getImages()) {
             File file = image.getFile();
-            if(file != null) {
+            if (file != null) {
                 files.add(file);
             }
         }
@@ -155,6 +155,7 @@ public class RestApiPlantRepository extends BaseRestApiRepository<Plant> impleme
      * @param plant   Plant
      * @return builder
      */
+    @NonNull
     private MultipartBody.Builder addPlantToRequestBody(@NonNull final MultipartBody.Builder builder, @NonNull final Plant plant) {
 
         if (plant.getResourcesIds() != null && !plant.getResourcesIds().isEmpty()) {

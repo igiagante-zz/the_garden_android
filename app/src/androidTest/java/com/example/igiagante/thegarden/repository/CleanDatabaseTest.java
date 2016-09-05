@@ -6,6 +6,7 @@ import com.example.igiagante.thegarden.core.repository.realm.AttributeRealmRepos
 import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.PlagueRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
+import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository;
 import com.example.igiagante.thegarden.repository.sqlite.TestUtilities;
 
 /**
@@ -20,10 +21,12 @@ public class CleanDatabaseTest extends AndroidTestCase {
         AttributeRealmRepository attributeRealmRepository = new AttributeRealmRepository((getContext()));
         PlagueRealmRepository plagueRealmRepository = new PlagueRealmRepository(getContext());
         GardenRealmRepository gardenRealmRepository = new GardenRealmRepository(getContext());
+        UserRealmRepository userRealmRepository = new UserRealmRepository(getContext());
         plantRealmRepository.removeAll();
         attributeRealmRepository.removeAll();
         plagueRealmRepository.removeAll();
         gardenRealmRepository.removeAll();
+        userRealmRepository.removeAll();
         TestUtilities.cleanDataBase(getContext());
     }
 }

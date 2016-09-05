@@ -8,9 +8,11 @@ import android.util.Log;
 
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
+import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiGardenRepository;
+import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiNutrientRepository;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,15 +26,18 @@ import rx.schedulers.Schedulers;
 /**
  * @author Ignacio Giagante, on 5/8/16.
  */
-public class UserRepositoryManager {
+public class UserRepositoryManager extends BaseRepositoryManager {
 
     private UserRealmRepository realmRepository;
     private RestApiGardenRepository api;
+    private RestApiNutrientRepository restApiNutrientRepository;
 
     @Inject
     public UserRepositoryManager(Context context, Session session) {
+        super(context);
         realmRepository = new UserRealmRepository(context);
         api = new RestApiGardenRepository(context, session);
+        restApiNutrientRepository = new RestApiNutrientRepository(context, session);
     }
 
     public Observable<Boolean> checkIfUserExistsInDataBase(@Nullable String userId) {
@@ -45,10 +50,16 @@ public class UserRepositoryManager {
     }
 
     public Observable<User> saveUser(@NonNull User user) {
+        if (!checkInternet()) {
+            return Observable.just(user);
+        }
         return realmRepository.add(user);
     }
 
     public Observable<User> updateUser(@NonNull User user) {
+        if (!checkInternet()) {
+            return Observable.just(user);
+        }
         return realmRepository.update(user);
     }
 
@@ -69,6 +80,10 @@ public class UserRepositoryManager {
             user = list.get(0);
         }
 
+        if (!checkInternet()) {
+            return Observable.just(user);
+        }
+
         if(user.getGardens() != null && user.getGardens().isEmpty() && !TextUtils.isEmpty(user.getUserName())){
 
             //if the user has an empty database, it should ask to the api for the gardens
@@ -78,6 +93,13 @@ public class UserRepositoryManager {
 
             gardensByUser.subscribeOn(Schedulers.io()).toBlocking().subscribe(result -> {
                 userCopy.setGardens((ArrayList<Garden>) result);
+            });
+
+            //if the user has an empty database, it should ask to the api for the nutrients
+            Observable<List<Nutrient>> nutrientsByUser = restApiNutrientRepository.getNutrientsByUser(user.getUserName());
+
+            nutrientsByUser.subscribeOn(Schedulers.io()).toBlocking().subscribe(result -> {
+                userCopy.setNutrients((ArrayList<Nutrient>) result);
             });
 
             // update db user with gardens

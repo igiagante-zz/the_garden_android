@@ -16,7 +16,7 @@
             android:layout_width="@dimen/edit_plant_button_width"
             android:layout_height="@dimen/edit_plant_button_height"
             android:gravity="center_horizontal"
-            android:background="@drawable/left_arrow"
+            android:background="@drawable/ic_left_arrow"
             android:layout_weight="0.1"
             android:layout_marginTop="@dimen/edit_plant_button_margin_top"
             android:visibility="gone"/>
@@ -38,7 +38,7 @@
             android:layout_height="@dimen/edit_plant_button_height"
             android:layout_marginEnd="@dimen/edit_plant_button_margin_end"
             android:gravity="center_horizontal"
-            android:background="@drawable/button_check"
+            android:background="@drawable/ic_button_check"
             android:layout_weight="0.1"
             android:layout_marginTop="@dimen/edit_plant_button_margin_top"
             android:visibility="gone"/>

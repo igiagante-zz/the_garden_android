@@ -37,7 +37,7 @@ public class PlagueRealmRepository implements Repository<Plague> {
     public PlagueRealmRepository(@NonNull Context context) {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
-                .name("garden.realm")
+                .name(Repository.DATABASE_NAME_DEV)
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
@@ -107,10 +107,13 @@ public class PlagueRealmRepository implements Repository<Plague> {
 
     @Override
     public void removeAll() {
-        // Delete all
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
+        realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            RealmResults<PlagueRealm> result = realm.where(PlagueRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
     }
 
     @Override
@@ -125,9 +128,9 @@ public class PlagueRealmRepository implements Repository<Plague> {
         List<Plague> list = new ArrayList<>();
 
         realmResults.subscribe(plagueRealms -> {
-           for (PlagueRealm plagueRealm : plagueRealms) {
-               list.add(toPlague.map(plagueRealm));
-           }
+            for (PlagueRealm plagueRealm : plagueRealms) {
+                list.add(toPlague.map(plagueRealm));
+            }
         });
 
         return Observable.just(list);

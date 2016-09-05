@@ -21,6 +21,7 @@ public class PlagueRepositoryManager  extends RepositoryManager<Repository<Plagu
 
     @Inject
     public PlagueRepositoryManager(Context context) {
+        super(context);
         this.mContext = context;
     }
 
@@ -31,8 +32,6 @@ public class PlagueRepositoryManager  extends RepositoryManager<Repository<Plagu
      */
     public Observable query(Specification specification) {
         PlagueRealmRepository plagueRealmRepository = new PlagueRealmRepository(mContext);
-        Log.i("Thread", "   PlagueRepositoryManager    " + Thread.currentThread().getName());
-
         return plagueRealmRepository.query(specification);
     }
 }

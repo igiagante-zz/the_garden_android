@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
-import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -45,6 +44,7 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
 
     public interface OnDeleteNutrient {
         void showDeleteNutrientDialog(int position);
+
         void deleteNutrient(String nutrientId);
     }
 
@@ -117,6 +117,7 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
 
     /**
      * Check if the nutrient is already on the list
+     *
      * @param nutrientId Nutrient Id
      * @return -1 if it does not exist or nutrient list's position
      */

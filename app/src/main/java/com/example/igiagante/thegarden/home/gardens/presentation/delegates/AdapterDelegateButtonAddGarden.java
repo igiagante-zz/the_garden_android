@@ -64,7 +64,7 @@ public class AdapterDelegateButtonAddGarden implements AdapterDelegate<AdapterDe
             mButtonAddGarden.setOnClickListener(v -> showDialogAddGarden());
         }
 
-        private void showDialogAddGarden(){
+        private void showDialogAddGarden() {
             View promptView = layoutInflater.inflate(R.layout.add_garden_dialog, null);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
             alertDialogBuilder.setView(promptView);
@@ -76,7 +76,8 @@ public class AdapterDelegateButtonAddGarden implements AdapterDelegate<AdapterDe
                         Garden garden = new Garden();
                         garden.setUserId(session.getUser().getId());
                         garden.setName(editText.getText().toString());
-                        onGardenDialog.createGarden(garden);})
+                        onGardenDialog.createGarden(garden);
+                    })
                     .setNegativeButton("No", null);
 
             // create an alert dialog

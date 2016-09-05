@@ -9,9 +9,9 @@ import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
+import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.usecase.GetGardenTempAndHumd;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
-import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +72,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     }
 
     public void getGardensByUser(User user) {
+        this.showViewLoading();
         this.getGetGardensByUserUseCase.execute(user, new GetGardensByUserSubscriber());
     }
 
@@ -83,7 +84,8 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         this.deleteGardenUseCase.execute(garden, new DeleteGardenSubscriber());
     }
 
-    public void getGarden(String gardenId){
+    public void getGarden(String gardenId) {
+        this.showViewLoading();
         this.getGardenUseCase.execute(gardenId, new GetGardenSubscriber());
     }
 
@@ -92,6 +94,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     }
 
     public void updateUser(User user) {
+        this.showViewLoading();
         this.updateUserUseCase.execute(user, new UpdateUserSubscriber());
     }
 
@@ -103,7 +106,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
         ArrayList<Garden> gardens = new ArrayList<>();
 
-        if(gardenHolders != null) {
+        if (gardenHolders != null) {
             for (int i = 0; i < gardenHolders.size(); i++) {
                 gardens.add(gardenHolders.get(i).getModel());
             }
@@ -141,7 +144,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         getView().loadGarden(createGardenHolder(garden));
     }
 
-    private void notifyIfGardenExists(boolean exists){
+    private void notifyIfGardenExists(boolean exists) {
         getView().notifyIfGardenExists(exists);
     }
 
@@ -153,17 +156,29 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         getView().updateTemp(sensorTemp);
     }
 
+    private void showViewLoading() {
+        getView().showLoading();
+    }
+
+    private void hideViewLoading() {
+        getView().hideLoading();
+    }
+
     private final class GetGardenTempAndHumidity extends DefaultSubscriber<SensorTemp> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
 
-        @Override public void onNext(SensorTemp sensorTemp) {
+        @Override
+        public void onNext(SensorTemp sensorTemp) {
             GardenPresenter.this.updateTemp(sensorTemp);
         }
     }
@@ -171,21 +186,27 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
     // TODO - Refactor
     private final class GetGardensByUserSubscriber extends DefaultSubscriber<User> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
 
-        @Override public void onNext(User user) {
+        @Override
+        public void onNext(User user) {
             GardenPresenter.this.showGardens(createGardenHolderList(user.getGardens()));
         }
     }
 
     /**
      * Create garden holder list
+     *
      * @param gardens Gardens
      * @return gardenHolders
      */
@@ -193,7 +214,7 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
         ArrayList<GardenHolder> gardenHolders = new ArrayList<>();
 
-        if(gardens != null) {
+        if (gardens != null) {
             for (int i = 0; i < gardens.size(); i++) {
                 gardenHolders.add(createGardenHolder(gardens.get(i), i));
             }
@@ -206,10 +227,12 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
         @Override
         public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
         @Override
         public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e("Error", e.getMessage());
             e.printStackTrace();
         }
@@ -222,61 +245,78 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
 
     private final class SaveGardenSubscriber extends DefaultSubscriber<Garden> {
 
-        @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+        @Override
+        public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
 
-        @Override public void onNext(Garden garden) {
+        @Override
+        public void onNext(Garden garden) {
             GardenPresenter.this.notifyIfGardenWasPersistedOrUpdated(garden);
         }
     }
 
     private final class DeleteGardenSubscriber extends DefaultSubscriber<Integer> {
 
-        @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+        @Override
+        public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(Integer result) {
+        @Override
+        public void onNext(Integer result) {
             GardenPresenter.this.notifyIfGardenWasDeleted(result);
         }
     }
 
     private final class GetGardenSubscriber extends DefaultSubscriber<Garden> {
 
-        @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+        @Override
+        public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
 
-        @Override public void onNext(Garden garden) {
+        @Override
+        public void onNext(Garden garden) {
             GardenPresenter.this.loadGarden(garden);
         }
     }
 
     private final class UpdateUserSubscriber extends DefaultSubscriber<User> {
 
-        @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+        @Override
+        public void onCompleted() {
+            GardenPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
+            GardenPresenter.this.hideViewLoading();
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(User user) {
+        @Override
+        public void onNext(User user) {
             GardenPresenter.this.notifyIfUserWasUpdated(user);
         }
     }

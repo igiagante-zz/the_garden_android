@@ -3,6 +3,7 @@ package com.example.igiagante.thegarden.show_plant.presentation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
@@ -45,14 +46,16 @@ public class GetPlantDataActivity extends BaseActivity implements
 
         Intent intent = getIntent();
 
-        if(intent != null) {
+        if (intent != null) {
             mPlant = intent.getParcelableExtra(PlantsAdapter.SHOW_PLANT_KEY);
         }
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.get_plant_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        ((TextView) findViewById(R.id.get_plant_toolbar_title)).setText(mPlant.getName());
+        TextView tittle = (TextView) findViewById(R.id.get_plant_toolbar_title);
+        tittle.setText(mPlant.getName());
+        tittle.setGravity(Gravity.CENTER);
     }
 
 
@@ -68,7 +71,8 @@ public class GetPlantDataActivity extends BaseActivity implements
         }
     }
 
-    @Override protected void onSaveInstanceState(Bundle outState) {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
             outState.putString(PLANT_ID_KEY, this.plantId);
         }

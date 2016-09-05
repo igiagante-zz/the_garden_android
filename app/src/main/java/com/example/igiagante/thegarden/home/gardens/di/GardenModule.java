@@ -4,7 +4,6 @@ import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
-import com.example.igiagante.thegarden.home.charts.usecase.SensorTempUseCase;
 import com.example.igiagante.thegarden.home.gardens.usecase.DeleteGardenUseCase;
 import com.example.igiagante.thegarden.home.gardens.usecase.ExistGardenUseCase;
 import com.example.igiagante.thegarden.home.gardens.usecase.GetGardenTempAndHumd;

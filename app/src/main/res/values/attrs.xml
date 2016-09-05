@@ -2,10 +2,12 @@
 <resources>
     <declare-styleable name="CountView">
         <attr name="setValue" format="integer" />
+        <attr name="setHint" format="string" />
     </declare-styleable>
 
     <declare-styleable name="CountViewDecimal">
         <attr name="setValueDecimal" format="float" />
+        <attr name="setDecimalHint" format="string" />
     </declare-styleable>
 
     <declare-styleable name="CounterView">

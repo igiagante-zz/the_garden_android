@@ -6,11 +6,11 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.core.presentation.adapter.delegate.AdapterDelegate;
-import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateButton;
-import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateImage;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.IViewType;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeButton;
 import com.example.igiagante.thegarden.core.presentation.adapter.viewTypes.ViewTypeConstans;
+import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateButton;
+import com.example.igiagante.thegarden.creation.plants.presentation.delegates.AdapterDelegateImage;
 import com.example.igiagante.thegarden.creation.plants.presentation.viewTypes.ViewTypeImage;
 
 import java.util.ArrayList;
@@ -82,6 +82,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     /**
      * Set the items collection using files paths and adding a button again.
+     *
      * @param filesPaths files paths
      */
     public void setImagesPath(List<String> filesPaths) {
@@ -93,6 +94,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     /**
      * Add images' paths from new images that should be added to the gallery
+     *
      * @param filesPaths images' paths
      */
     public void addImagesPaths(List<String> filesPaths) {
@@ -101,6 +103,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     /**
      * Adapt folder paths list to {@link ViewTypeImage} Collection
+     *
      * @param folderPaths Folder's paths
      * @return viewTypeImages
      */
@@ -108,22 +111,23 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ArrayList<ViewTypeImage> viewTypeImages = new ArrayList<>();
 
-        for(int i = 0; i < folderPaths.size(); i++) {
+        for (int i = 0; i < folderPaths.size(); i++) {
             ViewTypeImage viewTypeImage = new ViewTypeImage();
             viewTypeImage.setImagePath(folderPaths.get(i));
             viewTypeImage.setPositionSelected(i);
             viewTypeImages.add(viewTypeImage);
         }
 
-        return  viewTypeImages;
+        return viewTypeImages;
     }
 
     /**
      * Notify about new images were added into the gallery
+     *
      * @param imagesCollection images collections
      */
     private void notifyImagesAddedToCollection(Collection<ViewTypeImage> imagesCollection) {
-        if(!imagesCollection.isEmpty()) {
+        if (!imagesCollection.isEmpty()) {
             this.items.addAll(0, imagesCollection);
             this.notifyItemRangeInserted(0, imagesCollection.size());
         }
@@ -132,6 +136,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     /**
      * Remove an image from the list of items. Remember that it has only one button and the rest of
      * the list are images.
+     *
      * @param position position of the image
      */
     public void deleteImage(int position) {

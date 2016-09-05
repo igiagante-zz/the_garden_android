@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.presenters;
 
+import android.util.Log;
+
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
@@ -36,6 +38,7 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
 
     /**
      * Load the flavor in the view
+     *
      * @param flavors list of flavors
      */
     public void addFlavorsInView(List<Flavor> flavors) {
@@ -44,6 +47,7 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
 
     /**
      * Transform a list of flavors to flavor holders
+     *
      * @param flavors list of flavors
      * @return list of flavor holders
      */
@@ -51,7 +55,7 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
 
         ArrayList<FlavorHolder> flavorHolders = new ArrayList<>();
 
-        for(Flavor flavor : flavors) {
+        for (Flavor flavor : flavors) {
             FlavorHolder flavorHolder = new FlavorHolder();
             flavorHolder.setModel(flavor);
             flavorHolders.add(flavorHolder);
@@ -68,17 +72,18 @@ public class FlavorGalleryPresenter extends AbstractPresenter<FlavorGalleryView>
 
     private final class FlavorGallerySubscriber extends DefaultSubscriber<List<Flavor>> {
 
-        @Override public void onCompleted() {
-            //PlantListPresenter.this.hideViewLoading();
+        @Override
+        public void onCompleted() {
         }
 
-        @Override public void onError(Throwable e) {
-            //PlantListPresenter.this.hideViewLoading();
-            //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            //PlantListPresenter.this.showViewRetry();
+        @Override
+        public void onError(Throwable e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
         }
 
-        @Override public void onNext(List<Flavor> flavors) {
+        @Override
+        public void onNext(List<Flavor> flavors) {
             FlavorGalleryPresenter.this.addFlavorsInView(flavors);
         }
     }

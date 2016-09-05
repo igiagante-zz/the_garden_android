@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,13 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
         final View fragmentView = inflater.inflate(R.layout.register_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
-        mButtonSignUp.setOnClickListener(v -> signup());
+        mButtonSignUp.setOnClickListener(v -> {
+            if (checkInternet()) {
+                signup();
+            } else {
+                showToastMessage(getString(R.string.there_is_not_internet_connection));
+            }
+        });
 
         mButtonLogin.setOnClickListener(v -> getActivity().finish());
 
@@ -79,7 +84,6 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
 
         mButtonSignUp.setEnabled(false);
 
-        mProgressDialog = new ProgressDialog(getContext());
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage(getString(R.string.creating_account));
         mProgressDialog.show();
@@ -88,7 +92,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
     }
 
     private void onSignupFailed() {
-        showToastMessage("Login Failed!");
+        showToastMessage(getString(R.string.login_failed));
         mButtonSignUp.setEnabled(true);
     }
 
@@ -106,12 +110,14 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.registerPresenter.setView(new WeakReference<>(this));
+        mProgressDialog = new ProgressDialog(getContext());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        mProgressDialog.dismiss();
     }
 
     @Override
@@ -124,7 +130,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
     public void notifyUserRegistration(String result) {
         mProgressDialog.hide();
         mButtonSignUp.setEnabled(true);
-        if (!result.equals("OK")) {
+        if (!result.equals(getString(R.string.login_ok))) {
             showToastMessage(result);
         } else {
 

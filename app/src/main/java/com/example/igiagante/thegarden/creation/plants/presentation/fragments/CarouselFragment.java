@@ -10,13 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -56,7 +54,7 @@ public class CarouselFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
-        if(args != null) {
+        if (args != null) {
             mImageUrl = args.getString(IMAGE_URL_KEY);
             mPosition = args.getInt(IMAGE_POSITION_KEY);
         }
@@ -70,14 +68,13 @@ public class CarouselFragment extends BaseFragment {
         final View containerView = inflater.inflate(R.layout.carousel_fragment, container, false);
 
         mImage = (SimpleDraweeView) containerView.findViewById(R.id.carousel_image_id);
-        if(mImageUrl.contains("http")) {
+        if (mImageUrl.contains("http")) {
             mImage.setImageURI(Uri.parse(mImageUrl));
         } else {
             mImage.setImageURI(Uri.fromFile(new File(mImageUrl)));
         }
 
-
-        if(getActivity() instanceof CarouselActivity) {
+        if (getActivity() instanceof CarouselActivity) {
             FrameLayout frameLayout = (FrameLayout) containerView.findViewById(R.id.carousel_container_id);
             frameLayout.setBackground(ContextCompat.getDrawable(getContext(), R.color.background));
 
@@ -85,14 +82,14 @@ public class CarouselFragment extends BaseFragment {
             button.setOnClickListener(view -> mOnDeleteImageInCarousel.deleteImageInCarousel(mPosition));
         }
 
-        return  containerView;
+        return containerView;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mOnDeleteImageInCarousel = (OnDeleteImageInCarousel)context;
+            mOnDeleteImageInCarousel = (OnDeleteImageInCarousel) context;
         } catch (ClassCastException e) {
             throw new RuntimeException(context.getClass().getName() + " should be implement OnDeleteImageInCarousel");
         }

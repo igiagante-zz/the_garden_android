@@ -9,8 +9,12 @@ import rx.Observable;
  */
 public interface Repository<T> {
 
+    String DATABASE_NAME_DEV = "garden.realm";
+    String DATABASE_NAME_TEST = "garden-test.realm";
+
     /**
      * Return a resource using the id
+     *
      * @param id Object id
      * @return Observable<T>
      */
@@ -18,6 +22,7 @@ public interface Repository<T> {
 
     /**
      * Return a resource using the name
+     *
      * @param name Name of the resource
      * @return Observable<T>
      */
@@ -25,6 +30,7 @@ public interface Repository<T> {
 
     /**
      * Return an Object's id which was added
+     *
      * @param item Object to be inserted into the repository
      * @return Observable<T> The Observable contains an object
      */
@@ -32,6 +38,7 @@ public interface Repository<T> {
 
     /**
      * Return the number of objects which were added.
+     *
      * @param items Objects to be inserted into the repository
      * @return Observable<Integer> The Observable contains the number of objects added
      */
@@ -39,6 +46,7 @@ public interface Repository<T> {
 
     /**
      * Return an observable with the object updated.
+     *
      * @param item Object to be updated into the repository
      * @return Observable<Integer> The Observable contains the number of objects added.
      */
@@ -46,6 +54,7 @@ public interface Repository<T> {
 
     /**
      * Return an observable with the integer, which indicates if the resource was deleted or not.
+     *
      * @param id Id from Object to be deleted into the repository
      * @return Observable<Integer>
      */
@@ -56,6 +65,7 @@ public interface Repository<T> {
 
     /**
      * Return an observable a list of resources.
+     *
      * @param specification {@link Specification}
      * @return Observable<List<T>>
      */

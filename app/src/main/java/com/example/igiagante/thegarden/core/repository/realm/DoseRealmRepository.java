@@ -36,7 +36,7 @@ public class DoseRealmRepository implements Repository<Dose> {
     public DoseRealmRepository(@NonNull Context context) {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
-                .name("garden.realm")
+                .name(Repository.DATABASE_NAME_DEV)
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
@@ -117,10 +117,13 @@ public class DoseRealmRepository implements Repository<Dose> {
 
     @Override
     public void removeAll() {
-        //Delete all
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
+        realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            RealmResults<DoseRealm> result = realm.where(DoseRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
     }
 
     @Override

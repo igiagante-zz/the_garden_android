@@ -37,7 +37,7 @@ public class UserRealmRepository implements Repository<User> {
     public UserRealmRepository(@NonNull Context context) {
 
         this.realmConfiguration = new RealmConfiguration.Builder(context)
-                .name("garden.realm")
+                .name(Repository.DATABASE_NAME_DEV)
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
@@ -79,7 +79,7 @@ public class UserRealmRepository implements Repository<User> {
 
         UserRealm userRealm = realm.where(UserRealm.class).equalTo(Table.ID, user.getId()).findFirst();
 
-        if(userRealm != null) {
+        if (userRealm != null) {
             realm.executeTransaction(realmParam -> {
                 toUserRealm.copy(user, userRealm);
             });
@@ -98,7 +98,18 @@ public class UserRealmRepository implements Repository<User> {
 
     @Override
     public void removeAll() {
+        // Delete all
+        realm = Realm.getInstance(realmConfiguration);
 
+        realm.executeTransaction(realmParam -> {
+            RealmResults<UserRealm> result = realm.where(UserRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
+
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
     }
 
     @Override

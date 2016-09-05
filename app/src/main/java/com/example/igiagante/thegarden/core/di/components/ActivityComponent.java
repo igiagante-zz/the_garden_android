@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
-import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
 
 import dagger.Component;
 

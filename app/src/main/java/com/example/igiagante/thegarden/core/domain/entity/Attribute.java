@@ -10,7 +10,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Attribute implements Parcelable {
 
-    public Attribute() {}
+    public Attribute() {
+    }
 
     @SerializedName("id")
     private String id;

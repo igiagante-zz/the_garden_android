@@ -33,7 +33,7 @@ public class NutrientDetailPresenter extends AbstractPresenter<NutrientDetailVie
         this.view = null;
     }
 
-    private void notifyIfNutrientExist(Boolean exist){
+    private void notifyIfNutrientExist(Boolean exist) {
         getView().notifyIfNutrientExist(exist);
     }
 

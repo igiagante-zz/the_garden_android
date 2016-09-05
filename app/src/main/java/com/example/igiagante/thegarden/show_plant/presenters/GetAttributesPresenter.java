@@ -44,18 +44,21 @@ public class GetAttributesPresenter extends AbstractPresenter<ShowPlantView> {
 
     private final class GetAttributesSubscriber extends DefaultSubscriber<List<Attribute>> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
             //PlantListPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             //PlantListPresenter.this.hideViewLoading();
             //PlantListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
             //PlantListPresenter.this.showViewRetry();
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(List<Attribute> attributes) {
+        @Override
+        public void onNext(List<Attribute> attributes) {
             GetAttributesPresenter.this.showAttributes(attributes);
         }
     }

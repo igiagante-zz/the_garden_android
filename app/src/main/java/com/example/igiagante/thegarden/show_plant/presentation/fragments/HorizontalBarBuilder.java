@@ -61,7 +61,7 @@ public class HorizontalBarBuilder {
         List<BarEntry> entries = new ArrayList<>();
         ArrayList<String> xAxis = new ArrayList<>();
 
-        int [] values = createListNumber();
+        int[] values = createListNumber();
 
         for (int i = 0; i < attributes.size(); i++) {
             entries.add(new BarEntry((float) values[i], i));
@@ -77,8 +77,8 @@ public class HorizontalBarBuilder {
         horizontalBarChart.setData(data);
     }
 
-    private int [] createListNumber() {
-        int [] numbers = new int[5];
+    private int[] createListNumber() {
+        int[] numbers = new int[5];
         for (int i = 0; i < numbers.length; i++) {
             numbers[i] = getRandomNumber();
         }

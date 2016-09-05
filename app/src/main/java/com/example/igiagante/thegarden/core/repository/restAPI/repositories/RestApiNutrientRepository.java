@@ -59,6 +59,7 @@ public class RestApiNutrientRepository extends BaseRestApiRepository<Nutrient> i
         return addOrUpdate(nutrient, true);
     }
 
+    @NonNull
     private Observable addOrUpdate(Nutrient nutrient, boolean update) {
 
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(nutrient);
@@ -89,7 +90,12 @@ public class RestApiNutrientRepository extends BaseRestApiRepository<Nutrient> i
 
     @Override
     public Observable<List<Nutrient>> query(Specification specification) {
-        return api.getNutrients();
+        Observable<List<Nutrient>> nutrients = api.getNutrients();
+        return nutrients;
+    }
+
+    public Observable<List<Nutrient>> getNutrientsByUser(String username) {
+        return api.getNutrientsByUserName(username);
     }
 
     /**
@@ -130,7 +136,8 @@ public class RestApiNutrientRepository extends BaseRestApiRepository<Nutrient> i
             String resourcesIds = new Gson().toJson(nutrient.getResourcesIds());
             builder.addFormDataPart(PlantTable.RESOURCES_IDS, resourcesIds);
         }
-        return builder.addFormDataPart(NutrientTable.NAME, nutrient.getName())
+        return builder.addFormDataPart(NutrientTable.USER_ID, nutrient.getUserId())
+                .addFormDataPart(NutrientTable.NAME, nutrient.getName())
                 .addFormDataPart(NutrientTable.PH, String.valueOf(nutrient.getPh()))
                 .addFormDataPart(NutrientTable.NPK, nutrient.getNpk())
                 .addFormDataPart(NutrientTable.DESCRIPTION, nutrient.getName());

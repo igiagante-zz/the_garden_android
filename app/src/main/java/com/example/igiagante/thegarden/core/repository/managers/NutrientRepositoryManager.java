@@ -26,6 +26,7 @@ public class NutrientRepositoryManager extends RepositoryManager<Repository<Nutr
 
     @Inject
     public NutrientRepositoryManager(Context context, Session session) {
+        super(context);
         mRepositories.add(new NutrientRealmRepository(context));
         mRepositories.add(new RestApiNutrientRepository(context, session));
     }
@@ -44,6 +45,10 @@ public class NutrientRepositoryManager extends RepositoryManager<Repository<Nutr
 
         Observable<List<Nutrient>> observable = Observable.just(list);
 
+        if (!checkInternet()) {
+            return Observable.just(list.get(0));
+        }
+
         // check if the nutrient already exits. If the nutrient exists, it returns the nutrient. On the other
         // side, it asks to the rest api to save the nutrient.
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
@@ -53,10 +58,18 @@ public class NutrientRepositoryManager extends RepositoryManager<Repository<Nutr
     }
 
     public Observable update(@NonNull Nutrient nutrient) {
+        if (!checkInternet()) {
+            return Observable.just(nutrient);
+        }
         return mRepositories.get(1).update(nutrient);
     }
 
     public Observable delete(@NonNull String nutrientId) {
+
+        if (!checkInternet()) {
+            return Observable.just(-1);
+        }
+
         // delete plant from api
         Observable<Integer> resultFromApi = mRepositories.get(1).remove(nutrientId);
 
@@ -65,14 +78,14 @@ public class NutrientRepositoryManager extends RepositoryManager<Repository<Nutr
         resultFromApi.subscribeOn(Schedulers.io()).toBlocking().subscribe(success -> list.add(success));
 
         // delete plant from DB
-        if(!list.isEmpty() && list.get(0) != -1) {
+        if (!list.isEmpty() && list.get(0) != -1) {
             Observable<Integer> resultFromDB = mRepositories.get(0).remove(nutrientId);
             resultFromDB.toBlocking().subscribe(success -> list.add(success));
         }
 
         Observable<Integer> result;
 
-        if(list.contains(-1)) {
+        if (list.contains(-1)) {
             result = Observable.just(-1);
         } else {
             result = Observable.just(1);
@@ -83,6 +96,7 @@ public class NutrientRepositoryManager extends RepositoryManager<Repository<Nutr
 
     /**
      * Return an observable a list of resources.
+     *
      * @param specification {@link Specification}
      * @return Observable
      */
@@ -94,6 +108,10 @@ public class NutrientRepositoryManager extends RepositoryManager<Repository<Nutr
         query.subscribe(nutrients -> list.addAll(nutrients));
 
         Observable<List<Nutrient>> observable = Observable.just(list);
+
+        if (!checkInternet()) {
+            return Observable.just(list);
+        }
 
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists

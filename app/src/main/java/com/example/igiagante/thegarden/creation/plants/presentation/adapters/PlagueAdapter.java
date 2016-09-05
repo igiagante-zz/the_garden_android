@@ -72,12 +72,12 @@ public class PlagueAdapter extends RecyclerView.Adapter<PlagueAdapter.PlagueView
         }
 
         public void setBackgroundButton(Boolean plagueSelected, Button button) {
-            if(plagueSelected) {
-                button.setBackground(ContextCompat.getDrawable(mContext, R.drawable.plague_selected_button));
+            if (plagueSelected) {
+                button.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ic_plague_selected_button));
                 button.setWidth(width);
                 button.setHeight(height);
             } else {
-                button.setBackground(ContextCompat.getDrawable(mContext, R.drawable.plague_available_button));
+                button.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ic_plague_available_button));
             }
         }
 

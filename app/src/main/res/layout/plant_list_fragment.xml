@@ -3,16 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/create_one_garden_first_plants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_one_garden"
+        android:textSize="@dimen/text_create_one_garden"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:gravity="center"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_plants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_view_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
-
-    <Button
-        android:id="@+id/add_new_plant_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ADD PLANT"/>
 
 </RelativeLayout>

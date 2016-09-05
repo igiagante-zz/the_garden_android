@@ -16,7 +16,6 @@ import com.example.igiagante.thegarden.R;
  */
 public class FangButton extends LinearLayout {
 
-
     public interface FangButtonListener {
         void onClick(FangButton v);
     }
@@ -26,20 +25,19 @@ public class FangButton extends LinearLayout {
 
     private FangButtonListener fangButtonListener;
 
-    final OnClickListener innerOnClickListener =new OnClickListener() {
+    final OnClickListener innerOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             checked = !checked;
-            if(checked){
+            if (checked) {
                 v.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.fang_button_pressed));
+            } else {
+                v.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.fang_button));
             }
-            else{
-                v.setBackground(ContextCompat.getDrawable(v.getContext(),R.drawable.fang_button));
-            }
-            if(outerClickListener!=null){
+            if (outerClickListener != null) {
                 outerClickListener.onClick(v);
             }
-            if (fangButtonListener!=null){
+            if (fangButtonListener != null) {
                 fangButtonListener.onClick((FangButton) v);
             }
         }
@@ -49,20 +47,21 @@ public class FangButton extends LinearLayout {
 
     private SeekBar fangSeekBar;
     private RatingBar fangRatingBar;
+
     public FangButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context,attrs);
+        init(context, attrs);
 
     }
 
-    public FangButton(Context context, AttributeSet attrs, int defStyle){
-        super(context,attrs,defStyle);
-        init(context,attrs);
+    public FangButton(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context, attrs);
     }
 
 
-    public void init(Context context, AttributeSet attrs){
-        inflate(getContext(),R.layout.fang_button_layout,this);
+    public void init(Context context, AttributeSet attrs) {
+        inflate(getContext(), R.layout.fang_button_layout, this);
         this.setOrientation(VERTICAL);
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
@@ -70,22 +69,20 @@ public class FangButton extends LinearLayout {
                 0, 0);
 
         try {
-            fangPower = a.getInteger(R.styleable.FangButton_fangPower,0);
-            checked = a.getBoolean(R.styleable.FangButton_checked,false);
+            fangPower = a.getInteger(R.styleable.FangButton_fangPower, 0);
+            checked = a.getBoolean(R.styleable.FangButton_checked, false);
         } finally {
             a.recycle();
         }
 
 
-
         fangSeekBar = (SeekBar) findViewById(R.id.fangButtonSeekBar);
         fangRatingBar = (RatingBar) findViewById(R.id.fangButtonRateBar);
 
-        if(checked){
-            ContextCompat.getDrawable(FangButton.this.getContext(),R.drawable.fang_button_pressed);
-        }
-        else{
-            this.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.fang_button));
+        if (checked) {
+            ContextCompat.getDrawable(FangButton.this.getContext(), R.drawable.fang_button_pressed);
+        } else {
+            this.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.fang_button));
         }
         fangRatingBar.setProgress(fangPower);
         fangSeekBar.setProgress(fangPower);
@@ -120,7 +117,7 @@ public class FangButton extends LinearLayout {
 
     }
 
-    public int getFangPower(){
+    public int getFangPower() {
         return fangPower;
     }
 

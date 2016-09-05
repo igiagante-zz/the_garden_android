@@ -19,11 +19,9 @@ import java.util.List;
 public class PlantPlagueAdapter extends RecyclerView.Adapter<PlantPlagueAdapter.PlantPlagueViewHolder> {
 
     private List<Plague> mPlagues;
-    private Context mContext;
     private final LayoutInflater layoutInflater;
 
     public PlantPlagueAdapter(Context context) {
-        this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
