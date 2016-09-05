@@ -75,7 +75,6 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
             return Observable.just(-1);
         }
 
-        // TODO - Refactor this
         RestApiGardenRepository restApiGardenRepository = new RestApiGardenRepository(context, session);
 
         // delete plant from api

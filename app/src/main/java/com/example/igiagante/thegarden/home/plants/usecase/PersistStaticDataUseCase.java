@@ -3,7 +3,6 @@ package com.example.igiagante.thegarden.home.plants.usecase;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
@@ -62,7 +61,7 @@ public class PersistStaticDataUseCase extends UseCase<Void> {
     private Context context;
 
     @Inject
-    public PersistStaticDataUseCase(Context context, Session session, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public PersistStaticDataUseCase(Context context, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.context = context;
 

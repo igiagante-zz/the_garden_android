@@ -35,11 +35,14 @@ import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActiv
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -124,7 +127,14 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         holder.mPlantName.setText(plantHolder.getName());
         String seedDateLabel = mContext.getString(R.string.seedDate);
 
-        holder.mSeedDate.setText(seedDateLabel + ": " + plantHolder.getSeedDate());
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM", Locale.US);
+
+        String seedDate = plantHolder.getSeedDate();
+        if(seedDate == null) {
+            seedDate = format.format(new Date());
+        }
+
+        holder.mSeedDate.setText(seedDateLabel + ": " + seedDate);
         String genotypeLabel = mContext.getString(R.string.genotype);
         holder.mGenotype.setText(genotypeLabel + ": " + plantHolder.getGenotype());
         String harvestLabel = mContext.getString(R.string.harvest);

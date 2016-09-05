@@ -33,8 +33,8 @@ public class ImageToImageRealm implements Mapper<Image, ImageRealm> {
     @Override
     public ImageRealm copy(@NonNull Image image, @NonNull ImageRealm imageRealm) {
         imageRealm.setName(image.getName());
-        imageRealm.setUrl(image.getUrl().replace(Settings.DOMAIN, ""));
-        imageRealm.setThumbnailUrl(image.getThumbnailUrl().replace(Settings.DOMAIN, ""));
+        imageRealm.setUrl(image.getUrl().replace(Settings.DOMAIN_MASK, ""));
+        imageRealm.setThumbnailUrl(image.getThumbnailUrl().replace(Settings.DOMAIN_MASK, ""));
         imageRealm.setType(image.getType());
         imageRealm.setSize(image.getSize());
         imageRealm.setMain(image.isMain());

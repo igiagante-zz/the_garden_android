@@ -455,7 +455,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addImages(ArrayList<Image> images, boolean carousel) {
-            // TODO - Refactor
+
             if (carousel || images.isEmpty()) {
                 this.mImages = images;
             } else {

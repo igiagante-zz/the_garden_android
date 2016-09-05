@@ -154,7 +154,6 @@ public class GetPlantDataFragment extends BaseFragment implements ShowPlantView 
 
     /**
      * Add style to circle indicator
-     * TODO - check if this can be done through xml
      */
     private void setupCircleIndicator() {
         final float density = getResources().getDisplayMetrics().density;
