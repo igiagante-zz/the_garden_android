@@ -78,14 +78,14 @@ public class PlantHolder extends DataHolder<Plant> {
         String format = "dd/MM";
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
         Date seedDate = getModel().getSeedDate();
-        if(seedDate != null) {
+        if (seedDate != null) {
             return sdf.format(seedDate);
         }
         return "";
     }
 
     public Image getMainImage() {
-        if(getModel().getImages() != null && !getModel().getImages().isEmpty()) {
+        if (getModel().getImages() != null && !getModel().getImages().isEmpty()) {
             return getModel().getImages().get(0);
         }
         return null;

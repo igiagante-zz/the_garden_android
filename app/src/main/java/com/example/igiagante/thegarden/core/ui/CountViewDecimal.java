@@ -19,7 +19,7 @@ import java.text.DecimalFormat;
 /**
  * @author Ignacio Giagante, on 6/11/16.
  */
-public class CountViewDecimal  extends LinearLayout {
+public class CountViewDecimal extends LinearLayout {
 
     private Context mContext;
 
@@ -66,7 +66,7 @@ public class CountViewDecimal  extends LinearLayout {
         mEditValue = (EditText) findViewById(R.id.count_input);
         mEditValue.setText(formatFloat(mDefaultValue));
 
-        TextInputLayout textInputLayout = (TextInputLayout)findViewById(R.id.input_wrap_decimal);
+        TextInputLayout textInputLayout = (TextInputLayout) findViewById(R.id.input_wrap_decimal);
         textInputLayout.setHint(hint);
 
         Button mButtonUp = (Button) findViewById(R.id.count_button_up);
@@ -78,10 +78,11 @@ public class CountViewDecimal  extends LinearLayout {
 
     /**
      * Set the edit value of the view with a float value
+     *
      * @param value value
      */
     public void setEditValue(float value) {
-        if(mEditValue != null && value >= 0) {
+        if (mEditValue != null && value >= 0) {
             mEditValue.setText(formatFloat(value));
         }
     }
@@ -92,7 +93,7 @@ public class CountViewDecimal  extends LinearLayout {
     public float getEditValue() {
         float count = 0;
         String value = mEditValue.getText().toString();
-        if(!TextUtils.isEmpty(value)) {
+        if (!TextUtils.isEmpty(value)) {
             count = Float.parseFloat(value);
         }
         return count;
@@ -102,7 +103,7 @@ public class CountViewDecimal  extends LinearLayout {
      * Increment value from edit text
      */
     private void incrementValue() {
-        if(mEditValue != null) {
+        if (mEditValue != null) {
             float value = getEditValue();
             value += 0.1;
             setEditValue(value);
@@ -113,7 +114,7 @@ public class CountViewDecimal  extends LinearLayout {
      * Decrement value from edit text
      */
     private void decrementValue() {
-        if(mEditValue != null) {
+        if (mEditValue != null) {
             float value = getEditValue();
             value -= 0.1;
             setEditValue(value);

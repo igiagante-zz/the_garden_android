@@ -29,8 +29,11 @@ public interface CreatePlantComponent extends GalleryComponent {
 
     // Fragments
     void inject(FlavorGalleryFragment flavorGalleryFragment);
+
     void inject(AttributesFragment attributesFragment);
+
     void inject(DescriptionFragment descriptionFragment);
+
     void inject(MainDataFragment mainDataFragment);
 
     // Activities

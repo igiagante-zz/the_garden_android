@@ -16,7 +16,8 @@ import dagger.Provides;
 @Module
 public class PlantsModule {
 
-    public PlantsModule() {}
+    public PlantsModule() {
+    }
 
     @Provides
     @PerActivity

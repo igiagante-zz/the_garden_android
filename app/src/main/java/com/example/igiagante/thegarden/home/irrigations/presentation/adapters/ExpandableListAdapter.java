@@ -11,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
-import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.ui.CounterView;
 import com.example.igiagante.thegarden.home.irrigations.presentation.holders.NutrientHolder;
 
@@ -37,7 +35,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public void setNutrients(List<NutrientHolder> nutrients) {
-        if(!nutrients.isEmpty()) {
+        if (!nutrients.isEmpty()) {
             this.mNutrients = new ArrayList<>(nutrients);
             notifyDataSetChanged();
         }
@@ -88,9 +86,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         ImageView indicator = (ImageView) convertView.findViewById(R.id.arrow_indicator_id);
 
         if (isExpanded) {
-            indicator.setImageResource(R.drawable.indicator_arrow_up);
+            indicator.setImageResource(R.drawable.ic_indicator_arrow_up);
         } else {
-            indicator.setImageResource(R.drawable.indicator_arrow_bottom);
+            indicator.setImageResource(R.drawable.ic_indicator_arrow_bottom);
         }
 
         return convertView;
@@ -110,7 +108,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.expandable_list_item_checkbox_id);
 
-        if(nutrient.isSelected()) {
+        if (nutrient.isSelected()) {
             checkBox.setChecked(true);
         }
 
@@ -125,7 +123,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         CounterView quantity = (CounterView) convertView.findViewById(R.id.expandable_list_quantity);
         quantity.setCountViewListener(value -> nutrient.setQuantity(value));
-        quantity.setEditValue((int)nutrient.getModel().getQuantityUsed());
+        quantity.setEditValue((int) nutrient.getModel().getQuantityUsed());
 
         return convertView;
     }
@@ -137,13 +135,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Get selected nutrients in order to be used in the dose
+     *
      * @return nutrients
      */
     public ArrayList<Nutrient> getNutrientsSelected() {
         ArrayList<Nutrient> nutrients = new ArrayList<>();
 
         for (NutrientHolder nutrientHolder : mNutrients) {
-            if(nutrientHolder.isSelected()) {
+            if (nutrientHolder.isSelected()) {
                 Nutrient nutrient = nutrientHolder.getModel();
                 nutrients.add(nutrient);
             }

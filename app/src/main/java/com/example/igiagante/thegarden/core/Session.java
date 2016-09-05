@@ -4,20 +4,13 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
-import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
-import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
 import com.example.igiagante.thegarden.core.domain.entity.User;
-import com.example.igiagante.thegarden.login.usecase.RefreshTokenUseCase;
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import dagger.Component;
 
 /**
  * @author Ignacio Giagante, on 2/8/16.
@@ -59,8 +52,8 @@ public class Session {
         this.tokenExpiration = tokenExpiration;
     }
 
-    public boolean checkIfTokenIsExpired(){
-        if(tokenExpiration != null){
+    public boolean checkIfTokenIsExpired() {
+        if (tokenExpiration != null) {
             return new Date().after(tokenExpiration);
         }
         return false;
@@ -75,11 +68,11 @@ public class Session {
     /**
      * Extract expiration date from token
      */
-    private void setTokenExpirationDateFromStringCodeBase64(){
+    private void setTokenExpirationDateFromStringCodeBase64() {
 
-        if(!TextUtils.isEmpty(token)){
+        if (!TextUtils.isEmpty(token)) {
             String[] jwtParts = token.split("\\.");
-            if(jwtParts.length > 1 && jwtParts[1] != null) {
+            if (jwtParts.length > 1 && jwtParts[1] != null) {
                 byte[] data = Base64.decode(jwtParts[1], Base64.DEFAULT);
                 try {
 
@@ -91,7 +84,7 @@ public class Session {
 
                     this.getUser().setId(claims.getSub());
 
-                } catch (UnsupportedEncodingException e){
+                } catch (UnsupportedEncodingException e) {
                     Log.d("Exception", "Something was wrong trying to parse token to extract expiration date");
                 }
             }

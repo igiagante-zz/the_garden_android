@@ -11,7 +11,6 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenRealmToGarden;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.GardenToGardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.SensorTempRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByNameAndUserIdSpecification;

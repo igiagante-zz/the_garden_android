@@ -1,19 +1,20 @@
 package com.example.igiagante.thegarden.core.presentation;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.AndroidApplication;
 import com.example.igiagante.thegarden.core.di.components.ApplicationComponent;
 import com.example.igiagante.thegarden.core.di.modules.ActivityModule;
-import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -99,6 +100,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
 
         return isConnected;
+    }
+
+    protected void showMessageNoInternetConnection() {
+        String string = getString(R.string.there_is_not_internet_connection);
+        Toast toast = Toast.makeText(this, string, Toast.LENGTH_LONG);
+        TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
+        textView.setGravity(Gravity.CENTER);
+        toast.show();
     }
 
     public Tracker getTracker() {

@@ -3,15 +3,21 @@ package com.example.igiagante.thegarden.home;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +31,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,10 +61,12 @@ import com.example.igiagante.thegarden.home.gardens.presentation.delegates.Adapt
 import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
+import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity;
+import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
-import com.example.igiagante.thegarden.home.plants.services.EmailProducer;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
+import com.example.igiagante.thegarden.home.plants.services.EmailProducerService;
 import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
 import com.google.android.gms.analytics.HitBuilders;
@@ -99,7 +108,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     private MainComponent mainComponent;
 
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ViewPager mainViewPager;
     private GardenViewPagerAdapter mAdapter;
 
     private DrawerLayout drawerLayout;
@@ -124,6 +133,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Bind(R.id.progress_bar_garden)
     ProgressBar progressBar;
 
+    @Bind(R.id.add_main_button)
+    FloatingActionButton fab;
+
     /**
      * Save garden's position from Garden, which should be deleted
      */
@@ -139,10 +151,39 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
      */
     private ArrayList<GardenHolder> gardens = new ArrayList<>();
 
-    private EmailProducer emailProducer;
+    /**
+     * Used to send an email with attachments
+     */
+    private EmailProducerService emailProducerService;
 
     private SearchView searchView;
+
+    /**
+     * This menuItem is taken out because it needs to hide the searchView
+     */
     private MenuItem menuItem;
+
+    /**
+     * BroadcastReceiver to check internet state connection
+     */
+    private BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getExtras() != null) {
+                final ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                final NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
+
+                if (ni != null && ni.isConnectedOrConnecting()) {
+                    Log.i(TAG, "Network " + ni.getTypeName() + " connected");
+                    fab.setEnabled(true);
+                } else if (intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, Boolean.FALSE)) {
+                    Log.d(TAG, "There's no network connectivity");
+                    fab.setEnabled(false);
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,12 +194,15 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         initializeInjector();
         getComponent().inject(this);
 
+        this.registerReceiver(this.networkStateReceiver,
+                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));
 
         setupToolbar();
 
-        viewPager = (ViewPager) findViewById(R.id.main_viewpager);
+        mainViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         tracker.setScreenName(TAG);
@@ -174,7 +218,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             mGardenPresenter.getGardensByUser(mSession.getUser());
         }
 
-        this.viewPager.addOnPageChangeListener(this);
+        this.mainViewPager.addOnPageChangeListener(this);
+
+        initFAB();
     }
 
     @Override
@@ -184,27 +230,15 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         outState.putParcelable(GARDEN_KEY, garden);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_CREATE_PLANT_ACTIVITY && resultCode == Activity.RESULT_OK) {
-            setActiveGarden(data);
-        }
-    }
-
     /**
      * Get Garden data from Intent
      *
-     * @param intent Intent Object
+     * @param garden Object
      */
-    private void setActiveGarden(Intent intent) {
-        GardenHolder garden = intent.getParcelableExtra(GARDEN_KEY);
-        if (garden != null) {
-            int position = existGarden(garden);
-            if (position != -1) {
-                gardens.set(position, garden);
-            }
+    private void setActiveGarden(@NonNull GardenHolder garden) {
+        int position = existGarden(garden);
+        if (position != -1) {
+            gardens.set(position, garden);
         }
     }
 
@@ -337,8 +371,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         } else {
             mAdapter = new GardenViewPagerAdapter(getSupportFragmentManager(), this, null);
         }
-        viewPager.setAdapter(mAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        mainViewPager.setAdapter(mAdapter);
+        tabLayout.setupWithViewPager(mainViewPager);
     }
 
     @Override
@@ -510,10 +544,14 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Override
     public void editPlant(PlantHolder plantHolder) {
-        Intent intent = new Intent(this, CreatePlantActivity.class);
-        intent.putExtra(GARDEN_KEY, garden.getModel());
-        intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
-        startActivity(intent);
+        if (checkInternet()) {
+            Intent intent = new Intent(this, CreatePlantActivity.class);
+            intent.putExtra(GARDEN_KEY, garden.getModel());
+            intent.putExtra(CreatePlantActivity.PLANT_KEY, plantHolder.getModel());
+            startActivity(intent);
+        } else {
+            showMessageNoInternetConnection();
+        }
     }
 
     @Override
@@ -563,7 +601,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mAdapter.filterList(viewPager.getCurrentItem(), newText);
+                mAdapter.filterList(mainViewPager.getCurrentItem(), newText);
                 return true;
             }
         });
@@ -577,12 +615,68 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_CREATE_PLANT_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            GardenHolder garden = data.getParcelableExtra(GARDEN_KEY);
+            setActiveGarden(garden);
+        }
+
+        if (requestCode == IrrigationsFragment.REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK) {
+            Garden garden = data.getParcelableExtra(GARDEN_KEY);
+            GardenHolder gardenHolder = new GardenHolder();
+            gardenHolder.setModel(garden);
+            loadGarden(gardenHolder);
+        }
+    }
+
+    @Override
     public void onPageSelected(int position) {
+        fab.setVisibility(View.GONE);
+
+        switch (position) {
+            case 0:
+                initFAB();
+                break;
+            case 1:
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(v -> startIrrigationDetailActivity());
+                break;
+            case 2:
+                fab.setVisibility(View.GONE);
+                break;
+        }
+
         if (position != 0) {
             menuItem.setVisible(false);
         } else {
             menuItem.setVisible(true);
         }
+    }
+
+    private void initFAB() {
+        fab.setVisibility(View.VISIBLE);
+        fab.setOnClickListener(v ->
+                startActivityForResult(createIntentForCreatePlantActivity(),
+                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private Intent createIntentForCreatePlantActivity() {
+        Intent intent = new Intent(this, CreatePlantActivity.class);
+        intent.putExtra(MainActivity.GARDEN_KEY, garden.getModel());
+        return intent;
+    }
+
+    private void startIrrigationDetailActivity() {
+        Intent intent = new Intent(this, IrrigationDetailActivity.class);
+        intent.putExtra(MainActivity.GARDEN_KEY, garden.getModel());
+        startActivityForResult(intent, IrrigationsFragment.REQUEST_CODE_IRRIGATION_DETAIL);
     }
 
     @Override
@@ -593,16 +687,27 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Override
     public void sendEmail(String emailText, ArrayList<String> urls) {
 
-        emailProducer = new EmailProducer(this, emailText, urls);
+        ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(getString(R.string.create_email));
+        mProgressDialog.show();
 
-        if(checkInternet()) {
+        emailProducerService = new EmailProducerService(this, emailText, urls);
+        emailProducerService.getNotificationEmailObservable().subscribe(sentEmail -> {
+            if (sentEmail) {
+                mProgressDialog.hide();
+            }
+        });
+
+        if (checkInternet()) {
+            this.progressBar.setVisibility(View.VISIBLE);
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkPermission();
             } else {
-                emailProducer.createAttachmentAndSendEmail();
+                emailProducerService.createAttachmentAndSendEmail();
             }
         } else {
-            Toast.makeText(this, getString(R.string.there_is_not_internet_connection), Toast.LENGTH_SHORT).show();
+            showMessageNoInternetConnection();
         }
     }
 
@@ -621,10 +726,10 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 || writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_CODE_ASK_PERMISSIONS);
         } else {
-            emailProducer.createAttachmentAndSendEmail();
+            emailProducerService.createAttachmentAndSendEmail();
         }
     }
 
@@ -637,7 +742,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    emailProducer.createAttachmentAndSendEmail();
+                    emailProducerService.createAttachmentAndSendEmail();
                 } else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
                 }

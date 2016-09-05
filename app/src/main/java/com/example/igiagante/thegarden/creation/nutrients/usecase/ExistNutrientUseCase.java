@@ -3,11 +3,9 @@ package com.example.igiagante.thegarden.creation.nutrients.usecase;
 import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.NutrientRepositoryManager;
-import com.example.igiagante.thegarden.core.repository.managers.PlantRepositoryManager;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public class ExistNutrientUseCase extends UseCase<String> {
 
         List<Boolean> list = new ArrayList<>();
         nutrientObservable.subscribe(nutrient -> {
-            if(nutrient != null) {
+            if (nutrient != null) {
                 list.add(Boolean.TRUE);
             } else {
                 list.add(Boolean.FALSE);

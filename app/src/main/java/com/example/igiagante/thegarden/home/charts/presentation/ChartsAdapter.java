@@ -42,7 +42,7 @@ public class ChartsAdapter extends RecyclerView.Adapter<ChartsAdapter.ChartViewH
     public ChartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.chart_view, parent, false);
 
-        if(viewType == 1) {
+        if (viewType == 1) {
             return new ChartViewHolder(view, false);
         } else {
             return new ChartViewHolder(view, true);

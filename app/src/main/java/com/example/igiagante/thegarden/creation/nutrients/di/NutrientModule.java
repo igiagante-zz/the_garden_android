@@ -6,7 +6,6 @@ import com.example.igiagante.thegarden.creation.nutrients.usecase.DeleteNutrient
 import com.example.igiagante.thegarden.creation.nutrients.usecase.ExistNutrientUseCase;
 import com.example.igiagante.thegarden.creation.nutrients.usecase.GetNutrientsUseCase;
 import com.example.igiagante.thegarden.creation.nutrients.usecase.SaveNutrientUseCase;
-import com.example.igiagante.thegarden.creation.plants.usecase.ExistPlantUseCase;
 
 import javax.inject.Named;
 

@@ -2,9 +2,7 @@ package com.example.igiagante.thegarden.home.plants.presentation;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
-import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantActivity;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.gardens.presentation.GardenFragment;
@@ -55,9 +52,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
     @Bind(R.id.progress_bar_plants)
     ProgressBar progressBar;
 
-    @Bind(R.id.plants_add_new_plant_id)
-    FloatingActionButton fab;
-
     @Bind(R.id.create_one_garden_first_plants)
     TextView createOneGarden;
 
@@ -85,12 +79,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
         final View fragmentView = inflater.inflate(R.layout.plant_list_fragment, container, false);
         ButterKnife.bind(this, fragmentView);
 
-        // disable fab unless there is an active garden
-        fab.setEnabled(false);
-        fab.setOnClickListener(view ->
-                startActivityForResult(createIntentForCreatePlantActivity(),
-                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
-
         Bundle args = getArguments();
         if (args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
@@ -101,7 +89,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
 
         if (savedInstanceState != null) {
             mPlants = savedInstanceState.getParcelableArrayList(PLANTS_KEY);
-            fab.setEnabled(true);
         }
 
         plantsAdapter = new PlantsAdapter(getContext(), (PlantsAdapter.OnSendEmail) getActivity());
@@ -118,11 +105,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
         return fragmentView;
     }
 
-    private Intent createIntentForCreatePlantActivity() {
-        Intent intent = new Intent(getActivity(), CreatePlantActivity.class);
-        intent.putExtra(MainActivity.GARDEN_KEY, garden);
-        return intent;
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -189,7 +171,6 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
         this.mPlants = (ArrayList<Plant>) garden.getPlants();
         this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
         this.progressBar.setVisibility(View.GONE);
-        this.fab.setEnabled(true);
         this.createOneGarden.setVisibility(View.INVISIBLE);
     }
 

@@ -18,7 +18,9 @@ public class GardenFragment extends BaseFragment {
         this.garden = garden;
     }
 
-    public void createOneGardenFirst() {}
+    public void createOneGardenFirst() {
+    }
 
-    public void filterList(String query) {}
+    public void filterList(String query) {
+    }
 }

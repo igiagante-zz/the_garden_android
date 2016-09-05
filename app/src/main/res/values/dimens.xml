@@ -42,6 +42,21 @@
     <dimen name="margin_top">60dp</dimen>
     <dimen name="margin_left">10dp</dimen>
 
+    <!-- Login -->
+
+    <dimen name="login_padding_top">56dp</dimen>
+    <dimen name="login_padding_left">24dp</dimen>
+    <dimen name="login_padding_right">24dp</dimen>
+
+    <dimen name="login_padding_logo_width">210dp</dimen>
+    <dimen name="login_padding_logo_height">120dp</dimen>
+    <dimen name="login_padding_logo_margin_bottom">24dp</dimen>
+
+    <dimen name="login_input_margin">8dp</dimen>
+    <dimen name="login_button_margin">24dp</dimen>
+
+    <dimen name="login_signup_text_size">16sp</dimen>
+
     <!-- Plants -->
     <dimen name="card_plant_elevation">4dp</dimen>
     <dimen name="card_plant_corner_radius">5dp</dimen>
@@ -53,7 +68,7 @@
     <dimen name="edit_plant_button_size">20dp</dimen>
     <dimen name="edit_plant_button_margin">15dp</dimen>
     <dimen name="share_plant_button_width">10dp</dimen>
-    <dimen name="share_plant_button_height">30dp</dimen>
+    <dimen name="share_plant_button_height">35dp</dimen>
     <dimen name="share_plant_button_margin_top">10dp</dimen>
     <dimen name="share_plant_button_margin_end">20dp</dimen>
     <dimen name="share_plant_button_margin_bottom">16dp</dimen>
@@ -85,6 +100,8 @@
     <dimen name="view_pager_margin_top">130dp</dimen>
 
     <dimen name="carousel_circle_indicator_margin_bottom">30dp</dimen>
+    <dimen name="carousel_cardview_margin">10dp</dimen>
+    <dimen name="carousel_cardview_padding">10dp</dimen>
 
     <!-- flavors -->
     <dimen name="flavor_image_width">120dp</dimen>
@@ -127,7 +144,7 @@
     <dimen name="description_how_many_plants_margin">15dp</dimen>
     <dimen name="description_how_many_plants_counter_margin_bottom">20dp</dimen>
 
-    <dimen name="description_layout_buttons_margin">20dp</dimen>
+    <dimen name="description_layout_buttons_margin">30dp</dimen>
     <dimen name="description_button_save_margin_end">25dp</dimen>
     <dimen name="description_button_width">100dp</dimen>
     <dimen name="description_button_height">45dp</dimen>
@@ -139,7 +156,9 @@
     <dimen name="edit_plant_button_margin_end">10dp</dimen>
 
     <!-- SHOW PLANT -->
+    <dimen name="plague_view_margin_top">10dp</dimen>
     <dimen name="plague_view_ph_image_size">50dp</dimen>
+    <dimen name="plague_view_ph_margin_top">7dp</dimen>
     <dimen name="plague_view_text_size">22sp</dimen>
 
     <dimen name="plague_view_ec_image_size">35dp</dimen>
@@ -163,6 +182,7 @@
     <dimen name="show_plant_card_view_height">300dp</dimen>
 
     <dimen name="show_plant_image_carousel_width">300dp</dimen>
+    <dimen name="show_plant_image_carousel_margin_top">90dp</dimen>
 
     <dimen name="show_plant_chart_width">340dp</dimen>
     <dimen name="show_plant_chart_height">300dp</dimen>
@@ -257,6 +277,14 @@
     <dimen name="margin_text_view_land">0dp</dimen>
     <dimen name="margin_end_genotype_land">50dp</dimen>
     <dimen name="margin_end_ph_soil_land">30dp</dimen>
+
+    <!-- land - show plant -->
+    <dimen name="show_plant_card_view_width_land">450dp</dimen>
+    <dimen name="show_plant_card_view_height_land">300dp</dimen>
+
+    <!-- land - carousel -->
+    <dimen name="carousel_cardview_margin_land">20dp</dimen>
+    <dimen name="carousel_cardview_margin_start_land">60dp</dimen>
 
     <!-- land - grid card info plant -->
     <dimen name="plant_data_text_size_land">24sp</dimen>

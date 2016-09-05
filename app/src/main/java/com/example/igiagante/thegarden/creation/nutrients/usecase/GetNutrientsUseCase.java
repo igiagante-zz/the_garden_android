@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.NutrientRepositoryManager;
-import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.nutrient.NutrientsByUserIdSpecification;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 

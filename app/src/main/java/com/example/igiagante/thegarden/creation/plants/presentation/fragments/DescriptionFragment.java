@@ -74,7 +74,7 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mPlagues = savedInstanceState.getParcelableArrayList(PLAGUES_KEY);
             mPlantDescription = savedInstanceState.getString(PLANT_DESCRIPTION_KEY);
         }
@@ -112,7 +112,7 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
 
         cancelButton.setOnClickListener(v -> {
             String type;
-            if(updatingPlant) {
+            if (updatingPlant) {
                 type = getString(R.string.cancel_button_dialog_content, getString(R.string.cancel_button_edition));
             } else {
                 type = getString(R.string.cancel_button_dialog_content, getString(R.string.cancel_button_creation));
@@ -136,12 +136,14 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         this.mPlaguePresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.mPlaguePresenter.destroy();
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         mPlaguesRecycleView.setAdapter(null);
         ButterKnife.unbind(this);
@@ -152,7 +154,7 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         this.mPlagues = (ArrayList<PlagueHolder>) plagues;
 
         // ask to the activity if it has a plant for edition
-        if(mPlant != null) {
+        if (mPlant != null) {
             createAttributesHolderSelectedList();
             descriptionTextArea.setText(mPlant.getDescription());
         }
@@ -165,10 +167,10 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
      */
     private void createAttributesHolderSelectedList() {
 
-        if(mPlagues != null) {
+        if (mPlagues != null) {
             for (Plague plague : mPlant.getPlagues()) {
-                for ( PlagueHolder plagueHolder : mPlagues) {
-                    if(plague.getName().equals(plagueHolder.getPlagueName())) {
+                for (PlagueHolder plagueHolder : mPlagues) {
+                    if (plague.getName().equals(plagueHolder.getPlagueName())) {
                         plagueHolder.setSelected(true);
                     }
                 }
@@ -188,7 +190,7 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
         super.onAttach(context);
 
         try {
-            onSavePlantListener = (CreatePlantActivity)context;
+            onSavePlantListener = (CreatePlantActivity) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnSavePlantListener");
@@ -202,7 +204,7 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
 
     @Override
     protected void move() {
-        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
         builder.addPlagues(createPlaguesSelectedList());
         builder.addDescription(descriptionTextArea.getText().toString());
     }
@@ -211,9 +213,9 @@ public class DescriptionFragment extends CreationBaseFragment implements PlagueV
 
         ArrayList<Plague> plagues = new ArrayList<>();
 
-        if(mAdapter.getPlagues() != null) {
+        if (mAdapter.getPlagues() != null) {
             for (PlagueHolder holder : mAdapter.getPlagues()) {
-                if(holder.isSelected()) {
+                if (holder.isSelected()) {
                     Plague plague = holder.getModel();
                     plague.setImageUrl(holder.getImagePath());
                     plagues.add(plague);

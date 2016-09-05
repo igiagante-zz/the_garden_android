@@ -11,7 +11,6 @@ import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.UserRealmToUser;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.UserToUserRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.UserRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByNameSpecification;
@@ -80,7 +79,7 @@ public class UserRealmRepository implements Repository<User> {
 
         UserRealm userRealm = realm.where(UserRealm.class).equalTo(Table.ID, user.getId()).findFirst();
 
-        if(userRealm != null) {
+        if (userRealm != null) {
             realm.executeTransaction(realmParam -> {
                 toUserRealm.copy(user, userRealm);
             });

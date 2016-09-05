@@ -11,10 +11,7 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeRealmToAttribute;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.AttributeToAttributeRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.attribute.AttributeByIdSpecification;
 
 import java.util.ArrayList;

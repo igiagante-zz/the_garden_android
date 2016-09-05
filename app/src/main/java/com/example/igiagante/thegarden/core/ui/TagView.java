@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -158,6 +156,7 @@ public class TagView extends LinearLayout {
 
     /**
      * The view should provide an id in order to get called automatically
+     *
      * @return Parcelable
      */
     @Override

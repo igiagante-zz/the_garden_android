@@ -3,7 +3,6 @@ package com.example.igiagante.thegarden.home.irrigations.presentation.holders;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.DataHolder;
 
@@ -43,7 +42,7 @@ public class NutrientHolder extends DataHolder<Nutrient> {
         selected = in.readInt() == 1;
     }
 
-    public String getName(){
+    public String getName() {
         return getModel().getName();
     }
 
@@ -59,7 +58,7 @@ public class NutrientHolder extends DataHolder<Nutrient> {
         this.selected = selected;
     }
 
-    public void setQuantity(float quantity){
+    public void setQuantity(float quantity) {
         getModel().setQuantityUsed(quantity);
     }
 }

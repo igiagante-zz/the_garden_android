@@ -12,7 +12,7 @@
         android:layout_width="330dp"
         android:layout_height="400dp"
         fresco:fadeDuration="300"
-        fresco:placeholderImage="@drawable/no_image"
+        fresco:placeholderImage="@drawable/ic_no_image"
         android:scaleType="center"
         android:layout_gravity="center"
         android:contentDescription="@string/text_image_slider"/>

@@ -3,7 +3,6 @@ package com.example.igiagante.thegarden.home.gardens.presentation.view;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.SensorTemp;
 import com.example.igiagante.thegarden.core.domain.entity.User;
-import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 import com.example.igiagante.thegarden.core.presentation.mvp.LoadDataView;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 
@@ -21,6 +20,7 @@ public interface GardenView extends LoadDataView {
 
     /**
      * Load the data from garden's model
+     *
      * @param gardenHolder Garden Object
      */
     void loadGarden(GardenHolder gardenHolder);

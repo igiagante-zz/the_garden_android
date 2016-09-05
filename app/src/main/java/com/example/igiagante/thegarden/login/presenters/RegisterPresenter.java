@@ -36,21 +36,24 @@ public class RegisterPresenter extends AbstractPresenter<RegisterView> {
         this.registerUserUseCase.execute(user, new RegisterUserSubscriber());
     }
 
-    private void notifyUserRegistration(String result){
+    private void notifyUserRegistration(String result) {
         getView().notifyUserRegistration(result);
     }
 
     private final class RegisterUserSubscriber extends DefaultSubscriber<String> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
 
-        @Override public void onNext(String result) {
+        @Override
+        public void onNext(String result) {
             RegisterPresenter.this.notifyUserRegistration(result);
         }
     }

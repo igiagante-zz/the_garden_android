@@ -21,7 +21,7 @@ import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.Gard
  */
 public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    SparseArray<Fragment> registeredFragments = new SparseArray<>(3);
+    private SparseArray<Fragment> registeredFragments = new SparseArray<>(3);
 
     private String[] titles = {};
 
@@ -61,6 +61,11 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
         super.destroyItem(container, position, object);
     }
 
+    /**
+     * Set values garden in each pager from the {@link com.example.igiagante.thegarden.home.MainActivity#mainViewPager}
+     *
+     * @param gardenHolder ViewHolder
+     */
     public void setGardenHolder(@NonNull GardenHolder gardenHolder) {
 
         this.garden = gardenHolder.getModel();
@@ -72,6 +77,9 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+    /**
+     * If there is any garden created, it should show a message. e.g. Create one garden to start.
+     */
     public void createFirstGardenMessage() {
         for (int i = 0; i < registeredFragments.size(); i++) {
             ((GardenFragment) registeredFragments.get(i)).createOneGardenFirst();

@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.User;
-import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.network.HttpStatus;
 import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository;
@@ -16,7 +15,6 @@ import java.io.IOException;
 
 import retrofit2.Response;
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 2/8/16.

@@ -3,13 +3,10 @@ package com.example.igiagante.thegarden.home.irrigations.presentation.presenters
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
-import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.home.irrigations.presentation.view.IrrigationView;
-
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -49,15 +46,18 @@ public class IrrigationPresenter extends AbstractPresenter<IrrigationView> {
 
     private final class DeleteIrrigationSubscriber extends DefaultSubscriber<Integer> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
             //PlantListPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(Integer result) {
+        @Override
+        public void onNext(Integer result) {
             IrrigationPresenter.this.notifyIfIrrigationWasDeleted(result);
         }
     }

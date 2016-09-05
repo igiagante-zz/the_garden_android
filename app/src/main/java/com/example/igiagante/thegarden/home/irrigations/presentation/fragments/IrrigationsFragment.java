@@ -1,25 +1,22 @@
 package com.example.igiagante.thegarden.home.irrigations.presentation.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
-import com.example.igiagante.thegarden.core.presentation.BaseFragment;
-import com.example.igiagante.thegarden.creation.nutrients.presentation.NutrientDetailActivity;
 import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.di.MainComponent;
 import com.example.igiagante.thegarden.home.gardens.presentation.GardenFragment;
@@ -27,11 +24,9 @@ import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity
 import com.example.igiagante.thegarden.home.irrigations.presentation.adapters.IrrigationsAdapter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.presenters.IrrigationPresenter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.view.IrrigationView;
-import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -47,8 +42,6 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
 
     public static final int REQUEST_CODE_IRRIGATION_DETAIL = 334;
 
-    public static final String GARDEN_ID_KEY = "GARDEN_ID";
-
     @Inject
     IrrigationPresenter irrigationPresenter;
 
@@ -59,9 +52,6 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
 
     @Bind(R.id.irrigations_recycle_view_id)
     RecyclerView recyclerViewIrrigations;
-
-    @Bind(R.id.irrigations_add_new_irrigation_id)
-    FloatingActionButton buttonAddNutrient;
 
     @Bind(R.id.create_one_garden_first_irrigations)
     TextView createOneGarden;
@@ -98,18 +88,13 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.recyclerViewIrrigations.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewIrrigations.setAdapter(irrigationsAdapter);
 
-        // disable fab unless there is an active garden
-        buttonAddNutrient.setEnabled(false);
-        buttonAddNutrient.setOnClickListener(v -> startIrrigationDetailActivity(null));
-
         Bundle args = getArguments();
-        if(args != null) {
+        if (args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
-            if(garden != null) {
+            if (garden != null) {
                 mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
                 irrigationsAdapter.setIrrigations(mIrrigations);
                 mProgressBar.setVisibility(View.GONE);
-                buttonAddNutrient.setEnabled(true);
             }
         }
 
@@ -121,7 +106,6 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.garden = garden;
         this.mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
         this.irrigationsAdapter.setIrrigations(this.mIrrigations);
-        buttonAddNutrient.setEnabled(true);
     }
 
     @Override
@@ -129,9 +113,13 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.createOneGarden.setVisibility(View.VISIBLE);
     }
 
-    private void startIrrigationDetailActivity(Irrigation irrigation) {
+    public void addIrrigation(@NonNull Irrigation irrigation) {
+        this.irrigationsAdapter.addIrrigation(irrigation);
+    }
+
+    private void startIrrigationDetailActivity(@Nullable Irrigation irrigation) {
         Intent intent = new Intent(getContext(), IrrigationDetailActivity.class);
-        intent.putExtra(GARDEN_ID_KEY, garden.getId());
+        intent.putExtra(MainActivity.GARDEN_KEY, garden);
         intent.putExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY, irrigation);
         IrrigationsFragment.this.startActivityForResult(intent, REQUEST_CODE_IRRIGATION_DETAIL);
     }
@@ -163,29 +151,19 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK){
-            Irrigation irrigation = data.getParcelableExtra(IrrigationDetailFragment.IRRIGATION_DETAIL_KEY);
-            if(irrigation != null){
-                this.irrigationsAdapter.addIrrigation(irrigation);
-            }
-        }
-    }
-
-    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.irrigationPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.irrigationPresenter.destroy();
     }

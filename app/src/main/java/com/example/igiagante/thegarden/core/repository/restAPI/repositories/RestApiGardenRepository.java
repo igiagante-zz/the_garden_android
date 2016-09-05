@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -51,11 +52,12 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
         return addOrUpdate(garden, true);
     }
 
+    @NonNull
     private Observable addOrUpdate(Garden garden, boolean update) {
 
         Observable<Garden> apiResult;
 
-        if(update) {
+        if (update) {
             apiResult = api.updateGarden(garden.getId(), garden).asObservable();
         } else {
             apiResult = api.createGarden(garden).asObservable();

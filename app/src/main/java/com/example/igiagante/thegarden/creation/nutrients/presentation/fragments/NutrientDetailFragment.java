@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.core.presentation.ValidationMessage;
 import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
 import com.example.igiagante.thegarden.creation.nutrients.di.NutrientComponent;
 import com.example.igiagante.thegarden.creation.nutrients.presentation.presenters.NutrientDetailPresenter;
@@ -126,7 +127,8 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
         this.nutrientDetailPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.nutrientDetailPresenter.destroy();
     }
@@ -139,24 +141,26 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        // Do Nothing
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if(!TextUtils.isEmpty(s.toString())) {
+        if (!TextUtils.isEmpty(s.toString())) {
             nutrientDetailPresenter.existNutrient(s.toString().trim());
+        } else {
+            mOnButtonAvailable.activeButton(false);
         }
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-
+        // Do Nothing
     }
 
     @Override
     public void notifyIfNutrientExist(boolean exist) {
-        if(exist) {
+        if (exist) {
             nameOfNutrient.setError(getString(R.string.name_of_the_nutrient_already_exist));
             mOnButtonAvailable.activeButton(false);
         } else {
@@ -187,12 +191,18 @@ public class NutrientDetailFragment extends BaseFragment implements NutrientDeta
     }
 
     public Nutrient getNutrient() {
-        saveNutrientData();
+        String nutrientName = nameOfNutrient.getText().toString();
+        if (TextUtils.isEmpty(nutrientName)) {
+            String msg = getString(R.string.name_of_the_nutrient_is_empty);
+            setValidationMessage(new ValidationMessage(msg, true));
+        } else {
+            saveNutrientData();
+        }
         return mNutrient;
     }
 
     private void saveNutrientData() {
-        if(this.mNutrient == null) {
+        if (this.mNutrient == null) {
             this.mNutrient = new Nutrient();
         }
         mNutrient.setName(nameOfNutrient.getText().toString().trim());

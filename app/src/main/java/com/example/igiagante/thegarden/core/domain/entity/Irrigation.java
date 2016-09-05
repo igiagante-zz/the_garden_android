@@ -12,7 +12,8 @@ import java.util.Date;
  */
 public class Irrigation implements Parcelable {
 
-    public Irrigation() {}
+    public Irrigation() {
+    }
 
     @SerializedName("id")
     private String id;

@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class PlantFlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
     private final LayoutInflater layoutInflater;
 
     /**
@@ -27,7 +26,6 @@ public class PlantFlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<Flavor> flavors;
 
     public PlantFlavorAdapter(Context context) {
-        this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

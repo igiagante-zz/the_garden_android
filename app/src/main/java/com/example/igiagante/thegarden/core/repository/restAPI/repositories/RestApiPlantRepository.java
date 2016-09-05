@@ -140,7 +140,7 @@ public class RestApiPlantRepository extends BaseRestApiRepository<Plant> impleme
 
         for (Image image : plant.getImages()) {
             File file = image.getFile();
-            if(file != null) {
+            if (file != null) {
                 files.add(file);
             }
         }

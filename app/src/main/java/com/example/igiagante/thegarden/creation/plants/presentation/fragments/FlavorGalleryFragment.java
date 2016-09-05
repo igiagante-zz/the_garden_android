@@ -54,7 +54,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mFlavors = savedInstanceState.getParcelableArrayList(FLAVORS_KEY);
         }
     }
@@ -71,7 +71,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         mFlavorsRecycleView.setHasFixedSize(true);
 
         GridLayoutManager manager;
-        if(isLandScape()) {
+        if (isLandScape()) {
             manager = new GridLayoutManager(getActivity(), 4);
         } else {
             manager = new GridLayoutManager(getActivity(), 3);
@@ -83,7 +83,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         mAdapter.setFlavors(mFlavors);
         mFlavorsRecycleView.setAdapter(mAdapter);
 
-        if(mFlavors.isEmpty()) {
+        if (mFlavors.isEmpty()) {
             // Get Flavor List
             mFlavorGalleryPresenter.getFlavors();
         }
@@ -97,12 +97,14 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         this.mFlavorGalleryPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.mFlavorGalleryPresenter.destroy();
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         mFlavorsRecycleView.setAdapter(null);
         ButterKnife.unbind(this);
@@ -126,7 +128,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
 
     @Override
     public void addFlavor(int flavorPosition) {
-        if(mFlavors.get(flavorPosition).isSelected()) {
+        if (mFlavors.get(flavorPosition).isSelected()) {
             mFlavors.get(flavorPosition).setSelected(false);
         } else {
             mFlavors.get(flavorPosition).setSelected(true);
@@ -138,7 +140,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         this.mFlavors = (ArrayList<FlavorHolder>) flavors;
 
         // ask to the activity if it has a plant for edition and filter the flavor list
-        if(mPlant != null) {
+        if (mPlant != null) {
             selectFlavorsFromPlant();
         }
 
@@ -147,7 +149,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
 
     @Override
     protected void move() {
-        Plant.PlantBuilder builder = ((CreatePlantActivity)getActivity()).getPlantBuilder();
+        Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
         builder.addFlavors(createFlavorsSelectedList());
     }
 
@@ -156,7 +158,7 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         ArrayList<Flavor> flavors = new ArrayList<>();
 
         for (FlavorHolder holder : mFlavors) {
-            if(holder.isSelected()) {
+            if (holder.isSelected()) {
                 Flavor flavor = holder.getModel();
                 // TODO - refactor this after project has been approved
                 flavor.setId(flavor.getMongoId());
@@ -170,10 +172,10 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
 
     private void selectFlavorsFromPlant() {
 
-        if(mFlavors != null) {
+        if (mFlavors != null) {
             for (Flavor flavor : mPlant.getFlavors()) {
-                for ( FlavorHolder flavorHolder : mFlavors) {
-                    if(flavor.getName().equals(flavorHolder.getName())) {
+                for (FlavorHolder flavorHolder : mFlavors) {
+                    if (flavor.getName().equals(flavorHolder.getName())) {
                         flavorHolder.setSelected(true);
                     }
                 }

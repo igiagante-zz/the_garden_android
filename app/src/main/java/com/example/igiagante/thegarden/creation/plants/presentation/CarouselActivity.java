@@ -28,7 +28,8 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
     private ArrayList<String> urls;
     private CarouselAdapter mAdapter;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.carousel_activity);
 
@@ -36,7 +37,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
         int position = intent.getIntExtra(PICTURE_SELECTED_KEY, 0);
         ArrayList<Image> images = intent.getParcelableArrayListExtra(PhotoGalleryFragment.IMAGES_KEY);
 
-        if(images != null) {
+        if (images != null) {
             urls = getImagesFilesPaths(images);
         }
 
@@ -84,7 +85,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
         ArrayList<Image> images = new ArrayList<>();
 
-        for(int i = 0; i < urls.size(); i++) {
+        for (int i = 0; i < urls.size(); i++) {
             Image image = new Image();
             image.setUrl(urls.get(i));
             images.add(image);
@@ -95,6 +96,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
     /**
      * Get all the images path from the parcelable image list.
+     *
      * @param images Images
      * @return paths images folder path
      */
@@ -102,7 +104,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
 
         ArrayList<String> paths = new ArrayList<>();
 
-        for(int i = 0; i < images.size(); i++) {
+        for (int i = 0; i < images.size(); i++) {
             paths.add(images.get(i).getUrl());
         }
 

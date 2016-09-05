@@ -4,13 +4,13 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
+import com.example.igiagante.thegarden.creation.plants.presentation.CreatePlantViewPager;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.AttributesFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.CreationBaseFragment;
 import com.example.igiagante.thegarden.creation.plants.presentation.fragments.DescriptionFragment;
@@ -20,22 +20,27 @@ import com.example.igiagante.thegarden.creation.plants.presentation.fragments.Ph
 
 /**
  * Adapter that provides the fragments for the view pager
- *
+ * <p>
  * {@link com.example.igiagante.thegarden.creation.plants.presentation.CarouselActivity#mPager}
  *
  * @author Ignacio Giagante, on 11/5/16.
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    SparseArray<Fragment> registeredFragments = new SparseArray<>(5);
+    private static final int NUMBER_OF_PAGES = 5;
 
-    private ViewPager mViewPager;
+    private SparseArray<Fragment> registeredFragments = new SparseArray<>(NUMBER_OF_PAGES);
 
-    private String [] titles = {};
+    private CreatePlantViewPager mViewPager;
 
-    public ViewPagerAdapter(FragmentManager manager, Context context, ViewPager viewPager) {
+    private String[] titles = {};
+
+    private Context mContext;
+
+    public ViewPagerAdapter(FragmentManager manager, Context context, CreatePlantViewPager viewPager) {
         super(manager);
-        titles = context.getResources().getStringArray(R.array.view_pager_fragment_title);
+        this.mContext = context;
+        this.titles = context.getResources().getStringArray(R.array.view_pager_fragment_title);
         this.mViewPager = viewPager;
     }
 
@@ -53,7 +58,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return NUMBER_OF_PAGES;
     }
 
     @Override
@@ -73,6 +78,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     /**
      * Depend on the position at the view pager, it will ask for an specific fragment instance
+     *
      * @param position pager's position
      * @return fragment
      */
@@ -101,10 +107,31 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 break;
         }
 
-        mViewPager.addOnPageChangeListener((CreationBaseFragment)fragment);
+        ((CreationBaseFragment) fragment)
+                .getValidationMessageObservable().subscribe(validationMessage -> {
+            if (validationMessage.getError()) {
+                mViewPager.setPagingEnabled(false);
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+                Toast.makeText(mContext, validationMessage.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                mViewPager.setPagingEnabled(true);
+            }
+        });
+
+        ((CreationBaseFragment) fragment)
+                .getEnableViewPagerObservable().subscribe(enable -> {
+            if (enable) {
+                mViewPager.setPagingEnabled(true);
+            } else {
+                Toast.makeText(mContext, " Some fields are empty ", Toast.LENGTH_SHORT).show();
+                mViewPager.setPagingEnabled(false);
+            }
+        });
+
+        mViewPager.addOnPageChangeListener((CreationBaseFragment) fragment);
 
         //set title
-        ((BaseFragment)fragment).setTitle(getTitleByPosition(position));
+        ((BaseFragment) fragment).setTitle(getTitleByPosition(position));
 
         return fragment;
     }
