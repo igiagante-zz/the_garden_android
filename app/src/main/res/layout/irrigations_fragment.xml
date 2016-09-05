@@ -3,6 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/create_one_garden_first_irrigations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_one_garden"
+            android:textSize="@dimen/text_create_one_garden"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:gravity="center"/>
+
         <ProgressBar
             android:id="@+id/irrigation_list_progress_bar"
             android:layout_width="wrap_content"
@@ -15,17 +25,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/irrigations_add_new_irrigation_id"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:src="@drawable/ic_add"
-            android:layout_marginBottom="110dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            />
 
 </RelativeLayout>

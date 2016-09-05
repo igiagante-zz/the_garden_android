@@ -26,10 +26,10 @@ import com.example.igiagante.thegarden.creation.plants.presentation.fragments.De
 import com.example.igiagante.thegarden.creation.plants.presentation.presenters.SavePlantPresenter;
 import com.example.igiagante.thegarden.creation.plants.presentation.views.SavePlantView;
 import com.example.igiagante.thegarden.home.MainActivity;
-import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.google.android.gms.analytics.HitBuilders;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -66,7 +66,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     /**
      * Where the plant belongs to
      */
-    private GardenHolder mGarden;
+    private Garden mGarden;
 
     /**
      * Model to keep all the data related to the plant
@@ -89,7 +89,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
      */
-    private ViewPager mPager;
+    private CreatePlantViewPager createPlantViewPager;
 
     @Bind(R.id.edit_plant_button_back)
     Button mButtonBack;
@@ -119,8 +119,8 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
         // get garden info
         mGarden = getIntent().getParcelableExtra(MainActivity.GARDEN_KEY);
-        if(mGarden != null) {
-            plantBuilder.addGardenId(mGarden.getGardenId());
+        if (mGarden != null) {
+            plantBuilder.addGardenId(mGarden.getId());
         }
 
         // set view for this presenter
@@ -136,15 +136,15 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
             currentPage = savedInstanceState.getInt(CURRENT_PAGE_KEY);
         }
 
-        mPager = (ViewPager) findViewById(R.id.viewpager_create_plant);
-        setupViewPager(mPager);
+        createPlantViewPager = (CreatePlantViewPager) findViewById(R.id.viewpager_create_plant);
+        setupViewPager(createPlantViewPager);
 
         mToolbar = (Toolbar) findViewById(R.id.create_plant_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        setToolbarTitle(mPager.getAdapter().getPageTitle(0).toString());
+        setToolbarTitle(createPlantViewPager.getAdapter().getPageTitle(0).toString());
 
-        if(mPlant != null) {
+        if (mPlant != null) {
             mButtonBack.setVisibility(View.VISIBLE);
             mButtonSave.setVisibility(View.VISIBLE);
             mButtonBack.setOnClickListener(v -> finish());
@@ -168,9 +168,9 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      *
      * @param viewPager view pager
      */
-    private void setupViewPager(ViewPager viewPager) {
-        mPager.setOffscreenPageLimit(NUMBER_OF_PAGES);
-        mPager.setCurrentItem(currentPage);
+    private void setupViewPager(CreatePlantViewPager viewPager) {
+        createPlantViewPager.setOffscreenPageLimit(NUMBER_OF_PAGES);
+        createPlantViewPager.setCurrentItem(currentPage);
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, viewPager);
         viewPager.setAdapter(mViewPagerAdapter);
         viewPager.addOnPageChangeListener(this);
@@ -178,12 +178,12 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     /**
      * If the user is editing a plant, it doesn't matter where the user is standing at the wizard.
-     * After the user click the button save, it needs to walk through the fragments and verifies if
+     * After the user click the save button, it needs to walk through the fragments and verifies if
      * some data has been modified.
      */
     private void updateBuilder() {
         for (int i = 0; i < mViewPagerAdapter.getCount(); i++) {
-            ((CreationBaseFragment)mViewPagerAdapter.getRegisteredFragment(i)).updateBuilder();
+            ((CreationBaseFragment) mViewPagerAdapter.getRegisteredFragment(i)).updateBuilder();
         }
     }
 
@@ -195,13 +195,13 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
+        if (createPlantViewPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+            createPlantViewPager.setCurrentItem(createPlantViewPager.getCurrentItem() - 1);
         }
     }
 
@@ -212,7 +212,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int position) {
-        setToolbarTitle(mPager.getAdapter().getPageTitle(position).toString());
+        setToolbarTitle(createPlantViewPager.getAdapter().getPageTitle(position).toString());
         if (position < currentPage) {
             moveToPreviousPage();
         }
@@ -243,7 +243,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     private void moveToPreviousPage() {
         if (currentPage > 0) {
             currentPage -= 1;
-            mPager.setCurrentItem(currentPage);
+            createPlantViewPager.setCurrentItem(currentPage);
         }
     }
 
@@ -253,7 +253,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     private void moveToNextPage() {
         if (currentPage < NUMBER_OF_PAGES) {
             currentPage += 1;
-            mPager.setCurrentItem(currentPage);
+            createPlantViewPager.setCurrentItem(currentPage);
         }
     }
 
@@ -265,13 +265,32 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
     @Override
     public void onSavePlant() {
         Plant plant = plantBuilder.build();
-        this.mSavePlantPresenter.savePlant(plant);
+        plant.setGardenId(mGarden.getId());
+        if (checkInternet()) {
+            this.mSavePlantPresenter.savePlant(plant);
+        } else {
+            showMessageNoInternetConnection();
+        }
     }
 
     public void notifyIfPlantWasPersistedOrUpdated(Plant plant) {
         //update garden model
-        this.mGarden.getModel().getPlants().add(plant);
-        this.mSavePlantPresenter.updateGarden(mGarden.getModel());
+        List<Plant> plants = this.mGarden.getPlants();
+
+        boolean plantUpdated = false;
+
+        for (int i = 0; i < plants.size(); i++) {
+            if (plants.get(i).getId().equals(plant.getId())) {
+                plants.set(i, plant);
+                plantUpdated = true;
+            }
+        }
+
+        if (!plantUpdated) {
+            plants.add(plant);
+        }
+
+        this.mSavePlantPresenter.updateGarden(mGarden);
     }
 
     @Override

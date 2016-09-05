@@ -1,7 +1,6 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.igiagante.thegarden.R;
-import com.example.igiagante.thegarden.core.ui.RecyclerViewItemClickListener;
 import com.example.igiagante.thegarden.core.ui.TagView;
 import com.example.igiagante.thegarden.creation.plants.presentation.dataHolders.AttributeHolder;
 
@@ -34,7 +32,7 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
      */
     private ArrayList<AttributeHolder> attributeHolders = new ArrayList<>();
 
-    public interface TagActionListener{
+    public interface TagActionListener {
         void onTagClicked(AttributeHolder attributeHolder);
     }
 
@@ -48,7 +46,7 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        return attributeHolders.get(position).isSelected() ? 1 : 0 ;
+        return attributeHolders.get(position).isSelected() ? 1 : 0;
     }
 
     @Override
@@ -56,7 +54,7 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
 
         View view;
 
-        if(viewType == 0) {
+        if (viewType == 0) {
             view = layoutInflater.inflate(R.layout.attributes_button_tag, parent, false);
             return new AttributeAvailableViewHolder(view);
         } else {
@@ -70,7 +68,7 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
 
         AttributeHolder attributeHolder = attributeHolders.get(position);
 
-        if(holder instanceof AttributeAvailableViewHolder) {
+        if (holder instanceof AttributeAvailableViewHolder) {
             Button tag = ((AttributeAvailableViewHolder) holder).tag;
             tag.setText(attributeHolder.getTagName());
             setTypeOfAttributeBackground(attributeHolder, tag);
@@ -92,8 +90,9 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
 
     /**
      * Depend on the type of the attribute, the button will have an specific color border
+     *
      * @param holder attribute holder that has a reference to the attribute model
-     * @param tag button tag
+     * @param tag    button tag
      */
     private void setTypeOfAttributeBackground(AttributeHolder holder, View tag) {
 
@@ -113,9 +112,10 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
 
     /**
      * Add a tag to the list
+     *
      * @param attributeHolder Attribute Holder
      */
-    public void addTag(AttributeHolder attributeHolder){
+    public void addTag(AttributeHolder attributeHolder) {
         final int position = attributeHolders.size();
         attributeHolders.add(attributeHolder);
         notifyItemInserted(position);

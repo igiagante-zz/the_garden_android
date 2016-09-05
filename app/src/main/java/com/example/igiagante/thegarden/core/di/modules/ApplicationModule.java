@@ -34,37 +34,44 @@ public class ApplicationModule {
         this.application = application;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     Context provideApplicationContext() {
         return this.application;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
         return jobExecutor;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     PostExecutionThread providePostExecutionThread(UIThread uiThread) {
         return uiThread;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     HttpStatus provideHttpStatus() {
         return new HttpStatus();
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     UseCase providePersistStaticDataUseCase(PersistStaticDataUseCase persistStaticDataUseCase) {
-         return persistStaticDataUseCase;
+        return persistStaticDataUseCase;
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     Session provideSession() {
         return new Session();
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     SharedPreferences provideSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }

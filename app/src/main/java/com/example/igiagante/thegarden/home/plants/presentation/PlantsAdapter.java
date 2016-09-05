@@ -4,17 +4,28 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+<<<<<<< HEAD
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
+=======
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+>>>>>>> develop
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
@@ -24,24 +35,23 @@ import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActiv
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * @author giagante on 5/5/16.
- * Create an adapter for RecycleView Plants
+ *         Create an adapter for RecycleView Plants
  */
-public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewHolder> {
+public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewHolder> implements Filterable {
 
     public static final String SHOW_PLANT_KEY = "SHOW_PLANT";
 
-    private List<PlantHolder> mPlants;
     private final LayoutInflater layoutInflater;
     private Context mContext;
 
@@ -58,20 +68,36 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
      */
     private int plantDeletedPosition;
 
+    private ArrayList<PlantHolder> mPlants;
+
+    private ArrayList<PlantHolder> filteredPlantList;
+
+    private List<Image> mImages;
+
+    private PlantFilter plantFilter;
+
+    private OnSendEmail onSendEmail;
+
+    public interface OnSendEmail {
+        void sendEmail(String emailText, ArrayList<String> urls);
+    }
+
     public interface OnEditPlant {
         void editPlant(PlantHolder plantHolder);
     }
 
     public interface OnDeletePlant {
         void showDeletePlantDialog(int position);
+
         void deletePlant(String plantId);
     }
 
-    @Inject
-    public PlantsAdapter(Context context) {
+    public PlantsAdapter(Context context, OnSendEmail onSendEmail) {
         this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.mPlants = Collections.emptyList();
+        this.mImages = Collections.emptyList();
+        this.mPlants = new ArrayList<>();
+        this.onSendEmail = onSendEmail;
     }
 
     @Override
@@ -82,25 +108,29 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
     @Override
     public void onBindViewHolder(PlantViewHolder holder, int position) {
-        final PlantHolder plantHolder = this.mPlants.get(position);
+
+        final PlantHolder plantHolder = this.filteredPlantList.get(position);
+
+        mImages = plantHolder.getImages();
+        holder.setImages(mImages);
 
         Image mainImage = plantHolder.getMainImage();
 
-        if(mainImage != null) {
+        if (mainImage != null) {
             String thumbnailUrl = mainImage.getThumbnailUrl();
             holder.mPlantImage.setImageURI(Uri.parse(thumbnailUrl));
         }
 
         holder.mPlantName.setText(plantHolder.getName());
         String seedDateLabel = mContext.getString(R.string.seedDate);
-        // TODO - check this. Sth the model is null
+
         holder.mSeedDate.setText(seedDateLabel + ": " + plantHolder.getSeedDate());
         String genotypeLabel = mContext.getString(R.string.genotype);
         holder.mGenotype.setText(genotypeLabel + ": " + plantHolder.getGenotype());
         String harvestLabel = mContext.getString(R.string.harvest);
         holder.mHarvest.setText(harvestLabel + ": " + String.valueOf(plantHolder.getHarvest()));
         String highLabel = mContext.getString(R.string.height);
-        holder.mHigh.setText(highLabel + ": " + String.valueOf(plantHolder.getSize()));
+        holder.mHeight.setText(highLabel + ": " + String.valueOf(plantHolder.getSize()));
         String floweringTimeLabel = mContext.getString(R.string.flower);
         holder.mFloweringTime.setText(floweringTimeLabel + ": " + plantHolder.getFloweringTime());
 
@@ -110,11 +140,12 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
 
     @Override
     public int getItemCount() {
-        return (this.mPlants != null) ? this.mPlants.size() : 0;
+        return (this.filteredPlantList != null) ? this.filteredPlantList.size() : 0;
     }
 
     public void setPlants(Collection<PlantHolder> mPlants) {
-        this.mPlants = (List<PlantHolder>) mPlants;
+        this.mPlants = (ArrayList<PlantHolder>) mPlants;
+        this.filteredPlantList = new ArrayList<>(this.mPlants);
         this.notifyDataSetChanged();
     }
 
@@ -128,8 +159,9 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
      * Remove plant from the adapter's list
      */
     public void removePlant() {
-        if(!mPlants.isEmpty()) {
+        if (!mPlants.isEmpty()) {
             this.mPlants.remove(plantDeletedPosition);
+            this.filteredPlantList.remove(plantDeletedPosition);
             this.notifyItemRemoved(plantDeletedPosition);
         }
     }
@@ -142,7 +174,65 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         this.onDeletePlant = onDeletePlant;
     }
 
+    @Override
+    public Filter getFilter() {
+        if (plantFilter == null) {
+            plantFilter = new PlantFilter(this, mPlants);
+        }
+        return plantFilter;
+    }
+
+    private static class PlantFilter extends Filter {
+
+        private final PlantsAdapter adapter;
+
+        private final List<PlantHolder> originalList;
+
+        private final List<PlantHolder> filteredList;
+
+        private PlantFilter(PlantsAdapter adapter, List<PlantHolder> originalList) {
+            super();
+            this.adapter = adapter;
+            this.originalList = new LinkedList<>(originalList);
+            this.filteredList = new ArrayList<>();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            filteredList.clear();
+
+            final FilterResults results = new FilterResults();
+
+            if (constraint.length() == 0) {
+                filteredList.addAll(originalList);
+            } else {
+                final String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (final PlantHolder plant : originalList) {
+                    if (plant.getName().contains(filterPattern)) {
+                        filteredList.add(plant);
+                    }
+                }
+            }
+
+            results.values = filteredList;
+            results.count = filteredList.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            adapter.filteredPlantList.clear();
+            List<PlantHolder> values = (List<PlantHolder>) results.values;
+            adapter.filteredPlantList.addAll(values);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     class PlantViewHolder extends RecyclerView.ViewHolder {
+
+        private List<Image> mImages;
 
         @Bind(R.id.main_image_plant)
         SimpleDraweeView mPlantImage;
@@ -160,7 +250,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         TextView mHarvest;
 
         @Bind(R.id.high_id)
-        TextView mHigh;
+        TextView mHeight;
 
         @Bind(R.id.flower_time_id)
         TextView mFloweringTime;
@@ -171,11 +261,22 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         @Bind(R.id.plant_delete_button_id)
         Button mDeleteButton;
 
+        @Bind(R.id.share_plant_button)
+        Button mSharePlantButton;
+
         public PlantViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(v -> startGetPlantDataActivity(getAdapterPosition()));
+            itemView.setOnClickListener(v -> {
+                if (checkInternet()) {
+                    startGetPlantDataActivity(getAdapterPosition());
+                } else {
+                    showMessageNoInternetConnection();
+                }
+            });
+
+            mSharePlantButton.setOnClickListener(v -> sendEmail(getEmailText()));
         }
 
         private void startGetPlantDataActivity(int adapterPosition) {
@@ -193,6 +294,58 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             } else {
                 mContext.startActivity(intent);
             }
+        }
+
+        private void sendEmail(String emailText) {
+            onSendEmail.sendEmail(emailText, getUrls());
+        }
+
+        public void setImages(List<Image> mImages) {
+            this.mImages = mImages;
+        }
+
+        private ArrayList<String> getUrls() {
+            ArrayList<String> urls = new ArrayList<>();
+            for (Image image : mImages) {
+                urls.add(image.getUrl());
+            }
+            return urls;
+        }
+
+        @NonNull
+        private String getEmailText() {
+
+            StringBuilder builder = new StringBuilder();
+            builder.append(mContext.getString(R.string.email_plant_name, mPlantName.getText()));
+            builder.append("\n");
+            builder.append(mGenotype.getText());
+            builder.append("\n");
+            builder.append(mHeight.getText());
+            builder.append("\n");
+            builder.append(mSeedDate.getText());
+            builder.append("\n");
+            builder.append(mFloweringTime.getText());
+            builder.append("\n");
+
+            return builder.toString();
+        }
+
+        private boolean checkInternet() {
+            boolean isConnected;
+            ConnectivityManager connectivityManager =
+                    (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
+
+            return isConnected;
+        }
+
+        private void showMessageNoInternetConnection() {
+            String string = mContext.getString(R.string.there_is_not_internet_connection);
+            Toast toast = Toast.makeText(mContext, string, Toast.LENGTH_LONG);
+            TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
+            textView.setGravity(Gravity.CENTER);
+            toast.show();
         }
     }
 }

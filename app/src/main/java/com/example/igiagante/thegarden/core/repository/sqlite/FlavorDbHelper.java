@@ -12,7 +12,7 @@ import com.example.igiagante.thegarden.core.repository.sqlite.FlavorContract.Fla
 public class FlavorDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "flavor.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 5;
 
     public FlavorDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

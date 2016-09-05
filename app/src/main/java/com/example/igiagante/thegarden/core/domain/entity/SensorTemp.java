@@ -12,7 +12,8 @@ import java.util.Date;
  */
 public class SensorTemp implements Parcelable {
 
-    public SensorTemp() {}
+    public SensorTemp() {
+    }
 
     @SerializedName("date")
     private Date date;

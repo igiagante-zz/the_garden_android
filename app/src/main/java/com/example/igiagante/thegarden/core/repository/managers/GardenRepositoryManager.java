@@ -134,11 +134,11 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
         List<Garden> list = new ArrayList<>();
         query.subscribe(gardens -> list.addAll(gardens));
 
-        Observable<List<Garden>> observable = Observable.just(list);
-
         if (!checkInternet()) {
-            return Observable.just(list.get(0));
+            return Observable.just(list);
         }
+
+        Observable<List<Garden>> observable = Observable.just(list);
 
         return observable.map(v -> !v.isEmpty()).firstOrDefault(false)
                 .flatMap(exists -> exists

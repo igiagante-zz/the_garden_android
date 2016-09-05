@@ -14,7 +14,8 @@ public class GardenHolder extends DataHolder<Garden> {
     private int position;
     private boolean isSelected;
 
-    public GardenHolder() {}
+    public GardenHolder() {
+    }
 
     public int getPosition() {
         return position;
@@ -24,7 +25,7 @@ public class GardenHolder extends DataHolder<Garden> {
         this.position = position;
     }
 
-    public String getGardenId(){
+    public String getGardenId() {
         return getModel().getId();
     }
 

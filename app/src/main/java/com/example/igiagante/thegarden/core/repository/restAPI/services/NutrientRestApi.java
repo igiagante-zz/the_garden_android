@@ -26,6 +26,9 @@ public interface NutrientRestApi {
     @GET("nutrient/")
     Observable<List<Nutrient>> getNutrients();
 
+    @GET("nutrient/user/{username}")
+    Observable<List<Nutrient>> getNutrientsByUserName(@Path("username") String username);
+
     @POST("nutrient/")
     Observable<Nutrient> createNutrient(@Body RequestBody body);
 

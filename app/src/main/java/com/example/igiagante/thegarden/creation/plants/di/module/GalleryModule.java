@@ -15,7 +15,8 @@ import dagger.Provides;
 @Module
 public class GalleryModule {
 
-    public GalleryModule() {}
+    public GalleryModule() {
+    }
 
     @Provides
     @PerActivity

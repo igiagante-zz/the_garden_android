@@ -22,7 +22,7 @@
         android:id="@+id/arrow_indicator_id"
         android:layout_width="@dimen/elv_indicator_image_width"
         android:layout_height="@dimen/elv_indicator_image_height"
-        android:src="@drawable/indicator_arrow_bottom"
+        android:src="@drawable/ic_indicator_arrow_bottom"
         android:layout_marginTop="@dimen/elv_indicator_image_margin_top"
         android:layout_marginStart="@dimen/elv_indicator_image_margin_start" />
 

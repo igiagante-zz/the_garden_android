@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.home.gardens.presentation.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -8,7 +9,9 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.example.igiagante.thegarden.R;
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.home.charts.presentation.ChartsFragment;
+import com.example.igiagante.thegarden.home.gardens.presentation.GardenFragment;
 import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.presentation.PlantListFragment;
 import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
@@ -18,12 +21,15 @@ import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.Gard
  */
 public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    SparseArray<Fragment> registeredFragments = new SparseArray<>(3);
+    private SparseArray<Fragment> registeredFragments = new SparseArray<>(3);
 
-    private String [] titles = {};
+    private String[] titles = {};
 
-    public GardenViewPagerAdapter(FragmentManager manager, Context context) {
+    private Garden garden;
+
+    public GardenViewPagerAdapter(FragmentManager manager, Context context, Garden garden) {
         super(manager);
+        this.garden = garden;
         titles = context.getResources().getStringArray(R.array.garden_view_pager_fragment_title);
     }
 
@@ -55,27 +61,33 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
         super.destroyItem(container, position, object);
     }
 
-    public void setGardenHolder(GardenHolder gardenHolder) {
-        setDataFromModel(gardenHolder);
+    /**
+     * Set values garden in each pager from the {@link com.example.igiagante.thegarden.home.MainActivity#mainViewPager}
+     *
+     * @param gardenHolder ViewHolder
+     */
+    public void setGardenHolder(@NonNull GardenHolder gardenHolder) {
+
+        this.garden = gardenHolder.getModel();
+
+        for (int i = 0; i < registeredFragments.size(); i++) {
+            if (this.garden != null) {
+                ((GardenFragment) registeredFragments.get(i)).setGarden(this.garden);
+            }
+        }
     }
 
-    // TODO - Refactor
-    private void setDataFromModel(GardenHolder gardenHolder) {
-
-        PlantListFragment plantListFragment = (PlantListFragment) registeredFragments.get(0);
-
-        if(plantListFragment == null) {
-            plantListFragment = PlantListFragment.newInstance(gardenHolder.getModel());
-            registeredFragments.put(0, plantListFragment);
+    /**
+     * If there is any garden created, it should show a message. e.g. Create one garden to start.
+     */
+    public void createFirstGardenMessage() {
+        for (int i = 0; i < registeredFragments.size(); i++) {
+            ((GardenFragment) registeredFragments.get(i)).createOneGardenFirst();
         }
-        plantListFragment.setGarden(gardenHolder);
+    }
 
-        IrrigationsFragment irrigationsFragment = (IrrigationsFragment) registeredFragments.get(1);
-        if(irrigationsFragment == null) {
-            irrigationsFragment = IrrigationsFragment.newInstance(gardenHolder.getModel());
-            registeredFragments.put(1, irrigationsFragment);
-        }
-        irrigationsFragment.setGarden(gardenHolder);
+    public void filterList(int position, String query) {
+        ((GardenFragment) registeredFragments.get(position)).filterList(query);
     }
 
     private String getTitleByPosition(int position) {
@@ -84,6 +96,7 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
     /**
      * Depend on the position at the view pager, it will ask for an specific fragment instance
+     *
      * @param position pager's position
      * @return fragment
      */
@@ -93,10 +106,10 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                fragment = new PlantListFragment();
+                fragment = PlantListFragment.newInstance(garden);
                 break;
             case 1:
-                fragment = new IrrigationsFragment();
+                fragment = IrrigationsFragment.newInstance(garden);
                 break;
             case 2:
                 fragment = new ChartsFragment();

@@ -34,7 +34,7 @@ public class ExistsUserUseCase extends UseCase<String> {
 
         List<Boolean> list = new ArrayList<>();
         userExistsInDataBase.subscribe(user -> {
-            if(user != null) {
+            if (user != null) {
                 list.add(Boolean.TRUE);
             } else {
                 list.add(Boolean.FALSE);

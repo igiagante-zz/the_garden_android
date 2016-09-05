@@ -44,8 +44,8 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
         this.view = null;
     }
 
-    public void loadNutrients() {
-        this.getNutrientsUseCase.execute(null, new NutrientsSubscriber());
+    public void loadNutrients(String userId) {
+        this.getNutrientsUseCase.execute(userId, new NutrientsSubscriber());
     }
 
     public void deleteNutrient(String nutrientId) {
@@ -71,69 +71,78 @@ public class NutrientPresenter extends AbstractPresenter<NutrientView> {
 
     private final class NutrientsSubscriber extends DefaultSubscriber<List<Nutrient>> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
 
-        @Override public void onNext(List<Nutrient> nutrients) {
+        @Override
+        public void onNext(List<Nutrient> nutrients) {
             NutrientPresenter.this.showNutrients(nutrients);
         }
     }
 
     private final class DeleteNutrientSubscriber extends DefaultSubscriber<Integer> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
             //PlantListPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(Integer result) {
+        @Override
+        public void onNext(Integer result) {
             NutrientPresenter.this.notifyIfNutrientWasDeleted(result);
         }
     }
 
     private final class SaveNutrientSubscriber extends DefaultSubscriber<Nutrient> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
             //PlantListPresenter.this.hideViewLoading();
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(Nutrient nutrient) {
+        @Override
+        public void onNext(Nutrient nutrient) {
             addDomainToImages(nutrient);
             NutrientPresenter.this.notifyIfNutrientWasPersistedOrUpdated(nutrient);
         }
     }
 
-    private void addDomainToImages(Nutrient nutrient){
-        for(Image image : nutrient.getImages()){
-            if(image.getUrl() != null && !image.getUrl().contains("http")){
+    private void addDomainToImages(Nutrient nutrient) {
+        for (Image image : nutrient.getImages()) {
+            if (image.getUrl() != null && !image.getUrl().contains("http")) {
                 image.setUrl(Settings.DOMAIN + image.getUrl());
             }
-            if(image.getThumbnailUrl() != null && !image.getThumbnailUrl().contains("http")){
+            if (image.getThumbnailUrl() != null && !image.getThumbnailUrl().contains("http")) {
                 image.setThumbnailUrl(Settings.DOMAIN + image.getThumbnailUrl());
             }
         }
     }
 
     private void removeDomainFromImages(Nutrient nutrient) {
-        for(Image image : nutrient.getImages()){
-            if(image.getUrl() != null && image.getUrl().contains("http")){
-                String [] parts = image.getUrl().split(Settings.DOMAIN);
+        for (Image image : nutrient.getImages()) {
+            if (image.getUrl() != null && image.getUrl().contains("http")) {
+                String[] parts = image.getUrl().split(Settings.DOMAIN);
                 image.setUrl(parts[1]);
             }
-            if(image.getThumbnailUrl() != null && image.getThumbnailUrl().contains("http")){
-                String [] parts = image.getThumbnailUrl().split(Settings.DOMAIN);
+            if (image.getThumbnailUrl() != null && image.getThumbnailUrl().contains("http")) {
+                String[] parts = image.getThumbnailUrl().split(Settings.DOMAIN);
                 image.setThumbnailUrl(parts[1]);
             }
         }

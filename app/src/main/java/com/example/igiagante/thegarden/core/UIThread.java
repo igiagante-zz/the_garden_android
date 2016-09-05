@@ -16,9 +16,11 @@ import rx.android.schedulers.AndroidSchedulers;
 public class UIThread implements PostExecutionThread {
 
     @Inject
-    public UIThread() {}
+    public UIThread() {
+    }
 
-    @Override public Scheduler getScheduler() {
+    @Override
+    public Scheduler getScheduler() {
         return AndroidSchedulers.mainThread();
     }
 }

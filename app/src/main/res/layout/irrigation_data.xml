@@ -19,14 +19,17 @@
             android:hint="Date"
             android:gravity="center"
             android:layout_marginStart="@dimen/irrigation_data_inner_margin_start"
-            android:layout_marginTop="@dimen/irrigation_data_date_margin_top"/>
+            android:layout_marginTop="@dimen/irrigation_data_date_margin_top"
+            android:textSize="@dimen/irrigation_data_text_size"/>
 
         <com.example.igiagante.thegarden.core.ui.CountView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/irrigation_quantity_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/irrigation_data_margin"
             app:setValue="500"
+            app:setHint="WPP (mL)"
             />
 
     </LinearLayout>
@@ -37,18 +40,21 @@
         android:layout_marginTop="@dimen/irrigation_data_margin_top">
 
         <com.example.igiagante.thegarden.core.ui.CountViewDecimal
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/irrigation_ph_dose_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/irrigation_data_inner_margin_start"
-            app:setValueDecimal="3.5"/>
+            app:setValueDecimal="3.5"
+            app:setDecimalHint="Ph Dose (mL)"/>
 
         <com.example.igiagante.thegarden.core.ui.CountView
             android:id="@+id/irrigation_water_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/irrigation_data_margin"
-            app:setValue="3"/>
+            app:setValue="3"
+            app:setHint="Water (Liter)"/>
 
     </LinearLayout>
 
@@ -63,14 +69,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/irrigation_data_inner_margin_start"
-            app:setValueDecimal="6.5"/>
+            app:setValueDecimal="6.5"
+            app:setDecimalHint="Ph"/>
 
         <com.example.igiagante.thegarden.core.ui.CountViewDecimal
             android:id="@+id/irrigation_ec_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/irrigation_data_margin"
-            app:setValueDecimal="0.8"/>
+            app:setValueDecimal="0.8"
+            app:setDecimalHint="Ec"/>
 
     </LinearLayout>
 

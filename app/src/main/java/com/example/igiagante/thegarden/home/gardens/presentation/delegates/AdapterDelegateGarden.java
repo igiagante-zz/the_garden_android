@@ -20,6 +20,7 @@ public class AdapterDelegateGarden implements AdapterDelegate<AdapterDelegateGar
 
     public interface OnClickGardenListener {
         void showGardenDialog(int position);
+
         void getGarden(String gardenId);
     }
 

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
         ButterKnife.bind(this, fragmentView);
 
         mButtonSignUp.setOnClickListener(v -> {
-            if(checkInternet()) {
+            if (checkInternet()) {
                 signup();
             } else {
                 showToastMessage(getString(R.string.there_is_not_internet_connection));
@@ -85,7 +84,6 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
 
         mButtonSignUp.setEnabled(false);
 
-        mProgressDialog = new ProgressDialog(getContext());
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage(getString(R.string.creating_account));
         mProgressDialog.show();
@@ -112,12 +110,14 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.registerPresenter.setView(new WeakReference<>(this));
+        mProgressDialog = new ProgressDialog(getContext());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        mProgressDialog.dismiss();
     }
 
     @Override

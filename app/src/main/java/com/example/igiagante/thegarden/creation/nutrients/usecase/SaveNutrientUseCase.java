@@ -28,7 +28,7 @@ public class SaveNutrientUseCase extends UseCase<Nutrient> {
 
     @Override
     protected Observable buildUseCaseObservable(Nutrient nutrient) {
-        if(nutrient.getId() == null) {
+        if (nutrient.getId() == null) {
             return this.nutrientRepositoryManager.add(nutrient);
         } else {
             return this.nutrientRepositoryManager.update(nutrient);

@@ -2,19 +2,18 @@ package com.example.igiagante.thegarden.core.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.igiagante.thegarden.R;
-
-import java.text.DecimalFormat;
 
 /**
  * @author igiagante on 6/5/16.
@@ -25,15 +24,10 @@ public class CountView extends LinearLayout {
 
     protected int mDefaultValue;
     protected EditText mEditValue;
+    private String hint;
 
     public CountView(Context context) {
         super(context);
-        inflate(getContext(), R.layout.count_view, this);
-        init(context);
-    }
-
-    public CountView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
         inflate(getContext(), R.layout.count_view, this);
         init(context);
     }
@@ -47,13 +41,19 @@ public class CountView extends LinearLayout {
                 0, 0);
 
         try {
-            mDefaultValue = a.getInteger(R.styleable.CountView_setValue, 10);
+            mDefaultValue = a.getInteger(R.styleable.CountView_setValue, 5);
+            hint = a.getString(R.styleable.CountView_setHint);
         } finally {
             a.recycle();
         }
 
         init(context);
-        setSaveEnabled(true);
+    }
+
+    public CountView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        inflate(getContext(), R.layout.count_view, this);
+        init(context);
     }
 
     protected void init(Context context) {
@@ -64,19 +64,33 @@ public class CountView extends LinearLayout {
         mEditValue = (EditText) findViewById(R.id.count_input);
         mEditValue.setText(String.valueOf(mDefaultValue));
 
+        TextInputLayout textInputLayout = (TextInputLayout) findViewById(R.id.input_wrap);
+        textInputLayout.setHint(hint);
+
         Button mButtonUp = (Button) findViewById(R.id.count_button_up);
-        mButtonUp.setOnClickListener(view -> incrementValue());
+        mButtonUp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incrementValue();
+            }
+        });
 
         Button mButtonDown = (Button) findViewById(R.id.count_button_down);
-        mButtonDown.setOnClickListener(view -> decrementValue());
+        mButtonDown.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decrementValue();
+            }
+        });
     }
 
     /**
      * Set the edit value of the view with a int value
+     *
      * @param value value
      */
     public void setEditValue(int value) {
-        if(mEditValue != null && value >= 0) {
+        if (mEditValue != null && value >= 0) {
             mEditValue.setText(String.valueOf(value));
         }
     }
@@ -87,7 +101,7 @@ public class CountView extends LinearLayout {
     public int getEditValue() {
         int count = 0;
         String value = mEditValue.getText().toString();
-        if(!TextUtils.isEmpty(value)) {
+        if (!TextUtils.isEmpty(value)) {
             count = Integer.parseInt(value);
         }
         return count;
@@ -97,7 +111,7 @@ public class CountView extends LinearLayout {
      * Increment value from edit text
      */
     private void incrementValue() {
-        if(mEditValue != null) {
+        if (mEditValue != null) {
             int value = getEditValue();
             value += 1;
             setEditValue(value);
@@ -108,7 +122,7 @@ public class CountView extends LinearLayout {
      * Decrement value from edit text
      */
     private void decrementValue() {
-        if(mEditValue != null) {
+        if (mEditValue != null) {
             int value = getEditValue();
             value -= 1;
             setEditValue(value);

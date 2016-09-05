@@ -31,7 +31,7 @@
                 android:layout_centerInParent="true"
                 android:scaleType="centerCrop"
                 android:background="@android:color/holo_orange_light"
-                fresco:placeholderImage="@drawable/no_image"
+                fresco:placeholderImage="@drawable/ic_no_image"
                 />
 
             <Button

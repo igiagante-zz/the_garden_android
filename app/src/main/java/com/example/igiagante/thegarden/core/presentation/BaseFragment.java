@@ -11,10 +11,23 @@ import android.widget.Toast;
 
 import com.example.igiagante.thegarden.core.di.HasComponent;
 
+import rx.Observable;
+import rx.subjects.PublishSubject;
+
 /**
  * Base {@link android.app.Fragment} class for every fragment in this application.
  */
 public abstract class BaseFragment extends Fragment {
+
+    /**
+     * Used as event bus for validation
+     */
+    protected PublishSubject<ValidationMessage> subject = PublishSubject.create();
+
+    /**
+     * Used as event bus to enable view
+     */
+    private PublishSubject<Boolean> subjectView = PublishSubject.create();
 
     private String mTitle;
 
@@ -38,6 +51,22 @@ public abstract class BaseFragment extends Fragment {
         return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
     }
 
+    protected void setValidationMessage(ValidationMessage validationMessage) {
+        subject.onNext(validationMessage);
+    }
+
+    public Observable<ValidationMessage> getValidationMessageObservable() {
+        return subject;
+    }
+
+    protected void setEnablePaging(Boolean enable) {
+        subjectView.onNext(enable);
+    }
+
+    public Observable<Boolean> getEnableViewPagerObservable() {
+        return subjectView;
+    }
+
     public String getTitle() {
         return mTitle;
     }
@@ -51,9 +80,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public boolean checkInternet() {
-
         boolean isConnected;
-
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

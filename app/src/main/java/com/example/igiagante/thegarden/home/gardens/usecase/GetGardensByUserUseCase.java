@@ -6,8 +6,6 @@ import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.managers.UserRepositoryManager;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
 import rx.Observable;
@@ -30,6 +28,7 @@ public class GetGardensByUserUseCase extends UseCase<User> {
 
     @Override
     protected Observable buildUseCaseObservable(User user) {
-        return userRepositoryManager.query(user).delay(500, TimeUnit.MILLISECONDS);
+        //return userRepositoryManager.query(user).delay(500, TimeUnit.MILLISECONDS);
+        return userRepositoryManager.query(user);
     }
 }

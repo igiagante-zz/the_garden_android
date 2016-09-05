@@ -5,7 +5,7 @@
     >
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/input_layout_name"
+        android:id="@+id/input_wrap_decimal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -14,7 +14,6 @@
             android:layout_width="@dimen/count_input_width"
             android:layout_height="@dimen/count_input_height"
             android:singleLine="true"
-            android:hint="@string/ph_soil"
             android:inputType="numberDecimal"
             android:textSize="@dimen/text_size"
             android:gravity="center"/>

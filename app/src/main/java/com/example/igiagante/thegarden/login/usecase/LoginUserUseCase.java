@@ -16,7 +16,7 @@ import rx.Observable;
 /**
  * @author Ignacio Giagante, on 2/8/16.
  */
-public class LoginUserUseCase  extends UseCase<User> {
+public class LoginUserUseCase extends UseCase<User> {
 
     private final RestUserApi api;
 

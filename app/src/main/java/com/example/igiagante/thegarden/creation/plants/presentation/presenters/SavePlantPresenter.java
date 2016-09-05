@@ -43,7 +43,7 @@ public class SavePlantPresenter extends AbstractPresenter<SavePlantView> {
         this.savePlantUseCase.execute(plant, new SavePlantSubscriber());
     }
 
-    public void updateGarden(Garden garden){
+    public void updateGarden(Garden garden) {
         this.showViewLoading();
         this.updateGardenUseCase.execute(garden, new UpdateGardenSubscriber());
     }

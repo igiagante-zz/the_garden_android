@@ -53,7 +53,7 @@ public class LineChartBuilder {
 
         xAxis.setTextSize(10f);
 
-        lineChart.animateY(2500);
+        lineChart.animateY(1500);
         lineChart.getLegend().setEnabled(true);
 
         setData();
@@ -69,7 +69,7 @@ public class LineChartBuilder {
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
 
         for (int i = 0; i < data.size(); i++) {
-            if(forHumidityChart){
+            if (forHumidityChart) {
                 entries.add(new Entry(data.get(i).getHumidity(), i));
             } else {
                 entries.add(new Entry(data.get(i).getTemp(), i));
@@ -77,12 +77,15 @@ public class LineChartBuilder {
             xAxis.add(sdf.format(data.get(i).getDate()));
         }
 
-        // The api return last 16 days temp data, but the last element is the first. This is a workaround
-        // to avoid inconsistent data shown in the chart.
-        xAxis.add(0, xAxis.get(xAxis.size() - 1));
-        xAxis.remove(xAxis.size() - 1);
+        String legendTitle;
 
-        LineDataSet lineDataSet = new LineDataSet(entries, "Temperature");
+        if (forHumidityChart) {
+            legendTitle = "Humidity";
+        } else {
+            legendTitle = "Temperature";
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(entries, legendTitle);
         lineDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setDrawValues(false);

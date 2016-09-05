@@ -3,7 +3,6 @@ package com.example.igiagante.thegarden.core.repository.sqlite;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
-import com.example.igiagante.thegarden.core.usecase.UseCase;
 
 import java.util.List;
 

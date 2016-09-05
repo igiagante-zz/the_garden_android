@@ -9,13 +9,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
 import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.repository.sqlite.FlavorContract.FlavorEntry;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +21,7 @@ import javax.inject.Inject;
 
 /**
  * Used to separate low level data accessing API or operations from high level business service.
+ *
  * @author Ignacio Giagante, on 10/5/16.
  */
 public class FlavorDao {
@@ -30,7 +29,7 @@ public class FlavorDao {
     private final Context mContext;
 
     @Inject
-    public FlavorDao(Context context){
+    public FlavorDao(Context context) {
         this.mContext = context;
     }
 
@@ -38,10 +37,11 @@ public class FlavorDao {
             FlavorEntry._ID,
             FlavorEntry.COLUMN_NAME,
             FlavorEntry.COLUMN_IMAGE_URL,
-            FlavorEntry.COLUMN_MONGO_ID };
+            FlavorEntry.COLUMN_MONGO_ID};
 
     /**
      * Persist a flavor object into the database.
+     *
      * @param flavor Object to be persisted.
      * @return long id from object persisted.
      */
@@ -54,7 +54,7 @@ public class FlavorDao {
                 FlavorEntry.CONTENT_URI,
                 new String[]{FlavorEntry._ID},
                 FlavorEntry._ID + " = ?",
-                new String[]{ flavor.getId() },
+                new String[]{flavor.getId()},
                 null);
 
         if (flavorCursor != null && flavorCursor.moveToFirst()) {
@@ -81,6 +81,7 @@ public class FlavorDao {
 
     /**
      * Add a flavor collection to Sqlite
+     *
      * @param flavors flavor list
      * @return number of rows inserted
      */
@@ -90,14 +91,14 @@ public class FlavorDao {
 
     private ContentValues[] getContentValues(List<Flavor> flavors) {
 
-        ContentValues [] values = new ContentValues[flavors.size()];
+        ContentValues[] values = new ContentValues[flavors.size()];
 
         for (int i = 0; i < flavors.size(); i++) {
 
             ContentValues flavorValues = new ContentValues();
 
             flavorValues.put(FlavorEntry.COLUMN_NAME, flavors.get(i).getName());
-            flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL,flavors.get(i).getImageUrl().replace(Settings.DOMAIN, ""));
+            flavorValues.put(FlavorEntry.COLUMN_IMAGE_URL, flavors.get(i).getImageUrl().replace(Settings.DOMAIN, ""));
             flavorValues.put(FlavorEntry.COLUMN_MONGO_ID, flavors.get(i).getId());
 
             values[i] = flavorValues;
@@ -109,6 +110,7 @@ public class FlavorDao {
 
     /**
      * Gets a flavor from database.
+     *
      * @param flavorId id from the object to be requested.
      * @return movie.
      */
@@ -131,6 +133,7 @@ public class FlavorDao {
 
     /**
      * Gets all the flavors from database.
+     *
      * @return ArrayList<Flavor>.
      */
     public ArrayList<Flavor> getFlavors() {
@@ -144,9 +147,9 @@ public class FlavorDao {
                 null,
                 null);
 
-        if(flavorCursor != null) {
+        if (flavorCursor != null) {
             flavorCursor.moveToFirst();
-            while(!flavorCursor.isAfterLast()){
+            while (!flavorCursor.isAfterLast()) {
 
                 Flavor flavor = new Flavor();
 
@@ -159,7 +162,7 @@ public class FlavorDao {
         return flavors;
     }
 
-    private Flavor setFlavorCursorData(Cursor flavorCursor, Flavor flavor){
+    private Flavor setFlavorCursorData(Cursor flavorCursor, Flavor flavor) {
 
         int id = flavorCursor.getColumnIndex(FlavorEntry._ID);
         int nameIndex = flavorCursor.getColumnIndex(FlavorEntry.COLUMN_NAME);

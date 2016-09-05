@@ -10,7 +10,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Plague implements Parcelable {
 
-    public Plague() {}
+    public Plague() {
+    }
 
     @SerializedName("id")
     private String id;

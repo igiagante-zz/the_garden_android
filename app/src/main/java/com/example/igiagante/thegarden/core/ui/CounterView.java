@@ -72,10 +72,11 @@ public class CounterView extends LinearLayout {
 
     /**
      * Set the edit value of the view with a int value
+     *
      * @param value value
      */
     public void setEditValue(int value) {
-        if(mTextViewValue != null && value >= 0) {
+        if (mTextViewValue != null && value >= 0) {
             mTextViewValue.setText(String.valueOf(value));
             mCountViewListener.onCountViewChanged(value);
         }
@@ -87,7 +88,7 @@ public class CounterView extends LinearLayout {
     public int getEditValue() {
         int count = 0;
         String value = mTextViewValue.getText().toString();
-        if(!TextUtils.isEmpty(value)) {
+        if (!TextUtils.isEmpty(value)) {
             count = Integer.parseInt(value);
         }
         return count;
@@ -97,7 +98,7 @@ public class CounterView extends LinearLayout {
      * Increment value from edit text
      */
     private void incrementValue() {
-        if(mTextViewValue != null) {
+        if (mTextViewValue != null) {
             int value = getEditValue();
             value += 1;
             setEditValue(value);
@@ -108,7 +109,7 @@ public class CounterView extends LinearLayout {
      * Decrement value from edit text
      */
     private void decrementValue() {
-        if(mTextViewValue != null) {
+        if (mTextViewValue != null) {
             int value = getEditValue();
             value -= 1;
             setEditValue(value);

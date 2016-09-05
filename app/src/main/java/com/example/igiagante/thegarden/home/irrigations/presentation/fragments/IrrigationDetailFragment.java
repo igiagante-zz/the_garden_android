@@ -14,11 +14,12 @@ import android.widget.ExpandableListView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Dose;
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
-import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.BaseFragment;
 import com.example.igiagante.thegarden.core.ui.CountView;
 import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
+import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.irrigations.di.IrrigationComponent;
 import com.example.igiagante.thegarden.home.irrigations.presentation.adapters.ExpandableListAdapter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.holders.NutrientHolder;
@@ -96,6 +97,8 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
     private String mGardenId;
 
+    private Garden garden;
+
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
 
     private List<NutrientHolder> mNutrients;
@@ -167,8 +170,15 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
     @Override
     public void notifyIfIrrigationWasPersistedOrUpdated(Irrigation irrigation) {
+        this.mIrrigation = irrigation;
+        this.garden.getIrrigations().add(irrigation);
+        this.irrigationDetailPresenter.updateGarden(this.garden);
+    }
+
+    @Override
+    public void notifyIfGardenWasUpdated(Garden garden) {
         Intent intent = new Intent();
-        intent.putExtra(IRRIGATION_DETAIL_KEY, irrigation);
+        intent.putExtra(MainActivity.GARDEN_KEY, garden);
         getActivity().setResult(getActivity().RESULT_OK, intent);
         getActivity().finish();
     }
@@ -195,8 +205,8 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         setNutrientsSelected();
     }
 
-    private void setNutrientsSelected(){
-        for(NutrientHolder nutrientHolder : mNutrients){
+    private void setNutrientsSelected() {
+        for (NutrientHolder nutrientHolder : mNutrients) {
             nutrientHolder.setSelected(true);
         }
         this.expandableListAdapter.setNutrients(mNutrients);
@@ -212,7 +222,7 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
         Irrigation irrigation = new Irrigation();
         irrigation.setQuantity(quantity.getEditValue());
         irrigation.setIrrigationDate(new Date());
-        irrigation.setGardenId(mGardenId);
+        irrigation.setGardenId(this.garden.getId());
 
         Dose dose = new Dose();
         dose.setWater(water.getEditValue());
@@ -252,6 +262,10 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
      */
     public void setGardenId(String gardenId) {
         this.mGardenId = gardenId;
+    }
+
+    public void setGarden(Garden garden) {
+        this.garden = garden;
     }
 
     @Override

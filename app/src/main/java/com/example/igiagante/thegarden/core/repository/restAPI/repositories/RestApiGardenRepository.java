@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.core.repository.restAPI.repositories;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -10,11 +11,9 @@ import com.example.igiagante.thegarden.core.repository.network.ServiceFactory;
 import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.services.GardenRestApi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 /**
  * @author Ignacio Giagante, on 3/7/16.
@@ -53,11 +52,12 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
         return addOrUpdate(garden, true);
     }
 
+    @NonNull
     private Observable addOrUpdate(Garden garden, boolean update) {
 
         Observable<Garden> apiResult;
 
-        if(update) {
+        if (update) {
             apiResult = api.updateGarden(garden.getId(), garden).asObservable();
         } else {
             apiResult = api.createGarden(garden).asObservable();
@@ -89,6 +89,6 @@ public class RestApiGardenRepository extends BaseRestApiRepository<Garden> imple
     }
 
     public Observable<List<Garden>> getGardensByUser(String username) {
-        return api.getGardenByUserName(username);
+        return api.getGardensByUserName(username);
     }
 }

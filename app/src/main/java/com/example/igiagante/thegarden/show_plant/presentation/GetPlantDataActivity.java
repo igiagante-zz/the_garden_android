@@ -52,7 +52,7 @@ public class GetPlantDataActivity extends BaseActivity implements
 
         Intent intent = getIntent();
 
-        if(intent != null) {
+        if (intent != null) {
             mPlant = intent.getParcelableExtra(PlantsAdapter.SHOW_PLANT_KEY);
         }
 
@@ -84,7 +84,8 @@ public class GetPlantDataActivity extends BaseActivity implements
         }
     }
 
-    @Override protected void onSaveInstanceState(Bundle outState) {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
             outState.putString(PLANT_ID_KEY, this.plantId);
         }

@@ -27,8 +27,8 @@ public class GetGardenUseCase extends UseCase<String> {
 
     @Inject
     public GetGardenUseCase(@NonNull GardenRepositoryManager gardenRepositoryManager,
-                             @NonNull ThreadExecutor threadExecutor,
-                             @NonNull PostExecutionThread postExecutionThread) {
+                            @NonNull ThreadExecutor threadExecutor,
+                            @NonNull PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.gardenRepositoryManager = gardenRepositoryManager;
         // set repositories order

@@ -3,14 +3,10 @@ package com.example.igiagante.thegarden.home.plants.presentation.presenters;
 import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.home.plants.presentation.view.PlantListView;
-
-import java.util.Collection;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -42,6 +38,7 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
 
     /**
      * Delete a plant from one garden
+     *
      * @param plantId Plant Id
      */
     public void deletePlant(String plantId) {
@@ -55,16 +52,19 @@ public class PlantListPresenter extends AbstractPresenter<PlantListView> {
 
     private final class DeletePlantSubscriber extends DefaultSubscriber<Object> {
 
-        @Override public void onCompleted() {
+        @Override
+        public void onCompleted() {
         }
 
-        @Override public void onError(Throwable e) {
+        @Override
+        public void onError(Throwable e) {
             Log.e(TAG, e.getMessage());
         }
 
-        @Override public void onNext(Object result) {
-            if(result instanceof String) {
-                PlantListPresenter.this.notifyPlantWasDeleted((String)result);
+        @Override
+        public void onNext(Object result) {
+            if (result instanceof String) {
+                PlantListPresenter.this.notifyPlantWasDeleted((String) result);
             }
         }
     }

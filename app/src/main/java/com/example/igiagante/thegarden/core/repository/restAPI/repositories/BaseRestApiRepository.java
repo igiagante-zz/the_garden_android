@@ -37,9 +37,10 @@ public class BaseRestApiRepository<T> extends BaseRestApi {
 
     /**
      * Go to the api and then continue with the DB
-     * @param apiResult after call api
+     *
+     * @param apiResult  after call api
      * @param repository DB
-     * @param update indicate if the transaction is about an `updating`
+     * @param update     indicate if the transaction is about an `updating`
      */
     protected T execute(Observable<T> apiResult, Class repository, boolean update) {
 
@@ -69,7 +70,7 @@ public class BaseRestApiRepository<T> extends BaseRestApi {
 
         Observable<T> dbResult;
 
-        if(update) {
+        if (update) {
             dbResult = dataBase.update(listOne.get(0));
         } else {
             dbResult = dataBase.add(listOne.get(0));

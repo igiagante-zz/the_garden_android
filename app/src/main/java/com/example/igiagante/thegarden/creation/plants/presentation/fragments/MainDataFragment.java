@@ -9,11 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.core.presentation.ValidationMessage;
 import com.example.igiagante.thegarden.core.ui.CountView;
 import com.example.igiagante.thegarden.core.ui.CountViewDecimal;
 import com.example.igiagante.thegarden.creation.plants.di.components.CreatePlantComponent;
@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
  * @author Ignacio Giagante, on 6/5/16.
  */
 public class MainDataFragment extends CreationBaseFragment implements LabelledSpinner.OnItemChosenListener,
-        TextWatcher, MainDataView{
+        TextWatcher, MainDataView {
 
     public static final String PLANT_KEY = "PLANT";
 
@@ -86,8 +86,6 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         // ask to the activity if it has a plant for edition
         if (mPlant != null) {
             setPlantValuesInView();
-        } else {
-            initDefaultValues();
         }
 
         if (savedInstanceState != null) {
@@ -106,19 +104,21 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
         this.mainDataPresenter.setView(new WeakReference<>(this));
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         this.mainDataPresenter.destroy();
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
     @Override
     public void informIfPlantExist(Boolean exist) {
-        if(exist) {
+        if (exist) {
             mNameOfPlant.setError(getString(R.string.name_of_the_plant_already_exist));
         }
     }
@@ -140,8 +140,11 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if(!TextUtils.isEmpty(s.toString())) {
+        if (!TextUtils.isEmpty(s.toString())) {
             mainDataPresenter.existPlant(s.toString().trim());
+            setEnablePaging(true);
+        } else {
+            setEnablePaging(false);
         }
     }
 
@@ -174,32 +177,25 @@ public class MainDataFragment extends CreationBaseFragment implements LabelledSp
     @Override
     protected void move() {
         Plant.PlantBuilder builder = ((CreatePlantActivity) getActivity()).getPlantBuilder();
-        builder.addPlantName(mNameOfPlant.getText().toString().trim());
+        String plantName = mNameOfPlant.getText().toString().trim();
+
+        if (TextUtils.isEmpty(plantName)) {
+            String msg = getString(R.string.plant_name_validation_message_error);
+            ValidationMessage validationMessage = new ValidationMessage(msg, true);
+            setValidationMessage(validationMessage);
+        }
+
+        builder.addPlantName(plantName);
         builder.addPhSoil(mPhSoil.getEditValue());
         builder.addEcSoil(mEcSoil.getEditValue());
         builder.addFloweringTime(mFloweringTime);
-        builder.addGenotype(mGenotype.getText().toString().trim());
+        builder.addGenotype(mGenotype.getText().toString());
         builder.addSize(mSize.getEditValue());
     }
 
     @Override
     protected void loadPlantDataForEdition(PlantHolder plantHolder) {
         super.loadPlantDataForEdition(plantHolder);
-    }
-
-    private void initDefaultValues() {
-
-        EditText mPhSoilText = (EditText) mPhSoil.findViewById(R.id.count_input);
-        mPhSoilText.setHint(R.string.ph_soil);
-        mPhSoilText.setText(R.string.ph_soil_default_value);
-
-        EditText mEcSoilText = (EditText) mEcSoil.findViewById(R.id.count_input);
-        mEcSoilText.setHint(R.string.ec_soil);
-        mEcSoilText.setText(R.string.ec_soil_default_value);
-
-        EditText sizeText = (EditText) mSize.findViewById(R.id.count_input);
-        sizeText.setHint(R.string.size);
-        sizeText.setText(R.string.size_default_value);
     }
 
     private Plant createParcelable() {

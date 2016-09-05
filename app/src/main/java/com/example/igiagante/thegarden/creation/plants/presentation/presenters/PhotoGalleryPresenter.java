@@ -37,6 +37,7 @@ public class PhotoGalleryPresenter extends AbstractPresenter<PhotoGalleryView> {
 
     /**
      * Get the list of images for the photos gallery
+     *
      * @param imagesPathFiles files paths from images
      */
     public void getImagesList(Collection<String> imagesPathFiles) {
