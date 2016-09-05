@@ -160,7 +160,6 @@ public class FlavorGalleryFragment extends CreationBaseFragment implements Flavo
         for (FlavorHolder holder : mFlavors) {
             if (holder.isSelected()) {
                 Flavor flavor = holder.getModel();
-                // TODO - refactor this after project has been approved
                 flavor.setId(flavor.getMongoId());
                 flavor.setImageUrl(holder.getImagePath());
                 flavors.add(flavor);

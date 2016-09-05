@@ -53,7 +53,7 @@ public class RestApiPlantRepository extends BaseRestApiRepository<Plant> impleme
 
     @Override
     public Observable<Plant> add(@NonNull final Plant plant) {
-        // TODO - Refactor this and update using execute method form base clas
+
         MultipartBody.Builder builder = getMultipartBodyForPostOrPut(plant);
         Observable<Plant> apiResult = api.createPlant(builder.build()).asObservable();
 

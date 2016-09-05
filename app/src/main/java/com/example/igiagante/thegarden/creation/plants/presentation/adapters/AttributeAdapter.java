@@ -75,7 +75,6 @@ public class AttributeAdapter extends RecyclerView.Adapter<AttributeViewHolder> 
         } else {
             TagView tagView = ((AttributeSelectedViewHolder) holder).tagView;
 
-            // TODO - refactor this
             tagView.setPositionAdapter(position);
 
             tagView.setTagName(attributeHolder.getTagName());

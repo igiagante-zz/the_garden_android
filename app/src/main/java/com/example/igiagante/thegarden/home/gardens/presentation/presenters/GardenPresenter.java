@@ -183,7 +183,6 @@ public class GardenPresenter extends AbstractPresenter<GardenView> {
         }
     }
 
-    // TODO - Refactor
     private final class GetGardensByUserSubscriber extends DefaultSubscriber<User> {
 
         @Override
