@@ -20,7 +20,6 @@ import java.util.ArrayList;
  */
 public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
     private final LayoutInflater layoutInflater;
 
     /**
@@ -35,7 +34,6 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public FlavorAdapter(Context context, OnAddFlavor onAddFlavor) {
-        this.mContext = context;
         this.onAddFlavor = onAddFlavor;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -98,7 +96,7 @@ public class FlavorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
          */
         private void setBorderOnImage(boolean selected, String imageUrl) {
             if (selected) {
-                setBorder(imageView, imageUrl, R.color.colorPrimary, 10);
+                setBorder(imageView, imageUrl, R.color.colorPrimary, 15);
             } else {
                 setBorder(imageView, imageUrl, R.color.white, 0);
             }

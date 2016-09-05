@@ -177,10 +177,9 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
                 if (ni != null && ni.isConnectedOrConnecting()) {
                     Log.i(TAG, "Network " + ni.getTypeName() + " connected");
-                    fab.setEnabled(true);
                 } else if (intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, Boolean.FALSE)) {
                     Log.d(TAG, "There's no network connectivity");
-                    fab.setEnabled(false);
+                    showMessageNoInternetConnection();
                 }
             }
         }
@@ -274,6 +273,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_nav_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -668,9 +668,14 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     private void initFAB() {
         fab.setVisibility(View.VISIBLE);
-        fab.setOnClickListener(v ->
+        fab.setOnClickListener(v -> {
+            if (checkInternet()) {
                 startActivityForResult(createIntentForCreatePlantActivity(),
-                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY));
+                        MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY);
+            } else {
+                showMessageNoInternetConnection();
+            }
+        });
     }
 
     @Override
