@@ -43,7 +43,8 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
 
     // play services
-    compile 'com.google.android.gms:play-services-analytics:9.0.2'
+    compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.google.android.gms:play-services-ads:9.4.0'
 
     apt 'com.google.dagger:dagger-compiler:2.2'
     androidTestApt 'com.google.dagger:dagger-compiler:2.2'
