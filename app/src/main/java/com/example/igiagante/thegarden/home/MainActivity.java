@@ -2,7 +2,6 @@ package com.example.igiagante.thegarden.home;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -13,11 +12,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-<<<<<<< HEAD
-=======
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
->>>>>>> develop
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,14 +31,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-<<<<<<< HEAD
 import android.transition.Explode;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.transition.TransitionInflater;
-=======
 import android.util.Log;
->>>>>>> develop
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -205,12 +195,10 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         initializeInjector();
         getComponent().inject(this);
 
-<<<<<<< HEAD
         setupWindowAnimations();
-=======
+
         this.registerReceiver(this.networkStateReceiver,
                 new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
->>>>>>> develop
 
         // set view for this presenter
         this.mGardenPresenter.setView(new WeakReference<>(this));

@@ -1,13 +1,7 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
-<<<<<<< HEAD
-import android.content.Intent;
-import android.os.Build;
-=======
->>>>>>> develop
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
