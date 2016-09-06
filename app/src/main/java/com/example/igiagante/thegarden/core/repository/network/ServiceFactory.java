@@ -2,6 +2,8 @@ package com.example.igiagante.thegarden.core.repository.network;
 
 import com.example.igiagante.thegarden.core.repository.network.converter.StringConverterFactory;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -20,6 +22,8 @@ public class ServiceFactory {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
                 .build();
 
