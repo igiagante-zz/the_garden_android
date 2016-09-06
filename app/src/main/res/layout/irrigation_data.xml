@@ -16,7 +16,7 @@
             android:id="@+id/irrigation_date_id"
             android:layout_width="@dimen/irrigation_data_date_margin_width"
             android:layout_height="wrap_content"
-            android:hint="Date"
+            android:hint="@string/irrigation_date"
             android:gravity="center"
             android:layout_marginStart="@dimen/irrigation_data_inner_margin_start"
             android:layout_marginTop="@dimen/irrigation_data_date_margin_top"

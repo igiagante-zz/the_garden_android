@@ -24,6 +24,7 @@
             android:overScrollMode="never" />
 
         <TextView
+            android:id="@+id/plant_description_text_view_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/description_title_margin"
@@ -38,7 +39,8 @@
             android:layout_gravity="center"
             android:gravity="start"
             android:background="@drawable/plant_description_background"
-            android:padding="@dimen/description_text_area_padding" />
+            android:padding="@dimen/description_text_area_padding"
+            android:labelFor="@+id/plant_description_text_view_id"/>
 
         <LinearLayout
             android:id="@+id/layout_description_buttons_id"

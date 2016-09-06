@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">The Garden</string>
+    <string name="search">Search</string>
 
     <string name="drawer_open">OPEN</string>
     <string name="drawer_close">CLOSE</string>
@@ -20,6 +21,7 @@
     <string name="header_nav_bar_temp_humd">T: %1$s ºC&#160;&#160;&#160;H: %2$s%%</string>
     <string name="header_nav_bar_number_of_plants">Plants: %1$s</string>
 
+    <string name="garden_has_plant">The garden has plants. Remove first the plants</string>
 
     <!-- Notifications -->
     <string name="notification_title">The Garden</string>
@@ -50,6 +52,20 @@
     <string name="login_email">Email</string>
     <string name="login_password">Password</string>
     <string name="login_not_register_yet">No account yet? Create one</string>
+
+    <string name="register_already_a_member">Already a member? Login</string>
+    <string name="register_create_account">Create Account</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Password</string>
+
+    <string name="custom_button_tag_left">&lt;</string>
+    <string name="custom_button_tag_right">&gt;</string>
+    <string name="custom_button_text_example">Relaxing</string>
+
+    <!-- Toolbar Titles -->
+    <string name="toolbar_title_main_data">Main Data</string>
+    <string name="toolbar_title_nutrients">Nutrients</string>
+    <string name="toolbar_title_irrigation_detail">Irrigation Detail</string>
 
     <!-- Plants - Main -->
     <string name="seedDate">Seed Date</string>
@@ -184,6 +200,8 @@
     <string name="nutrient_list_title">Nutrients</string>
     <string name="nutrient_detail_title">Nutrient Detail</string>
 
+    <string name="nutrient_how_to_use">How to use</string>
+
     <string name="nutrient_name">Flora </string>
     <string name="nutrient_npk">NPK: %1$s</string>
     <string name="nutrient_ph">Ph: %1$s</string>
@@ -202,6 +220,7 @@
 
     <string name="irrigation_list_title">Irrigations</string>
 
+    <string name="irrigation_date">Date</string>
     <string name="dose_water">Water: %1$s</string>
     <string name="dose_ph">Ph: %1$s</string>
     <string name="dose_ec">Ec: %1$s</string>
@@ -225,7 +244,16 @@
     <string name="action_new_user_registered">Logout</string>
 
     <!-- Google AdMob -->
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+
+    <!-- Image Content Description -->
+    <string name="image_nutrients_content_description">Nutrient</string>
+    <string name="image_ph_icon_content_description">Ph</string>
+    <string name="image_ec_icon_content_description">Ec</string>
+    <string name="image_plant_height_content_description">Plant Height</string>
+    <string name="image_grow_date_content_description">Grow Date</string>
+    <string name="image_ic_the_garden_content_description">The Garden</string>
+    <string name="image_humidifier_content_description">Humidifier</string>
+    <string name="image_ic_indicator_arrow_bottom_content_description">Arrow bottom</string>
 
 </resources>

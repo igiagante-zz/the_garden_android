@@ -21,7 +21,6 @@
         android:id="@+id/expandable_list_name_of_nutrient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delta"
         android:layout_marginStart="@dimen/elv_row_text_margin_start"
         android:layout_marginTop="@dimen/elv_row_text_margin_top"
         android:textSize="@dimen/elv_row_text_size"/>

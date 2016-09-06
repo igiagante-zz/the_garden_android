@@ -2,16 +2,10 @@ package com.example.igiagante.thegarden.repository.realm;
 
 import android.test.AndroidTestCase;
 
-import com.example.igiagante.thegarden.core.domain.entity.Attribute;
-import com.example.igiagante.thegarden.core.domain.entity.Flavor;
-import com.example.igiagante.thegarden.core.domain.entity.Plague;
-import com.example.igiagante.thegarden.core.repository.RealmSpecification;
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.AttributeRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.PlagueRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
-import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByNameSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantSpecification;
 import com.example.igiagante.thegarden.repository.realm.utils.PlantUtils;
 

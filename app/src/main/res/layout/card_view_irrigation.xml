@@ -48,8 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/irrigation_date_margin_top"
-                android:textSize="@dimen/irrigation_date_text_size"
-                android:text="19 Jul"/>
+                android:textSize="@dimen/irrigation_date_text_size"/>
 
             <Button
                 android:id="@+id/irrigation_delete_button_id"

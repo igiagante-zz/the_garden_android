@@ -27,9 +27,6 @@ import javax.inject.Inject;
  */
 public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final OnExecutePickerImage mPicker;
-    private final Context mContext;
-
     private SparseArray<AdapterDelegate> adapterDelegates = new SparseArray<>(2);
     private List<IViewType> items = new LinkedList<>();
 
@@ -48,11 +45,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Inject
     public GalleryAdapter(Context context, OnExecutePickerImage picker, OnDeleteImage deleteImage,
                           OnShowImages onShowImages) {
-        this.mPicker = picker;
-        this.mContext = context;
-
         // add adapter delegates
-        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButton(mContext, mPicker));
+        adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON, new AdapterDelegateButton(context, picker));
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_IMAGE, new AdapterDelegateImage(deleteImage, onShowImages));
 
         // add first item -> button

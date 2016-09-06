@@ -25,6 +25,8 @@ public class DoseUtils {
         nutrients.add(nutrientOne);
         nutrients.add(nutrientTwo);
 
+        dose.setNutrients(nutrients);
+
         return dose;
     }
 }

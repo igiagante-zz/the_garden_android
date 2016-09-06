@@ -140,20 +140,4 @@ public class Image implements Parcelable {
         main = in.readInt() == 1;
         file = (File) in.readSerializable();
     }
-
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("\n");
-        stringBuilder.append("id = " + this.getId() + "\n");
-        stringBuilder.append("name = " + this.getName() + "\n");
-        stringBuilder.append("url = " + this.getUrl() + "\n");
-        stringBuilder.append("thumbnailUrl = " + this.getThumbnailUrl() + "\n");
-        stringBuilder.append("type = " + this.getType() + "\n");
-        stringBuilder.append("size = " + this.getSize() + "\n");
-        stringBuilder.append(" main = " + this.isMain() + "\n");
-
-        return stringBuilder.toString();
-    }
 }

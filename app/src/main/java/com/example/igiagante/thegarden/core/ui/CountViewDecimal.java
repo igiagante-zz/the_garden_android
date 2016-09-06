@@ -21,8 +21,6 @@ import java.text.DecimalFormat;
  */
 public class CountViewDecimal extends LinearLayout {
 
-    private Context mContext;
-
     private float mDefaultValue;
     private EditText mEditValue;
     private String hint;
@@ -60,9 +58,7 @@ public class CountViewDecimal extends LinearLayout {
 
     private void init(Context context) {
 
-        mContext = context;
-
-        inflate(mContext, R.layout.count_view_decimal, this);
+        inflate(context, R.layout.count_view_decimal, this);
         mEditValue = (EditText) findViewById(R.id.count_input);
         mEditValue.setText(formatFloat(mDefaultValue));
 

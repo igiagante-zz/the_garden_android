@@ -56,6 +56,7 @@
     <dimen name="login_button_margin">24dp</dimen>
 
     <dimen name="login_signup_text_size">16sp</dimen>
+    <dimen name="link_login_text_size">16sp</dimen>
 
     <!-- Plants -->
     <dimen name="card_plant_elevation">4dp</dimen>
@@ -235,7 +236,6 @@
     <dimen name="elv_row_nutrient_padding_top_and_bottom">8dp</dimen>
     <dimen name="elv_row_nutrient_padding_start_and_end">20dp</dimen>
 
-    <dimen name="elv_row_check_box_size">35dp</dimen>
     <dimen name="elv_row_check_box_margin_top">5dp</dimen>
 
     <dimen name="elv_row_text_size">20sp</dimen>
@@ -260,6 +260,9 @@
     <dimen name="irrigation_button_delete_margin_start">5dp</dimen>
     <dimen name="irrigation_button_delete_margin_end">25dp</dimen>
 
+    <!-- Counter custom view -->
+    <dimen name="counter_view_text_size">9sp</dimen>
+
     <!-- Land dimens -->
 
     <dimen name="count_view_land_margin_start">15dp</dimen>
@@ -270,29 +273,17 @@
     <dimen name="view_pager_margin_top_land">100dp</dimen>
     <dimen name="toolbar_height_land">80dp</dimen>
 
-    <dimen name="button_width_land">20dp</dimen>
-    <dimen name="button_height_land">35dp</dimen>
-    <dimen name="margin_button_land">8dp</dimen>
-
     <dimen name="margin_text_view_land">0dp</dimen>
     <dimen name="margin_end_genotype_land">50dp</dimen>
     <dimen name="margin_end_ph_soil_land">30dp</dimen>
 
-    <!-- land - show plant -->
-    <dimen name="show_plant_card_view_width_land">450dp</dimen>
-    <dimen name="show_plant_card_view_height_land">300dp</dimen>
-
     <!-- land - carousel -->
-    <dimen name="carousel_cardview_margin_land">20dp</dimen>
-    <dimen name="carousel_cardview_margin_start_land">60dp</dimen>
 
     <!-- land - grid card info plant -->
     <dimen name="plant_data_text_size_land">24sp</dimen>
-    <dimen name="card_plant_name_size_land">35sp</dimen>
     <dimen name="card_plant_margin_land">45dp</dimen>
     <dimen name="card_plant_image_size_land">540dp</dimen>
     <dimen name="card_plant_button_delete_size_land">30dp</dimen>
-    <dimen name="grid_card_info_plant_margin_top_land">50dp</dimen>
 
     <!-- land - attributes rectangles -->
     <dimen name="rectangle_effects_land_margin_start">60dp</dimen>
@@ -311,13 +302,6 @@
     <dimen name="nutrient_data_margin_start_land">40dp</dimen>
     <dimen name="nutrient_data_padding_land">8dp</dimen>
 
-    <dimen name="nutrient_detail_margin_Start_land">20dp</dimen>
-    <dimen name="nutrient_detail_margin_Top_land">10dp</dimen>
-
-    <dimen name="nutrient_detail_text_area_width_land">280dp</dimen>
-    <dimen name="nutrient_detail_text_area_height_land">160dp</dimen>
-
-    <dimen name="card_nutrient_button_delete_size_land">70dp</dimen>
     <dimen name="card_nutrient_button_delete_margin_start_land">50dp</dimen>
     <dimen name="card_nutrient_button_delete_margin_top_land">10dp</dimen>
 
@@ -339,10 +323,5 @@
     <dimen name="irrigation_button_delete_size_land">35dp</dimen>
     <dimen name="irrigation_button_delete_margin_top_land">7dp</dimen>
     <dimen name="irrigation_button_delete_margin_end_land">20dp</dimen>
-
-    <!-- irrigation data layout -->
-    <dimen name="irrigation_data_margin_land">30dp</dimen>
-    <dimen name="irrigation_data_margin_top_land">50dp</dimen>
-    <dimen name="irrigation_data_inner_margin_start_land">40dp</dimen>
 
 </resources>

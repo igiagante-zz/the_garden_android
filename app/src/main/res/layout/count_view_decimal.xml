@@ -16,7 +16,8 @@
             android:singleLine="true"
             android:inputType="numberDecimal"
             android:textSize="@dimen/text_size"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:labelFor="@+id/input_wrap_decimal"/>
 
     </android.support.design.widget.TextInputLayout>
 

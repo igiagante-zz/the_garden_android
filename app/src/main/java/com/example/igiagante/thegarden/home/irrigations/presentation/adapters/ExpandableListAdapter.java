@@ -24,13 +24,11 @@ import java.util.List;
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private List<NutrientHolder> mNutrients = new ArrayList<>();
-    private Context mContext;
     private LayoutInflater layoutInflater;
 
     private String[] nameOfGroup = {"Nutrients"};
 
     public ExpandableListAdapter(@NonNull Context context) {
-        this.mContext = context;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -80,7 +78,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = this.layoutInflater.inflate(R.layout.row_header_nutrients_expandable_list, null);
+            convertView = this.layoutInflater.inflate(R.layout.row_header_nutrients_expandable_list, parent, false);
         }
 
         ImageView indicator = (ImageView) convertView.findViewById(R.id.arrow_indicator_id);
@@ -100,7 +98,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         final NutrientHolder nutrient = (NutrientHolder) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            convertView = this.layoutInflater.inflate(R.layout.row_nutrients_expandable_list, null);
+            convertView = this.layoutInflater.inflate(R.layout.row_nutrients_expandable_list, parent, false);
         }
 
         TextView nameOfNutrient = (TextView) convertView.findViewById(R.id.expandable_list_name_of_nutrient);

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.example.igiagante.thegarden.core.Session;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
@@ -14,7 +13,6 @@ import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiGardenRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiNutrientRepository;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

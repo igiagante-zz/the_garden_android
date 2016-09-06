@@ -35,8 +35,8 @@ import butterknife.ButterKnife;
 public class AttributesFragment extends CreationBaseFragment implements AttributesView,
         AttributeAdapter.TagActionListener {
 
-    public static final String AVAILABLE_ATTRIBUTES = "AVAILABLE_ATTRIBUTES";
-    public static final String SELECTED_ATTRIBUTES = "SELECTED_ATTRIBUTES";
+    private static final String AVAILABLE_ATTRIBUTES = "AVAILABLE_ATTRIBUTES";
+    private static final String SELECTED_ATTRIBUTES = "SELECTED_ATTRIBUTES";
 
     @Bind(R.id.attributes_selected_id)
     RecyclerView attributesSelected;

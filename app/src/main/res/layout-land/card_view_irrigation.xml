@@ -42,8 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dose_irrigation_text_margin_start_land"
-                android:textSize="@dimen/dose_irrigation_text_size_land"
-                android:text="19 Jul"/>
+                android:textSize="@dimen/dose_irrigation_text_size_land"/>
 
             <TextView
                 android:id="@+id/card_view_irrigation_quantity_id"

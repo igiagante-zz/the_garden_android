@@ -7,7 +7,6 @@ import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.executor.PostExecutionThread;
 import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
-import com.example.igiagante.thegarden.core.repository.managers.PlagueRepositoryManager;
 import com.example.igiagante.thegarden.core.repository.managers.PlantRepositoryManager;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 

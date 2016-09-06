@@ -18,7 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/image_ic_the_garden_content_description"/>
 
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout
@@ -30,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Email" />
+                android:hint="@string/register_email" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -43,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Password"/>
+                android:hint="@string/register_password"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Signup Button -->
@@ -54,15 +55,15 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Create Account"/>
+            android:text="@string/register_create_account"/>
 
         <TextView android:id="@+id/link_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Already a member? Login"
+            android:text="@string/register_already_a_member"
             android:gravity="center"
-            android:textSize="16dip"/>
+            android:textSize="@dimen/link_login_text_size"/>
 
     </LinearLayout>
 </ScrollView>

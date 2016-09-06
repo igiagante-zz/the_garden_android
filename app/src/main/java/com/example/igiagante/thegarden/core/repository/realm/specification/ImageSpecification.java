@@ -6,7 +6,6 @@ import com.example.igiagante.thegarden.core.repository.RealmSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
 

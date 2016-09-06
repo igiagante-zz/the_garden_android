@@ -62,9 +62,6 @@ import com.example.igiagante.thegarden.home.gardens.presentation.delegates.Adapt
 import com.example.igiagante.thegarden.home.gardens.presentation.presenters.GardenPresenter;
 import com.example.igiagante.thegarden.home.gardens.presentation.view.GardenView;
 import com.example.igiagante.thegarden.home.gardens.presentation.viewTypes.ViewTypeGarden;
-import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
-import com.example.igiagante.thegarden.home.plants.presentation.PlantsAdapter;
-import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.GardenHolder;
 import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity;
 import com.example.igiagante.thegarden.home.irrigations.presentation.fragments.IrrigationsFragment;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
@@ -159,8 +156,6 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
      * Used to send an email with attachments
      */
     private EmailProducerService emailProducerService;
-
-    private SearchView searchView;
 
     /**
      * This menuItem is taken out because it needs to hide the searchView
@@ -448,7 +443,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 break;
             case R.id.delete_plant:
                 if (!garden.getPlants().isEmpty()) {
-                    Toast.makeText(this, "The garden has plants. Remove first the plants", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.garden_has_plant), Toast.LENGTH_SHORT).show();
                 } else {
                     mGardenPresenter.deleteGarden(garden);
                 }
@@ -604,7 +599,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         // Retrieve the SearchView and plug it into SearchManager
         this.menuItem = menu.findItem(R.id.action_search);
-        this.searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
@@ -754,7 +749,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSIONS: {

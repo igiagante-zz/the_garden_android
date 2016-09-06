@@ -186,7 +186,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
     /**
      * Add nutrient
      *
-     * @param nutrient
+     * @param nutrient Object
      */
     public void addNutrient(Nutrient nutrient) {
         this.nutrientPresenter.saveNutrient(nutrient);

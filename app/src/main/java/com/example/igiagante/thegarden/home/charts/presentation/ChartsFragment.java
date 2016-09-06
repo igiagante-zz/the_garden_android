@@ -36,10 +36,6 @@ public class ChartsFragment extends GardenFragment implements SensorTempView {
     private LineChart tempChart;
     private LineChart humidityChart;
 
-    private ArrayList<SensorTemp> data;
-
-    private ChartsAdapter chartsAdapter;
-
     @Inject
     ChartsPresenter chartsPresenter;
 
@@ -75,7 +71,7 @@ public class ChartsFragment extends GardenFragment implements SensorTempView {
 
         Bundle args = getArguments();
         if (args != null) {
-            data = args.getParcelableArrayList(SENSOR_DATA_KEY);
+            ArrayList<SensorTemp> data = args.getParcelableArrayList(SENSOR_DATA_KEY);
             new LineChartBuilder(tempChart, data, false).build();
             new LineChartBuilder(tempChart, data, true).build();
         }
@@ -90,7 +86,7 @@ public class ChartsFragment extends GardenFragment implements SensorTempView {
 
     @Override
     public void loadSensorTempData(List<SensorTemp> data) {
-        this.chartsAdapter = new ChartsAdapter(getActivity(), (ArrayList<SensorTemp>) data);
+        ChartsAdapter chartsAdapter = new ChartsAdapter(getActivity(), (ArrayList<SensorTemp>) data);
         recyclerViewCharts.setAdapter(chartsAdapter);
     }
 

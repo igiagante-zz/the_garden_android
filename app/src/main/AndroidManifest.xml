@@ -41,37 +41,37 @@
 
         <activity
             android:name=".login.RegisterActivity"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name" />
 
         <activity
             android:name=".home.MainActivity"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name" />
 
         <activity
             android:name=".creation.plants.presentation.CreatePlantActivity"
             android:label="@string/activity_create_plant"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".creation.plants.presentation.CarouselActivity"
-            android:label="@string/activity_carousel"/>
+            android:label="@string/activity_carousel" />
 
         <activity
             android:name=".show_plant.presentation.GetPlantDataActivity"
-            android:label="@string/activity_carousel"/>
+            android:label="@string/activity_carousel" />
 
         <activity
             android:name=".creation.nutrients.presentation.NutrientActivity"
-            android:label="@string/activity_nutrients"/>
+            android:label="@string/activity_nutrients" />
 
         <activity
             android:name=".creation.nutrients.presentation.NutrientDetailActivity"
-            android:label="@string/activity_nutrient_detail"/>
+            android:label="@string/activity_nutrient_detail" />
 
         <activity
             android:name=".home.irrigations.IrrigationDetailActivity"
             android:label="@string/activity_irrigation_detail"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".login.NotificationPublisher" />
 
@@ -84,6 +84,11 @@
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".home.charts.services.ChartsDataService"
+            android:enabled="true"
+            android:exported="false" />
 
         <service
             android:name="com.google.android.gms.analytics.AnalyticsService"

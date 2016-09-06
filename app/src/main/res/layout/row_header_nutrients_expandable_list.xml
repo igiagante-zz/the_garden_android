@@ -7,7 +7,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_nutrients"/>
+        android:src="@drawable/ic_nutrients"
+        android:contentDescription="@string/image_nutrients_content_description"/>
 
     <TextView
         android:layout_marginTop="@dimen/elv_row_header_title_margin_top"
@@ -24,6 +25,7 @@
         android:layout_height="@dimen/elv_indicator_image_height"
         android:src="@drawable/ic_indicator_arrow_bottom"
         android:layout_marginTop="@dimen/elv_indicator_image_margin_top"
-        android:layout_marginStart="@dimen/elv_indicator_image_margin_start" />
+        android:layout_marginStart="@dimen/elv_indicator_image_margin_start"
+        android:contentDescription="@string/image_ic_indicator_arrow_bottom_content_description"/>
 
 </LinearLayout>

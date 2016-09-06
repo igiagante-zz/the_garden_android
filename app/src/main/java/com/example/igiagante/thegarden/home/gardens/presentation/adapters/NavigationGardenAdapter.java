@@ -29,19 +29,15 @@ import java.util.List;
  */
 public class NavigationGardenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext;
-
     private SparseArray<AdapterDelegate> adapterDelegates = new SparseArray<>(2);
     private List<IViewType> items = new LinkedList<>();
 
     public NavigationGardenAdapter(Context context, AdapterDelegateButtonAddGarden.OnGardenDialog onGardenDialog,
                                    AdapterDelegateGarden.OnClickGardenListener onClickLongListener,
                                    Session session) {
-        this.mContext = context;
-
         // add adapter delegates
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_BUTTON,
-                new AdapterDelegateButtonAddGarden(mContext, session, onGardenDialog));
+                new AdapterDelegateButtonAddGarden(context, session, onGardenDialog));
 
         adapterDelegates.put(ViewTypeConstans.VIEW_TYPE_GARDEN,
                 new AdapterDelegateGarden(onClickLongListener));

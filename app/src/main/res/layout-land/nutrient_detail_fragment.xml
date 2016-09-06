@@ -47,12 +47,13 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/nutrient_description_text_view_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/description_title_margin"
             android:layout_marginStart="@dimen/nutrient_detail_margin_Start"
             android:layout_marginTop="@dimen/description_title_margin"
-            android:text="How to use"
+            android:text="@string/nutrient_how_to_use"
             android:textSize="@dimen/description_text_size" />
 
         <EditText
@@ -63,7 +64,8 @@
             android:layout_gravity="center"
             android:background="@drawable/plant_description_background"
             android:gravity="start"
-            android:padding="@dimen/description_text_area_padding" />
+            android:padding="@dimen/description_text_area_padding"
+            android:labelFor="@+id/nutrient_description_text_view_id"/>
 
     </LinearLayout>
 </ScrollView>

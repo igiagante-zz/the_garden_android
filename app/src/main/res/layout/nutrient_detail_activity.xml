@@ -32,7 +32,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="0.8"
                 android:gravity="center"
-                android:text="Nutrient Detail"
+                android:text="@string/toolbar_title_irrigation_detail"
                 android:textStyle="bold" />
 
         </android.support.v7.widget.Toolbar>

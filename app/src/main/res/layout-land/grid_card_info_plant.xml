@@ -17,8 +17,7 @@
             android:paddingStart="@dimen/plant_data_margin_start"
             android:paddingTop="@dimen/plant_data_margin"
             android:paddingEnd="@dimen/plant_data_margin"
-            android:textSize="@dimen/plant_data_text_size_land"
-            android:text="Seed Date: 14/2" />
+            android:textSize="@dimen/plant_data_text_size_land" />
 
         <TextView
             android:id="@+id/plant_genotype_id"
@@ -27,8 +26,7 @@
             android:paddingStart="@dimen/plant_data_margin_start"
             android:paddingTop="@dimen/plant_data_margin"
             android:paddingEnd="@dimen/plant_data_margin"
-            android:textSize="@dimen/plant_data_text_size_land"
-            android:text="Genotype: genotype" />
+            android:textSize="@dimen/plant_data_text_size_land" />
 
 
     </LinearLayout>
@@ -45,8 +43,7 @@
             android:paddingStart="@dimen/plant_data_margin_start"
             android:paddingTop="@dimen/plant_data_margin"
             android:paddingEnd="@dimen/plant_data_margin"
-            android:textSize="@dimen/plant_data_text_size_land"
-            android:text="Harvest: 450g" />
+            android:textSize="@dimen/plant_data_text_size_land" />
 
         <TextView
             android:id="@+id/high_id"
@@ -54,8 +51,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/plant_data_margin"
             android:paddingEnd="@dimen/plant_data_margin"
-            android:textSize="@dimen/plant_data_text_size_land"
-            android:text="Height: 20 cm" />
+            android:textSize="@dimen/plant_data_text_size_land"/>
 
         <TextView
             android:id="@+id/flower_time_id"
@@ -64,8 +60,7 @@
             android:paddingTop="@dimen/plant_data_margin"
             android:paddingStart="@dimen/plant_data_margin"
             android:paddingEnd="@dimen/plant_data_margin"
-            android:textSize="@dimen/plant_data_text_size_land"
-            android:text="Flower: 9 weeks" />
+            android:textSize="@dimen/plant_data_text_size_land" />
 
     </LinearLayout>
 

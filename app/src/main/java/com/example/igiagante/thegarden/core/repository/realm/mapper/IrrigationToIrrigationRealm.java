@@ -3,9 +3,7 @@ package com.example.igiagante.thegarden.core.repository.realm.mapper;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.IrrigationRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import io.realm.Realm;

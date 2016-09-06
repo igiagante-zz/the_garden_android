@@ -46,7 +46,7 @@ public class EffectsFragment extends BaseFragment {
         }
 
         horizontalBarChart = (HorizontalBarChart) fragmentView.findViewById(R.id.effects_chart);
-        ((BarChart) horizontalBarChart).setDescription("");
+        horizontalBarChart.setDescription("");
 
         loadAttributes();
 

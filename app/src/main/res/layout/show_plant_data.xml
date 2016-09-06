@@ -9,7 +9,8 @@
         android:id="@+id/ph_image_id"
         android:layout_width="@dimen/plague_view_ph_image_size"
         android:layout_height="@dimen/plague_view_ph_image_size"
-        android:src="@drawable/ph_icon"/>
+        android:src="@drawable/ph_icon"
+        android:contentDescription="@string/image_ph_icon_content_description"/>
 
     <TextView
         android:id="@+id/ph_text_id"
@@ -26,7 +27,8 @@
         android:layout_marginStart="@dimen/plague_view_ec_image_margin_start"
         android:layout_marginEnd="@dimen/plague_view_ec_image_margin_end"
         android:layout_marginTop="@dimen/plague_view_ec_image_margin_top"
-        android:src="@drawable/ic_ec_icon"/>
+        android:src="@drawable/ic_ec_icon"
+        android:contentDescription="@string/image_ec_icon_content_description"/>
 
     <TextView
         android:id="@+id/ec_text_id"
@@ -37,11 +39,12 @@
         android:layout_marginTop="@dimen/plague_view_ec_text_margin_top"/>
 
     <ImageView
-        android:id="@+id/plant_high_image_id"
+        android:id="@+id/plant_height_image_id"
         android:layout_width="@dimen/plague_view_plant_high_image_size"
         android:layout_height="@dimen/plague_view_plant_high_image_size"
         android:src="@drawable/ic_plant_icon"
-        android:layout_marginStart="@dimen/plague_view_plant_high_image_margin_start"/>
+        android:layout_marginStart="@dimen/plague_view_plant_high_image_margin_start"
+        android:contentDescription="@string/image_plant_height_content_description"/>
 
     <TextView
         android:id="@+id/plant_high_text_id"
@@ -57,7 +60,8 @@
         android:layout_height="@dimen/plague_view_grow_date_image_size"
         android:src="@drawable/ic_calendar_icon"
         android:layout_marginStart="@dimen/plague_view_grow_date_image_margin_start"
-        android:layout_marginTop="@dimen/plague_view_grow_date_image_margin_top"/>
+        android:layout_marginTop="@dimen/plague_view_grow_date_image_margin_top"
+        android:contentDescription="@string/image_grow_date_content_description"/>
 
     <TextView
         android:layout_width="wrap_content"

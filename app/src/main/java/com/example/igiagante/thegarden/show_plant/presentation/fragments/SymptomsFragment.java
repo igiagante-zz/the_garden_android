@@ -46,7 +46,7 @@ public class SymptomsFragment extends BaseFragment {
         }
 
         horizontalBarChart = (HorizontalBarChart) fragmentView.findViewById(R.id.symptoms_chart);
-        ((BarChart) horizontalBarChart).setDescription("");
+        horizontalBarChart.setDescription("");
 
         loadAttributes();
 

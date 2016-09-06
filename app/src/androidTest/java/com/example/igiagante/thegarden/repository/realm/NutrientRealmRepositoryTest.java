@@ -2,7 +2,6 @@ package com.example.igiagante.thegarden.repository.realm;
 
 import android.test.AndroidTestCase;
 
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.repository.realm.NutrientRealmRepository;
 import com.example.igiagante.thegarden.repository.realm.utils.NutrientUtils;

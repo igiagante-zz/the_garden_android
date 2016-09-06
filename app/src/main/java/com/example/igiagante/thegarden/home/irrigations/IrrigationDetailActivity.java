@@ -28,8 +28,6 @@ public class IrrigationDetailActivity extends BaseActivity implements HasCompone
 
     private IrrigationComponent irrigationComponent;
 
-    private Irrigation mIrrigation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +42,7 @@ public class IrrigationDetailActivity extends BaseActivity implements HasCompone
         String title = getString(R.string.activity_irrigation_detail);
         ((TextView) findViewById(R.id.irrigation_detail_toolbar_title)).setText(title);
 
-        mIrrigation = getIntent().getParcelableExtra(IRRIGATION_KEY);
+        Irrigation mIrrigation = getIntent().getParcelableExtra(IRRIGATION_KEY);
 
         Fragment irrigationFragment;
 

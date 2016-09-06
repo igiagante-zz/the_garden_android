@@ -5,21 +5,19 @@ import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.domain.entity.Attribute;
 import com.example.igiagante.thegarden.core.domain.entity.Flavor;
-import com.example.igiagante.thegarden.core.domain.entity.Plague;
-import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
+import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributePerPlantRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.AttributeRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.FlavorRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlagueRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;

@@ -91,7 +91,7 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
     /**
      * Set list of nutrients
      *
-     * @param nutrients
+     * @param nutrients list of nutrients
      */
     public void setNutrients(ArrayList<Nutrient> nutrients) {
         this.nutrients = new ArrayList<>(nutrients);
@@ -101,7 +101,7 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.Nutr
     /**
      * Delete nutrient
      *
-     * @param position
+     * @param position Nutrient's position
      */
     public void deleteNutrient(int position) {
         this.nutrientDeletedPosition = position;

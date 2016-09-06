@@ -3,10 +3,8 @@ package com.example.igiagante.thegarden.repository.realm;
 import android.test.AndroidTestCase;
 
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
-import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.realm.IrrigationRealmRepository;
 import com.example.igiagante.thegarden.repository.realm.utils.IrrigationUtils;
-import com.example.igiagante.thegarden.repository.realm.utils.PlantUtils;
 
 import junit.framework.Assert;
 

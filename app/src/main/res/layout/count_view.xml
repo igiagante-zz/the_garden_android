@@ -16,7 +16,8 @@
             android:singleLine="true"
             android:inputType="number"
             android:textSize="@dimen/text_size"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:labelFor="@+id/input_wrap"/>
 
     </android.support.design.widget.TextInputLayout>
 

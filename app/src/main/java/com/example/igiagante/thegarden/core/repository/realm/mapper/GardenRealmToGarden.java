@@ -2,32 +2,22 @@ package com.example.igiagante.thegarden.core.repository.realm.mapper;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Dose;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.domain.entity.Plant;
 import com.example.igiagante.thegarden.core.repository.Mapper;
-import com.example.igiagante.thegarden.core.repository.realm.PlantRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.IrrigationRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRealm;
-import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantSpecification;
-import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantsByGardenId;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
-import io.realm.Realm;
 import io.realm.RealmList;
-import rx.Observable;
 
 /**
  * @author Ignacio Giagante, on 3/7/16.
@@ -38,14 +28,12 @@ public class GardenRealmToGarden implements Mapper<GardenRealm, Garden> {
     private final IrrigationRealmToIrrigation toIrrigation;
     private final DoseRealmToDose toDose;
     private final NutrientRealmToNutrient toNutrient;
-    private Context context;
 
     public GardenRealmToGarden(@NonNull Context context) {
         this.toPlant = new PlantRealmToPlant(context);
         this.toIrrigation = new IrrigationRealmToIrrigation();
         this.toDose = new DoseRealmToDose();
         this.toNutrient = new NutrientRealmToNutrient();
-        this.context = context;
     }
 
     @Override

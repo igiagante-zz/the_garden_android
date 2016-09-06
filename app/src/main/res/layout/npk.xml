@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/n"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -28,7 +29,8 @@
             android:gravity="center"
             android:padding="2dp"
             android:inputType="number"
-            android:maxLength="2"/>
+            android:maxLength="2"
+            android:labelFor="@+id/n"/>
 
     </LinearLayout>
 
@@ -39,6 +41,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -55,7 +58,8 @@
             android:gravity="center"
             android:padding="2dp"
             android:inputType="number"
-            android:maxLength="2"/>
+            android:maxLength="2"
+            android:labelFor="@+id/p"/>
 
     </LinearLayout>
 
@@ -66,6 +70,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/k"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -82,7 +87,8 @@
             android:gravity="center"
             android:padding="2dp"
             android:inputType="number"
-            android:maxLength="2"/>
+            android:maxLength="2"
+            android:labelFor="@+id/k"/>
 
     </LinearLayout>
 

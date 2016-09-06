@@ -59,8 +59,7 @@
                 android:layout_gravity="top|start"
                 android:layout_marginStart="@dimen/card_plant_name_margin_start"
                 android:layout_marginTop="@dimen/card_plant_name_margin_top"
-                android:textSize="@dimen/card_plant_name_size"
-                android:text="Valeriana" />
+                android:textSize="@dimen/card_plant_name_size" />
 
             <Button
                 android:id="@+id/edit_plant_button"

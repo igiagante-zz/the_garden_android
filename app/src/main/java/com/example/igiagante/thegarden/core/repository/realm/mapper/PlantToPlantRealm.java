@@ -16,8 +16,6 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRea
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
-import java.util.Date;
-
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -29,15 +27,11 @@ public class PlantToPlantRealm implements Mapper<Plant, PlantRealm> {
     private final Realm realm;
     private final ImageToImageRealm toImageRealm;
     private final FlavorToFlavorRealm toFlavorRealm;
-    private final AttributeToAttributeRealm toAttributeRealm;
-    private final PlagueToPlagueRealm toPlagueRealm;
 
     public PlantToPlantRealm(Realm realm) {
         this.realm = realm;
         this.toImageRealm = new ImageToImageRealm(realm);
         this.toFlavorRealm = new FlavorToFlavorRealm(realm);
-        this.toAttributeRealm = new AttributeToAttributeRealm(realm);
-        this.toPlagueRealm = new PlagueToPlagueRealm(realm);
     }
 
     @Override

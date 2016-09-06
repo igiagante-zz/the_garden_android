@@ -95,8 +95,6 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
     @Bind(R.id.irrigation_cancel_button)
     Button mCancelButton;
 
-    private String mGardenId;
-
     private Garden garden;
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
@@ -253,15 +251,6 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-    }
-
-    /**
-     * Set garden id which will be added to the irrigation
-     *
-     * @param gardenId
-     */
-    public void setGardenId(String gardenId) {
-        this.mGardenId = gardenId;
     }
 
     public void setGarden(Garden garden) {

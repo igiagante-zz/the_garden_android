@@ -141,7 +141,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
     /**
      * Inform that an irrigation should be deleted
      *
-     * @param position
+     * @param position Position of irrigation
      */
     public void deleteIrrigation(int position) {
         this.irrigationDeletedPosition = position;

@@ -7,7 +7,6 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.Irrigati
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
 

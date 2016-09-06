@@ -46,7 +46,7 @@ public class MedicinalFragment extends BaseFragment {
         }
 
         horizontalBarChart = (HorizontalBarChart) fragmentView.findViewById(R.id.medicinal_chart);
-        ((BarChart) horizontalBarChart).setDescription("");
+        horizontalBarChart.setDescription("");
 
         loadAttributes();
 

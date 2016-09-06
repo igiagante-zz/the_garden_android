@@ -24,7 +24,6 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
     public static final String PICTURE_SELECTED_KEY = "PICTURE_SELECTED";
 
     private CirclePageIndicator mIndicator;
-    private ViewPager mPager;
     private ArrayList<String> urls;
     private CarouselAdapter mAdapter;
 
@@ -41,7 +40,7 @@ public class CarouselActivity extends BaseActivity implements CarouselFragment.O
             urls = getImagesFilesPaths(images);
         }
 
-        mPager = (ViewPager) findViewById(R.id.viewpager_carousel);
+        ViewPager mPager = (ViewPager) findViewById(R.id.viewpager_carousel);
         mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
 
         mAdapter = new CarouselAdapter(getSupportFragmentManager());

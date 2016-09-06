@@ -3,7 +3,6 @@ package com.example.igiagante.thegarden.creation.plants.usecase;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.webkit.MimeTypeMap;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
@@ -15,7 +14,6 @@ import com.example.igiagante.thegarden.core.usecase.UseCase;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.inject.Inject;
 

@@ -61,11 +61,11 @@ public class AdapterDelegateButtonAddGarden implements AdapterDelegate<AdapterDe
             this.mContext = context;
 
             mButtonAddGarden = (Button) itemView.findViewById(R.id.add_garden_button_id);
-            mButtonAddGarden.setOnClickListener(v -> showDialogAddGarden());
+            mButtonAddGarden.setOnClickListener(v -> showDialogAddGarden(parent));
         }
 
-        private void showDialogAddGarden() {
-            View promptView = layoutInflater.inflate(R.layout.add_garden_dialog, null);
+        private void showDialogAddGarden(ViewGroup parent) {
+            View promptView = layoutInflater.inflate(R.layout.add_garden_dialog, parent, false);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
             alertDialogBuilder.setView(promptView);
 

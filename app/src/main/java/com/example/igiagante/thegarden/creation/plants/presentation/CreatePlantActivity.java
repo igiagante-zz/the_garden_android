@@ -73,8 +73,6 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
      */
     private Plant mPlant;
 
-    private Toolbar mToolbar;
-
     /**
      * The number of pages (wizard steps).
      */
@@ -139,7 +137,7 @@ public class CreatePlantActivity extends BaseActivity implements ViewPager.OnPag
         createPlantViewPager = (CreatePlantViewPager) findViewById(R.id.viewpager_create_plant);
         setupViewPager(createPlantViewPager);
 
-        mToolbar = (Toolbar) findViewById(R.id.create_plant_toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.create_plant_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setToolbarTitle(createPlantViewPager.getAdapter().getPageTitle(0).toString());

@@ -31,7 +31,6 @@ public class CarouselFragment extends BaseFragment {
 
     private String mImageUrl;
     private int mPosition;
-    private SimpleDraweeView mImage;
     private OnDeleteImageInCarousel mOnDeleteImageInCarousel;
 
     public interface OnDeleteImageInCarousel {
@@ -67,7 +66,7 @@ public class CarouselFragment extends BaseFragment {
         // Inflate the layout for this fragment
         final View containerView = inflater.inflate(R.layout.carousel_fragment, container, false);
 
-        mImage = (SimpleDraweeView) containerView.findViewById(R.id.carousel_image_id);
+        SimpleDraweeView mImage = (SimpleDraweeView) containerView.findViewById(R.id.carousel_image_id);
         if (mImageUrl.contains("http")) {
             mImage.setImageURI(Uri.parse(mImageUrl));
         } else {

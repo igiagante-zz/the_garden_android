@@ -1,7 +1,6 @@
 package com.example.igiagante.thegarden.core.repository.managers;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.igiagante.thegarden.core.domain.entity.Plague;
 import com.example.igiagante.thegarden.core.repository.Repository;

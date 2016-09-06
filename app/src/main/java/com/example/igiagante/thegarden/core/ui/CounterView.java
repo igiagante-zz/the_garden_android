@@ -18,8 +18,6 @@ import com.example.igiagante.thegarden.R;
  */
 public class CounterView extends LinearLayout {
 
-    private Context mContext;
-
     private int mDefaultValue;
     private TextView mTextViewValue;
 
@@ -57,9 +55,7 @@ public class CounterView extends LinearLayout {
 
     private void init(Context context) {
 
-        mContext = context;
-
-        inflate(mContext, R.layout.counter_view, this);
+        inflate(context, R.layout.counter_view, this);
         mTextViewValue = (TextView) findViewById(R.id.counter_input_id);
         mTextViewValue.setText(String.valueOf(mDefaultValue));
 

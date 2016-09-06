@@ -3,12 +3,10 @@ package com.example.igiagante.thegarden.core.repository.realm.specification.nutr
 import android.support.annotation.NonNull;
 
 import com.example.igiagante.thegarden.core.repository.RealmSpecification;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.GardenRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
 

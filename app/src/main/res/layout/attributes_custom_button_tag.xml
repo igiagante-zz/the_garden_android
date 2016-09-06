@@ -32,7 +32,7 @@
         <Button
             android:id="@+id/tagButtonMinus"
             style="@style/tag_button_style"
-            android:text="&lt;" />
+            android:text="@string/custom_button_tag_left" />
 
         <TextView
             android:id="@+id/tagNameText"
@@ -40,11 +40,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="Relaxing" />
+            android:text="@string/custom_button_text_example" />
 
         <Button
             android:id="@+id/tagButtonPlus"
             style="@style/tag_button_style"
-            android:text="&gt;" />
+            android:text="@string/custom_button_tag_right" />
     </LinearLayout>
 </merge>

@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textStyle="bold"
-                android:text="Main Data"
+                android:text="@string/toolbar_title_main_data"
                 android:layout_weight="0.8"
                 android:gravity="center"/>
 
