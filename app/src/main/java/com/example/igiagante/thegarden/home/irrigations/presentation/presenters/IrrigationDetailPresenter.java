@@ -48,7 +48,6 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
     }
 
     public void saveIrrigation(Irrigation irrigation) {
-        removeDomainFromNutrientsImages(irrigation.getDose().getNutrients());
         this.saveIrrigationUseCase.execute(irrigation, new SaveIrrigationSubscriber());
     }
 
@@ -135,22 +134,4 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
         return nutrientHolders;
     }
 
-    private void removeDomainFromNutrientsImages(List<Nutrient> nutrients) {
-        for (Nutrient nutrient : nutrients) {
-            removeDomainFromImages(nutrient);
-        }
-    }
-
-    private void removeDomainFromImages(Nutrient nutrient) {
-        for (Image image : nutrient.getImages()) {
-            if (image.getUrl() != null && image.getUrl().contains("http")) {
-                String[] parts = image.getUrl().split(Settings.DOMAIN);
-                image.setUrl(parts[1]);
-            }
-            if (image.getThumbnailUrl() != null && image.getThumbnailUrl().contains("http")) {
-                String[] parts = image.getThumbnailUrl().split(Settings.DOMAIN);
-                image.setThumbnailUrl(parts[1]);
-            }
-        }
-    }
 }

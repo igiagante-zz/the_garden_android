@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_last_irrigation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
+
+    <ImageView
+        android:layout_width="@dimen/widget_irrigation_image_size"
+        android:layout_height="@dimen/widget_irrigation_image_size"
+        android:src="@drawable/ic_irrigate" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/widget_dose_water_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dose_irrigation_text_margin_Start"
+                android:text="@string/dose_water"
+                android:textSize="@dimen/dose_irrigation_text_size" />
+
+            <TextView
+                android:id="@+id/widget_dose_ph_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dose_irrigation_text_margin_Start"
+                android:text="@string/dose_ph"
+                android:textSize="@dimen/dose_irrigation_text_size" />
+
+            <TextView
+                android:id="@+id/widget_dose_ec_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dose_irrigation_text_margin_Start"
+                android:text="@string/dose_ec"
+                android:textSize="@dimen/dose_irrigation_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/widget_card_view_irrigation_date_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/widget_irrigation_date_margin_top"
+                android:textSize="@dimen/irrigation_date_text_size" />
+
+            <TextView
+                android:id="@+id/widget_card_view_irrigation_quantity_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/widget_irrigation_date_margin_start"
+                android:layout_marginTop="@dimen/widget_irrigation_date_margin_top"
+                android:text="@string/irrigation_water"
+                android:textSize="@dimen/irrigation_date_text_size" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/widget_dose_list_of_nutrients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dose_irrigation_text_margin_Start"
+            android:layout_marginTop="@dimen/dose_list_of_nutrients_margin_top"
+            android:text="@string/dose_nutrients"
+            android:textSize="@dimen/dose_irrigation_text_size" />
+
+    </LinearLayout>
+
+</LinearLayout>

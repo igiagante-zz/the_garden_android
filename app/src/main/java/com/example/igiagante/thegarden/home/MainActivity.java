@@ -671,7 +671,11 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             if (checkInternet()) {
                 startActivityForResult(createIntentForCreatePlantActivity(),
                         MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY);
-            } else {
+            } else if(!this.gardens.isEmpty()) {
+                Toast.makeText(this, "Add first a garden", Toast.LENGTH_SHORT).show();
+            }
+
+            else {
                 showMessageNoInternetConnection();
             }
         });

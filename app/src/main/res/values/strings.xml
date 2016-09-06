@@ -41,8 +41,8 @@
     <string name="create_email">Creating document  &#8230;</string>
 
     <!-- Login & Register -->
-    <string name="loading_gardens">Loadging gardens,&#8230;</string>
-    <string name="creating_account">Creating Account,&#8230;</string>
+    <string name="loading_gardens">Loadging gardens  &#8230;</string>
+    <string name="creating_account">Creating Account  &#8230;</string>
     <string name="email_not_valid">Enter a valid email address</string>
     <string name="check_email_characters">Between 4 and 10 alphanumeric characters accepted</string>
     <string name="login_failed">Login Failed!</string>
@@ -229,6 +229,9 @@
     <string name="dose_ec">Ec: %1$s</string>
     <string name="dose_nutrients">N: %1$s</string>
 
+    <string name="widget_irrigation_date">Date: %1$s</string>
+    <string name="widget_irrigation_quantity">WPP: %1$s mL</string>
+
     <string name="irrigation_water">%1$s mL</string>
 
     <!-- Delete Irrigation Dialog -->
@@ -258,5 +261,10 @@
     <string name="image_ic_the_garden_content_description">The Garden</string>
     <string name="image_humidifier_content_description">Humidifier</string>
     <string name="image_ic_indicator_arrow_bottom_content_description">Arrow bottom</string>
+
+    <!-- Widget -->
+    <string name="on_enabled" translatable="false">Widget Provider enabled. Starting timer to update widget every minute</string>
+    <string name="on_disabled" translatable="false">Widget Provider disabled. Turning off timer</string>
+    <string name="irrigations_empty_widget">There is no irrigations</string>
 
 </resources>

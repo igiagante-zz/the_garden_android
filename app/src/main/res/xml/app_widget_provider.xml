@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/widget_provider_layout"
+    android:minHeight="100dip"
+    android:minResizeHeight="300dip"
+    android:minResizeWidth="300dip"
+    android:minWidth="100dip"
+    android:previewImage="@drawable/ic_irrigate"
+    android:resizeMode="vertical|horizontal"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="keyguard|home_screen">
+</appwidget-provider>
