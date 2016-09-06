@@ -1,6 +1,5 @@
 package com.example.igiagante.thegarden.creation.plants.presentation.delegates;
 
-import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,12 +21,10 @@ public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImag
 
     private GalleryAdapter.OnDeleteImage onDeleteImage;
     private GalleryAdapter.OnShowImages onShowImages;
-    private Context mContext;
 
-    public AdapterDelegateImage(Context context, GalleryAdapter.OnDeleteImage onDeleteImage,
+    public AdapterDelegateImage(GalleryAdapter.OnDeleteImage onDeleteImage,
                                 GalleryAdapter.OnShowImages onShowImages) {
         this.onDeleteImage = onDeleteImage;
-        this.mContext = context;
         this.onShowImages = onShowImages;
     }
 

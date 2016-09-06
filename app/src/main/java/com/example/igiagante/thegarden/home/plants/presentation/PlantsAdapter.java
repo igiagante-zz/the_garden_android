@@ -1,12 +1,15 @@
 package com.example.igiagante.thegarden.home.plants.presentation;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +22,20 @@ import android.widget.Toast;
 
 import com.example.igiagante.thegarden.R;
 import com.example.igiagante.thegarden.core.domain.entity.Image;
+import com.example.igiagante.thegarden.home.MainActivity;
 import com.example.igiagante.thegarden.home.plants.holders.PlantHolder;
 import com.example.igiagante.thegarden.show_plant.presentation.GetPlantDataActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -113,7 +120,14 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         holder.mPlantName.setText(plantHolder.getName());
         String seedDateLabel = mContext.getString(R.string.seedDate);
 
-        holder.mSeedDate.setText(seedDateLabel + ": " + plantHolder.getSeedDate());
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM", Locale.US);
+
+        String seedDate = plantHolder.getSeedDate();
+        if(seedDate == null) {
+            seedDate = format.format(new Date());
+        }
+
+        holder.mSeedDate.setText(seedDateLabel + ": " + seedDate);
         String genotypeLabel = mContext.getString(R.string.genotype);
         holder.mGenotype.setText(genotypeLabel + ": " + plantHolder.getGenotype());
         String harvestLabel = mContext.getString(R.string.harvest);
@@ -273,7 +287,16 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
             Intent intent = new Intent(mContext, GetPlantDataActivity.class);
             intent.putExtra(SHOW_PLANT_KEY, plantHolder);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(intent);
+
+            Activity activity = (MainActivity)onEditPlant.get();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                itemView.setOnClickListener(view ->
+                                mContext.startActivity(intent,
+                        ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()));
+            } else {
+                mContext.startActivity(intent);
+            }
         }
 
         private void sendEmail(String emailText) {

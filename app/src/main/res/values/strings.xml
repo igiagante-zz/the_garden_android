@@ -37,7 +37,7 @@
 
     <string name="create_one_garden">Create one garden to start &#8230;</string>
 
-    <string name="create_email">Creating email  &#8230;</string>
+    <string name="create_email">Creating document  &#8230;</string>
 
     <!-- Login & Register -->
     <string name="loading_gardens">Loadging gardens,&#8230;</string>
@@ -224,5 +224,9 @@
     <string name="action_logout">Logout</string>
     <string name="action_user_logged">User Logged</string>
     <string name="action_new_user_registered">Logout</string>
+
+    <!-- Google AdMob -->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -106,7 +107,6 @@ public class GetPlantDataFragment extends BaseFragment implements ShowPlantView 
         mFlavorsRecycleView.setAdapter(flavorAdapter);
 
         viewPager = (ViewPager) fragmentView.findViewById(R.id.show_plant_attributes_viewpager_id);
-
         tabLayout = (TabLayout) fragmentView.findViewById(R.id.show_plant_tab_layout_attributes);
 
         this.getAttributesPresenter.getAttributes();
@@ -154,7 +154,6 @@ public class GetPlantDataFragment extends BaseFragment implements ShowPlantView 
 
     /**
      * Add style to circle indicator
-     * TODO - check if this can be done through xml
      */
     private void setupCircleIndicator() {
         final float density = getResources().getDisplayMetrics().density;

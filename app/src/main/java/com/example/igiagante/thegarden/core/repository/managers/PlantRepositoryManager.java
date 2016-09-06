@@ -43,7 +43,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         List<Plant> list = new ArrayList<>();
         observableOne.map(plant1 -> list.add(plant));
 
-        if(!checkInternet()) {
+        if (!checkInternet()) {
             return Observable.just(list.get(0));
         }
 
@@ -58,7 +58,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
     }
 
     public Observable<Plant> update(@NonNull Plant plant) {
-        if(!checkInternet()){
+        if (!checkInternet()) {
             return Observable.just(plant);
         }
         return mRepositories.get(1).update(plant);
@@ -66,7 +66,7 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
 
     public Observable delete(@NonNull String plantId) {
 
-        if(!checkInternet()) {
+        if (!checkInternet()) {
             return Observable.just(-1);
         }
 
@@ -78,20 +78,21 @@ public class PlantRepositoryManager extends RepositoryManager<Repository<Plant>>
         resultFromApi.subscribeOn(Schedulers.io()).toBlocking().subscribe(success -> list.add(success));
 
         // delete plant from DB
-        if(!list.isEmpty() && list.get(0) != -1) {
+        if (!list.isEmpty() && list.get(0) != -1) {
             Observable<Integer> resultFromDB = mRepositories.get(0).remove(plantId);
             resultFromDB.toBlocking().subscribe(success -> list.add(success));
         }
 
-        if(list.contains(-1)) {
-            return  Observable.just(-1);
+        if (list.contains(-1)) {
+            return Observable.just(-1);
         } else {
-            return  Observable.just(plantId);
+            return Observable.just(plantId);
         }
     }
 
     /**
      * Return an observable a list of resources.
+     *
      * @param specification {@link Specification}
      * @return Observable
      */

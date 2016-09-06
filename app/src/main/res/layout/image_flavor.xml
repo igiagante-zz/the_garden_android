@@ -2,9 +2,9 @@
 <com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/image_flavor_id"
-    android:layout_width="@dimen/flavor_image_width"
-    android:layout_height="@dimen/flavor_image_width"
-    android:layout_margin="15dp"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_margin="10dp"
     fresco:fadeDuration="300"
     fresco:roundAsCircle="true"
     fresco:failureImage="@drawable/ic_error_image"/>

@@ -307,6 +307,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      */
     private void takePicture() {
         RxPaparazzo.takeImage(this)
+                .size(new CustomMaxSize())
                 .usingCamera()
                 .subscribe(response -> {
                     if (response.resultCode() != Activity.RESULT_OK) {
@@ -325,6 +326,7 @@ public class PhotoGalleryFragment extends CreationBaseFragment implements PhotoG
      */
     private void takePhotosFromGallery() {
         RxPaparazzo.takeImages(this)
+                .size(new CustomMaxSize())
                 .usingGallery()
                 .subscribe(response -> {
                     if (response.resultCode() != Activity.RESULT_OK) {

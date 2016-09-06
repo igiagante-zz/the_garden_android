@@ -242,6 +242,7 @@ public class Plant implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(gardenId);
+        dest.writeSerializable(seedDate);
         dest.writeString(name);
         dest.writeFloat(phSoil);
         dest.writeFloat(ecSoil);
@@ -270,6 +271,7 @@ public class Plant implements Parcelable {
     private Plant(Parcel in) {
         id = in.readString();
         gardenId = in.readString();
+        seedDate = (Date) in.readSerializable();
         name = in.readString();
         phSoil = in.readFloat();
         ecSoil = in.readFloat();
@@ -455,7 +457,7 @@ public class Plant implements Parcelable {
          * @return builder
          */
         public PlantBuilder addImages(ArrayList<Image> images, boolean carousel) {
-            // TODO - Refactor
+
             if (carousel || images.isEmpty()) {
                 this.mImages = images;
             } else {

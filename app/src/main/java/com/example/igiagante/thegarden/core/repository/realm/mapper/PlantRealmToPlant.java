@@ -19,6 +19,7 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.P
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -33,7 +34,6 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
     private final AttributeRealmToAttribute toAttribute;
     private final PlagueRealmToPlague toPlague;
 
-    // TODO - Refactor. This should not be here, because this object it's a Mapper.
     private Realm realm;
     private final RealmConfiguration realmConfiguration;
 
@@ -90,7 +90,7 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
                 AttributeRealm attributeRealm = realm.where(AttributeRealm.class)
                         .equalTo(Table.ID,
                                 attributePerPlantRealm.getAttributeId()).findFirst();
-                // TODO - It should not execute a transaction inside a Mapper
+                // check this again
                 realm.executeTransaction(realmParam ->
                         // set the percentage to the attribute from AttributePerPlantRealm
                         attributeRealm.setPercentage(attributePerPlantRealm.getPercentage()));

@@ -16,6 +16,8 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.PlantRea
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.PlantTable;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
+import java.util.Date;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 
