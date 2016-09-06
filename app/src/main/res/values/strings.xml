@@ -74,6 +74,9 @@
 
     <!-- Plant Creation -->
 
+    <string name="activity_register">Register</string>
+    <string name="activity_login">Login</string>
+
     <string name="activity_carousel">Carousel</string>
     <string name="activity_nutrients">Nutrients</string>
     <string name="activity_nutrient_detail">Nutrient Detail</string>
