@@ -128,8 +128,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void notifyImagesAddedToCollection(Collection<ViewTypeImage> imagesCollection) {
         if (!imagesCollection.isEmpty()) {
-            this.items.addAll(0, imagesCollection);
-            this.notifyItemRangeInserted(0, imagesCollection.size());
+            int size = items.size();
+            this.items.addAll(size - 1, imagesCollection);
+            this.notifyDataSetChanged();
         }
     }
 

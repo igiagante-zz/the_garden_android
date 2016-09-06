@@ -56,7 +56,7 @@ public class AdapterDelegateImage implements AdapterDelegate<AdapterDelegateImag
             mImage.setOnClickListener(view -> onShowImages.onShowImages(positionImage));
 
             mDeleteButton = (Button) itemView.findViewById(R.id.delete_button_id);
-            mDeleteButton.setOnClickListener(view -> onDeleteImage.deleteImage(positionImage - 1));
+            mDeleteButton.setOnClickListener(view -> onDeleteImage.deleteImage(positionImage));
         }
 
         public void setImagePath(String imagePath) {

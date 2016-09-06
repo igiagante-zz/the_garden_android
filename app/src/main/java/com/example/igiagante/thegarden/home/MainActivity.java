@@ -177,6 +177,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
                 if (ni != null && ni.isConnectedOrConnecting()) {
                     Log.i(TAG, "Network " + ni.getTypeName() + " connected");
+
                 } else if (intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, Boolean.FALSE)) {
                     Log.d(TAG, "There's no network connectivity");
                     showMessageNoInternetConnection();
