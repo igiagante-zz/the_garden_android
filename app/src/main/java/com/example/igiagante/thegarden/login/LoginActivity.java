@@ -2,12 +2,9 @@ package com.example.igiagante.thegarden.login;
 
 import android.app.AlarmManager;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -64,6 +61,12 @@ public class LoginActivity extends BaseActivity implements HasComponent<LoginCom
                 .build();
     }
 
+    /**
+     * Schedule notification to be sent each hour
+     *
+     * @param notification Notification object
+     * @param delay        interval time
+     */
     private void scheduleNotification(Notification notification, int delay) {
 
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
@@ -72,10 +75,15 @@ public class LoginActivity extends BaseActivity implements HasComponent<LoginCom
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 
+    /**
+     * Create notification
+     *
+     * @return Notification
+     */
     private Notification getNotification() {
         PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
         return new NotificationCompat.Builder(this)
