@@ -23,7 +23,6 @@
             android:layout_width="@dimen/nutrient_image_size_land"
             android:layout_height="@dimen/nutrient_image_size_land"
             android:layout_gravity="center"
-            android:background="@android:color/holo_orange_light"
             android:scaleType="centerCrop"
             app:placeholderImage="@drawable/ic_no_image" />
 

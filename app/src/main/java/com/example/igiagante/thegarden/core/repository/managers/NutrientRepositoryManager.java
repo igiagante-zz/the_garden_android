@@ -41,7 +41,7 @@ public class NutrientRepositoryManager extends RepositoryManager<Repository<Nutr
                 .flatMap(list -> Observable.just(list.get(0)));
 
         List<Nutrient> list = new ArrayList<>();
-        observableOne.map(plant1 -> list.add(nutrient));
+        observableOne.map(nutrientFromDB -> list.add(nutrientFromDB));
 
         Observable<List<Nutrient>> observable = Observable.just(list);
 

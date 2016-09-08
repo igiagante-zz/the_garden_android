@@ -1,5 +1,7 @@
 package com.example.igiagante.thegarden.core.repository.realm.modelRealm;
 
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.NutrientPerDoseRealm;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -20,9 +22,7 @@ public class DoseRealm extends RealmObject {
 
     private float ph;
 
-    private boolean editable;
-
-    private RealmList<NutrientRealm> nutrients;
+    private RealmList<NutrientPerDoseRealm> nutrients;
 
     public String getId() {
         return id;
@@ -64,19 +64,11 @@ public class DoseRealm extends RealmObject {
         this.ph = ph;
     }
 
-    public boolean isEditable() {
-        return editable;
-    }
-
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-
-    public RealmList<NutrientRealm> getNutrients() {
+    public RealmList<NutrientPerDoseRealm> getNutrients() {
         return nutrients;
     }
 
-    public void setNutrients(RealmList<NutrientRealm> nutrients) {
+    public void setNutrients(RealmList<NutrientPerDoseRealm> nutrients) {
         this.nutrients = nutrients;
     }
 }

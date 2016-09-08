@@ -53,8 +53,10 @@ public class CreationBaseFragment extends BaseFragment implements ViewPager.OnPa
      * Load the resources ids from each image in order to know which image was deleted, added or not.
      */
     protected void loadResourcesIds(List<Image> mImages) {
-        for (Image image : mImages) {
-            resourcesIds.add(image.getId());
+        if(this.resourcesIds.isEmpty()) {
+            for (Image image : mImages) {
+                resourcesIds.add(image.getId());
+            }
         }
     }
 

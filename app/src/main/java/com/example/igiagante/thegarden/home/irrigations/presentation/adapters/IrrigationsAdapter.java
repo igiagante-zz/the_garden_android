@@ -40,7 +40,6 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
     public interface OnDeleteIrrigation {
         void showDeleteIrrigationDialog(int position);
-
         void deleteIrrigation(String irrigationId);
     }
 

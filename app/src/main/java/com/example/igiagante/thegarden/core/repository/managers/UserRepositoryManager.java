@@ -10,6 +10,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.domain.entity.User;
 import com.example.igiagante.thegarden.core.repository.realm.UserRealmRepository;
+import com.example.igiagante.thegarden.core.repository.realm.specification.user.UserByIdSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiGardenRepository;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiNutrientRepository;
 
@@ -103,7 +104,10 @@ public class UserRepositoryManager extends BaseRepositoryManager {
             // update db user with gardens
             realmRepository.update(userCopy);
 
-            return Observable.just(userCopy);
+            // it needs to retrieve again the user, because all the images path should be update with the BASE_URL
+            User userUpdated = realmRepository.getUserById(userCopy.getId());
+
+            return Observable.just(userUpdated);
 
         } else {
             return Observable.just(user);

@@ -1,22 +1,27 @@
 package com.example.igiagante.thegarden.core.repository.realm.mapper;
 
 import com.example.igiagante.thegarden.core.domain.entity.Dose;
+import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.NutrientPerDoseRealm;
 
 import java.util.ArrayList;
+
+import io.realm.RealmList;
 
 /**
  * @author Ignacio Giagante, on 4/7/16.
  */
 public class DoseRealmToDose implements Mapper<DoseRealm, Dose> {
 
-    private final NutrientRealmToNutrient toNutrient;
+    private final NutrientPerDoseRealmToNutrient toNutrient;
 
     public DoseRealmToDose(){
-        this.toNutrient = new NutrientRealmToNutrient();
+        this.toNutrient = new NutrientPerDoseRealmToNutrient();
     }
 
     @Override
@@ -37,7 +42,7 @@ public class DoseRealmToDose implements Mapper<DoseRealm, Dose> {
 
         // add nutrients
         if(doseRealm.getNutrients() != null) {
-            for (NutrientRealm nutrientRealm : doseRealm.getNutrients()) {
+            for (NutrientPerDoseRealm nutrientRealm : doseRealm.getNutrients()) {
                 nutrients.add(toNutrient.map(nutrientRealm));
             }
         }
