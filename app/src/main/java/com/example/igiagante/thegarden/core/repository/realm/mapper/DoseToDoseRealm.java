@@ -10,6 +10,8 @@ import com.example.igiagante.thegarden.core.repository.realm.modelRealm.Nutrient
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.NutrientPerDoseRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 
+import java.util.UUID;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -47,13 +49,8 @@ public class DoseToDoseRealm implements Mapper<Dose, DoseRealm> {
         // add nutrients
         if (dose.getNutrients() != null) {
             for (Nutrient nutrient : dose.getNutrients()) {
-                NutrientPerDoseRealm nutrientRealm = realm.where(NutrientPerDoseRealm.class)
-                        .equalTo(Table.ID, nutrient.getId()).findFirst();
-                if (nutrientRealm == null) {
-                    // create nutrient realm object and set id
-                    nutrientRealm = realm.createObject(NutrientPerDoseRealm.class);
-                    nutrientRealm.setId(nutrient.getId());
-                }
+                NutrientPerDoseRealm nutrientRealm = realm.createObject(NutrientPerDoseRealm.class);
+                nutrientRealm.setId(UUID.randomUUID().toString());
                 nutrientRealms.add(toNutrientRealm.copy(nutrient, nutrientRealm));
             }
         }
