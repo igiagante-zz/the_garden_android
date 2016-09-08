@@ -102,6 +102,11 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
         //load plant list from garden
         this.plantsAdapter.setPlants(createPlantHolderList(mPlants));
 
+        //if the garden is empty, it shows the message "create one garden to start"
+        if(this.garden == null) {
+            this.createOneGardenFirst();
+        }
+
         return fragmentView;
     }
 
@@ -177,6 +182,7 @@ public class PlantListFragment extends GardenFragment implements PlantListView,
     @Override
     public void createOneGardenFirst() {
         this.createOneGarden.setVisibility(View.VISIBLE);
+        this.garden = null;
     }
 
     @Override

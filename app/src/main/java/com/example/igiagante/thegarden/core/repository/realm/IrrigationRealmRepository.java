@@ -11,6 +11,7 @@ import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.IrrigationRealmToIrrigation;
 import com.example.igiagante.thegarden.core.repository.realm.mapper.IrrigationToIrrigationRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.IrrigationRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.IrrigationTable;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
 import com.example.igiagante.thegarden.core.repository.realm.specification.irrigations.IrrigationByIdSpecification;
 
@@ -123,6 +124,17 @@ public class IrrigationRealmRepository implements Repository<Irrigation> {
 
         realm.executeTransaction(realmParam -> {
             RealmResults<IrrigationRealm> result = realm.where(IrrigationRealm.class).findAll();
+            result.deleteAllFromRealm();
+        });
+        realm.close();
+    }
+
+    public void removeIrrigationsByGardenId(String gardenId) {
+        realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransaction(realmParam -> {
+            RealmResults<IrrigationRealm> result = realm.where(IrrigationRealm.class)
+                    .equalTo(IrrigationTable.GARDEN_ID, gardenId).findAll();
             result.deleteAllFromRealm();
         });
         realm.close();

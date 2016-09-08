@@ -176,7 +176,7 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
     @Override
     public void notifyIfGardenWasUpdated(Garden garden) {
         Intent intent = new Intent();
-        intent.putExtra(MainActivity.GARDEN_KEY, garden);
+        intent.putExtra(MainActivity.GARDEN_KEY, this.garden);
         getActivity().setResult(getActivity().RESULT_OK, intent);
         getActivity().finish();
     }

@@ -102,6 +102,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         return isConnected;
     }
 
+    protected void showMessage(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
+        textView.setGravity(Gravity.CENTER);
+        toast.show();
+    }
+
     protected void showMessageNoInternetConnection() {
         String string = getString(R.string.there_is_not_internet_connection);
         Toast toast = Toast.makeText(this, string, Toast.LENGTH_LONG);

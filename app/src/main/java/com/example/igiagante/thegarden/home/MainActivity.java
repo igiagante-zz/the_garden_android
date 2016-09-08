@@ -368,6 +368,32 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         }
     }
 
+    @Override
+    public void notifyIfGardenWasDeleted() {
+        drawerLayout.closeDrawers();
+
+        GardenHolder gardenToBeDeleted = this.gardens.get(editGardenPosition);
+        if(gardenToBeDeleted != null) {
+            this.gardens.remove(gardenToBeDeleted);
+            // update gardensIds from user
+            removeGardenFromUser(gardenToBeDeleted.getModel());
+        }
+
+        // update adapter
+        mNavigationGardenAdapter.removeGarden(editGardenPosition);
+        mNavigationGardenAdapter.notifyDataSetChanged();
+
+        //if there is no garden, it shows initial message
+        if(this.gardens.isEmpty()) {
+            this.mAdapter.createFirstGardenMessage();
+        } else {
+            loadGarden(gardens.get(0));
+        }
+
+        // at the end it updates the model
+        this.gardens.remove(editGardenPosition);
+    }
+
     private void setGardenDefaultValues() {
         TextView tempAndHumd = (TextView) findViewById(R.id.header_nav_temp_and_humd);
         tempAndHumd.setText(getString(R.string.header_nav_bar_temp_humd, "25", "50"));
@@ -527,24 +553,6 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         this.mSession.getUser().setGardens(user.getGardens());
     }
 
-    @Override
-    public void notifyIfGardenWasDeleted() {
-        drawerLayout.closeDrawers();
-
-        // update adapter
-        mNavigationGardenAdapter.removeGarden(editGardenPosition);
-        mNavigationGardenAdapter.notifyDataSetChanged();
-
-        // load the first garden after one is removed
-        loadGarden(gardens.get(0));
-
-        // update gardensIds from user
-        removeGardenFromUser(this.gardens.get(editGardenPosition).getModel());
-
-        // at the end it updates the model
-        this.gardens.remove(editGardenPosition);
-    }
-
     private void removeGardenFromUser(Garden garden) {
         User user = mSession.getUser();
         user.getGardens().remove(garden);
@@ -643,15 +651,19 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
     @Override
     public void onPageSelected(int position) {
+
         fab.setVisibility(View.GONE);
+
+        initFAB();
 
         switch (position) {
             case 0:
-                initFAB();
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(view -> executeActionFAB(0));
                 break;
             case 1:
                 fab.setVisibility(View.VISIBLE);
-                fab.setOnClickListener(v -> startIrrigationDetailActivity());
+                fab.setOnClickListener(view -> executeActionFAB(1));
                 break;
             case 2:
                 fab.setVisibility(View.GONE);
@@ -665,18 +677,32 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         }
     }
 
+    /**
+     * Depend on the tab position, the fab will execute an action
+     * @param tabPosition Tab's Position
+     */
+    private void executeActionFAB(int tabPosition) {
+
+        if(this.gardens.isEmpty()) {
+            showMessage(getString(R.string.garden_add_one));
+        } else if(tabPosition == 0) {
+            startActivityForResult(createIntentForCreatePlantActivity(),
+                    MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY);
+        } else {
+            startIrrigationDetailActivity();
+        }
+    }
+
     private void initFAB() {
-        fab.setVisibility(View.VISIBLE);
+
         fab.setOnClickListener(v -> {
-            if (checkInternet()) {
+            if (!checkInternet()) {
+                showMessageNoInternetConnection();
+            } else if(this.gardens.isEmpty()) {
+                showMessage(getString(R.string.garden_add_one));
+            } else {
                 startActivityForResult(createIntentForCreatePlantActivity(),
                         MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY);
-            } else if(!this.gardens.isEmpty()) {
-                Toast.makeText(this, "Add first a garden", Toast.LENGTH_SHORT).show();
-            }
-
-            else {
-                showMessageNoInternetConnection();
             }
         });
     }
@@ -763,7 +789,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
                     emailProducerService.createAttachmentAndSendEmail();
                 } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                    showMessage(getString(R.string.permission_denied));
                 }
             }
         }

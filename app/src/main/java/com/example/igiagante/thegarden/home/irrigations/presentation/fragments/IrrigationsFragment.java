@@ -106,15 +106,13 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.garden = garden;
         this.mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
         this.irrigationsAdapter.setIrrigations(this.mIrrigations);
+        this.createOneGarden.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void createOneGardenFirst() {
         this.createOneGarden.setVisibility(View.VISIBLE);
-    }
-
-    public void addIrrigation(@NonNull Irrigation irrigation) {
-        this.irrigationsAdapter.addIrrigation(irrigation);
+        this.garden = null;
     }
 
     private void startIrrigationDetailActivity(@Nullable Irrigation irrigation) {

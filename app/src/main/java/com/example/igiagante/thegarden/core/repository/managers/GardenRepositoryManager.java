@@ -8,6 +8,7 @@ import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.repository.Repository;
 import com.example.igiagante.thegarden.core.repository.Specification;
 import com.example.igiagante.thegarden.core.repository.realm.GardenRealmRepository;
+import com.example.igiagante.thegarden.core.repository.realm.IrrigationRealmRepository;
 import com.example.igiagante.thegarden.core.repository.realm.specification.garden.GardenByNameSpecification;
 import com.example.igiagante.thegarden.core.repository.restAPI.repositories.RestApiGardenRepository;
 
@@ -77,18 +78,22 @@ public class GardenRepositoryManager extends RepositoryManager<Repository<Garden
 
         RestApiGardenRepository restApiGardenRepository = new RestApiGardenRepository(context, session);
 
-        // delete plant from api
+        // delete garden from api
         Observable<Integer> resultFromApi = restApiGardenRepository.remove(gardenId, userId);
 
         //Create a list of Integer in order to avoid calling Realm from other Thread
         List<Integer> list = new ArrayList<>();
         resultFromApi.subscribeOn(Schedulers.io()).toBlocking().subscribe(success -> list.add(success));
 
-        // delete plant from DB
+        // delete garden from DB
         if (!list.isEmpty() && list.get(0) != -1) {
             Observable<Integer> resultFromDB = mRepositories.get(0).remove(gardenId);
             resultFromDB.toBlocking().subscribe(success -> list.add(success));
         }
+
+        // delete irrigations from garden
+        IrrigationRealmRepository irrigationRealmRepository = new IrrigationRealmRepository(context);
+        irrigationRealmRepository.removeIrrigationsByGardenId(gardenId);
 
         Observable<Integer> result;
 

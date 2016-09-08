@@ -73,6 +73,8 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
         for (int i = 0; i < registeredFragments.size(); i++) {
             if (this.garden != null) {
                 ((GardenFragment) registeredFragments.get(i)).setGarden(this.garden);
+            } else {
+                ((GardenFragment) registeredFragments.get(i)).createOneGardenFirst();
             }
         }
     }
@@ -81,6 +83,7 @@ public class GardenViewPagerAdapter extends FragmentStatePagerAdapter {
      * If there is any garden created, it should show a message. e.g. Create one garden to start.
      */
     public void createFirstGardenMessage() {
+        this.garden = null;
         for (int i = 0; i < registeredFragments.size(); i++) {
             ((GardenFragment) registeredFragments.get(i)).createOneGardenFirst();
         }
