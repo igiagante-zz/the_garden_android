@@ -13,6 +13,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.UserRealmToU
 import com.example.igiagante.thegarden.core.repository.realm.mapper.UserToUserRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.UserRealm;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.UserTable;
 import com.example.igiagante.thegarden.core.repository.realm.specification.plant.PlantByNameSpecification;
 import com.example.igiagante.thegarden.core.repository.realm.specification.user.UserByIdSpecification;
 
@@ -124,5 +125,10 @@ public class UserRealmRepository implements Repository<User> {
                 Observable.from(list)
                         .map(userRealm -> toUser.map(userRealm))
                         .toList());
+    }
+
+    public User getUserById(String userId) {
+        final Realm realm = Realm.getInstance(realmConfiguration);
+        return toUser.map(realm.where(UserRealm.class).equalTo(UserTable.ID, userId).findFirst());
     }
 }

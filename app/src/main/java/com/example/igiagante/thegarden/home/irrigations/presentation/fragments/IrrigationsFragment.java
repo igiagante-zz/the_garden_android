@@ -27,6 +27,7 @@ import com.example.igiagante.thegarden.home.irrigations.presentation.view.Irriga
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -57,6 +58,8 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
     TextView createOneGarden;
 
     private ArrayList<Irrigation> mIrrigations = new ArrayList<>();
+
+    private String irrigationId;
 
     public static IrrigationsFragment newInstance(Garden garden) {
         IrrigationsFragment myFragment = new IrrigationsFragment();
@@ -135,12 +138,25 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
 
     @Override
     public void deleteIrrigation(String irrigationId) {
+        this.irrigationId = irrigationId;
         this.irrigationPresenter.deleteIrrigation(irrigationId);
     }
 
     @Override
     public void notifyIfIrrigationWasDeleted() {
         this.irrigationsAdapter.removeIrrigation();
+        List<Irrigation> irrigations = this.garden.getIrrigations();
+        Irrigation irrigation = getIrrigationToBeRemoved(irrigations);
+        irrigations.remove(irrigation);
+    }
+
+    private Irrigation getIrrigationToBeRemoved(List<Irrigation> irrigations) {
+        for(Irrigation irrigation : irrigations) {
+            if(irrigation.getId().equals(this.irrigationId)){
+                return irrigation;
+            }
+        }
+        return new Irrigation();
     }
 
     @Override

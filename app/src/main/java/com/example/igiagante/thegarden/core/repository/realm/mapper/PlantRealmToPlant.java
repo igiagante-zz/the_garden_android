@@ -86,8 +86,7 @@ public class PlantRealmToPlant implements Mapper<PlantRealm, Plant> {
 
                 // get attribute using attributeId from AttributePerPlantRealm
                 AttributeRealm attributeRealm = realm.where(AttributeRealm.class)
-                        .equalTo(Table.ID,
-                                attributePerPlantRealm.getAttributeId()).findFirst();
+                        .equalTo(Table.ID, attributePerPlantRealm.getAttributeId()).findFirst();
                 // check this again
                 realm.executeTransaction(realmParam ->
                         // set the percentage to the attribute from AttributePerPlantRealm
