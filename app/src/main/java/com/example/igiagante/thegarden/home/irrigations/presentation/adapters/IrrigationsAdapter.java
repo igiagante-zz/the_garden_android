@@ -61,6 +61,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
     @Override
     public void onBindViewHolder(IrrigationViewHolder holder, int position) {
         Irrigation irrigation = irrigations.get(position);
+        holder.setPosition(position);
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
 
@@ -154,7 +155,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
     public void removeIrrigation() {
         if (!irrigations.isEmpty()) {
             this.irrigations.remove(irrigationDeletedPosition);
-            this.notifyItemRemoved(irrigationDeletedPosition);
+            this.notifyDataSetChanged();
         }
     }
 

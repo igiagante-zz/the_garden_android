@@ -20,9 +20,7 @@ public class DoseRealm extends RealmObject {
 
     private float ph;
 
-    private boolean editable;
-
-    private RealmList<NutrientRealm> nutrients;
+    private RealmList<NutrientPerDoseRealm> nutrients;
 
     public String getId() {
         return id;
@@ -64,19 +62,11 @@ public class DoseRealm extends RealmObject {
         this.ph = ph;
     }
 
-    public boolean isEditable() {
-        return editable;
-    }
-
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-
-    public RealmList<NutrientRealm> getNutrients() {
+    public RealmList<NutrientPerDoseRealm> getNutrients() {
         return nutrients;
     }
 
-    public void setNutrients(RealmList<NutrientRealm> nutrients) {
+    public void setNutrients(RealmList<NutrientPerDoseRealm> nutrients) {
         this.nutrients = nutrients;
     }
 }

@@ -651,6 +651,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Override
     public void onPageSelected(int position) {
 
+        this.progressBar.setVisibility(View.INVISIBLE);
         fab.setVisibility(View.GONE);
 
         initFAB();

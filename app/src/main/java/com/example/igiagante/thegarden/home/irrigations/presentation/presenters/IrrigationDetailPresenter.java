@@ -4,11 +4,9 @@ import android.util.Log;
 
 import com.example.igiagante.thegarden.core.di.PerActivity;
 import com.example.igiagante.thegarden.core.domain.entity.Garden;
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Irrigation;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.presentation.mvp.AbstractPresenter;
-import com.example.igiagante.thegarden.core.repository.network.Settings;
 import com.example.igiagante.thegarden.core.usecase.DefaultSubscriber;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.home.irrigations.presentation.holders.NutrientHolder;
@@ -30,20 +28,21 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
 
     private final UseCase saveIrrigationUseCase;
     private final UseCase getNutrientsUseCase;
-    private final UseCase saveGardenUseCase;
+    private final UseCase updateGardenWithIrrigationUseCase;
 
     @Inject
     public IrrigationDetailPresenter(@Named("saveIrrigation") UseCase saveIrrigationUseCase,
                                      @Named("getNutrients") UseCase getNutrientsUseCase,
-                                     @Named("saveGarden") UseCase saveGardenUseCase) {
+                                     @Named("updateGardenWithIrrigation") UseCase updateGardenWithIrrigationUseCase) {
         this.saveIrrigationUseCase = saveIrrigationUseCase;
         this.getNutrientsUseCase = getNutrientsUseCase;
-        this.saveGardenUseCase = saveGardenUseCase;
+        this.updateGardenWithIrrigationUseCase = updateGardenWithIrrigationUseCase;
     }
 
     public void destroy() {
         this.saveIrrigationUseCase.unsubscribe();
         this.getNutrientsUseCase.unsubscribe();
+        this.updateGardenWithIrrigationUseCase.unsubscribe();
         this.view = null;
     }
 
@@ -56,7 +55,7 @@ public class IrrigationDetailPresenter extends AbstractPresenter<IrrigationDetai
     }
 
     public void updateGarden(Garden garden) {
-        this.saveGardenUseCase.execute(garden, new UpdateGardenSubscriber());
+        this.updateGardenWithIrrigationUseCase.execute(garden, new UpdateGardenSubscriber());
     }
 
     private void loadNutrients(List<NutrientHolder> nutrients) {

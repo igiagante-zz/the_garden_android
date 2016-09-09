@@ -35,14 +35,7 @@ public class IrrigationToIrrigationRealm implements Mapper<Irrigation, Irrigatio
         irrigationRealm.setGardenId(irrigation.getGardenId());
         irrigationRealm.setQuantity(irrigation.getQuantity());
 
-        DoseRealm doseRealm = realm.where(DoseRealm.class).equalTo(Table.ID,
-                irrigation.getDose().getId()).findFirst();
-        if (doseRealm == null) {
-            // create dose realm object and set id
-            doseRealm = realm.createObject(DoseRealm.class);
-            doseRealm.setId(irrigation.getDose().getId());
-        }
-        irrigationRealm.setDose(toDoseRealm.copy(irrigation.getDose(), doseRealm));
+        irrigationRealm.setDose(toDoseRealm.map(irrigation.getDose()));
 
         return irrigationRealm;
     }

@@ -4,8 +4,9 @@ import com.example.igiagante.thegarden.core.domain.entity.Dose;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.Table;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientPerDoseRealm;
+
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -16,17 +17,17 @@ import io.realm.RealmList;
 public class DoseToDoseRealm implements Mapper<Dose, DoseRealm> {
 
     private final Realm realm;
-    private final NutrientToNutrientRealm toNutrientRealm;
+    private final NutrientToNutrientPerDoseRealm toNutrientRealm;
 
     public DoseToDoseRealm(Realm realm) {
         this.realm = realm;
-        this.toNutrientRealm = new NutrientToNutrientRealm(realm);
+        this.toNutrientRealm = new NutrientToNutrientPerDoseRealm(realm);
     }
 
     @Override
     public DoseRealm map(Dose dose) {
         DoseRealm doseRealm = realm.createObject(DoseRealm.class);
-        doseRealm.setId(dose.getId());
+        doseRealm.setId(UUID.randomUUID().toString());
         return copy(dose, doseRealm);
     }
 
@@ -39,17 +40,13 @@ public class DoseToDoseRealm implements Mapper<Dose, DoseRealm> {
         doseRealm.setPhDose(dose.getPhDose());
 
         // nutrients realm list
-        RealmList<NutrientRealm> nutrientRealms = new RealmList<>();
+        RealmList<NutrientPerDoseRealm> nutrientRealms = new RealmList<>();
 
         // add nutrients
         if (dose.getNutrients() != null) {
             for (Nutrient nutrient : dose.getNutrients()) {
-                NutrientRealm nutrientRealm = realm.where(NutrientRealm.class).equalTo(Table.ID, nutrient.getId()).findFirst();
-                if (nutrientRealm == null) {
-                    // create nutrient realm object and set id
-                    nutrientRealm = realm.createObject(NutrientRealm.class);
-                    nutrientRealm.setId(nutrient.getId());
-                }
+                NutrientPerDoseRealm nutrientRealm = realm.createObject(NutrientPerDoseRealm.class);
+                nutrientRealm.setId(UUID.randomUUID().toString());
                 nutrientRealms.add(toNutrientRealm.copy(nutrient, nutrientRealm));
             }
         }

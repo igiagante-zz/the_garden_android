@@ -76,7 +76,6 @@ public class IrrigationRealmRepository implements Repository<Irrigation> {
         realm.executeTransaction(realmParam -> {
             for (Irrigation irrigation : irrigations) {
                 realmParam.copyToRealmOrUpdate(toIrrigationRealm.map(irrigation));
-
             }
         });
 

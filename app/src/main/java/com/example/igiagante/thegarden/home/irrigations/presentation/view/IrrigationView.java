@@ -1,5 +1,6 @@
 package com.example.igiagante.thegarden.home.irrigations.presentation.view;
 
+import com.example.igiagante.thegarden.core.domain.entity.Garden;
 import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 
 /**
@@ -8,4 +9,6 @@ import com.example.igiagante.thegarden.core.presentation.mvp.IView;
 public interface IrrigationView extends IView {
 
     void notifyIfIrrigationWasDeleted();
+
+    void notifyIfGardenWasUpdated(Garden garden);
 }

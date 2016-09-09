@@ -13,6 +13,7 @@
     <dimen name="image_header_view_height">170dp</dimen>
 
     <dimen name="toolbar_size">100dp</dimen>
+    <dimen name="toolbar_title_margin_top">40dp</dimen>
     <dimen name="navigation_drawer_width">230dp</dimen>
     <dimen name="navigation_drawer_garden_logo_size">25dp</dimen>
     <dimen name="navigation_drawer_garden_logo_margin_top">10dp</dimen>
@@ -98,6 +99,7 @@
     <!-- gallery -->
 
     <dimen name="image_gallery_width">160dp</dimen>
+    <dimen name="image_gallery_button_width">140dp</dimen>
     <dimen name="image_gallery_margin">5dp</dimen>
 
     <dimen name="view_pager_margin_top">130dp</dimen>

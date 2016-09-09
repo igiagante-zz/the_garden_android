@@ -140,7 +140,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         ArrayList<Nutrient> nutrients = new ArrayList<>();
 
         for (NutrientHolder nutrientHolder : mNutrients) {
-            if (nutrientHolder.isSelected()) {
+            if (nutrientHolder.isSelected() && nutrientHolder.getQuantity() > 0) {
                 Nutrient nutrient = nutrientHolder.getModel();
                 nutrients.add(nutrient);
             }

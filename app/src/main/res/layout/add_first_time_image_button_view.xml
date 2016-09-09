@@ -2,8 +2,8 @@
 
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/add_image_button_id"
-    android:layout_width="@dimen/image_gallery_width"
-    android:layout_height="@dimen/image_gallery_width"
+    android:layout_width="@dimen/image_gallery_button_width"
+    android:layout_height="@dimen/image_gallery_button_width"
     android:layout_gravity="center"
     android:layout_margin="10dp"
     android:background="@drawable/button_add_image"

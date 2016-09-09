@@ -16,6 +16,7 @@
             style="@style/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/toolbar_title_margin_top"
             android:layout_gravity="center"
             android:textStyle="bold"
             android:text="@string/toolbar_title_nutrients"
