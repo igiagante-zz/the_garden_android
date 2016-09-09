@@ -75,6 +75,9 @@
     <string name="flower">Flower</string>
     <string name="harvest">Harvest</string>
 
+    <string name="edit_plant">Edit Plant</string>
+    <string name="delete_plant">Delete Plant</string>
+
     <!-- Plant Creation -->
 
     <string name="activity_register">Register</string>
