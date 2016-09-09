@@ -14,7 +14,6 @@ public class Settings {
 
     //Amazon
     //public static final String DOMAIN = "http://52.43.147.29:80";
-    public static final String DOMAIN_MASK = "http://0.0.0.0:80";
 
     public static final String API_ENDPOINT = DOMAIN + "/api/";
 }
