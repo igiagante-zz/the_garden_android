@@ -1,4 +1,4 @@
-package com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables;
+package com.example.igiagante.thegarden.core.repository.realm.modelRealm;
 
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
 

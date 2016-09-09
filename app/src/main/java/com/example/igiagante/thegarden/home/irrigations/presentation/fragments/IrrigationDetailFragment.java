@@ -45,6 +45,7 @@ import butterknife.ButterKnife;
 public class IrrigationDetailFragment extends BaseFragment implements IrrigationDetailView, View.OnClickListener {
 
     public static final String IRRIGATION_DETAIL_KEY = "IRRIGATION_DETAIL";
+    public static final String IRRIGATION_KEY = "IRRIGATION";
 
     private Irrigation mIrrigation;
     private ExpandableListAdapter expandableListAdapter;
@@ -176,7 +177,8 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
     @Override
     public void notifyIfGardenWasUpdated(Garden garden) {
         Intent intent = new Intent();
-        intent.putExtra(MainActivity.GARDEN_KEY, this.garden);
+        intent.putExtra(MainActivity.GARDEN_KEY, garden);
+        intent.putExtra(IRRIGATION_KEY, this.mIrrigation);
         getActivity().setResult(getActivity().RESULT_OK, intent);
         getActivity().finish();
     }

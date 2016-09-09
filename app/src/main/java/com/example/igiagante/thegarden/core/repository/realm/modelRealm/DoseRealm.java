@@ -1,7 +1,5 @@
 package com.example.igiagante.thegarden.core.repository.realm.modelRealm;
 
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.NutrientPerDoseRealm;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

@@ -5,6 +5,7 @@ import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.home.irrigations.usecase.DeleteIrrigationUseCase;
 import com.example.igiagante.thegarden.home.irrigations.usecase.GetIrrigationsUseCase;
 import com.example.igiagante.thegarden.home.irrigations.usecase.SaveIrrigationUseCase;
+import com.example.igiagante.thegarden.home.irrigations.usecase.UpdateGardenWithIrrigation;
 
 import javax.inject.Named;
 
@@ -36,5 +37,12 @@ public class IrrigationModule {
     @Named("deleteIrrigation")
     UseCase provideDeleteIrrigationUseCase(DeleteIrrigationUseCase deleteIrrigationUseCase) {
         return deleteIrrigationUseCase;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("updateGardenWithIrrigation")
+    UseCase provideUpdateGardenWithIrrigation(UpdateGardenWithIrrigation updateGardenWithIrrigation) {
+        return updateGardenWithIrrigation;
     }
 }

@@ -1,10 +1,10 @@
 package com.example.igiagante.thegarden.home.irrigations.presentation.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +40,8 @@ import butterknife.ButterKnife;
 public class IrrigationsFragment extends GardenFragment implements IrrigationView,
         IrrigationsAdapter.OnIrrigationSelected,
         IrrigationsAdapter.OnDeleteIrrigation {
+
+    private static final String IRRIGATIONS_KEY = "IRRIGATIONS";
 
     public static final int REQUEST_CODE_IRRIGATION_DETAIL = 334;
 
@@ -91,17 +93,27 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.recyclerViewIrrigations.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewIrrigations.setAdapter(irrigationsAdapter);
 
+        if (savedInstanceState != null) {
+            mIrrigations = savedInstanceState.getParcelableArrayList(IRRIGATIONS_KEY);
+            irrigationsAdapter.setIrrigations(mIrrigations);
+            mProgressBar.setVisibility(View.GONE);
+        }
+
         Bundle args = getArguments();
         if (args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
-            if (garden != null) {
-                mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
-                irrigationsAdapter.setIrrigations(mIrrigations);
-                mProgressBar.setVisibility(View.GONE);
-            }
+            mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
+            irrigationsAdapter.setIrrigations(mIrrigations);
+            mProgressBar.setVisibility(View.GONE);
         }
 
         return fragmentView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(IRRIGATIONS_KEY, mIrrigations);
     }
 
     @Override
@@ -116,6 +128,11 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
     public void createOneGardenFirst() {
         this.createOneGarden.setVisibility(View.VISIBLE);
         this.garden = null;
+    }
+
+    @Override
+    public void notifyIfGardenWasUpdated(Garden garden) {
+        this.garden = garden;
     }
 
     private void startIrrigationDetailActivity(@Nullable Irrigation irrigation) {
@@ -151,8 +168,8 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
     }
 
     private Irrigation getIrrigationToBeRemoved(List<Irrigation> irrigations) {
-        for(Irrigation irrigation : irrigations) {
-            if(irrigation.getId().equals(this.irrigationId)){
+        for (Irrigation irrigation : irrigations) {
+            if (irrigation.getId().equals(this.irrigationId)) {
                 return irrigation;
             }
         }
@@ -162,6 +179,20 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
     @Override
     public void showIrrigationDetails(Irrigation irrigation) {
         startIrrigationDetailActivity(irrigation);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK) {
+            Garden garden = data.getParcelableExtra(MainActivity.GARDEN_KEY);
+            Irrigation irrigation = data.getParcelableExtra(IrrigationDetailFragment.IRRIGATION_KEY);
+            if (garden != null) {
+                this.irrigationPresenter.updateGarden(garden);
+                this.irrigationsAdapter.addIrrigation(irrigation);
+            }
+        }
     }
 
     @Override

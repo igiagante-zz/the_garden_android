@@ -40,6 +40,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
 
     public interface OnDeleteIrrigation {
         void showDeleteIrrigationDialog(int position);
+
         void deleteIrrigation(String irrigationId);
     }
 
@@ -60,6 +61,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
     @Override
     public void onBindViewHolder(IrrigationViewHolder holder, int position) {
         Irrigation irrigation = irrigations.get(position);
+        holder.setPosition(position);
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
 

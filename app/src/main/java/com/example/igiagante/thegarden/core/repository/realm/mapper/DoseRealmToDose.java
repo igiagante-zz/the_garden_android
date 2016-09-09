@@ -1,17 +1,12 @@
 package com.example.igiagante.thegarden.core.repository.realm.mapper;
 
 import com.example.igiagante.thegarden.core.domain.entity.Dose;
-import com.example.igiagante.thegarden.core.domain.entity.Image;
 import com.example.igiagante.thegarden.core.domain.entity.Nutrient;
 import com.example.igiagante.thegarden.core.repository.Mapper;
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.DoseRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.ImageRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientRealm;
-import com.example.igiagante.thegarden.core.repository.realm.modelRealm.tables.NutrientPerDoseRealm;
+import com.example.igiagante.thegarden.core.repository.realm.modelRealm.NutrientPerDoseRealm;
 
 import java.util.ArrayList;
-
-import io.realm.RealmList;
 
 /**
  * @author Ignacio Giagante, on 4/7/16.
