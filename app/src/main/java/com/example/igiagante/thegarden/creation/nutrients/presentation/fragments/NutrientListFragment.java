@@ -171,6 +171,7 @@ public class NutrientListFragment extends BaseFragment implements NutrientView, 
         } else {
             this.nutrientsAdapter.addNutrient(nutrient);
         }
+        this.mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

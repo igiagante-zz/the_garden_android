@@ -28,7 +28,6 @@ public class GetGardensByUserUseCase extends UseCase<User> {
 
     @Override
     protected Observable buildUseCaseObservable(User user) {
-        //return userRepositoryManager.query(user).delay(500, TimeUnit.MILLISECONDS);
         return userRepositoryManager.query(user);
     }
 }

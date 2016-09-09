@@ -373,7 +373,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         drawerLayout.closeDrawers();
 
         GardenHolder gardenToBeDeleted = this.gardens.get(editGardenPosition);
-        if(gardenToBeDeleted != null) {
+        if (gardenToBeDeleted != null) {
             this.gardens.remove(gardenToBeDeleted);
             // update gardensIds from user
             removeGardenFromUser(gardenToBeDeleted.getModel());
@@ -384,7 +384,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         mNavigationGardenAdapter.notifyDataSetChanged();
 
         //if there is no garden, it shows initial message
-        if(this.gardens.isEmpty()) {
+        if (this.gardens.isEmpty()) {
             this.mAdapter.createFirstGardenMessage();
         } else {
             loadGarden(gardens.get(0));
@@ -643,9 +643,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         if (requestCode == IrrigationsFragment.REQUEST_CODE_IRRIGATION_DETAIL && resultCode == Activity.RESULT_OK) {
             Garden garden = data.getParcelableExtra(GARDEN_KEY);
-            GardenHolder gardenHolder = new GardenHolder();
-            gardenHolder.setModel(garden);
-            loadGarden(gardenHolder);
+            this.garden.setModel(garden);
+            loadGarden(this.garden);
         }
     }
 
@@ -670,22 +669,25 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 break;
         }
 
-        if (position != 0) {
-            menuItem.setVisible(false);
-        } else {
-            menuItem.setVisible(true);
+        if (menuItem != null) {
+            if (position != 0) {
+                menuItem.setVisible(false);
+            } else {
+                menuItem.setVisible(true);
+            }
         }
     }
 
     /**
      * Depend on the tab position, the fab will execute an action
+     *
      * @param tabPosition Tab's Position
      */
     private void executeActionFAB(int tabPosition) {
 
-        if(this.gardens.isEmpty()) {
+        if (this.gardens.isEmpty()) {
             showMessage(getString(R.string.garden_add_one));
-        } else if(tabPosition == 0) {
+        } else if (tabPosition == 0) {
             startActivityForResult(createIntentForCreatePlantActivity(),
                     MainActivity.REQUEST_CODE_CREATE_PLANT_ACTIVITY);
         } else {
@@ -698,7 +700,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         fab.setOnClickListener(v -> {
             if (!checkInternet()) {
                 showMessageNoInternetConnection();
-            } else if(this.gardens.isEmpty()) {
+            } else if (this.gardens.isEmpty()) {
                 showMessage(getString(R.string.garden_add_one));
             } else {
                 startActivityForResult(createIntentForCreatePlantActivity(),
