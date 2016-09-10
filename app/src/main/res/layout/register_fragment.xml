@@ -15,10 +15,11 @@
         android:paddingRight="24dp">
 
         <ImageView android:src="@drawable/ic_the_garden"
-            android:layout_width="wrap_content"
-            android:layout_height="72dp"
-            android:layout_marginBottom="24dp"
+            android:layout_width="@dimen/login_padding_logo_width"
+            android:layout_height="@dimen/logo_height"
+            android:layout_marginBottom="@dimen/login_padding_logo_margin_bottom"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="0.37"
             android:contentDescription="@string/image_ic_the_garden_content_description"/>
 
         <!-- Email Label -->

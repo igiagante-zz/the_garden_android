@@ -18,6 +18,7 @@ import com.example.igiagante.thegarden.core.repository.realm.mapper.IrrigationRe
 import com.example.igiagante.thegarden.core.repository.realm.modelRealm.IrrigationRealm;
 import com.example.igiagante.thegarden.home.MainActivity;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -177,7 +178,12 @@ public class WidgetProvider extends AppWidgetProvider {
 
                 nutrientsText.append(nutrients.get(i).getName());
                 nutrientsText.append(" ");
-                nutrientsText.append(nutrients.get(i).getQuantityUsed());
+
+                float quantityUsed = nutrients.get(i).getQuantityUsed();
+                DecimalFormat formatter = new DecimalFormat("#");
+                String quantity = formatter.format(quantityUsed);
+                nutrientsText.append(quantity);
+                nutrientsText.append("mL");
 
                 if (i != nutrients.size() - 1) {
                     nutrientsText.append(" - ");
