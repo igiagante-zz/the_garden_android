@@ -70,6 +70,7 @@ import com.example.igiagante.thegarden.home.plants.presentation.dataHolders.Gard
 import com.example.igiagante.thegarden.home.plants.services.EmailProducerService;
 import com.example.igiagante.thegarden.login.LoginActivity;
 import com.example.igiagante.thegarden.login.fragments.LoginFragment;
+import com.example.igiagante.thegarden.widgets.WidgetProvider;
 import com.google.android.gms.analytics.HitBuilders;
 
 import java.lang.ref.WeakReference;
@@ -645,7 +646,17 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
             Garden garden = data.getParcelableExtra(GARDEN_KEY);
             this.garden.setModel(garden);
             loadGarden(this.garden);
+            updateWidgetWithLastIrrigation();
         }
+    }
+
+    /**
+     * Update widget after one irrigation was added.
+     */
+    private void updateWidgetWithLastIrrigation() {
+        Intent intent = new Intent(this, WidgetProvider.class);
+        intent.setAction(WidgetProvider.IRRIGATION_WIDGET_UPDATE);
+        sendBroadcast(intent);
     }
 
     @Override
@@ -662,7 +673,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 fab.setOnClickListener(view -> executeActionFAB(0));
                 break;
             case 1:
-                if(isLandScape()) {
+                if (isLandScape()) {
                     // the fab should not be enable for Irrigations in landscape
                     fab.setEnabled(false);
                 } else {

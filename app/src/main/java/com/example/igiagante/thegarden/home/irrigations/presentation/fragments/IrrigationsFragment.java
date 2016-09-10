@@ -24,6 +24,7 @@ import com.example.igiagante.thegarden.home.irrigations.IrrigationDetailActivity
 import com.example.igiagante.thegarden.home.irrigations.presentation.adapters.IrrigationsAdapter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.presenters.IrrigationPresenter;
 import com.example.igiagante.thegarden.home.irrigations.presentation.view.IrrigationView;
+import com.example.igiagante.thegarden.widgets.WidgetProvider;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         Bundle args = getArguments();
         if (args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
-            if(garden != null) {
+            if (garden != null) {
                 mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
                 irrigationsAdapter.setIrrigations(mIrrigations);
                 mProgressBar.setVisibility(View.GONE);
@@ -171,15 +172,25 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         List<Irrigation> irrigations = this.garden.getIrrigations();
         Irrigation irrigation = getIrrigationToBeRemoved(irrigations);
         irrigations.remove(irrigation);
+        updateWidgetWithLastIrrigation();
     }
 
     private Irrigation getIrrigationToBeRemoved(List<Irrigation> irrigations) {
-        for(Irrigation irrigation : irrigations) {
-            if(irrigation.getId().equals(this.irrigationId)){
+        for (Irrigation irrigation : irrigations) {
+            if (irrigation.getId().equals(this.irrigationId)) {
                 return irrigation;
             }
         }
         return new Irrigation();
+    }
+
+    /**
+     * Update widget after one irrigation was deleted.
+     */
+    private void updateWidgetWithLastIrrigation() {
+        Intent intent = new Intent(getContext(), WidgetProvider.class);
+        intent.setAction(WidgetProvider.IRRIGATION_WIDGET_UPDATE);
+        getActivity().sendBroadcast(intent);
     }
 
     @Override

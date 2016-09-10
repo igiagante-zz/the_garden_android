@@ -4,11 +4,10 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.igiagante.thegarden.R;
@@ -34,7 +33,8 @@ import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
  */
 public class WidgetProvider extends AppWidgetProvider {
 
-    public static String IRRIGATION_WIDGET_CLICK = "com.igiagante.widget.IRRIGATION_WIDGET_CLICK";
+    public static String IRRIGATION_WIDGET_CLICK = "com.igiagante.widget.action.IRRIGATION_WIDGET_CLICK";
+    public static String IRRIGATION_WIDGET_UPDATE = "com.igiagante.widget.action.IRRIGATION_WIDGET_UPDATE";
 
     /**
      * Called in response to the ACTION_APPWIDGET_UPDATE broadcast when this
@@ -42,6 +42,7 @@ public class WidgetProvider extends AppWidgetProvider {
      * AppWidgets. Override this method to implement your own AppWidget
      * functionality.
      */
+    @Override
     public void onUpdate(Context context,
                          android.appwidget.AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
@@ -54,11 +55,28 @@ public class WidgetProvider extends AppWidgetProvider {
             }
         }
 
+        createIntentForUpdate(context, appWidgetId);
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+
+        if (IRRIGATION_WIDGET_UPDATE.equals(intent.getAction())) {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, getClass()));
+
+            for (int appWidgetId : appWidgetIds) {
+                createIntentForUpdate(context, appWidgetId);
+            }
+        }
+    }
+
+    private void createIntentForUpdate(Context context, int appWidgetId) {
         Intent intent = new Intent(context, UpdateWidgetService.class);
         intent.putExtra(EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setAction("DO NOTHING ACTION");
         context.startService(intent);
-
     }
 
     /**
@@ -77,15 +95,14 @@ public class WidgetProvider extends AppWidgetProvider {
             AppWidgetManager appWidgetManager = AppWidgetManager
                     .getInstance(this);
 
-            int incomingAppWidgetId = intent.getIntExtra(EXTRA_APPWIDGET_ID,  INVALID_APPWIDGET_ID);
+            int incomingAppWidgetId = intent.getIntExtra(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID);
 
             if (incomingAppWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
                 updateOneAppWidget(appWidgetManager, incomingAppWidgetId, getLastIrrigation());
             }
         }
 
-
-        private Irrigation getLastIrrigation() {
+        public Irrigation getLastIrrigation() {
 
             IrrigationRealmToIrrigation toIrrigation = new IrrigationRealmToIrrigation();
 
@@ -93,12 +110,12 @@ public class WidgetProvider extends AppWidgetProvider {
                     .name(Repository.DATABASE_NAME_DEV)
                     .deleteRealmIfMigrationNeeded()
                     .build();
-             Realm realm = Realm.getInstance(realmConfiguration);
+            Realm realm = Realm.getInstance(realmConfiguration);
 
             Irrigation irrigation;
 
             RealmResults<IrrigationRealm> irrigationRealms = realm.where(IrrigationRealm.class).findAll();
-            if(!irrigationRealms.isEmpty()) {
+            if (!irrigationRealms.isEmpty()) {
                 irrigation = toIrrigation.map(irrigationRealms.get(irrigationRealms.size() - 1));
             } else {
                 irrigation = new Irrigation();
@@ -107,9 +124,8 @@ public class WidgetProvider extends AppWidgetProvider {
             return irrigation;
         }
 
-
-        private void updateOneAppWidget(AppWidgetManager appWidgetManager,
-                                        int appWidgetId, Irrigation irrigation) {
+        public void updateOneAppWidget(AppWidgetManager appWidgetManager,
+                                       int appWidgetId, Irrigation irrigation) {
 
             // initializing widget layout
             RemoteViews remoteViews = new RemoteViews(this.getPackageName(),
@@ -123,9 +139,9 @@ public class WidgetProvider extends AppWidgetProvider {
 
         }
 
-        private void setupRemoteView(RemoteViews remoteViews, Irrigation irrigation) {
+        public void setupRemoteView(RemoteViews remoteViews, Irrigation irrigation) {
 
-            if(irrigation == null) {
+            if (irrigation == null) {
                 remoteViews.setEmptyView(R.layout.widget_provider_layout, R.id.no_irrigation_for_today);
             } else {
                 // updating view with initial data
@@ -135,7 +151,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
 
                 List<Nutrient> nutrients = irrigation.getDose().getNutrients();
-                if(nutrients.isEmpty()) {
+                if (nutrients.isEmpty()) {
                     remoteViews.setTextViewText(R.id.widget_dose_list_of_nutrients, getString(R.string.dose_nutrients, ""));
                 } else {
                     remoteViews.setTextViewText(R.id.widget_dose_list_of_nutrients,
@@ -153,15 +169,17 @@ public class WidgetProvider extends AppWidgetProvider {
         }
 
         @NonNull
-        private String getNutrients(List<Nutrient> nutrients) {
+        public String getNutrients(List<Nutrient> nutrients) {
 
             StringBuilder nutrientsText = new StringBuilder();
 
             for (int i = 0; i < nutrients.size(); i++) {
 
                 nutrientsText.append(nutrients.get(i).getName());
+                nutrientsText.append(" ");
+                nutrientsText.append(nutrients.get(i).getQuantityUsed());
 
-                if(i != nutrients.size() - 1) {
+                if (i != nutrients.size() - 1) {
                     nutrientsText.append(" - ");
                 }
             }
