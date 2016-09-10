@@ -17,7 +17,6 @@ import com.example.igiagante.thegarden.core.executor.ThreadExecutor;
 import com.example.igiagante.thegarden.core.repository.network.HttpStatus;
 import com.example.igiagante.thegarden.core.usecase.UseCase;
 import com.example.igiagante.thegarden.home.plants.usecase.PersistStaticDataUseCase;
-import com.example.igiagante.thegarden.widgets.MyWidgetProvider;
 
 import javax.inject.Singleton;
 

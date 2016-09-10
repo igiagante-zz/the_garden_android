@@ -1,6 +1,7 @@
 package com.example.igiagante.thegarden.core.presentation;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -115,6 +116,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         TextView textView = (TextView) toast.getView().findViewById(android.R.id.message);
         textView.setGravity(Gravity.CENTER);
         toast.show();
+    }
+
+    protected boolean isLandScape() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     public Tracker getTracker() {

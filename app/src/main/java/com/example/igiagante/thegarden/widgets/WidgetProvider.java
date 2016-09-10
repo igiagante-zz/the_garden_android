@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -31,7 +32,7 @@ import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 /**
  * @author Ignacio Giagante, on 6/9/16.
  */
-public class MyWidgetProvider extends AppWidgetProvider {
+public class WidgetProvider extends AppWidgetProvider {
 
     public static String IRRIGATION_WIDGET_CLICK = "com.igiagante.widget.IRRIGATION_WIDGET_CLICK";
 
@@ -106,25 +107,15 @@ public class MyWidgetProvider extends AppWidgetProvider {
             return irrigation;
         }
 
-        /**
-         * For the random passcode app widget with the provided ID, updates its
-         * display with a new passcode, and registers click handling for its
-         * buttons.
-         */
+
         private void updateOneAppWidget(AppWidgetManager appWidgetManager,
                                         int appWidgetId, Irrigation irrigation) {
-
-            if(irrigation != null) {
-                Log.d("Irrigation", String.valueOf(irrigation.getQuantity()));
-            } else {
-                Log.d("Irrigation", "IS NULL");
-            }
 
             // initializing widget layout
             RemoteViews remoteViews = new RemoteViews(this.getPackageName(),
                     R.layout.widget_provider_layout);
 
-            remoteViews.setOnClickPendingIntent(R.layout.widget_provider_layout, widget_last_irrigation(this));
+            remoteViews.setOnClickPendingIntent(R.id.widget_last_irrigation, widget_last_irrigation(this));
 
             setupRemoteView(remoteViews, irrigation);
 
@@ -152,7 +143,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
                 }
 
                 String format = "dd MMM";
-                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(format, Locale.US);
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(format, Locale.getDefault());
 
                 remoteViews.setTextViewText(R.id.widget_card_view_irrigation_date_id,
                         getString(R.string.widget_irrigation_date, sdf.format(irrigation.getIrrigationDate())));
@@ -161,6 +152,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             }
         }
 
+        @NonNull
         private String getNutrients(List<Nutrient> nutrients) {
 
             StringBuilder nutrientsText = new StringBuilder();

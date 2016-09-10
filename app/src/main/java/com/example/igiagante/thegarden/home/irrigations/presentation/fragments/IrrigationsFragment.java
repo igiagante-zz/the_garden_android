@@ -93,6 +93,8 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.recyclerViewIrrigations.setLayoutManager(new LinearLayoutManager(context()));
         this.recyclerViewIrrigations.setAdapter(irrigationsAdapter);
 
+        this.mProgressBar.setVisibility(View.VISIBLE);
+
         if (savedInstanceState != null) {
             mIrrigations = savedInstanceState.getParcelableArrayList(IRRIGATIONS_KEY);
             irrigationsAdapter.setIrrigations(mIrrigations);
@@ -102,9 +104,11 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         Bundle args = getArguments();
         if (args != null) {
             garden = args.getParcelable(MainActivity.GARDEN_KEY);
-            mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
-            irrigationsAdapter.setIrrigations(mIrrigations);
-            mProgressBar.setVisibility(View.GONE);
+            if(garden != null) {
+                mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
+                irrigationsAdapter.setIrrigations(mIrrigations);
+                mProgressBar.setVisibility(View.GONE);
+            }
         }
 
         return fragmentView;
@@ -121,12 +125,14 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
         this.garden = garden;
         this.mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
         this.irrigationsAdapter.setIrrigations(this.mIrrigations);
+        this.mProgressBar.setVisibility(View.GONE);
         this.createOneGarden.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void createOneGardenFirst() {
         this.createOneGarden.setVisibility(View.VISIBLE);
+        this.mProgressBar.setVisibility(View.GONE);
         this.garden = null;
     }
 

@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:layout_weight="0.28"/>
+            android:layout_weight="0.3"/>
 
         <View
             android:layout_width="1dp"
@@ -35,13 +35,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="0.7"
-            android:layout_marginStart="10dp">
+            android:layout_marginStart="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginStart="5dp">
+                android:layout_marginStart="@dimen/irrigation_layout_date_margin_start">
 
             <TextView
                 android:id="@+id/card_view_irrigation_date_id"
@@ -68,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/irrigation_date_margin_top"
+                android:layout_marginStart="@dimen/irrigation_date_margin_start"
                 android:textSize="@dimen/irrigation_date_text_size"
                 android:text="@string/irrigation_water"/>
 

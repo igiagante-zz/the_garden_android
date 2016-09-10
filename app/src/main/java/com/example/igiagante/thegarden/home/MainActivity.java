@@ -662,6 +662,12 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
                 fab.setOnClickListener(view -> executeActionFAB(0));
                 break;
             case 1:
+                if(isLandScape()) {
+                    // the fab should not be enable for Irrigations in landscape
+                    fab.setEnabled(false);
+                } else {
+                    fab.setEnabled(true);
+                }
                 fab.setVisibility(View.VISIBLE);
                 fab.setOnClickListener(view -> executeActionFAB(1));
                 break;

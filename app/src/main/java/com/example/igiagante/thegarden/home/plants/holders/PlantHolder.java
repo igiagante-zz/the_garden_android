@@ -38,14 +38,6 @@ public class PlantHolder extends DataHolder<Plant> {
         return getSeedDateString();
     }
 
-    public float getPhSoil() {
-        return getModel().getPhSoil();
-    }
-
-    public float getEcSoil() {
-        return getModel().getEcSoil();
-    }
-
     public String getGenotype() {
         return getModel().getGenotype();
     }
@@ -76,7 +68,7 @@ public class PlantHolder extends DataHolder<Plant> {
 
     private String getSeedDateString() {
         String format = "dd/MM";
-        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
         Date seedDate = getModel().getSeedDate();
         if (seedDate != null) {
             return sdf.format(seedDate);

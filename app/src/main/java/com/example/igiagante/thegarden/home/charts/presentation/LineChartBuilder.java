@@ -66,7 +66,7 @@ public class LineChartBuilder {
         ArrayList<String> xAxis = new ArrayList<>();
 
         String format = "dd-MMM";
-        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
 
         for (int i = 0; i < data.size(); i++) {
             if (forHumidityChart) {

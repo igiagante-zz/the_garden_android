@@ -83,7 +83,7 @@ public class PlantRealmRepositoryTest extends AndroidTestCase {
             Assert.assertEquals(plantFromDB.getName(), NAME);
 
             String format = "dd/MM";
-            SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
 
             String one = sdf.format(plantFromDB.getSeedDate());
             String two = sdf.format(new Date());

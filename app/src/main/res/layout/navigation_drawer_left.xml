@@ -18,8 +18,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
         android:background="@android:color/darker_gray" />
 
     <LinearLayout
@@ -39,10 +38,10 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:text="@string/nutrients"
-            android:textSize="20sp"
+            android:textSize="@dimen/navigation_drawer_image_logout_text_size"
             android:typeface="sans"
-            android:layout_marginStart="10dp"
-            android:padding="10dp"/>
+            android:layout_marginStart="@dimen/navigation_drawer_image_logout_button_margin_start"
+            android:padding="@dimen/navigation_drawer_image_logout_button_padding"/>
 
     </LinearLayout>
 
@@ -50,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/darker_gray" />
 
     <LinearLayout
@@ -62,18 +61,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:contentDescription="@string/settings"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
+            android:paddingEnd="@dimen/navigation_drawer_garden_name_padding"
+            android:paddingStart="@dimen/navigation_drawer_garden_name_padding"
             android:src="@drawable/ic_settings" />
 
         <TextView
             android:id="@+id/settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
+            android:paddingEnd="@dimen/navigation_drawer_garden_name_padding"
+            android:paddingStart="@dimen/navigation_drawer_garden_name_padding"
             android:text="@string/settings"
-            android:textSize="20sp"
+            android:textSize="@dimen/navigation_drawer_image_logout_text_size"
             android:typeface="sans" />
 
     </LinearLayout>
@@ -90,9 +89,9 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_marginStart="15dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/navigation_drawer_image_logout_margin_start"
+            android:layout_width="@dimen/navigation_drawer_image_logout_size"
+            android:layout_height="@dimen/navigation_drawer_image_logout_size"
             android:contentDescription="@string/garden_image"
             android:src="@drawable/ic_logout" />
 
@@ -102,10 +101,10 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:text="@string/logout"
-            android:textSize="20sp"
+            android:textSize="@dimen/navigation_drawer_image_logout_text_size"
             android:typeface="sans"
-            android:layout_marginStart="10dp"
-            android:padding="10dp"/>
+            android:layout_marginStart="@dimen/navigation_drawer_image_logout_button_margin_start"
+            android:padding="@dimen/navigation_drawer_image_logout_button_padding"/>
 
     </LinearLayout>
 

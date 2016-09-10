@@ -98,7 +98,7 @@ public class IrrigationDetailFragment extends BaseFragment implements Irrigation
 
     private Garden garden;
 
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.getDefault());
 
     private List<NutrientHolder> mNutrients;
 

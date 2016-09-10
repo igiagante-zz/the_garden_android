@@ -63,7 +63,7 @@ public class IrrigationsAdapter extends RecyclerView.Adapter<IrrigationsAdapter.
         Irrigation irrigation = irrigations.get(position);
         holder.setPosition(position);
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.US);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM", Locale.getDefault());
 
         if (irrigation != null) {
             holder.water.setText(mContext.getString(R.string.dose_water, irrigation.getDose().getWater()));

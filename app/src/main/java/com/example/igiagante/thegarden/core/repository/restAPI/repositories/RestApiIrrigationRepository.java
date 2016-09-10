@@ -109,7 +109,7 @@ public class RestApiIrrigationRepository extends BaseRestApiRepository<Irrigatio
 
         String date = "";
         if (irrigation.getDose() != null) {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
             date = dateFormatter.format(irrigation.getIrrigationDate());
         }
 

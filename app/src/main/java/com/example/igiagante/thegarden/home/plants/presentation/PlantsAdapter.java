@@ -120,7 +120,7 @@ public class PlantsAdapter extends RecyclerView.Adapter<PlantsAdapter.PlantViewH
         holder.mPlantName.setText(plantHolder.getName());
         String seedDateLabel = mContext.getString(R.string.seedDate);
 
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM", Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM", Locale.getDefault());
 
         String seedDate = plantHolder.getSeedDate();
         if(seedDate == null) {
