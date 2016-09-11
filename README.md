@@ -7,7 +7,7 @@ The development of this app started when I was looking for an idea for the final
 
 * Create and log users.
 
-![alt tag](http://i.imgur.com/hiljqqj.gif) ![alt tag](http://i.imgur.com/IqHxk3g.gif)
+![alt tag](http://i.imgur.com/IqHxk3g.gif)
 
 * Garden
   * One garden contains plants, irrigations and charts.
@@ -15,7 +15,5 @@ The development of this app started when I was looking for an idea for the final
   * A garden can not be deleted if it contains plants.
   * It can filter the plants list using the search view.
   * The humidity and temperature showed at the garden are from the weather api.
-
-![alt tag](http://i.imgur.com/dVC44YR.gif)
 
 
