@@ -109,7 +109,11 @@ public class GardenRealmRepository implements Repository<Garden> {
 
         realm.close();
 
-        return Observable.just(garden);
+        GardenRealm gardenRealmUpdated = realm.where(GardenRealm.class)
+                .equalTo(Table.NAME, garden.getName())
+                .findFirst();
+
+        return Observable.just(toGarden.map(gardenRealmUpdated));
     }
 
     @Override

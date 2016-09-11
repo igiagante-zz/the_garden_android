@@ -503,8 +503,7 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     @Override
     public void notifyIfGardenExists(boolean exists) {
         if (exists) {
-            Toast.makeText(this, "The garden's name already exists. Try other please!",
-                    Toast.LENGTH_SHORT).show();
+           showMessage(getString(R.string.garden_exits));
         } else {
             mGardenPresenter.saveGarden(this.garden.getModel());
         }
@@ -531,20 +530,48 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
 
         this.garden = mGardenPresenter.createGardenHolder(garden, gardens.size());
 
-        if (!gardens.contains(this.garden)) {
+        if (!checkGardensContainsGarden(garden)) {
             this.gardens.add(this.garden.getPosition(), this.garden);
         }
 
         loadGarden(this.garden);
 
         //add garden to user and update it
-        addGardenToUser(garden);
+        checkGardenInUser(garden);
     }
 
-    private void addGardenToUser(Garden garden) {
+    private boolean checkGardensContainsGarden(Garden garden) {
+        for (GardenHolder gardenHolder : gardens) {
+            if(gardenHolder.getModel().getId().equals(garden.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Searh the garden in the user's list garden. If it exists, it should be updated it. In the other
+     * hand, it will be added.
+     * @param garden Garden object.
+     */
+    private void checkGardenInUser(Garden garden) {
+
+        boolean existGarden = false;
+
         User user = mSession.getUser();
-        user.getGardens().add(garden);
-        // update gardensIds from user
+        ArrayList<Garden> gardens = user.getGardens();
+
+        for (int i = 0; i < gardens.size(); i++) {
+            if(gardens.get(i).getId().equals(garden.getId())) {
+                gardens.set(i, garden);
+                existGarden = true;
+            }
+        }
+
+        if(!existGarden) {
+            gardens.add(garden);
+        }
+
         this.mGardenPresenter.updateUser(user);
     }
 

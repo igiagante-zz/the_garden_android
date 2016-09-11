@@ -10,10 +10,10 @@ public class Settings {
 
     //Real Device
 
-    //public static final String DOMAIN = "http://192.168.0.102:3000";
+    public static final String DOMAIN = "http://192.168.0.101:3000";
 
     //Amazon
-    public static final String DOMAIN = "http://52.43.147.29:80";
+    //public static final String DOMAIN = "http://52.43.147.29:80";
 
     public static final String API_ENDPOINT = DOMAIN + "/api/";
 }

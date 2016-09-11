@@ -23,6 +23,7 @@
 
     <string name="garden_has_plant">The garden has plants. Remove first the plants</string>
     <string name="garden_add_one">Create a garden please!</string>
+    <string name="garden_exits">The garden\'s name already exists. Try other please!</string>
 
     <string name="permission_denied">Permission Denied</string>
 
