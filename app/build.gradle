@@ -79,9 +79,6 @@ dependencies {
     //fresco
     compile 'com.facebook.fresco:fresco:0.6.1'
 
-    //picasso
-    compile 'com.squareup.picasso:picasso:2.5.2'
-
     //chart
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
 }
