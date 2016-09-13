@@ -100,15 +100,17 @@ public class IrrigationsFragment extends GardenFragment implements IrrigationVie
             mIrrigations = savedInstanceState.getParcelableArrayList(IRRIGATIONS_KEY);
             irrigationsAdapter.setIrrigations(mIrrigations);
             mProgressBar.setVisibility(View.GONE);
-        }
+        } else {
 
-        Bundle args = getArguments();
-        if (args != null) {
-            garden = args.getParcelable(MainActivity.GARDEN_KEY);
-            if (garden != null) {
-                mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
-                irrigationsAdapter.setIrrigations(mIrrigations);
-                mProgressBar.setVisibility(View.GONE);
+            Bundle args = getArguments();
+
+            if (args != null) {
+                garden = args.getParcelable(MainActivity.GARDEN_KEY);
+                if (garden != null) {
+                    mIrrigations = (ArrayList<Irrigation>) garden.getIrrigations();
+                    irrigationsAdapter.setIrrigations(mIrrigations);
+                    mProgressBar.setVisibility(View.GONE);
+                }
             }
         }
 

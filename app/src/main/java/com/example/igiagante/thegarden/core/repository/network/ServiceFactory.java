@@ -24,6 +24,7 @@ public class ServiceFactory {
         OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(30, TimeUnit.SECONDS)
                 .connectTimeout(30, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
                 .addInterceptor(interceptor)
                 .build();
 
