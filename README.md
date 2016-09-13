@@ -80,7 +80,7 @@ The development of this app started when I was looking for an idea for the final
 * Fresco
 * MPAndroidChart
 
-
+###### _Some videos will be uploaded very soon to youtube in order to show more about the app_
 
 
 
