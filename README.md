@@ -1,6 +1,6 @@
 # The Garden
 
-The garden app helps the user to improve the process of growing plants using historical data and responding to certain alerts.  
+The garden app helps the user improve the process of growing plants using historical data and responding to certain alerts.  
 The development of this app started when I was looking for an idea for the final project of Udacity NanoDegree. I wrote a capstone project and it was approved by Udacity’s Team. This document explains in detail how the app is designed. However, since the app has been growing constantly and the project has started being too big, I decided to split it up in two parts. 
 
 ## The first part of the project **( implemented )** has the following functions:
@@ -97,4 +97,4 @@ The development of this app started when I was looking for an idea for the final
 
 ### Very Important !!!
 
-The person who is going to review this project should contact me before (igiagante@gmail.com), because the app uses an API which is provided by an Express Server located at an Amazon EC2 instance. Every time the instance is stopped and started, it will provide a new public ip and the App's Settings should be configured with this ip.
+The person who is going to review this project should contact me before (igiagante@gmail.com), because the app uses an API which is provided by an Express Server located at an Amazon EC2 instance. Every time the instance is stopped and started, it will provide a new public IP and the App's Settings should be configured with this IP.
