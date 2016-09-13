@@ -80,7 +80,11 @@ The development of this app started when I was looking for an idea for the final
 * Fresco
 * MPAndroidChart
 
-###### _Some videos will be uploaded very soon to youtube in order to show more about the app_
+### The next videos show how the app works.
 
+* [The Garden - Part One](https://www.youtube.com/watch?v=yP9bFCITRE0)
 
+* [The Garden - Part Two](https://www.youtube.com/watch?v=QAB_sROu9fE)
+
+* [The Garden - Part Three](https://www.youtube.com/watch?v=2uze2Hl9L-U)
 
