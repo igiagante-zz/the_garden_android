@@ -1,7 +1,9 @@
 # The Garden
 
-The garden app helps it`s user improve the process of growing plants using historical data and responding to certain alerts.  
-The development of this app started when I was looking for an idea for the final project of Udacity NanoDegree. I wrote a capstone project and it was approved by Udacity’s Team. This document explains in detail how the app is designed. However, since the app has been growing constantly and the project has started being too big, I decided to split it up in two parts. The first part of the project ( implemented ) has the following functions:
+The garden app helps the user to improve the process of growing plants using historical data and responding to certain alerts.  
+The development of this app started when I was looking for an idea for the final project of Udacity NanoDegree. I wrote a capstone project and it was approved by Udacity’s Team. This document explains in detail how the app is designed. However, since the app has been growing constantly and the project has started being too big, I decided to split it up in two parts. 
+
+## The first part of the project **( implemented )** has the following functions:
 
 * Every time an entity is created, the app checks if that entity name already exists. It cannot persist an entity with the same name.
 
@@ -49,7 +51,11 @@ The development of this app started when I was looking for an idea for the final
 
 * Notifications are simulated, because the interface between the API and arduino has not been implemented yet. The arduino will provide the real information, which should be informed to the user.
 
-The second part of the app will implement the following functions:
+* Widget
+ * The user will see the last irrigation of the garden. When an irrigation is added, the widget is updated with this information.
+
+
+## The second part of the app will implement the following functions:
 
 * Allow the user to achieve operations without internet connection.
 * Synchronize the database with the API when the internet connection is restored. 
@@ -63,7 +69,7 @@ The second part of the app will implement the following functions:
 * Add more metrics for google analytics.
 * Create free and paid flavours. The first will include advertising provided by the AdMob service, while the second will not.
 
-This app uses the following libraries:
+### This app uses the following libraries:
 
 * Dagger 2
 * Butterknife
