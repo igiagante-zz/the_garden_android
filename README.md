@@ -51,6 +51,8 @@ The development of this app started when I was looking for an idea for the final
 
 * Notifications are simulated, because the interface between the API and arduino has not been implemented yet. The arduino will provide the real information, which should be informed to the user.
 
+ * ![alt tag](http://i.imgur.com/bkI8xx1m.png) 
+
 * Widget
  * The user will see the last irrigation of the garden. When an irrigation is added, the widget is updated with this information.
 
@@ -65,6 +67,7 @@ The development of this app started when I was looking for an idea for the final
  * Number of irrigations done by during one growing process
  * Plant’s growth
 * Display of humidity and temperature measured by sensors
+* Settings
 * Send real notifications using the real data provided by the arduino. Most of this implementation will be done on the API, which communicates with the arduino.
 * Add more metrics for google analytics.
 * Create free and paid flavours. The first will include advertising provided by the AdMob service, while the second will not.
