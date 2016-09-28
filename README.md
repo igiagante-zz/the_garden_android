@@ -94,7 +94,3 @@ The development of this app started when I was looking for an idea for the final
 * [The Garden - Part Two](https://www.youtube.com/watch?v=QAB_sROu9fE)
 
 * [The Garden - Part Three](https://www.youtube.com/watch?v=2uze2Hl9L-U)
-
-### Very Important !!!
-
-The person who is going to review this project should contact me before (igiagante@gmail.com), because the app uses an API which is provided by an Express Server located at an Amazon EC2 instance. Every time the instance is stopped and started, it will provide a new public IP and the App's Settings should be configured with this IP.
